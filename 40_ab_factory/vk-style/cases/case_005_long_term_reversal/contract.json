@@ -1,0 +1,32 @@
+{
+  "case_id": "case_005",
+  "title": "Pricing floor bump: short-term gain, long-term reversal",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": ["control", "test"],
+  "time": {
+    "start_date": "2025-01-06",
+    "end_date": "2025-02-02",
+    "horizon_days": 28
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    { "name": "ctr", "direction": "up", "max_drop_relative": 0.03 },
+    { "name": "fillrate", "direction": "up", "max_drop_relative": 0.05 },
+    { "name": "dau", "direction": "neutral", "max_drop_relative": 0.02 }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "28-day experiment. Week-over-week analysis reveals trend reversal after week 2."
+}

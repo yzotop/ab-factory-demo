@@ -1,0 +1,9 @@
+{
+  "case_id": "case_003",
+  "expected_decision": "do_not_ship",
+  "primary_effect_relative": 0.003,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": ["practically_small"],
+  "human_rationale": "Revenue uplift of +0.3% is statistically significant (p<0.001) due to the large sample size (2M users × 28 days), but falls below the practical threshold of 0.5%. The engineering cost of maintaining this change does not justify a ~0.3% gain. Do not ship — the effect is real but not worth the complexity."
+}

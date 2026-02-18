@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AB Test Case Contract v1",
+  "type": "object",
+  "required": [
+    "case_id", "title", "domain", "unit", "variants",
+    "time", "primary_metric", "guardrails", "stats",
+    "decision_framework"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "case_id": { "type": "string", "pattern": "^case_\\d{3}$" },
+    "title": { "type": "string", "minLength": 3, "maxLength": 120 },
+    "domain": { "type": "string", "enum": ["ads_monetization"] },
+    "unit": { "type": "string", "enum": ["user", "request"] },
+    "variants": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "type": "string" }
+    },
+    "segments": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "time": {
+      "type": "object",
+      "required": ["start_date", "end_date", "horizon_days"],
+      "additionalProperties": false,
+      "properties": {
+        "start_date": { "type": "string", "format": "date" },
+        "end_date": { "type": "string", "format": "date" },
+        "horizon_days": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "primary_metric": {
+      "type": "object",
+      "required": ["name", "direction", "mde_relative"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "enum": ["revenue", "cpm", "fillrate", "ctr", "shows"] },
+        "direction": { "type": "string", "enum": ["up", "down"] },
+        "mde_relative": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "guardrails": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "direction"],
+        "properties": {
+          "name": { "type": "string" },
+          "direction": { "type": "string", "enum": ["up", "down", "neutral"] },
+          "max_drop_relative": { "type": "number" },
+          "max_rise_relative": { "type": "number" }
+        }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "required": ["method", "alpha", "power_target"],
+      "additionalProperties": false,
+      "properties": {
+        "method": { "type": "string" },
+        "alpha": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 },
+        "power_target": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 }
+      }
+    },
+    "decision_framework": {
+      "type": "object",
+      "required": ["rule", "practical_threshold_relative"],
+      "additionalProperties": false,
+      "properties": {
+        "rule": { "type": "string" },
+        "practical_threshold_relative": { "type": "number", "minimum": 0 }
+      }
+    },
+    "notes": { "type": "string" }
+  }
+}

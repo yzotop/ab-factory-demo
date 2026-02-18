@@ -1,0 +1,32 @@
+{
+  "case_id": "case_001",
+  "title": "AutoCPM bid floor: clean revenue uplift",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": ["control", "test"],
+  "time": {
+    "start_date": "2025-03-01",
+    "end_date": "2025-03-14",
+    "horizon_days": 14
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    { "name": "ctr", "direction": "up", "max_drop_relative": 0.03 },
+    { "name": "dau", "direction": "neutral", "max_drop_relative": 0.02 },
+    { "name": "session_length", "direction": "neutral", "max_drop_relative": 0.05 }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "Standard two-arm experiment. Bid floor raised by 15% in test."
+}

@@ -1,0 +1,31 @@
+{
+  "case_id": "case_003",
+  "title": "Lazy-load tweak: stat sig but below practical threshold",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": ["control", "test"],
+  "time": {
+    "start_date": "2025-02-01",
+    "end_date": "2025-03-01",
+    "horizon_days": 28
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.005
+  },
+  "guardrails": [
+    { "name": "ctr", "direction": "up", "max_drop_relative": 0.03 },
+    { "name": "page_load_time", "direction": "down", "max_rise_relative": 0.10 }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "Large sample (2M users) over 28 days. Very high power makes even tiny effects significant."
+}

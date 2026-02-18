@@ -1,0 +1,9 @@
+{
+  "case_id": "case_005",
+  "expected_decision": "do_not_ship",
+  "primary_effect_relative": 0.002,
+  "is_stat_sig": false,
+  "guardrails_ok": true,
+  "key_reasons": ["long_term_reversal", "not_significant"],
+  "human_rationale": "Aggregated over 28 days the effect is +0.2% (p=0.35, not significant). However, week-over-week analysis shows a clear reversal: weeks 1–2 had +2.0% revenue lift, but weeks 3–4 dropped to −1.5%. The initial gain likely came from advertiser budget frontloading in response to the higher floor; once budgets adjusted, fill rate degraded and revenue fell below control. The trend is moving in the wrong direction. Do not ship."
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Casebook — AB Factory</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --fg: #1d1d1f;
+    --muted: #6e6e73;
+    --accent: #0071e3;
+    --accent-hover: #0077ed;
+    --card-bg: #fff;
+    --border: #d2d2d7;
+    --code-bg: #f5f5f7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #000;
+      --fg: #f5f5f7;
+      --muted: #86868b;
+      --accent: #2997ff;
+      --accent-hover: #40a9ff;
+      --card-bg: #1c1c1e;
+      --border: #38383a;
+      --code-bg: #2c2c2e;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .top-bar {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 10;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: color-mix(in srgb, var(--bg) 80%, transparent);
+  }
+  .top-bar a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .top-bar a:hover { text-decoration: underline; }
+  .top-bar .title {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--fg);
+  }
+  .content {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  .content h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+  .content h2 { font-size: 22px; font-weight: 600; margin-top: 40px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .content h3 { font-size: 17px; font-weight: 600; margin-top: 24px; margin-bottom: 8px; }
+  .content p { margin-bottom: 12px; color: var(--fg); }
+  .content ul, .content ol { margin-bottom: 12px; padding-left: 24px; }
+  .content li { margin-bottom: 4px; }
+  .content strong { font-weight: 600; }
+  .content hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  .content table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 14px; }
+  .content th, .content td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  .content th { font-weight: 600; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .content code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-size: 14px; }
+  .loading { text-align: center; padding: 80px 24px; color: var(--muted); }
+  .error { text-align: center; padding: 80px 24px; color: #ff453a; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="index.html">&larr; Back</a>
+  <span class="title">Casebook</span>
+</div>
+
+<div class="content" id="content">
+  <div class="loading">Loading casebook…</div>
+</div>
+
+<script>
+(function() {
+  const el = document.getElementById('content');
+
+  fetch('CASEBOOK.md')
+    .then(r => {
+      if (!r.ok) throw new Error('Failed to load CASEBOOK.md');
+      return r.text();
+    })
+    .then(md => { el.innerHTML = renderMarkdown(md); })
+    .catch(err => { el.innerHTML = '<div class="error">' + err.message + '</div>'; });
+
+  function renderMarkdown(src) {
+    let html = esc(src);
+
+    // Horizontal rules
+    html = html.replace(/^---$/gm, '<hr>');
+
+    // Tables
+    html = html.replace(/((?:^\|.+\|$\n?)+)/gm, function(block) {
+      const rows = block.trim().split('\n').filter(r => r.trim());
+      if (rows.length < 2) return block;
+      const parse = r => r.split('|').slice(1, -1).map(c => c.trim());
+      const hdr = parse(rows[0]);
+      const body = rows.slice(2); // skip separator row
+      let t = '<table><thead><tr>' + hdr.map(h => '<th>' + h + '</th>').join('') + '</tr></thead><tbody>';
+      body.forEach(r => {
+        const cols = parse(r);
+        t += '<tr>' + cols.map(c => '<td>' + c + '</td>').join('') + '</tr>';
+      });
+      t += '</tbody></table>';
+      return t;
+    });
+
+    // Headers
+    html = html.replace(/^######\s+(.+)$/gm, '<h6>$1</h6>');
+    html = html.replace(/^#####\s+(.+)$/gm, '<h5>$1</h5>');
+    html = html.replace(/^####\s+(.+)$/gm, '<h4>$1</h4>');
+    html = html.replace(/^###\s+(.+)$/gm, '<h3>$1</h3>');
+    html = html.replace(/^##\s+(.+)$/gm, '<h2>$1</h2>');
+    html = html.replace(/^#\s+(.+)$/gm, '<h1>$1</h1>');
+
+    // Bold + italic
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+    // Inline code
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+    // Lists
+    html = html.replace(/((?:^- .+$\n?)+)/gm, function(block) {
+      const items = block.trim().split('\n').map(l => '<li>' + l.replace(/^- /, '') + '</li>');
+      return '<ul>' + items.join('') + '</ul>';
+    });
+
+    // Paragraphs: wrap orphan lines
+    html = html.replace(/^(?!<[a-z])((?!<).+)$/gm, '<p>$1</p>');
+    // Clean empty paragraphs
+    html = html.replace(/<p>\s*<\/p>/g, '');
+
+    return html;
+  }
+
+  function esc(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+})();
+</script>
+
+</body>
+</html>

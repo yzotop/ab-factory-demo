@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AB Factory Trace Event",
+  "type": "object",
+  "required": ["run_id", "ts", "case_id", "agent", "step", "event", "severity", "message", "payload"],
+  "additionalProperties": false,
+  "properties": {
+    "run_id":   { "type": "string" },
+    "ts":       { "type": "string", "format": "date-time" },
+    "case_id":  { "type": "string" },
+    "agent":    { "type": "string", "enum": ["reader", "stats", "decision", "viz", "workflow"] },
+    "step":     { "type": "string", "enum": ["start", "done", "error"] },
+    "event":    { "type": "string", "enum": [
+      "case_loaded", "parsed", "checks_done", "decision_made", "policy_loaded",
+      "artifact_written", "workflow_start", "workflow_done", "workflow_error"
+    ]},
+    "severity": { "type": "string", "enum": ["info", "warn", "error"] },
+    "message":  { "type": "string" },
+    "payload":  { "type": "object" }
+  }
+}

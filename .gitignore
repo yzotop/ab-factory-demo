@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Generated runs and artifacts
+42_workflows/ab_factory/runs/
+
+# Auto-generated synthetic cases
+40_ab_factory/vk-style/cases_auto/
+
+# Any data/ directories with generated outputs
+**/data/

@@ -1,0 +1,9 @@
+{
+  "case_id": "case_004",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.005,
+  "is_stat_sig": false,
+  "guardrails_ok": true,
+  "key_reasons": ["segment_conflict", "not_significant"],
+  "human_rationale": "Overall revenue shows +0.5% (p=0.20, not significant), but the segments tell opposite stories: news +3.0% (p=0.01) vs dzen −2.0% (p=0.02). This is a Simpson's paradox-like scenario. Shipping uniformly would harm dzen users. Needs investigation — consider shipping only for news segment or redesigning the ad format for dzen."
+}

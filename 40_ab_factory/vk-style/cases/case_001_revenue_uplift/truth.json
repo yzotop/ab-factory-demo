@@ -1,0 +1,9 @@
+{
+  "case_id": "case_001",
+  "expected_decision": "ship",
+  "primary_effect_relative": 0.021,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": ["primary_uplift"],
+  "human_rationale": "Revenue lifted +2.1% with p=0.01, well above the practical threshold of 0.5%. All guardrails (CTR, DAU, session length) held within acceptable bounds. Straightforward ship."
+}

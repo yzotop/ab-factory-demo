@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AB Test Case Ground Truth v1",
+  "type": "object",
+  "required": [
+    "case_id", "expected_decision", "primary_effect_relative",
+    "is_stat_sig", "guardrails_ok", "key_reasons", "human_rationale"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "case_id": { "type": "string", "pattern": "^case_\\d{3}$" },
+    "expected_decision": {
+      "type": "string",
+      "enum": ["ship", "do_not_ship", "iterate", "investigate"]
+    },
+    "primary_effect_relative": { "type": "number" },
+    "is_stat_sig": { "type": "boolean" },
+    "guardrails_ok": { "type": "boolean" },
+    "key_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "primary_uplift",
+          "guardrail_violation",
+          "segment_conflict",
+          "long_term_reversal",
+          "practically_small",
+          "not_significant",
+          "overall_positive"
+        ]
+      }
+    },
+    "human_rationale": { "type": "string", "minLength": 10 }
+  }
+}
