@@ -1,5 +1,7 @@
 # AB Factory Demo
 
+Live demo: https://yzotop.github.io/ab-factory-demo/
+
 A deterministic, stdlib-only agent system for evaluating A/B test decisions.
 
 Four agents (reader → stats → decision → viz) process synthetic A/B test cases
@@ -74,6 +76,58 @@ Each run creates `runs/<run_id>/`:
 - `timeline.md` — grouped agent timeline
 
 Global `runs/index.jsonl` — append-only decision log across all runs.
+
+## GitHub Pages site
+
+The `docs/` folder contains a static site for GitHub Pages.
+
+```bash
+# Rebuild the public data indexes (cases.json, policy.json, sample_traces.json)
+python3 tools/build_public_index.py
+```
+
+To enable Pages: **repo Settings → Pages → Source: Deploy from branch → Branch: main, folder: /docs**.
+
+Pages include:
+- **Landing** — hero + feature cards
+- **Casebook** — interactive table with filters, sort, and detail drawer
+- **Trace Viewer** — swim-lane timeline of the agent pipeline per case
+- **Policy Explorer** — tweak policy thresholds (α, min uplift, CTR guardrail) and see how decisions change for all 5 golden cases; includes data preview with CSV download
+- **Corpus Explorer** — browse 100 synthetic cases with filtering, sorting, per-case charts, and agent replay viewer
+
+### Corpus Explorer quickstart
+
+```bash
+# 1. Generate 100 synthetic cases
+./43_generation/ab_factory/run.sh --n 100
+
+# 2. Run the agent workflow on all generated cases
+cd 42_workflows/ab_factory
+python3 run_case.py --all --root ../../40_ab_factory/vk-style/cases_auto
+
+# 3. Verify 100% accuracy
+python3 selfcheck.py --auto
+
+# 4. Build public corpus index
+cd ../..
+python3 tools/build_corpus_index.py
+
+# 5. Build case replays (agent timelines + artifacts)
+python3 tools/build_replays_index.py
+
+# 6. Preview locally
+cd docs && python3 -m http.server 8000
+open http://localhost:8000/corpus.html
+```
+
+### Preview all pages locally
+
+```bash
+python3 tools/build_public_index.py
+python3 tools/build_corpus_index.py
+python3 tools/build_replays_index.py
+cd docs && python3 -m http.server 8000
+```
 
 ## Requirements
 

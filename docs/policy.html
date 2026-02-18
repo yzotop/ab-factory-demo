@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Policy Explorer — AB Factory</title>
+<style>
+:root {
+  --bg: #fafafa; --fg: #1d1d1f; --muted: #6e6e73;
+  --accent: #0071e3; --accent-hover: #0077ed;
+  --card-bg: #fff; --border: #d2d2d7; --hover-bg: #f0f0f5;
+  --green: #34c759; --red: #ff3b30; --orange: #ff9500;
+  --radius: 12px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#000; --fg:#f5f5f7; --muted:#86868b;
+  --accent:#2997ff; --accent-hover:#40a9ff;
+  --card-bg:#1c1c1e; --border:#38383a; --hover-bg:#2c2c2e;
+  --green:#30d158; --red:#ff453a; --orange:#ffa00a;
+}}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;background:var(--bg);color:var(--fg);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+/* ── top bar ───────────────────────────────────────────── */
+.top-bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:48px;gap:24px}
+.top-bar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .15s}
+.top-bar a:hover,.top-bar a.active{color:var(--accent)}
+.top-bar .spacer{flex:1}
+
+/* ── layout ────────────────────────────────────────────── */
+.shell{display:flex;min-height:calc(100vh - 48px)}
+.sidebar{width:280px;flex-shrink:0;border-right:1px solid var(--border);padding:24px 20px;position:sticky;top:48px;height:calc(100vh - 48px);overflow-y:auto}
+.main{flex:1;padding:28px 28px 80px;overflow-x:auto}
+
+@media(max-width:840px){
+  .shell{flex-direction:column}
+  .sidebar{width:100%;position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}
+}
+
+/* ── sidebar controls ──────────────────────────────────── */
+.sidebar h2{font-size:16px;font-weight:700;margin-bottom:16px}
+.ctrl{margin-bottom:20px}
+.ctrl label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.ctrl select,.ctrl input[type=range]{width:100%}
+.ctrl select{padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--fg);font-size:14px;outline:none}
+.ctrl input[type=range]{accent-color:var(--accent);margin-top:2px}
+.ctrl .val{font-size:13px;font-weight:600;color:var(--fg);margin-top:4px;font-variant-numeric:tabular-nums}
+.reset-btn{display:inline-block;margin-top:8px;padding:6px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--accent);font-size:13px;font-weight:500;cursor:pointer;transition:background .15s}
+.reset-btn:hover{background:var(--hover-bg)}
+.change-count{margin-top:16px;font-size:13px;color:var(--muted);padding-top:12px;border-top:1px solid var(--border)}
+.change-count strong{color:var(--accent)}
+
+/* ── table ─────────────────────────────────────────────── */
+h1{font-size:24px;font-weight:700;margin-bottom:4px}
+.subtitle{color:var(--muted);font-size:14px;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:8px 10px;text-align:left;border-bottom:2px solid var(--border);white-space:nowrap}
+tbody tr{cursor:pointer;transition:background .12s}
+tbody tr:hover{background:var(--hover-bg)}
+tbody td{padding:10px;border-bottom:1px solid var(--border);white-space:nowrap}
+td.wrap{white-space:normal;max-width:200px}
+
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.01em}
+.badge-ship{background:color-mix(in srgb,var(--green) 15%,transparent);color:var(--green)}
+.badge-do_not_ship{background:color-mix(in srgb,var(--red) 15%,transparent);color:var(--red)}
+.badge-investigate{background:color-mix(in srgb,var(--orange) 15%,transparent);color:var(--orange)}
+.changed{outline:2px solid var(--accent);outline-offset:-2px;border-radius:4px}
+
+.conf-bar{display:inline-flex;align-items:center;gap:5px;font-variant-numeric:tabular-nums}
+.conf-bar .bar{width:40px;height:5px;border-radius:3px;background:var(--border);overflow:hidden}
+.conf-bar .bar .fill{height:100%;border-radius:3px}
+.arrow-change{font-size:11px;margin-left:4px}
+.arrow-up{color:var(--green)}
+.arrow-down{color:var(--red)}
+
+.reasons-list{display:flex;flex-wrap:wrap;gap:3px}
+.reason-tag{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:11px}
+
+/* ── drawer ────────────────────────────────────────────── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;display:none;justify-content:flex-end}
+.overlay.open{display:flex}
+.drawer{width:min(580px,100vw);background:var(--card-bg);height:100%;overflow-y:auto;padding:28px 24px;animation:slideIn .22s ease-out;border-left:1px solid var(--border)}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.drawer-close{background:none;border:none;font-size:24px;color:var(--muted);cursor:pointer;position:absolute;top:14px;right:18px}
+.drawer-close:hover{color:var(--fg)}
+.drawer h2{font-size:18px;font-weight:700;margin-bottom:4px;padding-right:32px}
+.drawer .meta{color:var(--muted);font-size:13px;margin-bottom:20px}
+.drawer section{margin-bottom:22px}
+.drawer section h3{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:4px 10px;font-size:13px}
+.kv dt{color:var(--muted);font-weight:500}
+.kv dd{word-break:break-word}
+
+/* tabs */
+.tab-bar{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:12px}
+.tab-btn{padding:6px 14px;font-size:13px;font-weight:500;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;transition:color .12s}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+.csv-table{width:100%;border-collapse:collapse;font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.csv-table th,.csv-table td{padding:4px 8px;border:1px solid var(--border);text-align:right;white-space:nowrap}
+.csv-table th{background:var(--bg);font-weight:600;text-align:left}
+.csv-table td:first-child{text-align:left}
+.dl-link{display:inline-block;margin-top:8px;font-size:13px;color:var(--accent);text-decoration:none}
+.dl-link:hover{text-decoration:underline}
+
+.conf-explain{font-size:13px;line-height:1.6}
+.conf-explain .factor{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid var(--border)}
+.conf-explain .factor:last-child{border-bottom:none}
+.conf-explain .factor-name{color:var(--muted)}
+.conf-explain .factor-val{font-weight:600;font-variant-numeric:tabular-nums}
+.conf-explain .factor-val.pos{color:var(--green)}
+.conf-explain .factor-val.neg{color:var(--red)}
+.conf-explain .total{font-weight:700;border-top:2px solid var(--border);padding-top:4px;margin-top:4px}
+
+/* ── data viz charts ──────────────────────────────────── */
+.charts-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.chart-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.chart-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.bar-row:last-child{margin-bottom:0}
+.bar-tag{font-size:11px;font-weight:500;color:var(--muted);width:48px;text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:20px;background:var(--card-bg);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.bar-fill-inner{height:100%;border-radius:5px;min-width:2px;transition:width .3s}
+.bar-num{font-size:11px;font-weight:600;width:56px;flex-shrink:0;font-variant-numeric:tabular-nums}
+.bar-uplift{text-align:center;font-size:12px;font-weight:600;margin-top:6px;font-variant-numeric:tabular-nums}
+.bar-note{text-align:center;font-size:10px;color:var(--muted);margin-top:2px}
+.gr-viz{position:relative;padding:0 4px}
+.gr-track{width:100%;height:10px;background:var(--card-bg);border:1px solid var(--border);border-radius:5px;position:relative;overflow:visible}
+.gr-fill{position:absolute;top:0;height:100%;border-radius:4px;transition:width .3s}
+.gr-thresh{position:absolute;top:-6px;width:2px;height:22px;background:var(--fg);border-radius:1px;z-index:1}
+.gr-thresh-label{position:absolute;top:-18px;font-size:10px;color:var(--muted);transform:translateX(-50%);white-space:nowrap}
+.gr-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px}
+.gr-verdict{font-size:12px;font-weight:600;margin-top:8px}
+.spark-svg{display:block}
+.spark-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}
+.spark-labels b{font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="index.html">Home</a>
+  <a href="casebook.html">Casebook</a>
+  <a href="traces.html">Traces</a>
+  <a href="policy.html" class="active">Policy Explorer</a>
+  <span class="spacer"></span>
+</div>
+
+<div class="shell">
+
+<!-- ── sidebar ──────────────────────────────────────── -->
+<aside class="sidebar">
+  <h2>Policy Controls</h2>
+
+  <div class="ctrl">
+    <label>Significance level (α)</label>
+    <select id="ctrlAlpha">
+      <option value="0.01">0.01 (strict)</option>
+      <option value="0.05" selected>0.05 (standard)</option>
+      <option value="0.10">0.10 (lenient)</option>
+    </select>
+  </div>
+
+  <div class="ctrl">
+    <label>Min practical uplift</label>
+    <input type="range" id="ctrlUplift" min="0" max="2.0" step="0.1" value="0.5">
+    <div class="val" id="valUplift">0.5%</div>
+  </div>
+
+  <div class="ctrl">
+    <label>CTR guardrail threshold</label>
+    <input type="range" id="ctrlCtr" min="0" max="10" step="0.5" value="3.0">
+    <div class="val" id="valCtr">−3.0%</div>
+  </div>
+
+  <button class="reset-btn" id="resetBtn">Reset to defaults</button>
+
+  <div class="change-count" id="changeCount"></div>
+</aside>
+
+<!-- ── main ─────────────────────────────────────────── -->
+<div class="main">
+  <h1>Policy Explorer</h1>
+  <p class="subtitle">Tweak policy thresholds and see how decisions change for the 5 golden cases.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Case</th>
+        <th>Title</th>
+        <th>Metric</th>
+        <th>Uplift</th>
+        <th>p-value</th>
+        <th>Baseline</th>
+        <th>Current</th>
+        <th>Conf</th>
+        <th>Reasons</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+</div>
+
+<!-- ── drawer ──────────────────────────────────────── -->
+<div class="overlay" id="overlay">
+  <div class="drawer" id="drawer"></div>
+</div>
+
+<script>
+(function(){
+  /* ────────────── state ────────────── */
+  let CASES = [];
+  let CSV_CACHE = {};
+  const DEFAULTS = { alpha: 0.05, uplift: 0.5, ctr: 3.0 };
+  const WEEKLY_UPLIFT = {
+    case_005:[{week:'W1',pct:2.5},{week:'W2',pct:1.5},{week:'W3',pct:-0.5},{week:'W4',pct:-1.5}]
+  };
+
+  const $alpha   = document.getElementById('ctrlAlpha');
+  const $uplift  = document.getElementById('ctrlUplift');
+  const $ctr     = document.getElementById('ctrlCtr');
+  const $vU      = document.getElementById('valUplift');
+  const $vC      = document.getElementById('valCtr');
+  const $tbody   = document.getElementById('tbody');
+  const $overlay = document.getElementById('overlay');
+  const $drawer  = document.getElementById('drawer');
+  const $count   = document.getElementById('changeCount');
+
+  /* ────────────── load data ────────── */
+  fetch('data/cases.json').then(r=>r.json()).then(d=>{ CASES=d; render(); });
+
+  /* ────────────── controls ─────────── */
+  $alpha.addEventListener('change', render);
+  $uplift.addEventListener('input', ()=>{ $vU.textContent=pf($uplift.value)+'%'; render(); });
+  $ctr.addEventListener('input', ()=>{ $vC.textContent='−'+pf($ctr.value)+'%'; render(); });
+  document.getElementById('resetBtn').addEventListener('click', ()=>{
+    $alpha.value='0.05'; $uplift.value='0.5'; $ctr.value='3.0';
+    $vU.textContent='0.5%'; $vC.textContent='−3.0%'; render();
+  });
+  $overlay.addEventListener('click', e=>{ if(e.target===$overlay) closeDrawer(); });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawer(); });
+
+  /* ────────────── decision engine ──── */
+  function currentPolicy(){
+    return {
+      alpha: parseFloat($alpha.value),
+      minUplift: parseFloat($uplift.value),
+      ctrThreshold: parseFloat($ctr.value)
+    };
+  }
+
+  function evaluate(c, pol){
+    const agg = c.aggregates || {};
+    const reasons = [];
+    let decision;
+
+    const ctrChange = (agg.guardrails && agg.guardrails.ctr)
+      ? agg.guardrails.ctr.change_pct : 0;
+    const ctrBreached = Math.abs(ctrChange) >= pol.ctrThreshold && ctrChange < 0;
+    if(ctrBreached){ reasons.push('guardrail_violation:ctr'); }
+
+    if(!c.guardrails_ok && !ctrBreached){
+      reasons.push('guardrail_violation');
+    }
+
+    if(agg.long_term_reversal){ reasons.push('long_term_reversal'); }
+
+    const segs = agg.segments || {};
+    const segNames = Object.keys(segs);
+    let segConflict = false;
+    if(segNames.length >= 2){
+      const vals = segNames.map(s => segs[s].uplift_pct);
+      const hasPos = vals.some(v => v > 0);
+      const hasNeg = vals.some(v => v < 0);
+      const maxGap = Math.max(...vals) - Math.min(...vals);
+      if(hasPos && hasNeg && maxGap >= 2.0){ segConflict = true; reasons.push('segment_conflict'); }
+    }
+
+    const pVal = agg.p_value;
+    const notSig = pVal != null && pVal > pol.alpha;
+    if(notSig) reasons.push('not_significant');
+
+    const uplift = agg.uplift_pct != null ? agg.uplift_pct : c.effect_pct;
+    const threshold = Math.max(c.practical_threshold_pct, pol.minUplift);
+    const small = uplift != null && uplift < threshold;
+    if(small && !agg.long_term_reversal) reasons.push('practically_small');
+
+    if(reasons.some(r => r.startsWith('guardrail_violation')) || agg.long_term_reversal){
+      decision = 'do_not_ship';
+    } else if(segConflict){
+      decision = 'investigate';
+    } else if(notSig){
+      decision = 'investigate';
+    } else if(small){
+      decision = 'do_not_ship';
+    } else {
+      decision = 'ship';
+    }
+
+    let conf = 0.6;
+    if(decision === 'do_not_ship') conf -= 0.25;
+    if(decision === 'investigate') conf -= 0.15;
+    if(decision === 'ship') conf += 0.10;
+    if(reasons.some(r=>r.startsWith('guardrail_violation'))) conf -= 0.20;
+    if(notSig) conf -= 0.15;
+    if(small) conf -= 0.10;
+    if(agg.long_term_reversal) conf -= 0.25;
+    conf = Math.max(0.01, Math.min(0.99, conf));
+
+    return { decision, reasons, confidence: conf };
+  }
+
+  /* ────────────── render ──────────── */
+  function render(){
+    const pol = currentPolicy();
+    let changed = 0;
+
+    $tbody.innerHTML = CASES.map(c => {
+      const cur = evaluate(c, pol);
+      const diff = cur.decision !== c.decision;
+      if(diff) changed++;
+
+      const confPct = (cur.confidence * 100).toFixed(0);
+      const baseConfPct = (c.confidence * 100).toFixed(0);
+      const confDelta = cur.confidence - c.confidence;
+      let confArrow = '';
+      if(Math.abs(confDelta) > 0.005){
+        const cls = confDelta > 0 ? 'arrow-up' : 'arrow-down';
+        const sym = confDelta > 0 ? '▲' : '▼';
+        confArrow = `<span class="arrow-change ${cls}">${sym}${Math.abs(confDelta*100).toFixed(0)}</span>`;
+      }
+
+      return `<tr data-id="${c.case_id}">
+        <td style="font-weight:600">${c.case_id.replace('case_','')}</td>
+        <td class="wrap">${esc(c.title)}</td>
+        <td>${c.primary_metric}</td>
+        <td>${c.effect_pct != null ? '+'+c.effect_pct+'%' : '—'}</td>
+        <td>${fmtP(c)}</td>
+        <td><span class="badge badge-${c.decision}">${fmtDec(c.decision)}</span></td>
+        <td><span class="badge badge-${cur.decision} ${diff?'changed':''}">${fmtDec(cur.decision)}</span></td>
+        <td>
+          <span class="conf-bar">
+            <span class="bar"><span class="fill" style="width:${confPct}%;background:${confCol(cur.confidence)}"></span></span>
+            ${confPct}%${confArrow}
+          </span>
+        </td>
+        <td><span class="reasons-list">${cur.reasons.map(r=>`<span class="reason-tag">${esc(r)}</span>`).join('')}</span></td>
+      </tr>`;
+    }).join('');
+
+    $tbody.querySelectorAll('tr').forEach(tr=>{
+      tr.addEventListener('click', ()=> openDrawer(tr.dataset.id));
+    });
+
+    $count.innerHTML = changed > 0
+      ? `<strong>${changed}</strong> decision${changed>1?'s':''} changed vs baseline`
+      : 'All decisions match baseline';
+  }
+
+  /* ────────────── drawer ──────────── */
+  function openDrawer(id){
+    const c = CASES.find(x=>x.case_id===id);
+    if(!c) return;
+    const pol = currentPolicy();
+    const cur = evaluate(c, pol);
+    const agg = c.aggregates || {};
+
+    let html = `
+      <button class="drawer-close" id="drawerCloseBtn">&times;</button>
+      <h2>${esc(c.title)}</h2>
+      <div class="meta">${c.case_id} · ${c.domain} · ${c.horizon_days||'?'}d</div>
+    `;
+
+    /* signals */
+    html += `<section><h3>Signals &amp; Thresholds</h3><dl class="kv">
+      <dt>Primary metric</dt><dd>${c.primary_metric}</dd>
+      <dt>Uplift</dt><dd>${agg.uplift_pct!=null?'+'+agg.uplift_pct+'%':'—'}</dd>
+      <dt>p-value</dt><dd>${fmtP(c)}</dd>
+      <dt>α (current)</dt><dd>${pol.alpha}</dd>
+      <dt>Significant?</dt><dd>${agg.p_value!=null&&agg.p_value<=pol.alpha?'<span style="color:var(--green)">Yes</span>':'<span style="color:var(--red)">No</span>'}</dd>
+      <dt>Practical threshold</dt><dd>${Math.max(c.practical_threshold_pct, pol.minUplift)}%</dd>
+      <dt>Stat sig?</dt><dd>${c.is_stat_sig?'Yes':'No'} (baseline α=0.05)</dd>
+    </dl></section>`;
+
+    /* guardrails */
+    html += `<section><h3>Guardrails</h3><dl class="kv">
+      <dt>CTR change</dt><dd>${agg.guardrails&&agg.guardrails.ctr?agg.guardrails.ctr.change_pct+'%':'—'}</dd>
+      <dt>CTR threshold</dt><dd>−${pol.ctrThreshold}%</dd>
+      <dt>CTR breached?</dt><dd>${agg.guardrails&&agg.guardrails.ctr&&Math.abs(agg.guardrails.ctr.change_pct)>=pol.ctrThreshold&&agg.guardrails.ctr.change_pct<0?'<span style="color:var(--red)">Yes</span>':'<span style="color:var(--green)">No</span>'}</dd>
+      <dt>Overall OK?</dt><dd>${cur.reasons.some(r=>r.startsWith('guardrail'))?'<span style="color:var(--red)">Breached</span>':'<span style="color:var(--green)">OK</span>'}</dd>
+    </dl></section>`;
+
+    /* segments */
+    const segs = agg.segments || {};
+    const segNames = Object.keys(segs);
+    if(segNames.length){
+      html += `<section><h3>Segments</h3><dl class="kv">`;
+      segNames.forEach(s=>{
+        const v = segs[s];
+        html += `<dt>${s}</dt><dd>${v.uplift_pct!=null?((v.uplift_pct>0?'+':'')+v.uplift_pct+'%'):'—'} (p=${v.p_value!=null?v.p_value:'?'})</dd>`;
+      });
+      html += `</dl></section>`;
+    }
+
+    /* long term */
+    if(agg.long_term_reversal){
+      html += `<section><h3>Long-term</h3><p style="font-size:13px;color:var(--red)">⚠ Week-over-week reversal detected.</p></section>`;
+    }
+
+    /* confidence explain */
+    html += buildConfExplain(c, cur, pol);
+
+    /* decision comparison */
+    html += `<section><h3>Decision</h3>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <div style="font-size:12px;color:var(--muted)">Baseline</div>
+        <span class="badge badge-${c.decision}" style="font-size:13px;padding:4px 14px">${fmtDec(c.decision)}</span>
+        <span style="font-size:18px;color:var(--muted)">→</span>
+        <div style="font-size:12px;color:var(--muted)">Current</div>
+        <span class="badge badge-${cur.decision} ${cur.decision!==c.decision?'changed':''}" style="font-size:13px;padding:4px 14px">${fmtDec(cur.decision)}</span>
+      </div>
+    </section>`;
+
+    /* data preview tabs */
+    html += `<section><h3>Data Preview</h3>
+      ${buildCharts(c, pol)}
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="agg">Aggregates</button>
+        <button class="tab-btn" data-tab="csv">CSV Preview</button>
+      </div>
+      <div class="tab-panel active" id="tab-agg">${buildAggTable(agg)}</div>
+      <div class="tab-panel" id="tab-csv"><div id="csvContent">Loading…</div>
+        ${c.csv_url ? `<a class="dl-link" href="${c.csv_url}" download="${c.case_id}.csv">↓ Download CSV</a>` : ''}
+      </div>
+    </section>`;
+
+    $drawer.innerHTML = html;
+
+    document.getElementById('drawerCloseBtn').addEventListener('click', closeDrawer);
+    $drawer.querySelectorAll('.tab-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        $drawer.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        $drawer.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    if(c.csv_url) loadCsvPreview(c.csv_url, c.case_id);
+
+    $overlay.classList.add('open');
+  }
+
+  function closeDrawer(){ $overlay.classList.remove('open'); }
+
+  /* ────────────── confidence explain ─ */
+  function buildConfExplain(c, cur, pol){
+    const agg = c.aggregates||{};
+    const factors = [];
+    factors.push(['Base',0.6]);
+    if(cur.decision==='do_not_ship') factors.push(['do_not_ship penalty',-0.25]);
+    if(cur.decision==='investigate') factors.push(['investigate penalty',-0.15]);
+    if(cur.decision==='ship') factors.push(['ship bonus',+0.10]);
+    if(cur.reasons.some(r=>r.startsWith('guardrail_violation'))) factors.push(['Guardrail breach',-0.20]);
+    if(cur.reasons.includes('not_significant')) factors.push(['Not significant',-0.15]);
+    if(cur.reasons.includes('practically_small')) factors.push(['Practically small',-0.10]);
+    if(agg.long_term_reversal) factors.push(['Long-term reversal',-0.25]);
+
+    let html = '<section><h3>Confidence Explain</h3><div class="conf-explain">';
+    let sum = 0;
+    factors.forEach(([name, val])=>{
+      sum += val;
+      const cls = val > 0 ? 'pos' : val < 0 ? 'neg' : '';
+      html += `<div class="factor"><span class="factor-name">${esc(name)}</span><span class="factor-val ${cls}">${val>0?'+':''}${val.toFixed(2)}</span></div>`;
+    });
+    const clamped = Math.max(0.01,Math.min(0.99,sum));
+    html += `<div class="factor total"><span>Clamped total</span><span class="factor-val">${(clamped*100).toFixed(0)}%</span></div>`;
+    html += '</div></section>';
+    return html;
+  }
+
+  /* ────────────── aggregates table ─── */
+  function buildAggTable(agg){
+    if(!agg || !agg.control_mean) return '<p style="color:var(--muted);font-size:13px">No aggregate data.</p>';
+    let rows = '';
+    rows += kvRow('Metric', agg.primary_metric);
+    rows += kvRow('N control', fmt(agg.n_control));
+    rows += kvRow('N test', fmt(agg.n_test));
+    rows += kvRow('Control mean', agg.control_mean.toFixed(4));
+    rows += kvRow('Test mean', agg.test_mean.toFixed(4));
+    rows += kvRow('Uplift', agg.uplift_pct != null ? '+'+agg.uplift_pct+'%' : '—');
+    rows += kvRow('p-value', agg.p_value != null ? agg.p_value : '—');
+    if(agg.guardrails&&agg.guardrails.ctr){
+      rows += kvRow('CTR Δ', agg.guardrails.ctr.change_pct+'%');
+      rows += kvRow('CTR p-value', agg.guardrails.ctr.p_value);
+    }
+    return `<dl class="kv">${rows}</dl>`;
+  }
+  function kvRow(k,v){ return `<dt>${esc(String(k))}</dt><dd>${esc(String(v))}</dd>`; }
+
+  /* ────────────── CSV preview ──────── */
+  function loadCsvPreview(url, caseId){
+    if(CSV_CACHE[caseId]){
+      renderCsv(CSV_CACHE[caseId]);
+      return;
+    }
+    fetch(url).then(r=>r.text()).then(text=>{
+      CSV_CACHE[caseId] = text;
+      renderCsv(text);
+    }).catch(()=>{
+      const el = document.getElementById('csvContent');
+      if(el) el.innerHTML = '<p style="color:var(--muted);font-size:13px">Could not load CSV.</p>';
+    });
+  }
+
+  function renderCsv(text){
+    const el = document.getElementById('csvContent');
+    if(!el) return;
+    const rows = parseCsv(text);
+    if(!rows.length){ el.innerHTML='<p style="color:var(--muted)">Empty.</p>'; return; }
+    const headers = rows[0];
+    const data = rows.slice(1, 21);
+    let html = '<div style="overflow-x:auto"><table class="csv-table"><thead><tr>';
+    headers.forEach(h=>{ html += `<th>${esc(h)}</th>`; });
+    html += '</tr></thead><tbody>';
+    data.forEach(row=>{
+      html += '<tr>';
+      row.forEach(cell=>{ html += `<td>${esc(cell)}</td>`; });
+      html += '</tr>';
+    });
+    html += '</tbody></table></div>';
+    if(rows.length > 21) html += `<p style="font-size:12px;color:var(--muted);margin-top:4px">${rows.length-1} rows total, showing first 20.</p>`;
+    el.innerHTML = html;
+  }
+
+  function parseCsv(text){
+    const lines = text.trim().split('\n');
+    return lines.map(line=>{
+      const cells = [];
+      let cur = '', inQ = false;
+      for(let i=0;i<line.length;i++){
+        const ch = line[i];
+        if(inQ){
+          if(ch==='"' && line[i+1]==='"'){ cur+='"'; i++; }
+          else if(ch==='"') inQ=false;
+          else cur+=ch;
+        } else {
+          if(ch==='"') inQ=true;
+          else if(ch===','){cells.push(cur.trim());cur='';}
+          else cur+=ch;
+        }
+      }
+      cells.push(cur.trim());
+      return cells;
+    });
+  }
+
+  /* ────────────── data viz charts ──── */
+  function buildCharts(c, pol){
+    const agg = c.aggregates||{};
+    if(!agg.control_mean) return '';
+    let h = '<div class="charts-wrap">';
+
+    /* ── bar chart: control vs test revenue ── */
+    const cRev = agg.n_control * agg.control_mean;
+    const tRev = agg.n_test * agg.test_mean;
+    const mn = Math.min(cRev, tRev);
+    const mx = Math.max(cRev, tRev);
+    const floor = mn * 0.92;
+    const span = mx - floor || 1;
+    const cW = ((cRev - floor) / span * 100).toFixed(1);
+    const tW = ((tRev - floor) / span * 100).toFixed(1);
+    const up = agg.uplift_pct;
+    const upC = up > 0 ? 'var(--green)' : up < 0 ? 'var(--red)' : 'var(--muted)';
+
+    h += '<div class="chart-card">';
+    h += '<div class="chart-label">' + esc(c.primary_metric) + ': Control vs Test</div>';
+    h += '<div class="bar-row">';
+    h += '  <span class="bar-tag">Control</span>';
+    h += '  <div class="bar-track"><div class="bar-fill-inner" style="width:'+cW+'%;background:var(--muted);opacity:.55"></div></div>';
+    h += '  <span class="bar-num">'+fmtRev(cRev)+'</span>';
+    h += '</div>';
+    h += '<div class="bar-row">';
+    h += '  <span class="bar-tag">Test</span>';
+    h += '  <div class="bar-track"><div class="bar-fill-inner" style="width:'+tW+'%;background:'+upC+'"></div></div>';
+    h += '  <span class="bar-num">'+fmtRev(tRev)+'</span>';
+    h += '</div>';
+    h += '<div class="bar-uplift" style="color:'+upC+'">'+(up!=null?((up>0?'+':'')+up+'% uplift'):'—')+'</div>';
+    h += '<div class="bar-note">Scale starts at '+fmtRev(floor)+' to show difference</div>';
+    h += '</div>';
+
+    /* ── guardrail: CTR delta vs threshold ── */
+    var ctrG = agg.guardrails && agg.guardrails.ctr;
+    if(ctrG){
+      var d = ctrG.change_pct;
+      var t = pol.ctrThreshold;
+      var breach = d < 0 && Math.abs(d) >= t;
+      var col = breach ? 'var(--red)' : 'var(--green)';
+      var scl = Math.max(Math.abs(d), t) * 1.3 || 5;
+      var dW2 = (Math.abs(d) / scl * 100).toFixed(1);
+      var tP = (t / scl * 100).toFixed(1);
+
+      h += '<div class="chart-card">';
+      h += '<div class="chart-label">CTR Guardrail</div>';
+      h += '<div class="gr-viz">';
+      h += '  <div class="gr-track">';
+      h += '    <div class="gr-fill" style="left:0;width:'+dW2+'%;background:'+col+';opacity:.55"></div>';
+      h += '    <div class="gr-thresh" style="left:'+tP+'%"><span class="gr-thresh-label">threshold</span></div>';
+      h += '  </div>';
+      h += '  <div class="gr-labels"><span>0%</span><span>&minus;'+scl.toFixed(1)+'%</span></div>';
+      h += '</div>';
+      h += '<div class="gr-verdict" style="color:'+col+'">CTR '+d+'%';
+      h += breach ? ' exceeds &minus;'+t+'% threshold — <b>breached</b>' : ' within &minus;'+t+'% threshold';
+      h += '</div>';
+      h += '</div>';
+    }
+
+    /* ── sparkline: weekly uplift trend ── */
+    var weekly = WEEKLY_UPLIFT[c.case_id];
+    if(weekly && weekly.length >= 2){
+      var vals = weekly.map(function(w){return w.pct;});
+      var lbls = weekly.map(function(w){return w.week;});
+      var yMn = Math.min.apply(null, vals.concat([0]));
+      var yMx = Math.max.apply(null, vals.concat([0]));
+      var rng = yMx - yMn || 1;
+      var SW = 200, SH = 52, sp = 8;
+
+      var pts = vals.map(function(v, i){
+        var x = sp + (i / (vals.length - 1)) * (SW - 2 * sp);
+        var y = SH - sp - ((v - yMn) / rng) * (SH - 2 * sp);
+        return [x, y];
+      });
+      var zY = SH - sp - ((0 - yMn) / rng) * (SH - 2 * sp);
+      var line = pts.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ');
+      var area = sp.toFixed(1)+','+zY.toFixed(1)+' '+line+' '+(SW - sp).toFixed(1)+','+zY.toFixed(1);
+
+      var dots = '';
+      for(var di = 0; di < pts.length; di++){
+        var dc = vals[di] >= 0 ? 'var(--green)' : 'var(--red)';
+        dots += '<circle cx="'+pts[di][0].toFixed(1)+'" cy="'+pts[di][1].toFixed(1)+'" r="3.5" style="fill:'+dc+'"/>';
+      }
+      var sparkLbls = '';
+      for(var si = 0; si < lbls.length; si++){
+        var sv = vals[si]; var sc2 = sv >= 0 ? 'var(--green)' : 'var(--red)';
+        sparkLbls += '<span>'+lbls[si]+': <b style="color:'+sc2+'">'+(sv>0?'+':'')+sv+'%</b></span>';
+      }
+
+      h += '<div class="chart-card">';
+      h += '<div class="chart-label">Weekly Uplift Trend</div>';
+      h += '<svg class="spark-svg" viewBox="0 0 '+SW+' '+SH+'" preserveAspectRatio="none" style="width:100%;height:'+SH+'px">';
+      h += '<line x1="'+sp+'" y1="'+zY.toFixed(1)+'" x2="'+(SW-sp)+'" y2="'+zY.toFixed(1)+'" style="stroke:var(--border)" stroke-width="1" stroke-dasharray="4,3"/>';
+      h += '<polygon points="'+area+'" style="fill:var(--accent)" opacity=".1"/>';
+      h += '<polyline points="'+line+'" fill="none" style="stroke:var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+      h += dots;
+      h += '</svg>';
+      h += '<div class="spark-labels">'+sparkLbls+'</div>';
+      h += '</div>';
+    }
+
+    h += '</div>';
+    return h;
+  }
+
+  function fmtRev(n){
+    if(n >= 1e6) return (n/1e6).toFixed(2)+'M';
+    if(n >= 1e3) return (n/1e3).toFixed(0)+'K';
+    return n.toFixed(0);
+  }
+
+  /* ────────────── utils ───────────── */
+  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function fmtDec(d){ return d.replace(/_/g,' '); }
+  function confCol(v){ return v>=0.6?'var(--green)':v>=0.3?'var(--orange)':'var(--red)'; }
+  function pf(v){ return parseFloat(v).toFixed(1); }
+  function fmt(n){ return n!=null?n.toLocaleString():'—'; }
+  function fmtP(c){
+    const p = c.aggregates && c.aggregates.p_value;
+    if(p==null) return '—';
+    if(p < 0.001) return '<0.001';
+    return p.toFixed(3);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "total": 100,
+  "decision_counts": {
+    "do_not_ship": 55,
+    "ship": 30,
+    "investigate": 15
+  },
+  "reason_counts": {
+    "primary_uplift": 50,
+    "not_significant": 30,
+    "guardrail_violation:ctr": 20,
+    "practically_small": 20,
+    "long_term_reversal": 15,
+    "segment_conflict": 15
+  },
+  "metric_counts": {
+    "revenue": 100
+  },
+  "avg_confidence_by_decision": {
+    "do_not_ship": 0.248,
+    "ship": 0.6457,
+    "investigate": 0.1508
+  },
+  "uplift_min": -0.48,
+  "uplift_max": 4.94,
+  "uplift_avg": 1.44,
+  "guardrail_breach_count": 20,
+  "segment_conflict_count": 15,
+  "reversal_count": 15
+}

@@ -1,0 +1,152 @@
+{
+  "case_id": "case_080",
+  "run_id": "20260218_090236_aedf",
+  "decision": "investigate",
+  "confidence": 0.0474,
+  "reasons": [
+    "segment_conflict",
+    "not_significant"
+  ],
+  "policy_version": "1.0.0",
+  "duration_ms": 1,
+  "timeline": [
+    {
+      "t_ms": 0,
+      "agent": "workflow",
+      "step": "start",
+      "event_type": "workflow_start",
+      "message": "Running case_080 from case_080"
+    },
+    {
+      "t_ms": 0,
+      "agent": "reader",
+      "step": "start",
+      "event_type": "case_loaded",
+      "message": "Loading case files"
+    },
+    {
+      "t_ms": 0,
+      "agent": "reader",
+      "step": "done",
+      "event_type": "artifact_written",
+      "message": "/Users/involute/projects/ab-factory-demo/42_workflows/ab_factory/runs/20260218_090236_aedf/artifacts/reader_summary.md"
+    },
+    {
+      "t_ms": 0,
+      "agent": "stats",
+      "step": "start",
+      "event_type": "parsed",
+      "message": "Running sanity checks"
+    },
+    {
+      "t_ms": 0,
+      "agent": "stats",
+      "step": "done",
+      "event_type": "checks_done",
+      "message": "PASS"
+    },
+    {
+      "t_ms": 0,
+      "agent": "decision",
+      "step": "start",
+      "event_type": "policy_loaded",
+      "message": "Policy ab_factory_policy v1.0.0"
+    },
+    {
+      "t_ms": 0,
+      "agent": "decision",
+      "step": "done",
+      "event_type": "decision_made",
+      "message": "investigate (confidence=0.05, segment_conflict, not_significant)"
+    },
+    {
+      "t_ms": 1,
+      "agent": "viz",
+      "step": "start",
+      "event_type": "parsed",
+      "message": "Building comparison tables"
+    },
+    {
+      "t_ms": 1,
+      "agent": "viz",
+      "step": "done",
+      "event_type": "artifact_written",
+      "message": "/Users/involute/projects/ab-factory-demo/42_workflows/ab_factory/runs/20260218_090236_aedf/artifacts/viz.md"
+    },
+    {
+      "t_ms": 1,
+      "agent": "workflow",
+      "step": "done",
+      "event_type": "workflow_done",
+      "message": "decision=investigate"
+    }
+  ],
+  "artifacts": {
+    "reader_summary": "# Reader Summary — case_080\n\n**Cross-platform ad density test (v80)**\n\n| Field | Value |\n|---|---|\n| Primary metric | revenue (up) |\n| MDE | 1.0% |\n| Period | 2025-06-09 → 2025-06-23 (14d) |\n| Variants | control, test |\n| Segments | mobile, desktop |\n| Total users | 493,826 |\n| Effect (headline) | -0.5% |\n| p-value | 0.415 |\n| Guardrails | 1 defined |\n",
+    "stats_checks": "# Stats Checks — case_080\n\nResult: **ALL PASS**\n\n| Check | Pass | Detail |\n|---|---|---|\n| required_columns | yes | all present |\n| no_empty_rows | yes | ok |\n| variants_per_segment | yes | ok |\n| p_values_in_range | yes | ok |\n| effects_reasonable | yes | ok |\n",
+    "decision_md": "# Decision — case_080\n\n## Verdict: **INVESTIGATE**\nConfidence: **0.05**\n\nReasons: segment_conflict, not_significant\n\nPolicy: ab_factory_policy v1.0.0\n\n## Key signals\n\n- Primary metric: revenue\n- Uplift: -0.48%\n- p-value: 0.415\n- Significant: no (alpha=0.05)\n- Above practical threshold (0.5%): no\n- Guardrails: all ok\n- Segment conflict: yes\n- Long-term reversal: no\n\n## Segments\n\n| Segment | Effect | p-value | Significant |\n|---|---|---|---|\n| mobile | +2.7% | 0.0296 | yes |\n| desktop | -2.5% | 0.0311 | yes |\n\n## Confidence\n\nScore: -3.0 → sigmoid → **0.0474**\n\n| Factor | Weight |\n|---|---|\n| primary_uplift_small | -0.8 |\n| not_significant | -0.7 |\n| segment_conflict | -0.9 |\n| evidence_sparse | -0.6 |\n\nMissing evidence: guardrail:retention, long_term\n",
+    "viz": "# Metric Comparison — case_080\n\n## Overall\n\n| Metric | control | test | Δ relative | p-value |\n|---|---|---|---|---|\n| **revenue** | 2,477,649 | 2,465,756 | -0.5% | 0.415 |\n| ctr | 3.88% | 3.88% | -0.0% | 0.333 |\n| cpm | 186.50 | 185.60 | — | — |\n| fillrate | 88.50% | 88.50% | — | — |\n| shows | 23,590,157 | 23,564,048 | — | — |\n\n## Segment: desktop\n\n| Metric | control | test | Δ relative | p-value |\n|---|---|---|---|---|\n| **revenue** | 966,283 | 942,223 | -2.5% | 0.0311 |\n| ctr | 3.88% | 3.88% | -0.0% | 0.333 |\n| cpm | 186.50 | 181.86 | — | — |\n| fillrate | 88.50% | 88.30% | — | — |\n| shows | 9,200,161 | 9,155,902 | — | — |\n\n## Segment: mobile\n\n| Metric | control | test | Δ relative | p-value |\n|---|---|---|---|---|\n| **revenue** | 1,511,366 | 1,552,324 | +2.7% | 0.0296 |\n| ctr | 3.88% | 3.88% | -0.0% | 0.333 |\n| cpm | 186.50 | 191.55 | — | — |\n| fillrate | 88.50% | 88.70% | — | — |\n| shows | 14,389,995 | 14,399,983 | — | — |\n",
+    "decision_json": {
+      "case_id": "case_080",
+      "decision": "investigate",
+      "confidence": 0.0474,
+      "reasons": [
+        "segment_conflict",
+        "not_significant"
+      ],
+      "policy": {
+        "policy_id": "ab_factory_policy",
+        "policy_version": "1.0.0"
+      },
+      "signals": {
+        "primary_metric": "revenue",
+        "primary_uplift_pct": -0.48,
+        "p_value": 0.415,
+        "is_significant": false,
+        "guardrails": {
+          "ctr": -0.03,
+          "retention": null
+        },
+        "segment_conflict": true,
+        "long_term_reversal": false
+      },
+      "confidence_explain": {
+        "score": -3.0,
+        "factors": [
+          {
+            "name": "primary_uplift_small",
+            "weight": -0.8
+          },
+          {
+            "name": "not_significant",
+            "weight": -0.7
+          },
+          {
+            "name": "segment_conflict",
+            "weight": -0.9
+          },
+          {
+            "name": "evidence_sparse",
+            "weight": -0.6
+          }
+        ],
+        "missing_evidence": [
+          "guardrail:retention",
+          "long_term"
+        ]
+      },
+      "segments_summary": {
+        "mobile": {
+          "effect": 0.0271,
+          "p_value": 0.0296,
+          "significant": true
+        },
+        "desktop": {
+          "effect": -0.0249,
+          "p_value": 0.0311,
+          "significant": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "case_id": "case_030",
+  "run_id": "20260218_090236_1f90",
+  "decision": "do_not_ship",
+  "confidence": 0.2315,
+  "reasons": [
+    "primary_uplift",
+    "guardrail_violation:ctr"
+  ],
+  "policy_version": "1.0.0",
+  "duration_ms": 1,
+  "timeline": [
+    {
+      "t_ms": 0,
+      "agent": "workflow",
+      "step": "start",
+      "event_type": "workflow_start",
+      "message": "Running case_030 from case_030"
+    },
+    {
+      "t_ms": 0,
+      "agent": "reader",
+      "step": "start",
+      "event_type": "case_loaded",
+      "message": "Loading case files"
+    },
+    {
+      "t_ms": 0,
+      "agent": "reader",
+      "step": "done",
+      "event_type": "artifact_written",
+      "message": "/Users/involute/projects/ab-factory-demo/42_workflows/ab_factory/runs/20260218_090236_1f90/artifacts/reader_summary.md"
+    },
+    {
+      "t_ms": 0,
+      "agent": "stats",
+      "step": "start",
+      "event_type": "parsed",
+      "message": "Running sanity checks"
+    },
+    {
+      "t_ms": 0,
+      "agent": "stats",
+      "step": "done",
+      "event_type": "checks_done",
+      "message": "PASS"
+    },
+    {
+      "t_ms": 0,
+      "agent": "decision",
+      "step": "start",
+      "event_type": "policy_loaded",
+      "message": "Policy ab_factory_policy v1.0.0"
+    },
+    {
+      "t_ms": 0,
+      "agent": "decision",
+      "step": "done",
+      "event_type": "decision_made",
+      "message": "do_not_ship (confidence=0.23, primary_uplift, guardrail_violation:ctr)"
+    },
+    {
+      "t_ms": 0,
+      "agent": "viz",
+      "step": "start",
+      "event_type": "parsed",
+      "message": "Building comparison tables"
+    },
+    {
+      "t_ms": 1,
+      "agent": "viz",
+      "step": "done",
+      "event_type": "artifact_written",
+      "message": "/Users/involute/projects/ab-factory-demo/42_workflows/ab_factory/runs/20260218_090236_1f90/artifacts/viz.md"
+    },
+    {
+      "t_ms": 1,
+      "agent": "workflow",
+      "step": "done",
+      "event_type": "workflow_done",
+      "message": "decision=do_not_ship"
+    }
+  ],
+  "artifacts": {
+    "reader_summary": "# Reader Summary — case_030\n\n**Below-fold ad density boost (v30)**\n\n| Field | Value |\n|---|---|\n| Primary metric | revenue (up) |\n| MDE | 1.0% |\n| Period | 2025-08-08 → 2025-08-22 (14d) |\n| Variants | control, test |\n| Segments | (none) |\n| Total users | 1,423,338 |\n| Effect (headline) | +2.1% |\n| p-value | 0.0271 |\n| Guardrails | 2 defined |\n",
+    "stats_checks": "# Stats Checks — case_030\n\nResult: **ALL PASS**\n\n| Check | Pass | Detail |\n|---|---|---|\n| required_columns | yes | all present |\n| no_empty_rows | yes | ok |\n| variants_per_segment | yes | ok |\n| p_values_in_range | yes | ok |\n| effects_reasonable | yes | ok |\n",
+    "decision_md": "# Decision — case_030\n\n## Verdict: **DO NOT SHIP**\nConfidence: **0.23**\n\nReasons: primary_uplift, guardrail_violation:ctr\n\nPolicy: ab_factory_policy v1.0.0\n\n## Key signals\n\n- Primary metric: revenue\n- Uplift: +2.05%\n- p-value: 0.0271\n- Significant: yes (alpha=0.05)\n- Above practical threshold (0.5%): yes\n- Guardrails: HARD VIOLATION\n  - guardrail_violation:ctr\n- Segment conflict: no\n- Long-term reversal: no\n\n## Confidence\n\nScore: -1.2 → sigmoid → **0.2315**\n\n| Factor | Weight |\n|---|---|\n| primary_uplift_strong | +1.2 |\n| guardrail_hard_violation | -1.8 |\n| evidence_sparse | -0.6 |\n\nMissing evidence: guardrail:retention, segments, long_term\n",
+    "viz": "# Metric Comparison — case_030\n\n## Overall\n\n| Metric | control | test | Δ relative | p-value |\n|---|---|---|---|---|\n| **revenue** | 1,889,695 | 1,928,434 | +2.1% | 0.0271 |\n| ctr | 4.40% | 4.19% | -4.7% | 0.0203 |\n| cpm | 138.71 | 141.55 | — | — |\n| fillrate | 69.00% | 69.30% | — | — |\n| shows | 28,003,642 | 28,026,490 | — | — |\n",
+    "decision_json": {
+      "case_id": "case_030",
+      "decision": "do_not_ship",
+      "confidence": 0.2315,
+      "reasons": [
+        "primary_uplift",
+        "guardrail_violation:ctr"
+      ],
+      "policy": {
+        "policy_id": "ab_factory_policy",
+        "policy_version": "1.0.0"
+      },
+      "signals": {
+        "primary_metric": "revenue",
+        "primary_uplift_pct": 2.0500000000000003,
+        "p_value": 0.0271,
+        "is_significant": true,
+        "guardrails": {
+          "ctr": -4.68,
+          "retention": null,
+          "dau": null
+        },
+        "segment_conflict": false,
+        "long_term_reversal": false
+      },
+      "confidence_explain": {
+        "score": -1.2,
+        "factors": [
+          {
+            "name": "primary_uplift_strong",
+            "weight": 1.2
+          },
+          {
+            "name": "guardrail_hard_violation",
+            "weight": -1.8
+          },
+          {
+            "name": "evidence_sparse",
+            "weight": -0.6
+          }
+        ],
+        "missing_evidence": [
+          "guardrail:retention",
+          "segments",
+          "long_term"
+        ]
+      },
+      "segments_summary": {}
+    }
+  }
+}

@@ -13,3 +13,6 @@ __pycache__/
 
 # Any data/ directories with generated outputs
 **/data/
+
+# But allow docs/data/ (compact JSON for GitHub Pages)
+!docs/data/
