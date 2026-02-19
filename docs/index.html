@@ -61,6 +61,51 @@
   .card p { font-size: 14px; color: var(--muted); }
   .card .number { font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
   footer { text-align: center; padding: 40px 24px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); }
+
+  /* diagram */
+  .diagram-section { max-width: 1060px; margin: 0 auto; padding: 0 24px 80px; }
+  .diagram-section h2 { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+  .diagram-section .diagram-sub { font-size: 14px; color: var(--muted); text-align: center; margin-bottom: 28px; }
+  .diagram-flow { display: flex; align-items: flex-start; gap: 0; justify-content: center; }
+  .diagram-arrow { display: flex; align-items: center; padding-top: 28px; color: var(--border); font-size: 22px; font-weight: 700; flex-shrink: 0; width: 32px; justify-content: center; }
+  .diagram-arrow-down { display: none; }
+  .dcard { flex: 1; min-width: 0; max-width: 180px; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 14px; }
+  .dcard-head { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+  .dcard-items { list-style: none; padding: 0; margin: 0; }
+  .dcard-items li { font-size: 12px; color: var(--fg); padding: 2px 0; display: flex; align-items: center; gap: 5px; }
+  .dcard-items code { font-size: 11px; background: color-mix(in srgb, var(--accent) 8%, transparent); padding: 1px 5px; border-radius: 3px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .dcard-items .tag { font-size: 9px; font-weight: 600; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; }
+  .tag-agent { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); }
+  .tag-eval { background: color-mix(in srgb, var(--muted) 15%, transparent); color: var(--muted); }
+  .dcard-pipe { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .dcard-pipe span { font-size: 11px; font-weight: 600; color: var(--fg); background: color-mix(in srgb, var(--accent) 8%, transparent); padding: 2px 7px; border-radius: 4px; }
+  .dcard-pipe .pipe-arrow { background: none; color: var(--muted); padding: 0; font-size: 10px; }
+  .dcard-links { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+  .dcard-links a { font-size: 11px; color: var(--accent); text-decoration: none; font-weight: 500; }
+  .dcard-links a:hover { text-decoration: underline; }
+  .diagram-caption { text-align: center; font-size: 13px; color: var(--muted); margin-top: 20px; max-width: 680px; margin-left: auto; margin-right: auto; line-height: 1.5; }
+
+  @media (max-width: 780px) {
+    .diagram-flow { flex-direction: column; align-items: center; }
+    .dcard { max-width: 300px; width: 100%; }
+    .diagram-arrow { display: none; }
+    .diagram-arrow-down { display: flex; justify-content: center; color: var(--border); font-size: 22px; font-weight: 700; padding: 4px 0; }
+  }
+  .card-link { text-decoration: none; color: inherit; display: block; transition: border-color .15s; cursor: pointer; }
+  .card-link:hover { border-color: var(--accent); }
+  .live-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 2px 7px; border-radius: 4px; background: var(--accent); color: #fff; vertical-align: middle; margin-left: 6px; }
+  .stats-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+  .stat-pill { font-size: 13px; color: var(--muted); padding: 5px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); white-space: nowrap; }
+  .stat-pill strong { color: var(--fg); font-weight: 600; }
+  .run-section { max-width: 640px; margin: 0 auto; padding: 0 24px 80px; }
+  .run-section h3 { font-size: 18px; font-weight: 700; text-align: center; margin-bottom: 6px; }
+  .run-sub { font-size: 13px; color: var(--muted); text-align: center; margin-bottom: 16px; }
+  .run-code-wrap { position: relative; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .run-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; line-height: 1.7; padding: 16px 20px; margin: 0; white-space: pre; overflow-x: auto; color: var(--fg); }
+  .run-copy { position: absolute; top: 10px; right: 10px; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--accent); cursor: pointer; transition: background .15s; }
+  .run-copy:hover { background: var(--card-bg); }
+  .stop-flow { font-size: 12px; color: var(--muted); margin: 8px 0 6px; line-height: 1.4; }
+  .stop-caption { font-size: 11px; color: var(--muted); opacity: 0.85; }
 </style>
 </head>
 <body>
@@ -81,15 +126,111 @@
   <div class="lang-switch">
     <a href="policy-ru.html" data-t="link_ru">&#127479;&#127482; Описание на русском</a>
   </div>
+  <div class="stats-row" id="stats-row">
+    <span class="stat-pill"><strong id="st-ship">30</strong> ship</span>
+    <span class="stat-pill"><strong id="st-dns">55</strong> do&nbsp;not&nbsp;ship</span>
+    <span class="stat-pill"><strong id="st-inv">15</strong> investigate</span>
+    <span class="stat-pill"><span data-t="st_avgconf">avg conf</span> <strong id="st-conf">35</strong>%</span>
+  </div>
 </div>
 
 <div class="cards">
   <div class="card"><div class="number">4</div><h3 data-t="c_agents">Agents</h3><p data-t="c_agents_d">Reader, Stats, Decision, Viz — each modular and traceable.</p></div>
-  <div class="card"><div class="number">5</div><h3 data-t="c_scenarios">Scenario types</h3><p data-t="c_scenarios_d">Uplift, guardrail breach, small effect, segment conflict, reversal.</p></div>
-  <div class="card"><div class="number">300</div><h3 data-t="c_synth">Synthetic cases</h3><p data-t="c_synth_d">Seeded generator produces deterministic, schema-valid test cases at scale.</p></div>
+  <div class="card"><div class="number">6</div><h3 data-t="c_stoprule">Stop-Rule Engine</h3><p data-t="c_stoprule_d">Deterministic decision pipeline. First triggered rule defines the verdict.</p><div class="stop-flow" data-t="c_stoprule_flow">Guardrails &rarr; Reversal &rarr; Segment &rarr; Significance &rarr; Practical &rarr; Ship</div><p class="stop-caption" data-t="c_stoprule_cap">Safety first. Hard blockers evaluated before statistical uplift.</p></div>
+  <a href="corpus.html" class="card card-link" id="corpus-card"><div class="number" id="corpus-total">100</div><h3><span data-t="c_corpus">Corpus cases</span> <span class="live-badge" data-t="c_live">Live</span></h3><p data-t="c_corpus_d">Evaluated by the four-agent pipeline.</p></a>
   <div class="card"><div class="number">100%</div><h3 data-t="c_selfcheck">Selfcheck accuracy</h3><p data-t="c_selfcheck_d">Every agent decision matches ground truth on all cases, every time.</p></div>
   <div class="card"><div class="number">0</div><h3 data-t="c_deps">Dependencies</h3><p data-t="c_deps_d">Pure Python stdlib. No pip install, no Docker, no API keys.</p></div>
   <div class="card"><div class="number">&sigma;</div><h3 data-t="c_conf">Confidence model</h3><p data-t="c_conf_d">Linear score &rarr; sigmoid. Every decision includes an explainable confidence.</p></div>
+</div>
+
+<div class="diagram-section">
+  <h2 data-t="dia_title">Agent System Diagram</h2>
+  <p class="diagram-sub" data-t="dia_sub">End-to-end: from raw case data to interactive UI.</p>
+
+  <div class="diagram-flow">
+    <div class="dcard">
+      <div class="dcard-head" data-t="dia_inputs">Inputs</div>
+      <ul class="dcard-items">
+        <li><code>contract.json</code></li>
+        <li><code>data.csv</code></li>
+        <li><code>truth.json</code> <span class="tag tag-eval">eval-only</span></li>
+      </ul>
+    </div>
+
+    <div class="diagram-arrow">&rarr;</div>
+    <div class="diagram-arrow-down">&darr;</div>
+
+    <div class="dcard">
+      <div class="dcard-head" data-t="dia_pipeline">Agent Pipeline</div>
+      <div class="dcard-pipe">
+        <span>Reader</span><span class="pipe-arrow">&rarr;</span>
+        <span>Stats</span><span class="pipe-arrow">&rarr;</span>
+        <span>Decision</span><span class="pipe-arrow">&rarr;</span>
+        <span>Viz</span>
+      </div>
+      <ul class="dcard-items" style="margin-top:8px">
+        <li><span class="tag tag-agent">agent</span> <span style="font-size:11px;color:var(--muted)" data-t="dia_each_traces">each emits traces.jsonl</span></li>
+      </ul>
+    </div>
+
+    <div class="diagram-arrow">&rarr;</div>
+    <div class="diagram-arrow-down">&darr;</div>
+
+    <div class="dcard">
+      <div class="dcard-head" data-t="dia_artifacts">Artifacts</div>
+      <ul class="dcard-items">
+        <li><code>decision.json</code></li>
+        <li><code>decision.md</code></li>
+        <li><code>reader_summary.md</code></li>
+        <li><code>stats_checks.md</code></li>
+        <li><code>viz.md</code></li>
+        <li><code>traces.jsonl</code></li>
+      </ul>
+    </div>
+
+    <div class="diagram-arrow">&rarr;</div>
+    <div class="diagram-arrow-down">&darr;</div>
+
+    <div class="dcard">
+      <div class="dcard-head" data-t="dia_indexers">Indexers</div>
+      <ul class="dcard-items">
+        <li><code>build_corpus_index</code></li>
+        <li style="padding-left:12px;color:var(--muted)">&rarr; <code>corpus_100.json</code></li>
+        <li><code>build_replays_index</code></li>
+        <li style="padding-left:12px;color:var(--muted)">&rarr; <code>replays/*.json</code></li>
+      </ul>
+    </div>
+
+    <div class="diagram-arrow">&rarr;</div>
+    <div class="diagram-arrow-down">&darr;</div>
+
+    <div class="dcard">
+      <div class="dcard-head">GitHub Pages UI</div>
+      <ul class="dcard-items">
+        <li><code>corpus.html</code></li>
+        <li><code>policy.html</code></li>
+        <li><code>traces.html</code></li>
+      </ul>
+      <div class="dcard-links">
+        <a href="corpus.html" data-t="dia_link_corpus">Open Corpus Explorer &rarr;</a>
+        <a href="policy.html" data-t="dia_link_engine">Explain the Decision Engine &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <p class="diagram-caption" data-t="dia_caption">Every step emits JSONL traces &rarr; replayable timeline &rarr; explainable decisions (Reason &rarr; Evidence).</p>
+</div>
+
+<div class="run-section">
+  <h3 data-t="run_title">Run locally</h3>
+  <p class="run-sub" data-t="run_sub">Reproduce the corpus and replays locally (stdlib-only).</p>
+  <div class="run-code-wrap">
+    <pre class="run-code" id="run-code">./43_generation/ab_factory/run.sh --n 100
+cd 42_workflows/ab_factory && python3 run_case.py --all --root ../../40_ab_factory/vk-style/cases_auto
+cd ../.. && python3 tools/build_corpus_index.py
+python3 tools/build_replays_index.py</pre>
+    <button class="run-copy" id="run-copy" data-t="run_copy">Copy</button>
+  </div>
 </div>
 
 <footer data-t="footer">AB Factory Demo &middot; stdlib-only &middot; Python 3.10+</footer>
@@ -107,16 +248,33 @@
     link_ru:{ru:'\ud83c\uddf7\ud83c\uddfa \u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043d\u0430 \u0440\u0443\u0441\u0441\u043a\u043e\u043c'},
     c_agents:{ru:'\u0410\u0433\u0435\u043d\u0442\u044b'},
     c_agents_d:{ru:'Reader, Stats, Decision, Viz \u2014 \u043a\u0430\u0436\u0434\u044b\u0439 \u043c\u043e\u0434\u0443\u043b\u044c\u043d\u044b\u0439 \u0438 \u0442\u0440\u0430\u0441\u0441\u0438\u0440\u0443\u0435\u043c\u044b\u0439.'},
-    c_scenarios:{ru:'\u0422\u0438\u043f\u044b \u0441\u0446\u0435\u043d\u0430\u0440\u0438\u0435\u0432'},
-    c_scenarios_d:{ru:'Uplift, \u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b, \u043c\u0430\u043b\u044b\u0439 \u044d\u0444\u0444\u0435\u043a\u0442, \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u044b, \u0440\u0435\u0432\u0435\u0440\u0441.'},
-    c_synth:{ru:'\u0421\u0438\u043d\u0442\u0435\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u043a\u0435\u0439\u0441\u044b'},
-    c_synth_d:{ru:'\u0413\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440 \u0441 \u0441\u0438\u0434\u043e\u043c: \u0434\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0435, \u0432\u0430\u043b\u0438\u0434\u043d\u044b\u0435 \u0442\u0435\u0441\u0442-\u043a\u0435\u0439\u0441\u044b \u0432 \u043c\u0430\u0441\u0448\u0442\u0430\u0431\u0435.'},
+    c_stoprule:{ru:'Stop-Rule \u043c\u043e\u0434\u0435\u043b\u044c'},
+    c_stoprule_d:{ru:'\u0414\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0439 \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d \u0440\u0435\u0448\u0435\u043d\u0438\u0439. \u041f\u0435\u0440\u0432\u043e\u0435 \u0441\u0440\u0430\u0431\u043e\u0442\u0430\u0432\u0448\u0435\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442 \u0432\u0435\u0440\u0434\u0438\u043a\u0442.'},
+    c_stoprule_flow:{ru:'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u044b \u2192 \u0420\u0435\u0432\u0435\u0440\u0441 \u2192 \u041a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432 \u2192 \u0417\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c \u2192 \u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043f\u043e\u0440\u043e\u0433 \u2192 Ship'},
+    c_stoprule_cap:{ru:'\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u044c, \u0437\u0430\u0442\u0435\u043c \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043a\u0430 \u0438 \u044d\u0444\u0444\u0435\u043a\u0442.'},
+    c_corpus:{ru:'\u041a\u0435\u0439\u0441\u044b \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435'},
+    c_live:{ru:'Live'},
+    c_corpus_d:{ru:'\u041e\u0446\u0435\u043d\u0435\u043d\u044b 4-\u0430\u0433\u0435\u043d\u0442\u043d\u044b\u043c \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d\u043e\u043c.'},
+    st_avgconf:{ru:'\u0441\u0440. \u0443\u0432\u0435\u0440.'},
+    run_title:{ru:'\u0417\u0430\u043f\u0443\u0441\u043a \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e'},
+    run_sub:{ru:'\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u043e\u0440\u043f\u0443\u0441 \u0438 \u0440\u0435\u043f\u043b\u0435\u0438 \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e (\u0442\u043e\u043b\u044c\u043a\u043e stdlib).'},
+    run_copy:{ru:'\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c'},
     c_selfcheck:{ru:'\u0422\u043e\u0447\u043d\u043e\u0441\u0442\u044c \u0441\u0435\u043b\u0444\u0447\u0435\u043a\u0430'},
     c_selfcheck_d:{ru:'\u041a\u0430\u0436\u0434\u043e\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u0430\u0433\u0435\u043d\u0442\u0430 \u0441\u043e\u0432\u043f\u0430\u0434\u0430\u0435\u0442 \u0441 ground truth \u043d\u0430 \u0432\u0441\u0435\u0445 \u043a\u0435\u0439\u0441\u0430\u0445.'},
     c_deps:{ru:'\u0417\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0438'},
     c_deps_d:{ru:'\u0427\u0438\u0441\u0442\u044b\u0439 Python stdlib. \u041d\u0438 pip, \u043d\u0438 Docker, \u043d\u0438 API-\u043a\u043b\u044e\u0447\u0435\u0439.'},
     c_conf:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u0438'},
     c_conf_d:{ru:'\u041b\u0438\u043d\u0435\u0439\u043d\u044b\u0439 \u0441\u043a\u043e\u0440 \u2192 sigmoid. \u041a\u0430\u0436\u0434\u043e\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u0441 \u043e\u0431\u044a\u044f\u0441\u043d\u0438\u043c\u043e\u0439 \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u044c\u044e.'},
+    dia_title:{ru:'\u0421\u0445\u0435\u043c\u0430 \u0441\u0438\u0441\u0442\u0435\u043c\u044b \u0430\u0433\u0435\u043d\u0442\u043e\u0432'},
+    dia_sub:{ru:'\u041e\u0442 \u0441\u044b\u0440\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445 \u043a\u0435\u0439\u0441\u0430 \u0434\u043e \u0438\u043d\u0442\u0435\u0440\u0430\u043a\u0442\u0438\u0432\u043d\u043e\u0433\u043e UI.'},
+    dia_inputs:{ru:'\u0412\u0445\u043e\u0434\u043d\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435'},
+    dia_pipeline:{ru:'\u041f\u0430\u0439\u043f\u043b\u0430\u0439\u043d \u0430\u0433\u0435\u043d\u0442\u043e\u0432'},
+    dia_each_traces:{ru:'\u043a\u0430\u0436\u0434\u044b\u0439 \u043f\u0438\u0448\u0435\u0442 traces.jsonl'},
+    dia_artifacts:{ru:'\u0410\u0440\u0442\u0435\u0444\u0430\u043a\u0442\u044b'},
+    dia_indexers:{ru:'\u0418\u043d\u0434\u0435\u043a\u0441\u0435\u0440\u044b'},
+    dia_link_corpus:{ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043a\u043e\u0440\u043f\u0443\u0441 \u2192'},
+    dia_link_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2192'},
+    dia_caption:{ru:'\u041a\u0430\u0436\u0434\u044b\u0439 \u0448\u0430\u0433 \u043f\u0438\u0448\u0435\u0442 JSONL-\u0442\u0440\u0435\u0439\u0441\u044b \u2192 \u0440\u0435\u043f\u043b\u0435\u0439 \u0442\u0430\u0439\u043c\u043b\u0430\u0439\u043d\u0430 \u2192 \u043e\u0431\u044a\u044f\u0441\u043d\u0438\u043c\u044b\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u044f (\u041f\u0440\u0438\u0447\u0438\u043d\u0430 \u2192 \u0414\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u043e).'},
     footer:{ru:'AB Factory Demo \u00b7 stdlib-only \u00b7 Python 3.10+'}
   };
   if(LANG==='ru'){
@@ -125,7 +283,7 @@
       var k=el.getAttribute('data-t');
       if(T[k]&&T[k].ru) el.innerHTML=T[k].ru;
     });
-    document.querySelectorAll('.buttons a[href]:not([href^="http"])').forEach(function(a){
+    document.querySelectorAll('.buttons a[href]:not([href^="http"]), .dcard-links a[href], a.card-link').forEach(function(a){
       if(a.href.indexOf('lang=')<0){
         var u=new URL(a.href,location.href);
         u.searchParams.set('lang','ru');
@@ -133,6 +291,36 @@
       }
     });
   }
+  fetch('data/corpus_stats.json').then(function(r){return r.json();}).then(function(s){
+    var el;
+    if(s.total&&(el=document.getElementById('corpus-total'))) el.textContent=s.total;
+    var dc=s.decision_counts||{};
+    if((el=document.getElementById('st-ship'))&&dc.ship!=null) el.textContent=dc.ship;
+    if((el=document.getElementById('st-dns'))&&dc.do_not_ship!=null) el.textContent=dc.do_not_ship;
+    if((el=document.getElementById('st-inv'))&&dc.investigate!=null) el.textContent=dc.investigate;
+    var ac=s.avg_confidence_by_decision||{};
+    var tot=s.total||1;
+    var avg=((dc.ship||0)*(ac.ship||0)+(dc.do_not_ship||0)*(ac.do_not_ship||0)+(dc.investigate||0)*(ac.investigate||0))/tot;
+    if((el=document.getElementById('st-conf'))) el.textContent=Math.round(avg*100);
+  }).catch(function(){});
+  var copyBtn=document.getElementById('run-copy');
+  if(copyBtn) copyBtn.addEventListener('click',function(){
+    var code=document.getElementById('run-code').textContent;
+    var btn=this;
+    var ok=function(){
+      btn.textContent=LANG==='ru'?'\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e!':'Copied!';
+      setTimeout(function(){btn.textContent=LANG==='ru'?'\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c':'Copy';},1500);
+    };
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(code).then(ok);
+    }else{
+      var ta=document.createElement('textarea');
+      ta.value=code;ta.style.position='fixed';ta.style.left='-9999px';
+      document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');ok();}catch(e){}
+      document.body.removeChild(ta);
+    }
+  });
 })();
 </script>
 </body>
