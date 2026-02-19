@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Policy Explorer — AB Factory</title>
+<title>Decision Engine — AB Factory</title>
 <style>
 :root {
   --bg: #fafafa; --fg: #1d1d1f; --muted: #6e6e73;
@@ -21,668 +21,465 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;background:var(--bg);color:var(--fg);line-height:1.5;-webkit-font-smoothing:antialiased}
 
-/* ── top bar ───────────────────────────────────────────── */
 .top-bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:48px;gap:24px}
 .top-bar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .15s}
 .top-bar a:hover,.top-bar a.active{color:var(--accent)}
 .top-bar .spacer{flex:1}
 
-/* ── layout ────────────────────────────────────────────── */
-.shell{display:flex;min-height:calc(100vh - 48px)}
-.sidebar{width:280px;flex-shrink:0;border-right:1px solid var(--border);padding:24px 20px;position:sticky;top:48px;height:calc(100vh - 48px);overflow-y:auto}
-.main{flex:1;padding:28px 28px 80px;overflow-x:auto}
+.container{max-width:960px;margin:0 auto;padding:32px 24px 80px}
+h1{font-size:28px;font-weight:700;margin-bottom:6px}
+.subtitle{color:var(--muted);font-size:15px;margin-bottom:32px;max-width:640px}
 
-@media(max-width:840px){
-  .shell{flex-direction:column}
-  .sidebar{width:100%;position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}
-}
+.pipeline-section{margin-bottom:40px}
+.pipeline-section h2{font-size:18px;font-weight:700;margin-bottom:16px}
+.pipeline{display:flex;gap:0;flex-wrap:wrap;margin-bottom:8px}
+.pipe-step{flex:1;min-width:120px;text-align:center;position:relative;padding:16px 8px 14px}
+.pipe-step::after{content:'\2192';position:absolute;right:-6px;top:50%;transform:translateY(-50%);color:var(--border);font-size:16px;font-weight:700}
+.pipe-step:last-child::after{display:none}
+.pipe-num{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.pipe-name{font-size:13px;font-weight:600;margin-bottom:4px}
+.pipe-outcome{font-size:11px;color:var(--muted)}
+.pipe-step-hard .pipe-name{color:var(--red)}
+.pipe-step-soft .pipe-name{color:var(--orange)}
+.pipe-step-ok .pipe-name{color:var(--green)}
+.pipe-desc{font-size:13px;color:var(--muted);line-height:1.6;max-width:640px}
 
-/* ── sidebar controls ──────────────────────────────────── */
-.sidebar h2{font-size:16px;font-weight:700;margin-bottom:16px}
-.ctrl{margin-bottom:20px}
-.ctrl label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
-.ctrl select,.ctrl input[type=range]{width:100%}
-.ctrl select{padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--fg);font-size:14px;outline:none}
-.ctrl input[type=range]{accent-color:var(--accent);margin-top:2px}
-.ctrl .val{font-size:13px;font-weight:600;color:var(--fg);margin-top:4px;font-variant-numeric:tabular-nums}
-.reset-btn{display:inline-block;margin-top:8px;padding:6px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--accent);font-size:13px;font-weight:500;cursor:pointer;transition:background .15s}
-.reset-btn:hover{background:var(--hover-bg)}
-.change-count{margin-top:16px;font-size:13px;color:var(--muted);padding-top:12px;border-top:1px solid var(--border)}
-.change-count strong{color:var(--accent)}
+.try-section{margin-bottom:40px}
+.try-section h2{font-size:18px;font-weight:700;margin-bottom:16px}
+.try-layout{display:grid;grid-template-columns:280px 1fr;gap:24px}
+@media(max-width:720px){.try-layout{grid-template-columns:1fr}}
 
-/* ── table ─────────────────────────────────────────────── */
-h1{font-size:24px;font-weight:700;margin-bottom:4px}
-.subtitle{color:var(--muted);font-size:14px;margin-bottom:20px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-thead th{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:8px 10px;text-align:left;border-bottom:2px solid var(--border);white-space:nowrap}
-tbody tr{cursor:pointer;transition:background .12s}
-tbody tr:hover{background:var(--hover-bg)}
-tbody td{padding:10px;border-bottom:1px solid var(--border);white-space:nowrap}
-td.wrap{white-space:normal;max-width:200px}
+.controls{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.ctrl{margin-bottom:16px}
+.ctrl:last-child{margin-bottom:0}
+.ctrl label{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
+.ctrl select{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--fg);font-size:13px;outline:none}
+.ctrl select:focus{border-color:var(--accent)}
+.ctrl input[type=range]{width:100%;accent-color:var(--accent);margin-top:2px}
+.ctrl .val{font-size:12px;font-weight:600;color:var(--fg);margin-top:3px;font-variant-numeric:tabular-nums}
+.btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.ctrl-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--fg);font-size:12px;font-weight:500;cursor:pointer;transition:background .12s}
+.ctrl-btn:hover{background:var(--hover-bg)}
+.ctrl-btn-accent{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ctrl-btn-accent:hover{background:var(--accent-hover)}
 
-.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.01em}
+.preset-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.preset-row .preset-lbl{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;width:100%;margin-bottom:2px}
+.preset-btn{padding:5px 11px;border-radius:6px;border:1px solid var(--border);background:var(--card-bg);color:var(--fg);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s}
+.preset-btn:hover{border-color:var(--accent);color:var(--accent)}
+.preset-hint{font-size:11px;color:var(--accent);margin-top:8px;min-height:16px}
+
+.result{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.result-hdr{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.result-hdr .case-title{font-size:15px;font-weight:700;flex:1;min-width:140px}
+.badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:600}
 .badge-ship{background:color-mix(in srgb,var(--green) 15%,transparent);color:var(--green)}
 .badge-do_not_ship{background:color-mix(in srgb,var(--red) 15%,transparent);color:var(--red)}
 .badge-investigate{background:color-mix(in srgb,var(--orange) 15%,transparent);color:var(--orange)}
-.changed{outline:2px solid var(--accent);outline-offset:-2px;border-radius:4px}
-
-.conf-bar{display:inline-flex;align-items:center;gap:5px;font-variant-numeric:tabular-nums}
-.conf-bar .bar{width:40px;height:5px;border-radius:3px;background:var(--border);overflow:hidden}
+.conf-bar{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-variant-numeric:tabular-nums}
+.conf-bar .bar{width:48px;height:5px;border-radius:3px;background:var(--border);overflow:hidden}
 .conf-bar .bar .fill{height:100%;border-radius:3px}
-.arrow-change{font-size:11px;margin-left:4px}
-.arrow-up{color:var(--green)}
-.arrow-down{color:var(--red)}
 
-.reasons-list{display:flex;flex-wrap:wrap;gap:3px}
-.reason-tag{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:11px}
+.wt{padding-left:14px;margin-bottom:16px}
+.wt-rule{position:relative;padding:8px 0 8px 18px;border-left:2px solid var(--border);transition:background .3s}
+.wt-rule:last-child{border-left-color:transparent}
+.wt-rule::before{content:'';position:absolute;left:-6px;top:12px;width:10px;height:10px;border-radius:50%;border:2px solid var(--border);background:var(--card-bg)}
+.wt-stop::before{background:var(--red);border-color:var(--red);box-shadow:0 0 8px color-mix(in srgb,var(--red) 40%,transparent)}
+.wt-stop.wt-investigate::before{background:var(--orange);border-color:var(--orange);box-shadow:0 0 8px color-mix(in srgb,var(--orange) 40%,transparent)}
+.wt-pass::before{background:var(--green);border-color:var(--green)}
+.wt-skip::before{background:var(--border)}
+.wt-top{display:flex;align-items:center;gap:6px}
+.wt-name{font-size:12px;font-weight:600;flex:1}
+.wt-stop .wt-name{color:var(--red)}
+.wt-stop.wt-investigate .wt-name{color:var(--orange)}
+.wt-pass .wt-name{color:var(--green)}
+.wt-skip .wt-name{color:var(--muted)}
+.wt-tag{font-size:9px;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.04em}
+.wt-stop .wt-tag{background:color-mix(in srgb,var(--red) 12%,transparent);color:var(--red)}
+.wt-stop.wt-investigate .wt-tag{background:color-mix(in srgb,var(--orange) 12%,transparent);color:var(--orange)}
+.wt-pass .wt-tag{background:color-mix(in srgb,var(--green) 12%,transparent);color:var(--green)}
+.wt-skip .wt-tag{background:var(--hover-bg);color:var(--muted)}
+.wt-ev{font-size:11px;color:var(--muted);margin-top:2px}
+.wt-why{font-size:13px;color:var(--fg);margin-bottom:16px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px}
+.wt-why strong{font-weight:600}
 
-/* ── drawer ────────────────────────────────────────────── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;display:none;justify-content:flex-end}
-.overlay.open{display:flex}
-.drawer{width:min(580px,100vw);background:var(--card-bg);height:100%;overflow-y:auto;padding:28px 24px;animation:slideIn .22s ease-out;border-left:1px solid var(--border)}
-@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
-.drawer-close{background:none;border:none;font-size:24px;color:var(--muted);cursor:pointer;position:absolute;top:14px;right:18px}
-.drawer-close:hover{color:var(--fg)}
-.drawer h2{font-size:18px;font-weight:700;margin-bottom:4px;padding-right:32px}
-.drawer .meta{color:var(--muted);font-size:13px;margin-bottom:20px}
-.drawer section{margin-bottom:22px}
-.drawer section h3{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
-.kv{display:grid;grid-template-columns:130px 1fr;gap:4px 10px;font-size:13px}
-.kv dt{color:var(--muted);font-weight:500}
-.kv dd{word-break:break-word}
+.wt-rule.wt-highlight{background:color-mix(in srgb,var(--accent) 8%,transparent);border-radius:6px}
 
-/* tabs */
-.tab-bar{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:12px}
-.tab-btn{padding:6px 14px;font-size:13px;font-weight:500;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;transition:color .12s}
-.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab-panel{display:none}
-.tab-panel.active{display:block}
+.signals{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:14px}
+.sig{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.sig-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:2px}
+.sig-val{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
 
-.csv-table{width:100%;border-collapse:collapse;font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-.csv-table th,.csv-table td{padding:4px 8px;border:1px solid var(--border);text-align:right;white-space:nowrap}
-.csv-table th{background:var(--bg);font-weight:600;text-align:left}
-.csv-table td:first-child{text-align:left}
-.dl-link{display:inline-block;margin-top:8px;font-size:13px;color:var(--accent);text-decoration:none}
-.dl-link:hover{text-decoration:underline}
-
-.conf-explain{font-size:13px;line-height:1.6}
-.conf-explain .factor{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid var(--border)}
-.conf-explain .factor:last-child{border-bottom:none}
-.conf-explain .factor-name{color:var(--muted)}
-.conf-explain .factor-val{font-weight:600;font-variant-numeric:tabular-nums}
-.conf-explain .factor-val.pos{color:var(--green)}
-.conf-explain .factor-val.neg{color:var(--red)}
-.conf-explain .total{font-weight:700;border-top:2px solid var(--border);padding-top:4px;margin-top:4px}
-
-/* ── data viz charts ──────────────────────────────────── */
-.charts-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
 .chart-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
-.chart-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
-.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.chart-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:8px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
 .bar-row:last-child{margin-bottom:0}
-.bar-tag{font-size:11px;font-weight:500;color:var(--muted);width:48px;text-align:right;flex-shrink:0}
-.bar-track{flex:1;height:20px;background:var(--card-bg);border:1px solid var(--border);border-radius:6px;overflow:hidden}
-.bar-fill-inner{height:100%;border-radius:5px;min-width:2px;transition:width .3s}
+.bar-tag{font-size:11px;color:var(--muted);width:48px;text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:18px;background:var(--card-bg);border:1px solid var(--border);border-radius:5px;overflow:hidden}
+.bar-fill-inner{height:100%;border-radius:4px;min-width:2px}
 .bar-num{font-size:11px;font-weight:600;width:56px;flex-shrink:0;font-variant-numeric:tabular-nums}
-.bar-uplift{text-align:center;font-size:12px;font-weight:600;margin-top:6px;font-variant-numeric:tabular-nums}
-.bar-note{text-align:center;font-size:10px;color:var(--muted);margin-top:2px}
-.gr-viz{position:relative;padding:0 4px}
-.gr-track{width:100%;height:10px;background:var(--card-bg);border:1px solid var(--border);border-radius:5px;position:relative;overflow:visible}
-.gr-fill{position:absolute;top:0;height:100%;border-radius:4px;transition:width .3s}
-.gr-thresh{position:absolute;top:-6px;width:2px;height:22px;background:var(--fg);border-radius:1px;z-index:1}
-.gr-thresh-label{position:absolute;top:-18px;font-size:10px;color:var(--muted);transform:translateX(-50%);white-space:nowrap}
-.gr-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px}
-.gr-verdict{font-size:12px;font-weight:600;margin-top:8px}
-.spark-svg{display:block}
-.spark-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}
-.spark-labels b{font-weight:600}
+.bar-uplift{text-align:center;font-size:12px;font-weight:600;margin-top:5px}
+
+.reason-tag{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:11px}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.placeholder{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px}
+
+footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
 </style>
 </head>
 <body>
 
 <div class="top-bar">
-  <a href="index.html">Home</a>
-  <a href="casebook.html">Casebook</a>
-  <a href="traces.html">Traces</a>
-  <a href="policy.html" class="active">Policy Explorer</a>
+  <a href="index.html" data-t="nav_home">Home</a>
+  <a href="traces.html" data-t="nav_traces">Traces</a>
+  <a href="policy.html" class="active" data-t="nav_engine">Decision Engine</a>
+  <a href="corpus.html" data-t="nav_corpus">Corpus Explorer</a>
   <span class="spacer"></span>
+  <a href="policy-ru.html" style="font-size:12px" data-t="nav_ru_explainer">RU Explainer</a>
 </div>
 
-<div class="shell">
+<div class="container">
+  <h1 data-t="de_title">Decision Engine</h1>
+  <p class="subtitle" data-t="de_subtitle">A step-by-step stop-rule pipeline for A/B test decisions. Each case walks through 6 rules in order; the first rule that triggers determines the verdict.</p>
 
-<!-- ── sidebar ──────────────────────────────────────── -->
-<aside class="sidebar">
-  <h2>Policy Controls</h2>
-
-  <div class="ctrl">
-    <label>Significance level (α)</label>
-    <select id="ctrlAlpha">
-      <option value="0.01">0.01 (strict)</option>
-      <option value="0.05" selected>0.05 (standard)</option>
-      <option value="0.10">0.10 (lenient)</option>
-    </select>
+  <div class="pipeline-section">
+    <h2 data-t="de_pipeline">The Pipeline</h2>
+    <div class="pipeline">
+      <div class="pipe-step pipe-step-hard"><div class="pipe-num">1</div><div class="pipe-name" data-t="rule_guardrails">Guardrails</div><div class="pipe-outcome">STOP &rarr; do not ship</div></div>
+      <div class="pipe-step pipe-step-hard"><div class="pipe-num">2</div><div class="pipe-name" data-t="rule_reversal">Long-term reversal</div><div class="pipe-outcome">STOP &rarr; do not ship</div></div>
+      <div class="pipe-step pipe-step-soft"><div class="pipe-num">3</div><div class="pipe-name" data-t="rule_segment">Segment conflict</div><div class="pipe-outcome">STOP &rarr; investigate</div></div>
+      <div class="pipe-step pipe-step-soft"><div class="pipe-num">4</div><div class="pipe-name" data-t="rule_significance">Significance</div><div class="pipe-outcome">STOP &rarr; do not ship</div></div>
+      <div class="pipe-step pipe-step-soft"><div class="pipe-num">5</div><div class="pipe-name" data-t="rule_practical">Practical threshold</div><div class="pipe-outcome">STOP &rarr; do not ship</div></div>
+      <div class="pipe-step pipe-step-ok"><div class="pipe-num">6</div><div class="pipe-name" data-t="rule_default">Default ship</div><div class="pipe-outcome" data-t="rule_default_out">No blockers &rarr; ship</div></div>
+    </div>
+    <p class="pipe-desc" data-t="de_pipe_desc">Rules 1&ndash;2 are <strong>hard blockers</strong>: guardrail breaches and long-term metric reversals immediately reject the experiment. Rule 3 sends ambiguous segment splits to investigation. Rules 4&ndash;5 check statistical and practical significance. If nothing fires, the experiment ships.</p>
   </div>
 
-  <div class="ctrl">
-    <label>Min practical uplift</label>
-    <input type="range" id="ctrlUplift" min="0" max="2.0" step="0.1" value="0.5">
-    <div class="val" id="valUplift">0.5%</div>
+  <div class="try-section">
+    <h2 data-t="de_try">Try It on a Case</h2>
+    <div class="try-layout">
+      <div class="controls">
+        <div class="ctrl">
+          <label data-t="lbl_case">Case</label>
+          <select id="ctrlCase"><option value="" data-t="pick_case">Loading&#8230;</option></select>
+        </div>
+        <div class="ctrl">
+          <label data-t="lbl_alpha">Significance level (&alpha;)</label>
+          <select id="ctrlAlpha">
+            <option value="0.01">0.01 (strict)</option>
+            <option value="0.05" selected>0.05 (standard)</option>
+            <option value="0.10">0.10 (lenient)</option>
+          </select>
+        </div>
+        <div class="ctrl">
+          <label data-t="lbl_uplift">Min practical uplift</label>
+          <input type="range" id="ctrlUplift" min="0" max="2.0" step="0.1" value="0.5">
+          <div class="val" id="valUplift">0.5%</div>
+        </div>
+        <div class="ctrl">
+          <label data-t="lbl_ctr">CTR guardrail threshold</label>
+          <input type="range" id="ctrlCtr" min="0" max="10" step="0.5" value="3.0">
+          <div class="val" id="valCtr">&minus;3.0%</div>
+        </div>
+        <div class="btn-row">
+          <button class="ctrl-btn ctrl-btn-accent" id="btnRandom" data-t="btn_random">Random case</button>
+          <button class="ctrl-btn" id="btnReset" data-t="btn_reset">Reset</button>
+        </div>
+        <div class="preset-row">
+          <span class="preset-lbl" data-t="lbl_presets">Presets</span>
+          <button class="preset-btn" data-preset="guardrail" data-t="preset_guardrail">Guardrail breach</button>
+          <button class="preset-btn" data-preset="segment" data-t="preset_segment">Segment conflict</button>
+          <button class="preset-btn" data-preset="reversal" data-t="preset_reversal">Long-term reversal</button>
+        </div>
+        <div class="preset-hint" id="presetHint"></div>
+      </div>
+
+      <div class="result" id="result">
+        <div class="placeholder" data-t="de_placeholder">Select a case to see the decision walkthrough.</div>
+      </div>
+    </div>
   </div>
-
-  <div class="ctrl">
-    <label>CTR guardrail threshold</label>
-    <input type="range" id="ctrlCtr" min="0" max="10" step="0.5" value="3.0">
-    <div class="val" id="valCtr">−3.0%</div>
-  </div>
-
-  <button class="reset-btn" id="resetBtn">Reset to defaults</button>
-
-  <div class="change-count" id="changeCount"></div>
-</aside>
-
-<!-- ── main ─────────────────────────────────────────── -->
-<div class="main">
-  <h1>Policy Explorer</h1>
-  <p class="subtitle">Tweak policy thresholds and see how decisions change for the 5 golden cases.</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Case</th>
-        <th>Title</th>
-        <th>Metric</th>
-        <th>Uplift</th>
-        <th>p-value</th>
-        <th>Baseline</th>
-        <th>Current</th>
-        <th>Conf</th>
-        <th>Reasons</th>
-      </tr>
-    </thead>
-    <tbody id="tbody"></tbody>
-  </table>
 </div>
 
-</div>
-
-<!-- ── drawer ──────────────────────────────────────── -->
-<div class="overlay" id="overlay">
-  <div class="drawer" id="drawer"></div>
-</div>
+<footer data-t="de_footer">AB Factory Demo &middot; Decision Engine &middot; zero dependencies</footer>
 
 <script>
 (function(){
-  /* ────────────── state ────────────── */
-  let CASES = [];
-  let CSV_CACHE = {};
-  const DEFAULTS = { alpha: 0.05, uplift: 0.5, ctr: 3.0 };
-  const WEEKLY_UPLIFT = {
-    case_005:[{week:'W1',pct:2.5},{week:'W2',pct:1.5},{week:'W3',pct:-0.5},{week:'W4',pct:-1.5}]
+  var params=new URLSearchParams(location.search);
+  var LANG=params.get('lang')==='ru'?'ru':'en';
+
+  var T={
+    nav_home:{en:'Home',ru:'\u0413\u043b\u0430\u0432\u043d\u0430\u044f'},
+    nav_traces:{en:'Traces',ru:'\u0422\u0440\u0435\u0439\u0441\u044b'},
+    nav_engine:{en:'Decision Engine',ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439'},
+    nav_corpus:{en:'Corpus Explorer',ru:'\u041a\u043e\u0440\u043f\u0443\u0441 \u043a\u0435\u0439\u0441\u043e\u0432'},
+    nav_ru_explainer:{en:'RU Explainer',ru:'RU \u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435'},
+    de_title:{en:'Decision Engine',ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u043f\u0440\u0438\u043d\u044f\u0442\u0438\u044f \u0440\u0435\u0448\u0435\u043d\u0438\u0439'},
+    de_subtitle:{en:'A step-by-step stop-rule pipeline for A/B test decisions. Each case walks through 6 rules in order; the first rule that triggers determines the verdict.',ru:'\u041f\u043e\u0448\u0430\u0433\u043e\u0432\u044b\u0439 stop-rule \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d \u0434\u043b\u044f A/B-\u0442\u0435\u0441\u0442\u043e\u0432. \u041a\u0430\u0436\u0434\u044b\u0439 \u043a\u0435\u0439\u0441 \u043f\u0440\u043e\u0445\u043e\u0434\u0438\u0442 6 \u043f\u0440\u0430\u0432\u0438\u043b \u043f\u043e \u043f\u043e\u0440\u044f\u0434\u043a\u0443; \u043f\u0435\u0440\u0432\u043e\u0435 \u0441\u0440\u0430\u0431\u043e\u0442\u0430\u0432\u0448\u0435\u0435 \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442 \u0432\u0435\u0440\u0434\u0438\u043a\u0442.'},
+    de_pipeline:{en:'The Pipeline',ru:'\u041f\u0430\u0439\u043f\u043b\u0430\u0439\u043d'},
+    rule_guardrails:{en:'Guardrails',ru:'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u044b'},
+    rule_reversal:{en:'Long-term reversal',ru:'\u0414\u043e\u043b\u0433\u043e\u0441\u0440\u043e\u0447\u043d\u044b\u0439 \u0440\u0435\u0432\u0435\u0440\u0441'},
+    rule_segment:{en:'Segment conflict',ru:'\u041a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},
+    rule_significance:{en:'Significance',ru:'\u0417\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c'},
+    rule_practical:{en:'Practical threshold',ru:'\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043f\u043e\u0440\u043e\u0433'},
+    rule_default:{en:'Default ship',ru:'\u0428\u0438\u043f \u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e'},
+    rule_default_out:{en:'No blockers \u2192 ship',ru:'\u041d\u0435\u0442 \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u043e\u043a \u2192 ship'},
+    de_pipe_desc:{en:'Rules 1\u20132 are <strong>hard blockers</strong>: guardrail breaches and long-term metric reversals immediately reject the experiment. Rule 3 sends ambiguous segment splits to investigation. Rules 4\u20135 check statistical and practical significance. If nothing fires, the experiment ships.',ru:'\u041f\u0440\u0430\u0432\u0438\u043b\u0430 1\u20132 \u2014 <strong>\u0436\u0451\u0441\u0442\u043a\u0438\u0435 \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u043a\u0438</strong>: \u043d\u0430\u0440\u0443\u0448\u0435\u043d\u0438\u0435 \u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u043e\u0432 \u0438 \u0434\u043e\u043b\u0433\u043e\u0441\u0440\u043e\u0447\u043d\u044b\u0439 \u0440\u0435\u0432\u0435\u0440\u0441 \u043c\u0435\u0442\u0440\u0438\u043a\u0438 \u0441\u0440\u0430\u0437\u0443 \u043e\u0442\u043a\u043b\u043e\u043d\u044f\u044e\u0442 \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442. \u041f\u0440\u0430\u0432\u0438\u043b\u043e 3 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u044f\u0435\u0442 \u043d\u0435\u043e\u0434\u043d\u043e\u0437\u043d\u0430\u0447\u043d\u044b\u0435 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u044b \u043d\u0430 \u0440\u0430\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0435. \u041f\u0440\u0430\u0432\u0438\u043b\u0430 4\u20135 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u044e\u0442 \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u0447\u0435\u0441\u043a\u0443\u044e \u0438 \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0443\u044e \u0437\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c. \u0415\u0441\u043b\u0438 \u043d\u0438\u0447\u0435\u0433\u043e \u043d\u0435 \u0441\u0440\u0430\u0431\u043e\u0442\u0430\u043b\u043e \u2014 \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442 \u0448\u0438\u043f\u0438\u0442\u0441\u044f.'},
+    de_try:{en:'Try It on a Case',ru:'\u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u043d\u0430 \u043a\u0435\u0439\u0441\u0435'},
+    lbl_case:{en:'Case',ru:'\u041a\u0435\u0439\u0441'},
+    pick_case:{en:'\u2014 pick a case \u2014',ru:'\u2014 \u0432\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441 \u2014'},
+    lbl_alpha:{en:'Significance level (\u03b1)',ru:'\u0423\u0440\u043e\u0432\u0435\u043d\u044c \u0437\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u0438 (\u03b1)'},
+    lbl_uplift:{en:'Min practical uplift',ru:'\u041c\u0438\u043d. \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 uplift'},
+    lbl_ctr:{en:'CTR guardrail threshold',ru:'\u041f\u043e\u0440\u043e\u0433 CTR-\u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u0430'},
+    btn_random:{en:'Random case',ru:'\u0421\u043b\u0443\u0447\u0430\u0439\u043d\u044b\u0439 \u043a\u0435\u0439\u0441'},
+    btn_reset:{en:'Reset',ru:'\u0421\u0431\u0440\u043e\u0441'},
+    lbl_presets:{en:'Presets',ru:'\u041f\u0440\u0435\u0441\u0435\u0442\u044b'},
+    preset_guardrail:{en:'Guardrail breach',ru:'\u041d\u0430\u0440\u0443\u0448\u0435\u043d\u0438\u0435 \u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u0430'},
+    preset_segment:{en:'Segment conflict',ru:'\u041a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},
+    preset_reversal:{en:'Long-term reversal',ru:'\u0414\u043e\u043b\u0433\u043e\u0441\u0440\u043e\u0447\u043d\u044b\u0439 \u0440\u0435\u0432\u0435\u0440\u0441'},
+    de_placeholder:{en:'Select a case to see the decision walkthrough.',ru:'\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441 \u0434\u043b\u044f \u043f\u043e\u0448\u0430\u0433\u043e\u0432\u043e\u0433\u043e \u0440\u0430\u0437\u0431\u043e\u0440\u0430 \u0440\u0435\u0448\u0435\u043d\u0438\u044f.'},
+    de_footer:{en:'AB Factory Demo \u00b7 Decision Engine \u00b7 zero dependencies',ru:'AB Factory Demo \u00b7 \u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u00b7 \u0431\u0435\u0437 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0435\u0439'},
+    why_prefix:{en:'Why:',ru:'\u041f\u043e\u0447\u0435\u043c\u0443:'},
+    baseline_reasons:{en:'Baseline reasons',ru:'\u0411\u0430\u0437\u043e\u0432\u044b\u0435 \u043f\u0440\u0438\u0447\u0438\u043d\u044b'},
+    view_corpus:{en:'View in Corpus Explorer \u2192',ru:'\u0421\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435 \u2192'},
+    preset_picked:{en:'Preset picked',ru:'\u041f\u0440\u0435\u0441\u0435\u0442 \u0432\u044b\u0431\u0440\u0430\u043b'},
+    preset_because_gr:{en:'because it has a guardrail breach',ru:'\u2014 \u043d\u0430\u0440\u0443\u0448\u0435\u043d\u0438\u0435 \u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u0430'},
+    preset_because_seg:{en:'because it has a segment conflict',ru:'\u2014 \u043a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},
+    preset_because_rev:{en:'because it has a long-term reversal',ru:'\u2014 \u0434\u043e\u043b\u0433\u043e\u0441\u0440\u043e\u0447\u043d\u044b\u0439 \u0440\u0435\u0432\u0435\u0440\u0441'},
+    preset_none:{en:'No matching case found',ru:'\u041d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e \u043f\u043e\u0434\u0445\u043e\u0434\u044f\u0449\u0435\u0433\u043e \u043a\u0435\u0439\u0441\u0430'}
   };
 
-  const $alpha   = document.getElementById('ctrlAlpha');
-  const $uplift  = document.getElementById('ctrlUplift');
-  const $ctr     = document.getElementById('ctrlCtr');
-  const $vU      = document.getElementById('valUplift');
-  const $vC      = document.getElementById('valCtr');
-  const $tbody   = document.getElementById('tbody');
-  const $overlay = document.getElementById('overlay');
-  const $drawer  = document.getElementById('drawer');
-  const $count   = document.getElementById('changeCount');
+  function t(k){var e=T[k];return e?e[LANG]||e.en:k;}
 
-  /* ────────────── load data ────────── */
-  fetch('data/cases.json').then(r=>r.json()).then(d=>{ CASES=d; render(); });
+  function applyI18n(){
+    document.querySelectorAll('[data-t]').forEach(function(el){
+      var k=el.getAttribute('data-t');
+      var v=t(k);
+      if(v) el.innerHTML=v;
+    });
+    if(LANG==='ru') document.documentElement.lang='ru';
+    document.querySelectorAll('.top-bar a[href]').forEach(function(a){
+      if(LANG==='ru'&&a.href.indexOf('lang=')<0){
+        var u=new URL(a.href,location.href);
+        u.searchParams.set('lang','ru');
+        a.href=u.pathname+u.search;
+      }
+    });
+  }
 
-  /* ────────────── controls ─────────── */
-  $alpha.addEventListener('change', render);
-  $uplift.addEventListener('input', ()=>{ $vU.textContent=pf($uplift.value)+'%'; render(); });
-  $ctr.addEventListener('input', ()=>{ $vC.textContent='−'+pf($ctr.value)+'%'; render(); });
-  document.getElementById('resetBtn').addEventListener('click', ()=>{
-    $alpha.value='0.05'; $uplift.value='0.5'; $ctr.value='3.0';
-    $vU.textContent='0.5%'; $vC.textContent='−3.0%'; render();
+  applyI18n();
+
+  var CASES=[];
+  var $case=document.getElementById('ctrlCase');
+  var $alpha=document.getElementById('ctrlAlpha');
+  var $uplift=document.getElementById('ctrlUplift');
+  var $ctr=document.getElementById('ctrlCtr');
+  var $vU=document.getElementById('valUplift');
+  var $vC=document.getElementById('valCtr');
+  var $result=document.getElementById('result');
+  var $hint=document.getElementById('presetHint');
+
+  fetch('data/corpus_100.json').then(function(r){return r.json();}).then(function(data){
+    CASES=data;
+    $case.innerHTML='<option value="">'+t('pick_case')+'</option>';
+    CASES.forEach(function(c){
+      var o=document.createElement('option');
+      o.value=c.case_id;
+      o.textContent=c.case_id.replace('case_','')+' \u2014 '+c.title;
+      $case.appendChild(o);
+    });
+    var urlCase=params.get('case');
+    if(urlCase){
+      var found=CASES.find(function(x){return x.case_id===urlCase;});
+      if(found){$case.value=urlCase; evaluate();}
+    }
   });
-  $overlay.addEventListener('click', e=>{ if(e.target===$overlay) closeDrawer(); });
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawer(); });
 
-  /* ────────────── decision engine ──── */
-  function currentPolicy(){
-    return {
-      alpha: parseFloat($alpha.value),
-      minUplift: parseFloat($uplift.value),
-      ctrThreshold: parseFloat($ctr.value)
-    };
-  }
+  $case.addEventListener('change',evaluate);
+  $alpha.addEventListener('change',evaluate);
+  $uplift.addEventListener('input',function(){$vU.textContent=pf($uplift.value)+'%';evaluate();});
+  $ctr.addEventListener('input',function(){$vC.textContent='\u2212'+pf($ctr.value)+'%';evaluate();});
+  document.getElementById('btnReset').addEventListener('click',function(){
+    $alpha.value='0.05';$uplift.value='0.5';$ctr.value='3.0';
+    $vU.textContent='0.5%';$vC.textContent='\u2212'+'3.0%';
+    $hint.textContent='';
+    evaluate();
+  });
+  document.getElementById('btnRandom').addEventListener('click',function(){
+    if(!CASES.length) return;
+    var c=CASES[Math.floor(Math.random()*CASES.length)];
+    $case.value=c.case_id;
+    $hint.textContent='';
+    evaluate();
+  });
 
-  function evaluate(c, pol){
-    const agg = c.aggregates || {};
-    const reasons = [];
-    let decision;
-
-    const ctrChange = (agg.guardrails && agg.guardrails.ctr)
-      ? agg.guardrails.ctr.change_pct : 0;
-    const ctrBreached = Math.abs(ctrChange) >= pol.ctrThreshold && ctrChange < 0;
-    if(ctrBreached){ reasons.push('guardrail_violation:ctr'); }
-
-    if(!c.guardrails_ok && !ctrBreached){
-      reasons.push('guardrail_violation');
-    }
-
-    if(agg.long_term_reversal){ reasons.push('long_term_reversal'); }
-
-    const segs = agg.segments || {};
-    const segNames = Object.keys(segs);
-    let segConflict = false;
-    if(segNames.length >= 2){
-      const vals = segNames.map(s => segs[s].uplift_pct);
-      const hasPos = vals.some(v => v > 0);
-      const hasNeg = vals.some(v => v < 0);
-      const maxGap = Math.max(...vals) - Math.min(...vals);
-      if(hasPos && hasNeg && maxGap >= 2.0){ segConflict = true; reasons.push('segment_conflict'); }
-    }
-
-    const pVal = agg.p_value;
-    const notSig = pVal != null && pVal > pol.alpha;
-    if(notSig) reasons.push('not_significant');
-
-    const uplift = agg.uplift_pct != null ? agg.uplift_pct : c.effect_pct;
-    const threshold = Math.max(c.practical_threshold_pct, pol.minUplift);
-    const small = uplift != null && uplift < threshold;
-    if(small && !agg.long_term_reversal) reasons.push('practically_small');
-
-    if(reasons.some(r => r.startsWith('guardrail_violation')) || agg.long_term_reversal){
-      decision = 'do_not_ship';
-    } else if(segConflict){
-      decision = 'investigate';
-    } else if(notSig){
-      decision = 'investigate';
-    } else if(small){
-      decision = 'do_not_ship';
-    } else {
-      decision = 'ship';
-    }
-
-    let conf = 0.6;
-    if(decision === 'do_not_ship') conf -= 0.25;
-    if(decision === 'investigate') conf -= 0.15;
-    if(decision === 'ship') conf += 0.10;
-    if(reasons.some(r=>r.startsWith('guardrail_violation'))) conf -= 0.20;
-    if(notSig) conf -= 0.15;
-    if(small) conf -= 0.10;
-    if(agg.long_term_reversal) conf -= 0.25;
-    conf = Math.max(0.01, Math.min(0.99, conf));
-
-    return { decision, reasons, confidence: conf };
-  }
-
-  /* ────────────── render ──────────── */
-  function render(){
-    const pol = currentPolicy();
-    let changed = 0;
-
-    $tbody.innerHTML = CASES.map(c => {
-      const cur = evaluate(c, pol);
-      const diff = cur.decision !== c.decision;
-      if(diff) changed++;
-
-      const confPct = (cur.confidence * 100).toFixed(0);
-      const baseConfPct = (c.confidence * 100).toFixed(0);
-      const confDelta = cur.confidence - c.confidence;
-      let confArrow = '';
-      if(Math.abs(confDelta) > 0.005){
-        const cls = confDelta > 0 ? 'arrow-up' : 'arrow-down';
-        const sym = confDelta > 0 ? '▲' : '▼';
-        confArrow = `<span class="arrow-change ${cls}">${sym}${Math.abs(confDelta*100).toFixed(0)}</span>`;
+  document.querySelectorAll('.preset-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var preset=btn.dataset.preset;
+      var ctrT=parseFloat($ctr.value);
+      var match=null;
+      if(preset==='guardrail'){
+        match=CASES.find(function(c){
+          return c.reasons.some(function(r){return r.indexOf('guardrail_violation')>=0;})
+            ||(c.guardrail_ctr_delta!=null&&c.guardrail_ctr_delta<0&&Math.abs(c.guardrail_ctr_delta)>=ctrT);
+        });
+      } else if(preset==='segment'){
+        match=CASES.find(function(c){return !!c.segment_conflict;});
+      } else if(preset==='reversal'){
+        match=CASES.find(function(c){return !!c.long_term_reversal;});
       }
-
-      return `<tr data-id="${c.case_id}">
-        <td style="font-weight:600">${c.case_id.replace('case_','')}</td>
-        <td class="wrap">${esc(c.title)}</td>
-        <td>${c.primary_metric}</td>
-        <td>${c.effect_pct != null ? '+'+c.effect_pct+'%' : '—'}</td>
-        <td>${fmtP(c)}</td>
-        <td><span class="badge badge-${c.decision}">${fmtDec(c.decision)}</span></td>
-        <td><span class="badge badge-${cur.decision} ${diff?'changed':''}">${fmtDec(cur.decision)}</span></td>
-        <td>
-          <span class="conf-bar">
-            <span class="bar"><span class="fill" style="width:${confPct}%;background:${confCol(cur.confidence)}"></span></span>
-            ${confPct}%${confArrow}
-          </span>
-        </td>
-        <td><span class="reasons-list">${cur.reasons.map(r=>`<span class="reason-tag">${esc(r)}</span>`).join('')}</span></td>
-      </tr>`;
-    }).join('');
-
-    $tbody.querySelectorAll('tr').forEach(tr=>{
-      tr.addEventListener('click', ()=> openDrawer(tr.dataset.id));
+      if(!match){$hint.textContent=t('preset_none');return;}
+      $case.value=match.case_id;
+      var reasonKey='preset_because_'+preset.substring(0,3);
+      $hint.textContent=t('preset_picked')+' '+match.case_id+' '+t(reasonKey);
+      evaluate();
+      $result.scrollIntoView({behavior:'smooth',block:'start'});
+      var ruleIdx=preset==='guardrail'?0:preset==='reversal'?1:2;
+      setTimeout(function(){highlightRule(ruleIdx);},350);
     });
+  });
 
-    $count.innerHTML = changed > 0
-      ? `<strong>${changed}</strong> decision${changed>1?'s':''} changed vs baseline`
-      : 'All decisions match baseline';
+  function highlightRule(idx){
+    var rules=$result.querySelectorAll('.wt-rule');
+    if(!rules[idx]) return;
+    rules[idx].classList.add('wt-highlight');
+    setTimeout(function(){rules[idx].classList.remove('wt-highlight');},1500);
   }
 
-  /* ────────────── drawer ──────────── */
-  function openDrawer(id){
-    const c = CASES.find(x=>x.case_id===id);
-    if(!c) return;
-    const pol = currentPolicy();
-    const cur = evaluate(c, pol);
-    const agg = c.aggregates || {};
+  function evaluate(){
+    var id=$case.value;
+    var c=CASES.find(function(x){return x.case_id===id;});
+    if(!c){$result.innerHTML='<div class="placeholder">'+t('de_placeholder')+'</div>';syncUrl('');return;}
+    syncUrl(id);
 
-    let html = `
-      <button class="drawer-close" id="drawerCloseBtn">&times;</button>
-      <h2>${esc(c.title)}</h2>
-      <div class="meta">${c.case_id} · ${c.domain} · ${c.horizon_days||'?'}d</div>
-    `;
+    var alpha=parseFloat($alpha.value);
+    var minUp=parseFloat($uplift.value);
+    var ctrT=parseFloat($ctr.value);
 
-    /* signals */
-    html += `<section><h3>Signals &amp; Thresholds</h3><dl class="kv">
-      <dt>Primary metric</dt><dd>${c.primary_metric}</dd>
-      <dt>Uplift</dt><dd>${agg.uplift_pct!=null?'+'+agg.uplift_pct+'%':'—'}</dd>
-      <dt>p-value</dt><dd>${fmtP(c)}</dd>
-      <dt>α (current)</dt><dd>${pol.alpha}</dd>
-      <dt>Significant?</dt><dd>${agg.p_value!=null&&agg.p_value<=pol.alpha?'<span style="color:var(--green)">Yes</span>':'<span style="color:var(--red)">No</span>'}</dd>
-      <dt>Practical threshold</dt><dd>${Math.max(c.practical_threshold_pct, pol.minUplift)}%</dd>
-      <dt>Stat sig?</dt><dd>${c.is_stat_sig?'Yes':'No'} (baseline α=0.05)</dd>
-    </dl></section>`;
+    var hasGrBreach=c.reasons.some(function(r){return r.indexOf('guardrail_violation')>=0;});
+    var ctrD=c.guardrail_ctr_delta;
+    var ctrBreach=ctrD!=null&&ctrD<0&&Math.abs(ctrD)>=ctrT;
 
-    /* guardrails */
-    html += `<section><h3>Guardrails</h3><dl class="kv">
-      <dt>CTR change</dt><dd>${agg.guardrails&&agg.guardrails.ctr?agg.guardrails.ctr.change_pct+'%':'—'}</dd>
-      <dt>CTR threshold</dt><dd>−${pol.ctrThreshold}%</dd>
-      <dt>CTR breached?</dt><dd>${agg.guardrails&&agg.guardrails.ctr&&Math.abs(agg.guardrails.ctr.change_pct)>=pol.ctrThreshold&&agg.guardrails.ctr.change_pct<0?'<span style="color:var(--red)">Yes</span>':'<span style="color:var(--green)">No</span>'}</dd>
-      <dt>Overall OK?</dt><dd>${cur.reasons.some(r=>r.startsWith('guardrail'))?'<span style="color:var(--red)">Breached</span>':'<span style="color:var(--green)">OK</span>'}</dd>
-    </dl></section>`;
+    var ruleNames=[t('rule_guardrails'),t('rule_reversal'),t('rule_segment'),t('rule_significance'),t('rule_practical'),t('rule_default')];
+    var rules=[
+      {n:ruleNames[0],
+       triggered:hasGrBreach||ctrBreach,
+       dec:'do_not_ship',
+       ev:ctrD!=null?'CTR '+ctrD.toFixed(1)+'% vs \u2212'+ctrT+'% threshold'+(ctrBreach?' \u2014 breached':' \u2014 OK'):(hasGrBreach?'Guardrail breach detected':'No guardrail data')},
+      {n:ruleNames[1],
+       triggered:!!c.long_term_reversal,
+       dec:'do_not_ship',
+       ev:c.long_term_reversal?'Weekly reversal detected':'Not detected'},
+      {n:ruleNames[2],
+       triggered:!!c.segment_conflict,
+       dec:'investigate',
+       ev:c.segment_conflict?'Opposite signed segment effects':'No conflict'},
+      {n:ruleNames[3],
+       triggered:c.p_value!=null&&c.p_value>alpha,
+       dec:'do_not_ship',
+       ev:c.p_value!=null?'p = '+c.p_value.toFixed(3)+' vs \u03b1 = '+alpha+(c.p_value>alpha?' \u2014 not significant':' \u2014 significant'):'p-value unavailable'},
+      {n:ruleNames[4],
+       triggered:c.uplift_pct!=null&&c.uplift_pct<minUp,
+       dec:'do_not_ship',
+       ev:c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+c.uplift_pct+'% vs min '+minUp+'%'+(c.uplift_pct<minUp?' \u2014 too small':' \u2014 OK'):'Uplift unavailable'},
+      {n:ruleNames[5],
+       triggered:true,
+       dec:'ship',
+       ev:'No blocking rules'}
+    ];
 
-    /* segments */
-    const segs = agg.segments || {};
-    const segNames = Object.keys(segs);
-    if(segNames.length){
-      html += `<section><h3>Segments</h3><dl class="kv">`;
-      segNames.forEach(s=>{
-        const v = segs[s];
-        html += `<dt>${s}</dt><dd>${v.uplift_pct!=null?((v.uplift_pct>0?'+':'')+v.uplift_pct+'%'):'—'} (p=${v.p_value!=null?v.p_value:'?'})</dd>`;
-      });
-      html += `</dl></section>`;
+    var stopIdx=-1,decision='ship';
+    for(var i=0;i<rules.length;i++){
+      if(rules[i].triggered){stopIdx=i;decision=rules[i].dec;break;}
     }
 
-    /* long term */
-    if(agg.long_term_reversal){
-      html += `<section><h3>Long-term</h3><p style="font-size:13px;color:var(--red)">⚠ Week-over-week reversal detected.</p></section>`;
+    var confPct=c.confidence!=null?(c.confidence*100).toFixed(1):'\u2014';
+    var cc=confCol(c.confidence);
+
+    var h='';
+    h+='<div class="result-hdr">';
+    h+='<span class="case-title">'+esc(c.title)+'</span>';
+    h+='<span class="badge badge-'+decision+'">'+fmtDec(decision)+'</span>';
+    h+='<span class="conf-bar"><span class="bar"><span class="fill" style="width:'+confPct+'%;background:'+cc+'"></span></span>'+confPct+'%</span>';
+    h+='</div>';
+
+    var whyText=buildWhy(rules,stopIdx,decision);
+    h+='<div class="wt-why"><strong>'+t('why_prefix')+'</strong> '+whyText+'</div>';
+
+    h+='<div class="wt">';
+    for(var j=0;j<rules.length;j++){
+      var st=j<stopIdx?'pass':j===stopIdx?'stop':'skip';
+      var extra=st==='stop'&&rules[j].dec==='investigate'?' wt-investigate':'';
+      h+='<div class="wt-rule wt-'+st+extra+'">';
+      h+='<div class="wt-top"><span class="wt-name">'+rules[j].n+'</span><span class="wt-tag">'+st.toUpperCase()+'</span></div>';
+      h+='<div class="wt-ev">'+rules[j].ev+'</div>';
+      h+='</div>';
+    }
+    h+='</div>';
+
+    if(c.reasons&&c.reasons.length){
+      h+='<div style="margin-bottom:14px"><span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em">'+t('baseline_reasons')+'</span><div class="tags" style="margin-top:6px">';
+      c.reasons.forEach(function(r){h+='<span class="reason-tag">'+esc(r)+'</span>';});
+      h+='</div></div>';
     }
 
-    /* confidence explain */
-    html += buildConfExplain(c, cur, pol);
+    h+='<div class="signals">';
+    h+=sig('Metric',esc(c.metric));
+    h+=sig('Uplift',c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+c.uplift_pct+'%':'\u2014');
+    h+=sig('p-value',c.p_value!=null?(c.p_value<0.001?'<0.001':c.p_value.toFixed(3)):'\u2014');
+    h+=sig('CTR \u0394',ctrD!=null?ctrD.toFixed(1)+'%':'\u2014');
+    h+=sig(LANG==='ru'?'\u0420\u0435\u0432\u0435\u0440\u0441':'Reversal',c.long_term_reversal?'<span style="color:var(--red)">Yes</span>':'No');
+    h+=sig(LANG==='ru'?'\u0421\u0435\u0433\u043c\u0435\u043d\u0442\u044b':'Segments',c.segment_conflict?'<span style="color:var(--orange)">Conflict</span>':'OK');
+    h+='</div>';
 
-    /* decision comparison */
-    html += `<section><h3>Decision</h3>
-      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-        <div style="font-size:12px;color:var(--muted)">Baseline</div>
-        <span class="badge badge-${c.decision}" style="font-size:13px;padding:4px 14px">${fmtDec(c.decision)}</span>
-        <span style="font-size:18px;color:var(--muted)">→</span>
-        <div style="font-size:12px;color:var(--muted)">Current</div>
-        <span class="badge badge-${cur.decision} ${cur.decision!==c.decision?'changed':''}" style="font-size:13px;padding:4px 14px">${fmtDec(cur.decision)}</span>
-      </div>
-    </section>`;
-
-    /* data preview tabs */
-    html += `<section><h3>Data Preview</h3>
-      ${buildCharts(c, pol)}
-      <div class="tab-bar">
-        <button class="tab-btn active" data-tab="agg">Aggregates</button>
-        <button class="tab-btn" data-tab="csv">CSV Preview</button>
-      </div>
-      <div class="tab-panel active" id="tab-agg">${buildAggTable(agg)}</div>
-      <div class="tab-panel" id="tab-csv"><div id="csvContent">Loading…</div>
-        ${c.csv_url ? `<a class="dl-link" href="${c.csv_url}" download="${c.case_id}.csv">↓ Download CSV</a>` : ''}
-      </div>
-    </section>`;
-
-    $drawer.innerHTML = html;
-
-    document.getElementById('drawerCloseBtn').addEventListener('click', closeDrawer);
-    $drawer.querySelectorAll('.tab-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        $drawer.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-        $drawer.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-      });
-    });
-
-    if(c.csv_url) loadCsvPreview(c.csv_url, c.case_id);
-
-    $overlay.classList.add('open');
-  }
-
-  function closeDrawer(){ $overlay.classList.remove('open'); }
-
-  /* ────────────── confidence explain ─ */
-  function buildConfExplain(c, cur, pol){
-    const agg = c.aggregates||{};
-    const factors = [];
-    factors.push(['Base',0.6]);
-    if(cur.decision==='do_not_ship') factors.push(['do_not_ship penalty',-0.25]);
-    if(cur.decision==='investigate') factors.push(['investigate penalty',-0.15]);
-    if(cur.decision==='ship') factors.push(['ship bonus',+0.10]);
-    if(cur.reasons.some(r=>r.startsWith('guardrail_violation'))) factors.push(['Guardrail breach',-0.20]);
-    if(cur.reasons.includes('not_significant')) factors.push(['Not significant',-0.15]);
-    if(cur.reasons.includes('practically_small')) factors.push(['Practically small',-0.10]);
-    if(agg.long_term_reversal) factors.push(['Long-term reversal',-0.25]);
-
-    let html = '<section><h3>Confidence Explain</h3><div class="conf-explain">';
-    let sum = 0;
-    factors.forEach(([name, val])=>{
-      sum += val;
-      const cls = val > 0 ? 'pos' : val < 0 ? 'neg' : '';
-      html += `<div class="factor"><span class="factor-name">${esc(name)}</span><span class="factor-val ${cls}">${val>0?'+':''}${val.toFixed(2)}</span></div>`;
-    });
-    const clamped = Math.max(0.01,Math.min(0.99,sum));
-    html += `<div class="factor total"><span>Clamped total</span><span class="factor-val">${(clamped*100).toFixed(0)}%</span></div>`;
-    html += '</div></section>';
-    return html;
-  }
-
-  /* ────────────── aggregates table ─── */
-  function buildAggTable(agg){
-    if(!agg || !agg.control_mean) return '<p style="color:var(--muted);font-size:13px">No aggregate data.</p>';
-    let rows = '';
-    rows += kvRow('Metric', agg.primary_metric);
-    rows += kvRow('N control', fmt(agg.n_control));
-    rows += kvRow('N test', fmt(agg.n_test));
-    rows += kvRow('Control mean', agg.control_mean.toFixed(4));
-    rows += kvRow('Test mean', agg.test_mean.toFixed(4));
-    rows += kvRow('Uplift', agg.uplift_pct != null ? '+'+agg.uplift_pct+'%' : '—');
-    rows += kvRow('p-value', agg.p_value != null ? agg.p_value : '—');
-    if(agg.guardrails&&agg.guardrails.ctr){
-      rows += kvRow('CTR Δ', agg.guardrails.ctr.change_pct+'%');
-      rows += kvRow('CTR p-value', agg.guardrails.ctr.p_value);
-    }
-    return `<dl class="kv">${rows}</dl>`;
-  }
-  function kvRow(k,v){ return `<dt>${esc(String(k))}</dt><dd>${esc(String(v))}</dd>`; }
-
-  /* ────────────── CSV preview ──────── */
-  function loadCsvPreview(url, caseId){
-    if(CSV_CACHE[caseId]){
-      renderCsv(CSV_CACHE[caseId]);
-      return;
-    }
-    fetch(url).then(r=>r.text()).then(text=>{
-      CSV_CACHE[caseId] = text;
-      renderCsv(text);
-    }).catch(()=>{
-      const el = document.getElementById('csvContent');
-      if(el) el.innerHTML = '<p style="color:var(--muted);font-size:13px">Could not load CSV.</p>';
-    });
-  }
-
-  function renderCsv(text){
-    const el = document.getElementById('csvContent');
-    if(!el) return;
-    const rows = parseCsv(text);
-    if(!rows.length){ el.innerHTML='<p style="color:var(--muted)">Empty.</p>'; return; }
-    const headers = rows[0];
-    const data = rows.slice(1, 21);
-    let html = '<div style="overflow-x:auto"><table class="csv-table"><thead><tr>';
-    headers.forEach(h=>{ html += `<th>${esc(h)}</th>`; });
-    html += '</tr></thead><tbody>';
-    data.forEach(row=>{
-      html += '<tr>';
-      row.forEach(cell=>{ html += `<td>${esc(cell)}</td>`; });
-      html += '</tr>';
-    });
-    html += '</tbody></table></div>';
-    if(rows.length > 21) html += `<p style="font-size:12px;color:var(--muted);margin-top:4px">${rows.length-1} rows total, showing first 20.</p>`;
-    el.innerHTML = html;
-  }
-
-  function parseCsv(text){
-    const lines = text.trim().split('\n');
-    return lines.map(line=>{
-      const cells = [];
-      let cur = '', inQ = false;
-      for(let i=0;i<line.length;i++){
-        const ch = line[i];
-        if(inQ){
-          if(ch==='"' && line[i+1]==='"'){ cur+='"'; i++; }
-          else if(ch==='"') inQ=false;
-          else cur+=ch;
-        } else {
-          if(ch==='"') inQ=true;
-          else if(ch===','){cells.push(cur.trim());cur='';}
-          else cur+=ch;
-        }
-      }
-      cells.push(cur.trim());
-      return cells;
-    });
-  }
-
-  /* ────────────── data viz charts ──── */
-  function buildCharts(c, pol){
-    const agg = c.aggregates||{};
-    if(!agg.control_mean) return '';
-    let h = '<div class="charts-wrap">';
-
-    /* ── bar chart: control vs test revenue ── */
-    const cRev = agg.n_control * agg.control_mean;
-    const tRev = agg.n_test * agg.test_mean;
-    const mn = Math.min(cRev, tRev);
-    const mx = Math.max(cRev, tRev);
-    const floor = mn * 0.92;
-    const span = mx - floor || 1;
-    const cW = ((cRev - floor) / span * 100).toFixed(1);
-    const tW = ((tRev - floor) / span * 100).toFixed(1);
-    const up = agg.uplift_pct;
-    const upC = up > 0 ? 'var(--green)' : up < 0 ? 'var(--red)' : 'var(--muted)';
-
-    h += '<div class="chart-card">';
-    h += '<div class="chart-label">' + esc(c.primary_metric) + ': Control vs Test</div>';
-    h += '<div class="bar-row">';
-    h += '  <span class="bar-tag">Control</span>';
-    h += '  <div class="bar-track"><div class="bar-fill-inner" style="width:'+cW+'%;background:var(--muted);opacity:.55"></div></div>';
-    h += '  <span class="bar-num">'+fmtRev(cRev)+'</span>';
-    h += '</div>';
-    h += '<div class="bar-row">';
-    h += '  <span class="bar-tag">Test</span>';
-    h += '  <div class="bar-track"><div class="bar-fill-inner" style="width:'+tW+'%;background:'+upC+'"></div></div>';
-    h += '  <span class="bar-num">'+fmtRev(tRev)+'</span>';
-    h += '</div>';
-    h += '<div class="bar-uplift" style="color:'+upC+'">'+(up!=null?((up>0?'+':'')+up+'% uplift'):'—')+'</div>';
-    h += '<div class="bar-note">Scale starts at '+fmtRev(floor)+' to show difference</div>';
-    h += '</div>';
-
-    /* ── guardrail: CTR delta vs threshold ── */
-    var ctrG = agg.guardrails && agg.guardrails.ctr;
-    if(ctrG){
-      var d = ctrG.change_pct;
-      var t = pol.ctrThreshold;
-      var breach = d < 0 && Math.abs(d) >= t;
-      var col = breach ? 'var(--red)' : 'var(--green)';
-      var scl = Math.max(Math.abs(d), t) * 1.3 || 5;
-      var dW2 = (Math.abs(d) / scl * 100).toFixed(1);
-      var tP = (t / scl * 100).toFixed(1);
-
-      h += '<div class="chart-card">';
-      h += '<div class="chart-label">CTR Guardrail</div>';
-      h += '<div class="gr-viz">';
-      h += '  <div class="gr-track">';
-      h += '    <div class="gr-fill" style="left:0;width:'+dW2+'%;background:'+col+';opacity:.55"></div>';
-      h += '    <div class="gr-thresh" style="left:'+tP+'%"><span class="gr-thresh-label">threshold</span></div>';
-      h += '  </div>';
-      h += '  <div class="gr-labels"><span>0%</span><span>&minus;'+scl.toFixed(1)+'%</span></div>';
-      h += '</div>';
-      h += '<div class="gr-verdict" style="color:'+col+'">CTR '+d+'%';
-      h += breach ? ' exceeds &minus;'+t+'% threshold — <b>breached</b>' : ' within &minus;'+t+'% threshold';
-      h += '</div>';
-      h += '</div>';
+    if(c.control_mean!=null&&c.test_mean!=null){
+      h+=buildBarChart(c);
     }
 
-    /* ── sparkline: weekly uplift trend ── */
-    var weekly = WEEKLY_UPLIFT[c.case_id];
-    if(weekly && weekly.length >= 2){
-      var vals = weekly.map(function(w){return w.pct;});
-      var lbls = weekly.map(function(w){return w.week;});
-      var yMn = Math.min.apply(null, vals.concat([0]));
-      var yMx = Math.max.apply(null, vals.concat([0]));
-      var rng = yMx - yMn || 1;
-      var SW = 200, SH = 52, sp = 8;
+    h+='<div style="margin-top:14px"><a href="corpus.html?case='+c.case_id+'&tab=details'+(LANG==='ru'?'&lang=ru':'')+'" style="font-size:13px;color:var(--accent);text-decoration:none">'+t('view_corpus')+'</a></div>';
 
-      var pts = vals.map(function(v, i){
-        var x = sp + (i / (vals.length - 1)) * (SW - 2 * sp);
-        var y = SH - sp - ((v - yMn) / rng) * (SH - 2 * sp);
-        return [x, y];
-      });
-      var zY = SH - sp - ((0 - yMn) / rng) * (SH - 2 * sp);
-      var line = pts.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ');
-      var area = sp.toFixed(1)+','+zY.toFixed(1)+' '+line+' '+(SW - sp).toFixed(1)+','+zY.toFixed(1);
+    $result.innerHTML=h;
+  }
 
-      var dots = '';
-      for(var di = 0; di < pts.length; di++){
-        var dc = vals[di] >= 0 ? 'var(--green)' : 'var(--red)';
-        dots += '<circle cx="'+pts[di][0].toFixed(1)+'" cy="'+pts[di][1].toFixed(1)+'" r="3.5" style="fill:'+dc+'"/>';
-      }
-      var sparkLbls = '';
-      for(var si = 0; si < lbls.length; si++){
-        var sv = vals[si]; var sc2 = sv >= 0 ? 'var(--green)' : 'var(--red)';
-        sparkLbls += '<span>'+lbls[si]+': <b style="color:'+sc2+'">'+(sv>0?'+':'')+sv+'%</b></span>';
-      }
+  function buildWhy(rules,stopIdx,decision){
+    if(stopIdx<0) return 'All rules passed \u2014 experiment ships.';
+    var r=rules[stopIdx];
+    if(decision==='do_not_ship') return (LANG==='ru'?'\u041e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 \u043d\u0430 ':'\u0053topped at ')+' <strong>'+esc(r.n)+'</strong>: '+r.ev+'. '+(LANG==='ru'?'\u0412\u0435\u0440\u0434\u0438\u043a\u0442: do not ship.':'Verdict: do not ship.');
+    if(decision==='investigate') return (LANG==='ru'?'\u041e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 \u043d\u0430 ':'Stopped at ')+' <strong>'+esc(r.n)+'</strong>: '+r.ev+'. '+(LANG==='ru'?'\u0422\u0440\u0435\u0431\u0443\u0435\u0442 \u0440\u0430\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u044f.':'Needs further investigation.');
+    return LANG==='ru'?'\u041d\u0438 \u043e\u0434\u043d\u043e \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043d\u0435 \u0441\u0440\u0430\u0431\u043e\u0442\u0430\u043b\u043e \u2014 \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442 \u0448\u0438\u043f\u0438\u0442\u0441\u044f.':'No blocking rules found \u2014 experiment ships.';
+  }
 
-      h += '<div class="chart-card">';
-      h += '<div class="chart-label">Weekly Uplift Trend</div>';
-      h += '<svg class="spark-svg" viewBox="0 0 '+SW+' '+SH+'" preserveAspectRatio="none" style="width:100%;height:'+SH+'px">';
-      h += '<line x1="'+sp+'" y1="'+zY.toFixed(1)+'" x2="'+(SW-sp)+'" y2="'+zY.toFixed(1)+'" style="stroke:var(--border)" stroke-width="1" stroke-dasharray="4,3"/>';
-      h += '<polygon points="'+area+'" style="fill:var(--accent)" opacity=".1"/>';
-      h += '<polyline points="'+line+'" fill="none" style="stroke:var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
-      h += dots;
-      h += '</svg>';
-      h += '<div class="spark-labels">'+sparkLbls+'</div>';
-      h += '</div>';
-    }
-
-    h += '</div>';
+  function buildBarChart(c){
+    var cR=c.control_mean,tR=c.test_mean;
+    var mn=Math.min(cR,tR),mx=Math.max(cR,tR);
+    var floor=mn*0.92,span=mx-floor||1;
+    var cW=((cR-floor)/span*100).toFixed(1);
+    var tW=((tR-floor)/span*100).toFixed(1);
+    var up=c.uplift_pct;
+    var upC=up>0?'var(--green)':up<0?'var(--red)':'var(--muted)';
+    var h='<div class="chart-card">';
+    h+='<div class="chart-label">'+esc(c.metric)+': Control vs Test</div>';
+    h+='<div class="bar-row"><span class="bar-tag">Control</span><div class="bar-track"><div class="bar-fill-inner" style="width:'+cW+'%;background:var(--muted);opacity:.55"></div></div><span class="bar-num">'+cR.toFixed(4)+'</span></div>';
+    h+='<div class="bar-row"><span class="bar-tag">Test</span><div class="bar-track"><div class="bar-fill-inner" style="width:'+tW+'%;background:'+upC+'"></div></div><span class="bar-num">'+tR.toFixed(4)+'</span></div>';
+    h+='<div class="bar-uplift" style="color:'+upC+'">'+(up!=null?((up>0?'+':'')+up+'% uplift'):'\u2014')+'</div>';
+    h+='</div>';
     return h;
   }
 
-  function fmtRev(n){
-    if(n >= 1e6) return (n/1e6).toFixed(2)+'M';
-    if(n >= 1e3) return (n/1e3).toFixed(0)+'K';
-    return n.toFixed(0);
+  function sig(label,val){return '<div class="sig"><div class="sig-label">'+label+'</div><div class="sig-val">'+val+'</div></div>';}
+
+  function syncUrl(caseId){
+    var p=new URLSearchParams(location.search);
+    if(caseId) p.set('case',caseId); else p.delete('case');
+    if(LANG==='ru') p.set('lang','ru');
+    var qs=p.toString();
+    history.replaceState(null,'',location.pathname+(qs?'?'+qs:''));
   }
 
-  /* ────────────── utils ───────────── */
-  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function fmtDec(d){ return d.replace(/_/g,' '); }
-  function confCol(v){ return v>=0.6?'var(--green)':v>=0.3?'var(--orange)':'var(--red)'; }
-  function pf(v){ return parseFloat(v).toFixed(1); }
-  function fmt(n){ return n!=null?n.toLocaleString():'—'; }
-  function fmtP(c){
-    const p = c.aggregates && c.aggregates.p_value;
-    if(p==null) return '—';
-    if(p < 0.001) return '<0.001';
-    return p.toFixed(3);
-  }
+  function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function fmtDec(d){return(d||'').replace(/_/g,' ');}
+  function confCol(v){return v>=0.6?'var(--green)':v>=0.3?'var(--orange)':'var(--red)';}
+  function pf(v){return parseFloat(v).toFixed(1);}
 })();
 </script>
 </body>

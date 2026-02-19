@@ -80,19 +80,19 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 <body>
 
 <div class="top-bar">
-  <a href="index.html">&larr; Home</a>
-  <span class="title">Trace Viewer</span>
+  <a href="index.html" data-t="nav_home">&larr; Home</a>
+  <span class="title" data-t="nav_title">Trace Viewer</span>
 </div>
 
 <div class="container">
-  <h1>Agent Traces</h1>
-  <p class="subtitle">Visualize the reader → stats → decision → viz pipeline for each case.</p>
+  <h1 data-t="h1">Agent Traces</h1>
+  <p class="subtitle" data-t="subtitle">Visualize the reader &rarr; stats &rarr; decision &rarr; viz pipeline for each case.</p>
 
   <div class="explainer">
-    <h2>How traces work</h2>
-    <p>Each case run produces a <code>traces.jsonl</code> file — one JSON event per line. Events are emitted by agents as they execute: <code>reader</code> loads data, <code>stats</code> runs sanity checks, <code>decision</code> applies the policy framework, and <code>viz</code> generates comparison tables.</p>
-    <p>Every event includes: <code>agent</code>, <code>step</code> (start/done/error), <code>event</code> type, <code>message</code>, and a free-form <code>payload</code>. Decision events carry the verdict + confidence.</p>
-    <p style="margin-top:12px;margin-bottom:0">Generate real traces locally:</p>
+    <h2 data-t="how_title">How traces work</h2>
+    <p data-t="how_p1">Each case run produces a <code>traces.jsonl</code> file &mdash; one JSON event per line. Events are emitted by agents as they execute: <code>reader</code> loads data, <code>stats</code> runs sanity checks, <code>decision</code> applies the policy framework, and <code>viz</code> generates comparison tables.</p>
+    <p data-t="how_p2">Every event includes: <code>agent</code>, <code>step</code> (start/done/error), <code>event</code> type, <code>message</code>, and a free-form <code>payload</code>. Decision events carry the verdict + confidence.</p>
+    <p style="margin-top:12px;margin-bottom:0" data-t="how_generate">Generate real traces locally:</p>
     <div class="cmd">cd ~/projects/ab-factory-demo && ./42_workflows/ab_factory/run.sh</div>
   </div>
 
@@ -107,71 +107,113 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   </div>
 </div>
 
-<footer>AB Factory Demo &middot; traces are JSONL &middot; no dependencies</footer>
+<footer data-t="footer">AB Factory Demo &middot; traces are JSONL &middot; no dependencies</footer>
 
 <script>
 (function(){
-  let TRACES = [];
-  let activeCase = '';
+  var params=new URLSearchParams(location.search);
+  var LANG=params.get('lang')==='ru'?'ru':'en';
+  var T={
+    nav_home:{en:'\u2190 Home',ru:'\u2190 \u0413\u043b\u0430\u0432\u043d\u0430\u044f'},
+    nav_title:{en:'Trace Viewer',ru:'\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440 \u0442\u0440\u0435\u0439\u0441\u043e\u0432'},
+    h1:{en:'Agent Traces',ru:'\u0422\u0440\u0435\u0439\u0441\u044b \u0430\u0433\u0435\u043d\u0442\u043e\u0432'},
+    subtitle:{en:'Visualize the reader \u2192 stats \u2192 decision \u2192 viz pipeline for each case.',ru:'\u0412\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d\u0430 reader \u2192 stats \u2192 decision \u2192 viz \u0434\u043b\u044f \u043a\u0430\u0436\u0434\u043e\u0433\u043e \u043a\u0435\u0439\u0441\u0430.'},
+    how_title:{en:'How traces work',ru:'\u041a\u0430\u043a \u0440\u0430\u0431\u043e\u0442\u0430\u044e\u0442 \u0442\u0440\u0435\u0439\u0441\u044b'},
+    how_p1:{en:'Each case run produces a <code>traces.jsonl</code> file \u2014 one JSON event per line. Events are emitted by agents as they execute: <code>reader</code> loads data, <code>stats</code> runs sanity checks, <code>decision</code> applies the policy framework, and <code>viz</code> generates comparison tables.',ru:'\u041a\u0430\u0436\u0434\u044b\u0439 \u0437\u0430\u043f\u0443\u0441\u043a \u043a\u0435\u0439\u0441\u0430 \u0441\u043e\u0437\u0434\u0430\u0451\u0442 \u0444\u0430\u0439\u043b <code>traces.jsonl</code> \u2014 \u043f\u043e \u043e\u0434\u043d\u043e\u043c\u0443 JSON-\u0441\u043e\u0431\u044b\u0442\u0438\u044e \u043d\u0430 \u0441\u0442\u0440\u043e\u043a\u0443. \u0410\u0433\u0435\u043d\u0442\u044b \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u044f\u044e\u0442 \u0441\u043e\u0431\u044b\u0442\u0438\u044f \u043f\u043e \u043c\u0435\u0440\u0435 \u0432\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u044f: <code>reader</code> \u0447\u0438\u0442\u0430\u0435\u0442 \u0434\u0430\u043d\u043d\u044b\u0435, <code>stats</code> \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442 \u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u043e\u0441\u0442\u044c, <code>decision</code> \u043f\u0440\u0438\u043c\u0435\u043d\u044f\u0435\u0442 \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0443, <code>viz</code> \u0441\u0442\u0440\u043e\u0438\u0442 \u0442\u0430\u0431\u043b\u0438\u0446\u044b.'},
+    how_p2:{en:'Every event includes: <code>agent</code>, <code>step</code> (start/done/error), <code>event</code> type, <code>message</code>, and a free-form <code>payload</code>. Decision events carry the verdict + confidence.',ru:'\u041a\u0430\u0436\u0434\u043e\u0435 \u0441\u043e\u0431\u044b\u0442\u0438\u0435 \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u0442: <code>agent</code>, <code>step</code> (start/done/error), \u0442\u0438\u043f <code>event</code>, <code>message</code> \u0438 <code>payload</code>. \u0421\u043e\u0431\u044b\u0442\u0438\u044f decision \u043d\u0435\u0441\u0443\u0442 \u0432\u0435\u0440\u0434\u0438\u043a\u0442 \u0438 \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u044c.'},
+    how_generate:{en:'Generate real traces locally:',ru:'\u0421\u0433\u0435\u043d\u0435\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0442\u0440\u0435\u0439\u0441\u044b \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e:'},
+    footer:{en:'AB Factory Demo \u00b7 traces are JSONL \u00b7 no dependencies',ru:'AB Factory Demo \u00b7 \u0442\u0440\u0435\u0439\u0441\u044b \u0432 JSONL \u00b7 \u0431\u0435\u0437 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0435\u0439'},
+    verdict:{en:'Verdict',ru:'\u0412\u0435\u0440\u0434\u0438\u043a\u0442'},
+    confidence:{en:'confidence',ru:'\u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u044c'},
+    pipeline_tl:{en:'Pipeline timeline',ru:'\u0422\u0430\u0439\u043c\u043b\u0430\u0439\u043d \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d\u0430'}
+  };
+  function t(k){var e=T[k];return e?(e[LANG]||e.en):k;}
 
-  fetch('data/sample_traces.json').then(r=>r.json()).then(data=>{
-    TRACES = data;
-    const cases = [...new Set(data.map(t=>t.case_id))];
-    const $picker = document.getElementById('picker');
-    cases.forEach((cid,i)=>{
-      const btn = document.createElement('button');
+  if(LANG==='ru'){
+    document.documentElement.lang='ru';
+    document.querySelectorAll('[data-t]').forEach(function(el){
+      var v=t(el.getAttribute('data-t'));
+      if(v) el.innerHTML=v;
+    });
+    var homeLink=document.querySelector('.top-bar a[href*="index"]');
+    if(homeLink&&homeLink.href.indexOf('lang=')<0){
+      homeLink.href=homeLink.href+(homeLink.href.indexOf('?')>=0?'&':'?')+'lang=ru';
+    }
+  }
+
+  var REPLAY_INDEX = [];
+  var REPLAY_CACHE = {};
+  var PICKER_CASES = [];
+  var activeCase = '';
+  var NUM_PICKER = 8;
+
+  fetch('data/replays/index.json').then(function(r){return r.json();}).then(function(idx){
+    REPLAY_INDEX = idx;
+    PICKER_CASES = idx.slice(0, NUM_PICKER);
+    var $picker = document.getElementById('picker');
+    PICKER_CASES.forEach(function(entry, i){
+      var btn = document.createElement('button');
       btn.className = 'case-btn' + (i===0?' active':'');
-      btn.textContent = cid.replace('case_','Case ');
-      btn.addEventListener('click', ()=>{
-        $picker.querySelectorAll('.case-btn').forEach(b=>b.classList.remove('active'));
+      btn.textContent = entry.case_id.replace('case_','Case ');
+      btn.addEventListener('click', function(){
+        $picker.querySelectorAll('.case-btn').forEach(function(b){b.classList.remove('active');});
         btn.classList.add('active');
-        showCase(cid);
+        loadAndShow(entry.case_id);
       });
       $picker.appendChild(btn);
     });
-    if(cases.length) showCase(cases[0]);
+    if(PICKER_CASES.length) loadAndShow(PICKER_CASES[0].case_id);
   });
 
-  function showCase(cid){
+  function loadAndShow(cid){
     activeCase = cid;
-    const evts = TRACES.filter(t=>t.case_id===cid);
-    const agents = ['reader','stats','decision','viz'];
-    const $tl = document.getElementById('timeline');
+    var $tl = document.getElementById('timeline');
+    if(REPLAY_CACHE[cid]){showCase(REPLAY_CACHE[cid]);return;}
+    $tl.innerHTML = '<p style="color:var(--muted)">Loading\u2026</p>';
+    fetch('data/replays/'+cid+'.json').then(function(r){return r.json();}).then(function(rp){
+      REPLAY_CACHE[cid] = rp;
+      if(activeCase === cid) showCase(rp);
+    }).catch(function(){
+      if(activeCase === cid) $tl.innerHTML = '<p style="color:var(--muted)">Replay not available.</p>';
+    });
+  }
 
-    let decision = null, confidence = null;
-    evts.forEach(e=>{ if(e.decision){ decision=e.decision; confidence=e.confidence; }});
+  function showCase(rp){
+    var evts = rp.timeline || [];
+    var agents = ['reader','stats','decision','viz'];
+    var $tl = document.getElementById('timeline');
 
-    let html = '<div class="timeline-wrap">';
-    html += '<div class="timeline-label">Pipeline timeline</div>';
+    var html = '<div class="timeline-wrap">';
+    html += '<div class="timeline-label">'+t('pipeline_tl')+'</div>';
 
-    agents.forEach(agent=>{
-      const ae = evts.filter(e=>e.agent===agent);
+    agents.forEach(function(agent){
+      var ae = evts.filter(function(e){return e.agent===agent;});
       if(!ae.length) return;
       html += '<div class="swim-lane">';
-      html += `<div class="lane-label">${agent}</div>`;
+      html += '<div class="lane-label">'+agent+'</div>';
       html += '<div class="lane-events">';
-      ae.forEach(e=>{
-        html += `<div class="evt evt-${agent}" title="${esc(e.message)}">`;
-        html += `<span class="dot"></span>`;
-        html += `<span>${esc(e.event)}</span>`;
-        html += `<span style="color:var(--muted);font-size:11px">${e.offset_ms}ms</span>`;
+      ae.forEach(function(e){
+        html += '<div class="evt evt-'+agent+'" title="'+esc(e.message)+'">';
+        html += '<span class="dot"></span>';
+        html += '<span>'+esc(e.event_type)+'</span>';
+        html += '<span style="color:var(--muted);font-size:11px">'+e.t_ms+'ms</span>';
         html += '</div> ';
       });
       html += '</div></div>';
     });
     html += '</div>';
 
+    var decision = rp.decision, confidence = rp.confidence;
     if(decision){
-      const confPct = ((confidence||0)*100).toFixed(0);
-      const color = confidence>=0.6?'var(--green)':confidence>=0.3?'var(--orange)':'var(--red)';
-      html += `<div class="decision-banner">
-        <span class="verdict">Verdict</span>
-        <span class="badge badge-${decision}">${decision.replace(/_/g,' ')}</span>
-        <span class="conf-bar">
-          <span class="bar"><span class="fill" style="width:${confPct}%;background:${color}"></span></span>
-          ${confPct}% confidence
-        </span>
-      </div>`;
+      var confPct = ((confidence||0)*100).toFixed(0);
+      var color = confidence>=0.6?'var(--green)':confidence>=0.3?'var(--orange)':'var(--red)';
+      html += '<div class="decision-banner">';
+      html += '<span class="verdict">'+t('verdict')+'</span>';
+      html += '<span class="badge badge-'+decision+'">'+decision.replace(/_/g,' ')+'</span>';
+      html += '<span class="conf-bar">';
+      html += '<span class="bar"><span class="fill" style="width:'+confPct+'%;background:'+color+'"></span></span>';
+      html += confPct+'% '+t('confidence');
+      html += '</span></div>';
     }
 
     $tl.innerHTML = html;

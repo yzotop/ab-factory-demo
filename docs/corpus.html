@@ -221,46 +221,45 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 <body>
 
 <div class="top-bar">
-  <a href="index.html">Home</a>
-  <a href="casebook.html">Casebook</a>
-  <a href="traces.html">Traces</a>
-  <a href="policy.html">Policy</a>
-  <a href="corpus.html" class="active">Corpus Explorer</a>
+  <a href="index.html" data-t="nav_home">Home</a>
+  <a href="traces.html" data-t="nav_traces">Traces</a>
+  <a href="policy.html" data-t="nav_engine">Decision Engine</a>
+  <a href="corpus.html" class="active" data-t="nav_corpus">Corpus Explorer</a>
   <span class="spacer"></span>
 </div>
 
 <div class="container">
-  <h1>Corpus Explorer</h1>
-  <p class="subtitle">100 seeded synthetic A/B test cases evaluated by the four-agent pipeline.</p>
+  <h1 data-t="ce_title">Corpus Explorer</h1>
+  <p class="subtitle" data-t="ce_subtitle">100 seeded synthetic A/B test cases evaluated by the four-agent pipeline.</p>
 
   <div class="ap-bar">
-    <button class="ap-btn" id="apPlay">&#9654; Auto-Play</button>
-    <button class="ap-btn-stop" id="apStop">Stop</button>
+    <button class="ap-btn" id="apPlay" data-t="ap_play">&#9654; Auto-Play</button>
+    <button class="ap-btn-stop" id="apStop" data-t="ap_stop">Stop</button>
     <select class="ap-speed" id="apSpeed"><option value="1">1&times;</option><option value="2">2&times;</option></select>
-    <span class="ap-status" id="apStatus">Auto-Play: off</span>
+    <span class="ap-status" id="apStatus" data-t="ap_off">Auto-Play: off</span>
   </div>
 
   <div class="preset-bar">
-    <span class="preset-lbl">Presets</span>
-    <button class="preset-chip active" data-preset="all">All</button>
-    <button class="preset-chip" data-preset="guardrail">Guardrail breach</button>
-    <button class="preset-chip" data-preset="segments">Investigate (segments)</button>
-    <button class="preset-chip" data-preset="reversal">Long-term reversal</button>
-    <button class="preset-chip" data-preset="hi_ship">High-confidence ships</button>
+    <span class="preset-lbl" data-t="lbl_presets">Presets</span>
+    <button class="preset-chip active" data-preset="all" data-t="preset_all">All</button>
+    <button class="preset-chip" data-preset="guardrail" data-t="preset_gr">Guardrail breach</button>
+    <button class="preset-chip" data-preset="segments" data-t="preset_seg">Investigate (segments)</button>
+    <button class="preset-chip" data-preset="reversal" data-t="preset_rev">Long-term reversal</button>
+    <button class="preset-chip" data-preset="hi_ship" data-t="preset_hi">High-confidence ships</button>
   </div>
 
   <div class="summary" id="summary"></div>
 
   <div class="filters">
-    <input type="text" id="fSearch" placeholder="Search title, type, reasons…">
-    <select id="fDecision"><option value="">All decisions</option><option value="ship">ship</option><option value="do_not_ship">do_not_ship</option><option value="investigate">investigate</option></select>
-    <select id="fMetric"><option value="">All metrics</option></select>
+    <input type="text" id="fSearch" data-t-placeholder="f_search" placeholder="Search title, type, reasons…">
+    <select id="fDecision"><option value="" data-t="f_all_dec">All decisions</option><option value="ship">ship</option><option value="do_not_ship">do_not_ship</option><option value="investigate">investigate</option></select>
+    <select id="fMetric"><option value="" data-t="f_all_met">All metrics</option></select>
     <div class="range-wrap">
-      Conf ≥ <input type="range" id="fConf" min="0" max="100" value="0"><span id="fConfVal">0%</span>
+      <span data-t="f_conf">Conf &ge;</span> <input type="range" id="fConf" min="0" max="100" value="0"><span id="fConfVal">0%</span>
     </div>
-    <label class="cb"><input type="checkbox" id="fGuardrail"> Guardrail</label>
-    <label class="cb"><input type="checkbox" id="fSegment"> Segment</label>
-    <label class="cb"><input type="checkbox" id="fReversal"> Reversal</label>
+    <label class="cb"><input type="checkbox" id="fGuardrail"> <span data-t="f_guardrail">Guardrail</span></label>
+    <label class="cb"><input type="checkbox" id="fSegment"> <span data-t="f_segment">Segment</span></label>
+    <label class="cb"><input type="checkbox" id="fReversal"> <span data-t="f_reversal">Reversal</span></label>
     <span class="filter-count" id="filterCount"></span>
   </div>
 
@@ -268,15 +267,15 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   <table>
     <thead>
       <tr>
-        <th data-col="case_id">Case <span class="arr">▲</span></th>
-        <th data-col="title">Title <span class="arr">▲</span></th>
-        <th data-col="decision">Decision <span class="arr">▲</span></th>
-        <th data-col="confidence">Conf <span class="arr">▼</span></th>
-        <th data-col="uplift_pct">Uplift <span class="arr">▼</span></th>
-        <th data-col="p_value">p-val <span class="arr">▲</span></th>
-        <th data-col="metric">Metric <span class="arr">▲</span></th>
-        <th>Flags</th>
-        <th data-col="top_reason">Reason <span class="arr">▲</span></th>
+        <th data-col="case_id"><span data-t="th_case">Case</span> <span class="arr">&#9650;</span></th>
+        <th data-col="title"><span data-t="th_title">Title</span> <span class="arr">&#9650;</span></th>
+        <th data-col="decision"><span data-t="th_decision">Decision</span> <span class="arr">&#9650;</span></th>
+        <th data-col="confidence"><span data-t="th_conf">Conf</span> <span class="arr">&#9660;</span></th>
+        <th data-col="uplift_pct">Uplift <span class="arr">&#9660;</span></th>
+        <th data-col="p_value">p-val <span class="arr">&#9650;</span></th>
+        <th data-col="metric"><span data-t="th_metric">Metric</span> <span class="arr">&#9650;</span></th>
+        <th data-t="th_flags">Flags</th>
+        <th data-col="top_reason"><span data-t="th_reason">Reason</span> <span class="arr">&#9650;</span></th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -286,10 +285,48 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 
 <div class="overlay" id="overlay"><div class="drawer" id="drawer"></div></div>
 
-<footer>AB Factory Demo &middot; 100 synthetic cases &middot; deterministic &middot; zero dependencies</footer>
+<footer data-t="ce_footer">AB Factory Demo &middot; 100 synthetic cases &middot; deterministic &middot; zero dependencies</footer>
 
 <script>
 (function(){
+  var _params=new URLSearchParams(location.search);
+  var LANG=_params.get('lang')==='ru'?'ru':'en';
+  var _T={
+    nav_home:{ru:'\u0413\u043b\u0430\u0432\u043d\u0430\u044f'},nav_traces:{ru:'\u0422\u0440\u0435\u0439\u0441\u044b'},nav_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439'},nav_corpus:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441 \u043a\u0435\u0439\u0441\u043e\u0432'},
+    ce_title:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441 \u043a\u0435\u0439\u0441\u043e\u0432'},
+    ce_subtitle:{ru:'100 \u0441\u0438\u043d\u0442\u0435\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0445 A/B-\u0442\u0435\u0441\u0442\u043e\u0432, \u043e\u0446\u0435\u043d\u0451\u043d\u043d\u044b\u0445 \u0447\u0435\u0442\u044b\u0440\u044c\u043c\u044f \u0430\u0433\u0435\u043d\u0442\u0430\u043c\u0438.'},
+    ap_play:{ru:'\u25b6 \u0410\u0432\u0442\u043e-\u043f\u043b\u0435\u0439'},ap_stop:{ru:'\u0421\u0442\u043e\u043f'},ap_off:{ru:'\u0410\u0432\u0442\u043e-\u043f\u043b\u0435\u0439: \u0432\u044b\u043a\u043b'},
+    lbl_presets:{ru:'\u041f\u0440\u0435\u0441\u0435\u0442\u044b'},preset_all:{ru:'\u0412\u0441\u0435'},preset_gr:{ru:'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b'},preset_seg:{ru:'\u0421\u0435\u0433\u043c\u0435\u043d\u0442\u044b'},preset_rev:{ru:'\u0420\u0435\u0432\u0435\u0440\u0441'},preset_hi:{ru:'\u0428\u0438\u043f \u0441 \u0432\u044b\u0441. \u0443\u0432.'},
+    f_search:{ru:'\u041f\u043e\u0438\u0441\u043a \u043f\u043e \u043d\u0430\u0437\u0432\u0430\u043d\u0438\u044e, \u0442\u0438\u043f\u0443, \u043f\u0440\u0438\u0447\u0438\u043d\u0430\u043c\u2026'},f_all_dec:{ru:'\u0412\u0441\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u044f'},f_all_met:{ru:'\u0412\u0441\u0435 \u043c\u0435\u0442\u0440\u0438\u043a\u0438'},
+    f_conf:{ru:'\u0423\u0432\u0435\u0440. \u2265'},f_guardrail:{ru:'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b'},f_segment:{ru:'\u0421\u0435\u0433\u043c\u0435\u043d\u0442'},f_reversal:{ru:'\u0420\u0435\u0432\u0435\u0440\u0441'},
+    th_case:{ru:'\u041a\u0435\u0439\u0441'},th_title:{ru:'\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435'},th_decision:{ru:'\u0420\u0435\u0448\u0435\u043d\u0438\u0435'},th_conf:{ru:'\u0423\u0432\u0435\u0440.'},th_metric:{ru:'\u041c\u0435\u0442\u0440\u0438\u043a\u0430'},th_flags:{ru:'\u0424\u043b\u0430\u0433\u0438'},th_reason:{ru:'\u041f\u0440\u0438\u0447\u0438\u043d\u0430'},
+    ce_footer:{ru:'AB Factory Demo \u00b7 100 \u0441\u0438\u043d\u0442\u0435\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u043a\u0435\u0439\u0441\u043e\u0432 \u00b7 \u0431\u0435\u0437 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0435\u0439'},
+    ap_running:{en:'running',ru:'\u0438\u0433\u0440\u0430\u0435\u0442'},ap_finished:{en:'finished',ru:'\u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043d\u043e'},ap_stopped:{en:'stopped',ru:'\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043e'},ap_no_cases:{en:'No cases match filters.',ru:'\u041d\u0435\u0442 \u043a\u0435\u0439\u0441\u043e\u0432 \u043f\u043e \u0444\u0438\u043b\u044c\u0442\u0440\u0430\u043c.'},
+    drawer_details:{en:'Details',ru:'\u0414\u0435\u0442\u0430\u043b\u0438'},drawer_charts:{en:'Charts',ru:'\u0413\u0440\u0430\u0444\u0438\u043a\u0438'},drawer_replay:{en:'Replay',ru:'\u0420\u0435\u043f\u043b\u0435\u0439'},
+    explain_link:{en:'Explain decision \u2192',ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0438\u0442\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u2192'}
+  };
+  function _t(k){var e=_T[k];return e?(e[LANG]||e.en||''):'';}
+
+  (function _applyI18n(){
+    if(LANG!=='ru') return;
+    document.documentElement.lang='ru';
+    document.querySelectorAll('[data-t]').forEach(function(el){
+      var v=_t(el.getAttribute('data-t'));
+      if(v) el.innerHTML=v;
+    });
+    document.querySelectorAll('[data-t-placeholder]').forEach(function(el){
+      var v=_t(el.getAttribute('data-t-placeholder'));
+      if(v) el.placeholder=v;
+    });
+    document.querySelectorAll('.top-bar a[href]:not([href^="http"])').forEach(function(a){
+      if(a.href.indexOf('lang=')<0){
+        var u=new URL(a.href,location.href);
+        u.searchParams.set('lang','ru');
+        a.href=u.pathname+u.search;
+      }
+    });
+  })();
+
   var CASES=[], STATS={};
   var sortCol='case_id', sortAsc=true;
 
@@ -374,6 +411,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     if(currentCaseId){p.set('case',currentCaseId);if(currentTab!=='details')p.set('tab',currentTab);}
     if(AP.running) p.set('autoplay','1');
     var spd=parseInt($apSpeed.value)||1; if(spd!==1) p.set('speed',String(spd));
+    if(LANG==='ru') p.set('lang','ru');
     history.replaceState(null,'',location.pathname+(p.toString()?'?'+p:''));
   }
 
@@ -467,14 +505,14 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     var rPct = STATS.total ? (STATS.reversal_count/STATS.total*100).toFixed(0) : 0;
 
     $summary.innerHTML =
-      scard(STATS.total||0, 'Total cases') +
+      scard(STATS.total||0, LANG==='ru'?'\u0412\u0441\u0435\u0433\u043e \u043a\u0435\u0439\u0441\u043e\u0432':'Total cases') +
       scard(dc.ship||0, 'Ship', '--green') +
       scard(dc.do_not_ship||0, 'Do not ship', '--red') +
       scard(dc.investigate||0, 'Investigate', '--orange') +
-      scard(avgConf+'%', 'Avg confidence') +
-      scard(gPct+'%', 'Guardrail breach') +
-      scard(sPct+'%', 'Segment conflict') +
-      scard(rPct+'%', 'Reversal');
+      scard(avgConf+'%', LANG==='ru'?'\u0421\u0440. \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u044c':'Avg confidence') +
+      scard(gPct+'%', LANG==='ru'?'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b':'Guardrail breach') +
+      scard(sPct+'%', LANG==='ru'?'\u041a\u043e\u043d\u0444\u043b. \u0441\u0435\u0433\u043c.':'Segment conflict') +
+      scard(rPct+'%', LANG==='ru'?'\u0420\u0435\u0432\u0435\u0440\u0441':'Reversal');
   }
 
   function scard(val,lbl,colorVar){
@@ -519,7 +557,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   function render(){
     if(AP.running) stopAutoplay('filters changed');
     var list=sorted(filtered());
-    $count.textContent=list.length+' of '+CASES.length;
+    $count.textContent=list.length+(LANG==='ru'?' \u0438\u0437 ':' of ')+CASES.length;
     $tbody.innerHTML=list.map(function(c){
       var cp=(c.confidence!=null?(c.confidence*100).toFixed(0):'—');
       return '<tr data-id="'+c.case_id+'">'
@@ -565,9 +603,9 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 
     /* tab bar */
     h+='<div class="dtab-bar">';
-    h+='<button class="dtab-btn active" data-tab="details">Details</button>';
-    h+='<button class="dtab-btn" data-tab="charts">Charts</button>';
-    h+='<button class="dtab-btn" data-tab="replay">Replay</button>';
+    h+='<button class="dtab-btn active" data-tab="details">'+(_t('drawer_details')||'Details')+'</button>';
+    h+='<button class="dtab-btn" data-tab="charts">'+(_t('drawer_charts')||'Charts')+'</button>';
+    h+='<button class="dtab-btn" data-tab="replay">'+(_t('drawer_replay')||'Replay')+'</button>';
     h+='</div>';
 
     /* ── details tab ── */
@@ -597,6 +635,10 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     h+='</div></section>';
 
     h+=buildDecisionPanel(c,REPLAY_CACHE[c.case_id]||null);
+
+    h+='<section style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">';
+    h+='<a href="policy.html?case='+c.case_id+(LANG==='ru'?'&lang=ru':'')+'" style="font-size:13px;color:var(--accent);text-decoration:none;font-weight:500">'+(_t('explain_link')||'Explain decision \u2192')+'</a>';
+    h+='</section>';
 
     h+='<section><h3>Open as Template</h3>';
     h+='<div class="cmd-box">cd 40_ab_factory/vk-style/cases_auto/'+c.case_id+'<br>cat contract.json truth.json data.csv</div>';
@@ -695,7 +737,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   $apStop.addEventListener('click',function(){stopAutoplay('stopped');});
   $apSpeed.addEventListener('change',syncUrl);
 
-  function updateApStatus(msg){$apStatus.textContent='Auto-Play: '+msg;}
+  function updateApStatus(msg){$apStatus.textContent=(LANG==='ru'?'\u0410\u0432\u0442\u043e-\u043f\u043b\u0435\u0439: ':'Auto-Play: ')+msg;}
 
   function stopAutoplay(reason){
     AP.runId++;

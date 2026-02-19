@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Модель принятия решений — AB Factory</title>
+<style>
+:root {
+  --bg: #fafafa; --fg: #1d1d1f; --muted: #6e6e73;
+  --accent: #0071e3; --accent-hover: #0077ed;
+  --card-bg: #fff; --border: #d2d2d7; --hover-bg: #f0f0f5;
+  --green: #34c759; --red: #ff3b30; --orange: #ff9500;
+  --radius: 12px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#000; --fg:#f5f5f7; --muted:#86868b;
+  --accent:#2997ff; --accent-hover:#40a9ff;
+  --card-bg:#1c1c1e; --border:#38383a; --hover-bg:#2c2c2e;
+  --green:#30d158; --red:#ff453a; --orange:#ffa00a;
+}}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;background:var(--bg);color:var(--fg);line-height:1.65;-webkit-font-smoothing:antialiased}
+
+.top-bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:48px;gap:24px}
+.top-bar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .15s}
+.top-bar a:hover,.top-bar a.active{color:var(--accent)}
+.top-bar .spacer{flex:1}
+
+.container{max-width:720px;margin:0 auto;padding:40px 24px 80px}
+h1{font-size:28px;font-weight:700;margin-bottom:8px}
+h2{font-size:20px;font-weight:700;margin:32px 0 12px}
+h3{font-size:16px;font-weight:600;margin:20px 0 8px}
+p{font-size:14px;margin-bottom:12px}
+.muted{color:var(--muted)}
+ul,ol{font-size:14px;padding-left:24px;margin-bottom:12px}
+li{margin-bottom:6px}
+code{background:var(--hover-bg);padding:2px 5px;border-radius:4px;font-size:13px}
+
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:16px}
+.card h3{margin-top:0}
+
+.step-grid{display:grid;grid-template-columns:36px 1fr;gap:8px 14px;margin-bottom:16px}
+.step-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.step-num-hard{background:var(--red)}
+.step-num-soft{background:var(--orange)}
+.step-num-ok{background:var(--green)}
+.step-body{min-width:0}
+.step-name{font-size:14px;font-weight:600;margin-bottom:2px}
+.step-desc{font-size:13px;color:var(--muted)}
+
+.reason-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px}
+.reason-table th,.reason-table td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
+.reason-table th{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.reason-table code{font-size:12px}
+
+.links{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.links a{display:inline-block;padding:10px 22px;border-radius:980px;background:var(--accent);color:#fff;text-decoration:none;font-size:14px;font-weight:500;transition:background .15s}
+.links a:hover{background:var(--accent-hover)}
+.links a.sec{background:transparent;color:var(--accent);border:1px solid var(--border)}
+.links a.sec:hover{background:var(--card-bg)}
+
+footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="index.html?lang=ru">Главная</a>
+  <a href="traces.html?lang=ru">Трейсы</a>
+  <a href="policy.html?lang=ru">Модель решений</a>
+  <a href="corpus.html?lang=ru">Корпус кейсов</a>
+  <span class="spacer"></span>
+  <a href="policy-ru.html" class="active">RU Описание</a>
+</div>
+
+<div class="container">
+  <h1>Модель принятия решений</h1>
+  <p class="muted">Как агентная система AB Factory оценивает результаты A/B-тестов: пошаговый stop-rule пайплайн.</p>
+
+  <h2>Что такое stop-rule пайплайн?</h2>
+  <p>Система проверяет каждый A/B-тест по цепочке из 6 правил — <strong>сверху вниз</strong>. Первое сработавшее правило немедленно останавливает проверку и определяет вердикт: <code>ship</code>, <code>do_not_ship</code> или <code>investigate</code>.</p>
+  <p>Если ни одно правило не сработало — эксперимент получает вердикт <code>ship</code> (правило по умолчанию).</p>
+
+  <h2>6 шагов пайплайна</h2>
+
+  <div class="step-grid">
+    <div class="step-num step-num-hard">1</div>
+    <div class="step-body">
+      <div class="step-name">Гардрейлы (Guardrails)</div>
+      <div class="step-desc">Проверяем защитные метрики (CTR, конверсия). Если хотя бы одна упала ниже порога — <strong>STOP &rarr; do_not_ship</strong>. Это жёсткая блокировка: даже если основная метрика выросла, нарушение гардрейла означает откат.</div>
+    </div>
+
+    <div class="step-num step-num-hard">2</div>
+    <div class="step-body">
+      <div class="step-name">Долгосрочный реверс (Long-term reversal)</div>
+      <div class="step-desc">Анализируем динамику по неделям. Если эффект сначала был положительным, а затем стал отрицательным — <strong>STOP &rarr; do_not_ship</strong>. Это сигнал новизны: начальный рост оказался временным.</div>
+    </div>
+
+    <div class="step-num step-num-soft">3</div>
+    <div class="step-body">
+      <div class="step-name">Конфликт сегментов (Segment conflict)</div>
+      <div class="step-desc">Если в одних сегментах аудитории эффект положительный, а в других — отрицательный — <strong>STOP &rarr; investigate</strong>. Нужен ручной разбор: возможно, продукт работает по-разному для разных пользователей.</div>
+    </div>
+
+    <div class="step-num step-num-soft">4</div>
+    <div class="step-body">
+      <div class="step-name">Статистическая значимость (Significance)</div>
+      <div class="step-desc">Проверяем p-value по основной метрике. Если <code>p &gt; &alpha;</code> (по умолчанию &alpha; = 0.05) — <strong>STOP &rarr; do_not_ship</strong>. Недостаточно данных, чтобы быть уверенными в эффекте.</div>
+    </div>
+
+    <div class="step-num step-num-soft">5</div>
+    <div class="step-body">
+      <div class="step-name">Практический порог (Practical threshold)</div>
+      <div class="step-desc">Даже если эффект статзначим, он может быть слишком мал. Если <code>uplift &lt; min_uplift</code> (по умолчанию 0.5%) — <strong>STOP &rarr; do_not_ship</strong>. Не стоит шипить микроулучшение с дополнительной сложностью.</div>
+    </div>
+
+    <div class="step-num step-num-ok">6</div>
+    <div class="step-body">
+      <div class="step-name">Шип по умолчанию (Default ship)</div>
+      <div class="step-desc">Если ни одно правило не заблокировало — <strong>ship</strong>. Эксперимент прошёл все проверки.</div>
+    </div>
+  </div>
+
+  <h2>Почему именно такой порядок?</h2>
+  <ul>
+    <li><strong>Безопасность прежде всего</strong> — гардрейлы и долгосрочные реверсы проверяются первыми, потому что могут нанести реальный вред пользователям.</li>
+    <li><strong>Сегментный разбор до статистики</strong> — если эффект неоднороден, p-value по агрегату может быть обманчивым.</li>
+    <li><strong>Значимость перед практичностью</strong> — нет смысла оценивать размер эффекта, если мы не уверены, что он вообще существует.</li>
+    <li><strong>Детерминизм</strong> — при одних и тех же данных и политике результат всегда одинаков.</li>
+  </ul>
+
+  <h2>Reason &rarr; Evidence</h2>
+  <p>Каждая причина (<code>reason</code>) в решении агента должна подкрепляться конкретной числовой уликой (<code>evidence</code>) из данных эксперимента.</p>
+
+  <div class="card">
+    <h3>Зачем нужна evidence-строка?</h3>
+    <p>Причина вроде <code>guardrail_violation:ctr</code> сама по себе ничего не говорит менеджеру. А вот строка <strong>«CTR &minus;4.0% &lt; &minus;3.0% threshold»</strong> сразу объясняет: защитная метрика просела на 4%, при допустимом пороге 3%.</p>
+    <p>Это позволяет: (1) быстро верифицировать решение, (2) понять, насколько близко к границе, (3) переоценить при изменении политики.</p>
+  </div>
+
+  <table class="reason-table">
+    <thead>
+      <tr><th>Reason (код)</th><th>Evidence (пример)</th><th>Источник данных</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>guardrail_violation:ctr</code></td><td>CTR &minus;4.0% &lt; &minus;3.0% threshold</td><td>data.csv &rarr; ctr_effect_relative</td></tr>
+      <tr><td><code>not_significant</code></td><td>p = 0.484 &gt; &alpha; = 0.05</td><td>data.csv &rarr; revenue_p_value</td></tr>
+      <tr><td><code>practically_small</code></td><td>+0.3% &lt; 0.5% practical threshold</td><td>truth.json &rarr; primary_effect_relative</td></tr>
+      <tr><td><code>segment_conflict</code></td><td>news +3% vs dzen &minus;2%</td><td>data.csv &rarr; segment rows</td></tr>
+      <tr><td><code>long_term_reversal</code></td><td>W1&ndash;W2 positive &rarr; W3&ndash;W4 negative</td><td>truth.json rationale</td></tr>
+      <tr><td><code>primary_uplift</code></td><td>+1.2%, p = 0.003</td><td>data.csv aggregate</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Попробуйте интерактивно</h2>
+  <p>На странице <strong>Decision Engine</strong> можно выбрать любой из 100 синтетических кейсов и увидеть, на каком шаге остановился пайплайн — с конкретными числами и evidence-строками.</p>
+
+  <div class="links">
+    <a href="policy.html?lang=ru">Decision Engine (интерактив)</a>
+    <a href="corpus.html?lang=ru" class="sec">Корпус кейсов</a>
+  </div>
+</div>
+
+<footer>AB Factory Demo &middot; Модель решений &middot; без зависимостей</footer>
+
+</body>
+</html>

@@ -6,171 +6,134 @@
 <title>AB Factory</title>
 <style>
   :root {
-    --bg: #fafafa;
-    --fg: #1d1d1f;
-    --muted: #6e6e73;
-    --accent: #0071e3;
-    --accent-hover: #0077ed;
-    --card-bg: #fff;
-    --border: #d2d2d7;
-    --radius: 12px;
+    --bg: #fafafa; --fg: #1d1d1f; --muted: #6e6e73;
+    --accent: #0071e3; --accent-hover: #0077ed;
+    --card-bg: #fff; --border: #d2d2d7; --radius: 12px;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #000;
-      --fg: #f5f5f7;
-      --muted: #86868b;
-      --accent: #2997ff;
-      --accent-hover: #40a9ff;
-      --card-bg: #1c1c1e;
-      --border: #38383a;
+      --bg: #000; --fg: #f5f5f7; --muted: #86868b;
+      --accent: #2997ff; --accent-hover: #40a9ff;
+      --card-bg: #1c1c1e; --border: #38383a;
     }
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-    background: var(--bg);
-    color: var(--fg);
-    line-height: 1.5;
+    background: var(--bg); color: var(--fg); line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
   .hero {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 120px 24px 80px;
-    text-align: center;
+    max-width: 720px; margin: 0 auto; padding: 120px 24px 80px; text-align: center;
   }
-  .hero h1 {
-    font-size: 48px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 16px;
-  }
-  .hero .subtitle {
-    font-size: 20px;
-    color: var(--muted);
-    max-width: 480px;
-    margin: 0 auto 40px;
-  }
-  .buttons {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+  .hero h1 { font-size: 48px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+  .hero .subtitle { font-size: 20px; color: var(--muted); max-width: 480px; margin: 0 auto 40px; }
+  .buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
   .btn {
-    display: inline-block;
-    padding: 14px 28px;
-    border-radius: 980px;
-    font-size: 16px;
-    font-weight: 500;
-    text-decoration: none;
+    display: inline-block; padding: 14px 28px; border-radius: 980px;
+    font-size: 16px; font-weight: 500; text-decoration: none;
     transition: background 0.2s, transform 0.1s;
   }
   .btn:active { transform: scale(0.97); }
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-  }
+  .btn-primary { background: var(--accent); color: #fff; }
   .btn-primary:hover { background: var(--accent-hover); }
   .btn-secondary {
-    background: transparent;
-    color: var(--accent);
-    border: 1px solid var(--border);
+    background: transparent; color: var(--accent); border: 1px solid var(--border);
   }
   .btn-secondary:hover { background: var(--card-bg); }
+  .lang-switch {
+    text-align: center; margin-top: 20px;
+  }
+  .lang-switch a {
+    font-size: 13px; color: var(--muted); text-decoration: none; padding: 4px 10px;
+    border: 1px solid var(--border); border-radius: 6px; transition: color .15s;
+  }
+  .lang-switch a:hover { color: var(--accent); border-color: var(--accent); }
   .cards {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 0 24px 80px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
+    max-width: 880px; margin: 0 auto; padding: 0 24px 80px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;
   }
   .card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px 24px;
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px 24px;
   }
-  .card h3 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-  .card p {
-    font-size: 14px;
-    color: var(--muted);
-  }
-  .card .number {
-    font-size: 36px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 4px;
-  }
-  footer {
-    text-align: center;
-    padding: 40px 24px;
-    font-size: 13px;
-    color: var(--muted);
-    border-top: 1px solid var(--border);
-  }
+  .card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .card p { font-size: 14px; color: var(--muted); }
+  .card .number { font-size: 36px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  footer { text-align: center; padding: 40px 24px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <h1>AB Factory</h1>
-  <p class="subtitle">
+  <h1 data-t="title">AB Factory</h1>
+  <p class="subtitle" data-t="subtitle">
     A deterministic agent system that evaluates A/B test decisions
     with policy-driven logic and confidence scoring.
     No dependencies. Pure Python.
   </p>
   <div class="buttons">
-    <a href="casebook.html" class="btn btn-primary">Open Casebook</a>
-    <a href="traces.html" class="btn btn-primary" style="background:#af52de">Trace Viewer →</a>
-    <a href="policy.html" class="btn btn-primary" style="background:#ff9500">Policy Explorer →</a>
-    <a href="corpus.html" class="btn btn-primary" style="background:#34c759">Corpus Explorer →</a>
-    <a href="https://github.com" class="btn btn-secondary">GitHub</a>
+    <a href="corpus.html" class="btn btn-primary" data-t="btn_corpus">Corpus Explorer &rarr;</a>
+    <a href="policy.html" class="btn btn-primary" style="background:#ff9500" data-t="btn_engine">Decision Engine &rarr;</a>
+    <a href="traces.html" class="btn btn-primary" style="background:#af52de" data-t="btn_traces">Trace Viewer &rarr;</a>
+    <a href="https://github.com/yzotop/ab-factory-demo" class="btn btn-secondary">GitHub</a>
+  </div>
+  <div class="lang-switch">
+    <a href="policy-ru.html" data-t="link_ru">&#127479;&#127482; Описание на русском</a>
   </div>
 </div>
 
 <div class="cards">
-  <div class="card">
-    <div class="number">4</div>
-    <h3>Agents</h3>
-    <p>Reader, Stats, Decision, Viz — each modular and traceable.</p>
-  </div>
-  <div class="card">
-    <div class="number">5</div>
-    <h3>Golden cases</h3>
-    <p>Hand-crafted scenarios: uplift, guardrail breach, segment conflict, and more.</p>
-  </div>
-  <div class="card">
-    <div class="number">300</div>
-    <h3>Synthetic cases</h3>
-    <p>Seeded generator produces deterministic, schema-valid test cases at scale.</p>
-  </div>
-  <div class="card">
-    <div class="number">100%</div>
-    <h3>Selfcheck accuracy</h3>
-    <p>Every agent decision matches ground truth on all cases, every time.</p>
-  </div>
-  <div class="card">
-    <div class="number">0</div>
-    <h3>Dependencies</h3>
-    <p>Pure Python stdlib. No pip install, no Docker, no API keys.</p>
-  </div>
-  <div class="card">
-    <div class="number">σ</div>
-    <h3>Confidence model</h3>
-    <p>Linear score → sigmoid. Every decision includes an explainable confidence.</p>
-  </div>
+  <div class="card"><div class="number">4</div><h3 data-t="c_agents">Agents</h3><p data-t="c_agents_d">Reader, Stats, Decision, Viz — each modular and traceable.</p></div>
+  <div class="card"><div class="number">5</div><h3 data-t="c_scenarios">Scenario types</h3><p data-t="c_scenarios_d">Uplift, guardrail breach, small effect, segment conflict, reversal.</p></div>
+  <div class="card"><div class="number">300</div><h3 data-t="c_synth">Synthetic cases</h3><p data-t="c_synth_d">Seeded generator produces deterministic, schema-valid test cases at scale.</p></div>
+  <div class="card"><div class="number">100%</div><h3 data-t="c_selfcheck">Selfcheck accuracy</h3><p data-t="c_selfcheck_d">Every agent decision matches ground truth on all cases, every time.</p></div>
+  <div class="card"><div class="number">0</div><h3 data-t="c_deps">Dependencies</h3><p data-t="c_deps_d">Pure Python stdlib. No pip install, no Docker, no API keys.</p></div>
+  <div class="card"><div class="number">&sigma;</div><h3 data-t="c_conf">Confidence model</h3><p data-t="c_conf_d">Linear score &rarr; sigmoid. Every decision includes an explainable confidence.</p></div>
 </div>
 
-<footer>
-  AB Factory Demo &middot; stdlib-only &middot; Python 3.10+
-</footer>
+<footer data-t="footer">AB Factory Demo &middot; stdlib-only &middot; Python 3.10+</footer>
 
+<script>
+(function(){
+  var params=new URLSearchParams(location.search);
+  var LANG=params.get('lang')==='ru'?'ru':'en';
+  var T={
+    title:{ru:'AB Factory'},
+    subtitle:{ru:'\u0414\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0441\u0442\u0438\u0447\u043d\u0430\u044f \u0430\u0433\u0435\u043d\u0442\u043d\u0430\u044f \u0441\u0438\u0441\u0442\u0435\u043c\u0430 \u0434\u043b\u044f \u043e\u0446\u0435\u043d\u043a\u0438 A/B-\u0442\u0435\u0441\u0442\u043e\u0432: \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0430, \u043b\u043e\u0433\u0438\u043a\u0430, \u043e\u0446\u0435\u043d\u043a\u0430 \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u0438. \u0411\u0435\u0437 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0435\u0439. \u0427\u0438\u0441\u0442\u044b\u0439 Python.'},
+    btn_corpus:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441 \u043a\u0435\u0439\u0441\u043e\u0432 \u2192'},
+    btn_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2192'},
+    btn_traces:{ru:'\u0422\u0440\u0435\u0439\u0441\u044b \u2192'},
+    link_ru:{ru:'\ud83c\uddf7\ud83c\uddfa \u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043d\u0430 \u0440\u0443\u0441\u0441\u043a\u043e\u043c'},
+    c_agents:{ru:'\u0410\u0433\u0435\u043d\u0442\u044b'},
+    c_agents_d:{ru:'Reader, Stats, Decision, Viz \u2014 \u043a\u0430\u0436\u0434\u044b\u0439 \u043c\u043e\u0434\u0443\u043b\u044c\u043d\u044b\u0439 \u0438 \u0442\u0440\u0430\u0441\u0441\u0438\u0440\u0443\u0435\u043c\u044b\u0439.'},
+    c_scenarios:{ru:'\u0422\u0438\u043f\u044b \u0441\u0446\u0435\u043d\u0430\u0440\u0438\u0435\u0432'},
+    c_scenarios_d:{ru:'Uplift, \u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b, \u043c\u0430\u043b\u044b\u0439 \u044d\u0444\u0444\u0435\u043a\u0442, \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u044b, \u0440\u0435\u0432\u0435\u0440\u0441.'},
+    c_synth:{ru:'\u0421\u0438\u043d\u0442\u0435\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u043a\u0435\u0439\u0441\u044b'},
+    c_synth_d:{ru:'\u0413\u0435\u043d\u0435\u0440\u0430\u0442\u043e\u0440 \u0441 \u0441\u0438\u0434\u043e\u043c: \u0434\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0435, \u0432\u0430\u043b\u0438\u0434\u043d\u044b\u0435 \u0442\u0435\u0441\u0442-\u043a\u0435\u0439\u0441\u044b \u0432 \u043c\u0430\u0441\u0448\u0442\u0430\u0431\u0435.'},
+    c_selfcheck:{ru:'\u0422\u043e\u0447\u043d\u043e\u0441\u0442\u044c \u0441\u0435\u043b\u0444\u0447\u0435\u043a\u0430'},
+    c_selfcheck_d:{ru:'\u041a\u0430\u0436\u0434\u043e\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u0430\u0433\u0435\u043d\u0442\u0430 \u0441\u043e\u0432\u043f\u0430\u0434\u0430\u0435\u0442 \u0441 ground truth \u043d\u0430 \u0432\u0441\u0435\u0445 \u043a\u0435\u0439\u0441\u0430\u0445.'},
+    c_deps:{ru:'\u0417\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0438'},
+    c_deps_d:{ru:'\u0427\u0438\u0441\u0442\u044b\u0439 Python stdlib. \u041d\u0438 pip, \u043d\u0438 Docker, \u043d\u0438 API-\u043a\u043b\u044e\u0447\u0435\u0439.'},
+    c_conf:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u0438'},
+    c_conf_d:{ru:'\u041b\u0438\u043d\u0435\u0439\u043d\u044b\u0439 \u0441\u043a\u043e\u0440 \u2192 sigmoid. \u041a\u0430\u0436\u0434\u043e\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u0441 \u043e\u0431\u044a\u044f\u0441\u043d\u0438\u043c\u043e\u0439 \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u044c\u044e.'},
+    footer:{ru:'AB Factory Demo \u00b7 stdlib-only \u00b7 Python 3.10+'}
+  };
+  if(LANG==='ru'){
+    document.documentElement.lang='ru';
+    document.querySelectorAll('[data-t]').forEach(function(el){
+      var k=el.getAttribute('data-t');
+      if(T[k]&&T[k].ru) el.innerHTML=T[k].ru;
+    });
+    document.querySelectorAll('.buttons a[href]:not([href^="http"])').forEach(function(a){
+      if(a.href.indexOf('lang=')<0){
+        var u=new URL(a.href,location.href);
+        u.searchParams.set('lang','ru');
+        a.href=u.pathname+u.search;
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
