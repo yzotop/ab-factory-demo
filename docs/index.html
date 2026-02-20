@@ -106,6 +106,21 @@
   .run-copy:hover { background: var(--card-bg); }
   .stop-flow { font-size: 12px; color: var(--muted); margin: 8px 0 6px; line-height: 1.4; }
   .stop-caption { font-size: 11px; color: var(--muted); opacity: 0.85; }
+  .stop-links { margin-top: 8px; display: flex; gap: 12px; }
+  .stop-links a { font-size: 11px; color: var(--accent); text-decoration: none; font-weight: 500; }
+  .stop-links a:hover { text-decoration: underline; }
+  .onboard-section { max-width: 880px; margin: 0 auto; padding: 0 24px 80px; }
+  .onboard-section h2 { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+  .onboard-sub { font-size: 14px; color: var(--muted); text-align: center; margin-bottom: 28px; }
+  .onboard-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .step-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 20px; transition: transform .15s, box-shadow .15s; }
+  .step-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.06); }
+  .step-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+  .step-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .step-card p { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+  .step-card a { font-size: 13px; color: var(--accent); text-decoration: none; font-weight: 500; }
+  .step-card a:hover { text-decoration: underline; }
+  @media (max-width: 640px) { .onboard-steps { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -136,7 +151,7 @@
 
 <div class="cards">
   <div class="card"><div class="number">4</div><h3 data-t="c_agents">Agents</h3><p data-t="c_agents_d">Reader, Stats, Decision, Viz — each modular and traceable.</p></div>
-  <div class="card"><div class="number">6</div><h3 data-t="c_stoprule">Stop-Rule Engine</h3><p data-t="c_stoprule_d">Deterministic decision pipeline. First triggered rule defines the verdict.</p><div class="stop-flow" data-t="c_stoprule_flow">Guardrails &rarr; Reversal &rarr; Segment &rarr; Significance &rarr; Practical &rarr; Ship</div><p class="stop-caption" data-t="c_stoprule_cap">Safety first. Hard blockers evaluated before statistical uplift.</p></div>
+  <div class="card"><div class="number">6</div><h3 data-t="c_stoprule">Stop-Rule Engine</h3><p data-t="c_stoprule_d">Deterministic decision pipeline. First triggered rule defines the verdict.</p><div class="stop-flow" data-t="c_stoprule_flow">Guardrails &rarr; Reversal &rarr; Segment &rarr; Significance &rarr; Practical &rarr; Ship</div><p class="stop-caption" data-t="c_stoprule_out">Output: ship / do_not_ship / investigate</p><p class="stop-caption" data-t="c_stoprule_cap">Safety first. Hard blockers evaluated before statistical uplift.</p><p class="stop-caption" data-t="c_stoprule_legend">Rule order matters: first STOP decides.</p><div class="stop-links"><a href="policy.html" data-t="c_stoprule_lp">Open Policy &rarr;</a><a href="corpus.html" data-t="c_stoprule_lc">Browse Corpus &rarr;</a></div></div>
   <a href="corpus.html" class="card card-link" id="corpus-card"><div class="number" id="corpus-total">100</div><h3><span data-t="c_corpus">Corpus cases</span> <span class="live-badge" data-t="c_live">Live</span></h3><p data-t="c_corpus_d">Evaluated by the four-agent pipeline.</p></a>
   <div class="card"><div class="number">100%</div><h3 data-t="c_selfcheck">Selfcheck accuracy</h3><p data-t="c_selfcheck_d">Every agent decision matches ground truth on all cases, every time.</p></div>
   <div class="card"><div class="number">0</div><h3 data-t="c_deps">Dependencies</h3><p data-t="c_deps_d">Pure Python stdlib. No pip install, no Docker, no API keys.</p></div>
@@ -221,6 +236,31 @@
   <p class="diagram-caption" data-t="dia_caption">Every step emits JSONL traces &rarr; replayable timeline &rarr; explainable decisions (Reason &rarr; Evidence).</p>
 </div>
 
+<div class="onboard-section">
+  <h2 data-t="ob_title">Try it in 30 seconds</h2>
+  <p class="onboard-sub" data-t="ob_sub">See how agents turn raw A/B results into a verdict with evidence.</p>
+  <div class="onboard-steps">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <h4 data-t="ob_s1_t">Pick a case</h4>
+      <p data-t="ob_s1_d">Filter by decision or confidence and open any row.</p>
+      <a href="corpus.html" data-t="ob_s1_l">Open Corpus &rarr;</a>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <h4 data-t="ob_s2_t">Inspect the stop-rules</h4>
+      <p data-t="ob_s2_d">See which rule stopped the rollout and why.</p>
+      <a href="policy.html" data-t="ob_s2_l">Explain in Policy &rarr;</a>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <h4 data-t="ob_s3_t">Replay the agent run</h4>
+      <p data-t="ob_s3_d">Timeline + artifacts: reader/stats/decision/viz.</p>
+      <a href="traces.html" data-t="ob_s3_l">Open Replay &rarr;</a>
+    </div>
+  </div>
+</div>
+
 <div class="run-section">
   <h3 data-t="run_title">Run locally</h3>
   <p class="run-sub" data-t="run_sub">Reproduce the corpus and replays locally (stdlib-only).</p>
@@ -251,7 +291,11 @@ python3 tools/build_replays_index.py</pre>
     c_stoprule:{ru:'Stop-Rule \u043c\u043e\u0434\u0435\u043b\u044c'},
     c_stoprule_d:{ru:'\u0414\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0439 \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d \u0440\u0435\u0448\u0435\u043d\u0438\u0439. \u041f\u0435\u0440\u0432\u043e\u0435 \u0441\u0440\u0430\u0431\u043e\u0442\u0430\u0432\u0448\u0435\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442 \u0432\u0435\u0440\u0434\u0438\u043a\u0442.'},
     c_stoprule_flow:{ru:'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u044b \u2192 \u0420\u0435\u0432\u0435\u0440\u0441 \u2192 \u041a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432 \u2192 \u0417\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c \u2192 \u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043f\u043e\u0440\u043e\u0433 \u2192 Ship'},
+    c_stoprule_out:{ru:'\u0412\u044b\u0445\u043e\u0434: ship / do_not_ship / investigate'},
     c_stoprule_cap:{ru:'\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u044c, \u0437\u0430\u0442\u0435\u043c \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043a\u0430 \u0438 \u044d\u0444\u0444\u0435\u043a\u0442.'},
+    c_stoprule_legend:{ru:'\u041f\u043e\u0440\u044f\u0434\u043e\u043a \u0432\u0430\u0436\u0435\u043d: \u043f\u0435\u0440\u0432\u044b\u0439 STOP \u0440\u0435\u0448\u0430\u0435\u0442.'},
+    c_stoprule_lp:{ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c Policy \u2192'},
+    c_stoprule_lc:{ru:'\u0421\u043c\u043e\u0442\u0440\u0435\u0442\u044c Corpus \u2192'},
     c_corpus:{ru:'\u041a\u0435\u0439\u0441\u044b \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435'},
     c_live:{ru:'Live'},
     c_corpus_d:{ru:'\u041e\u0446\u0435\u043d\u0435\u043d\u044b 4-\u0430\u0433\u0435\u043d\u0442\u043d\u044b\u043c \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d\u043e\u043c.'},
@@ -275,6 +319,17 @@ python3 tools/build_replays_index.py</pre>
     dia_link_corpus:{ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043a\u043e\u0440\u043f\u0443\u0441 \u2192'},
     dia_link_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2192'},
     dia_caption:{ru:'\u041a\u0430\u0436\u0434\u044b\u0439 \u0448\u0430\u0433 \u043f\u0438\u0448\u0435\u0442 JSONL-\u0442\u0440\u0435\u0439\u0441\u044b \u2192 \u0440\u0435\u043f\u043b\u0435\u0439 \u0442\u0430\u0439\u043c\u043b\u0430\u0439\u043d\u0430 \u2192 \u043e\u0431\u044a\u044f\u0441\u043d\u0438\u043c\u044b\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u044f (\u041f\u0440\u0438\u0447\u0438\u043d\u0430 \u2192 \u0414\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u043e).'},
+    ob_title:{ru:'\u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439 \u0437\u0430 30 \u0441\u0435\u043a\u0443\u043d\u0434'},
+    ob_sub:{ru:'\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0438, \u043a\u0430\u043a \u0430\u0433\u0435\u043d\u0442\u044b \u043f\u0440\u0435\u0432\u0440\u0430\u0449\u0430\u044e\u0442 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b A/B \u0432 \u0432\u0435\u0440\u0434\u0438\u043a\u0442 \u0441 \u0434\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u0430\u043c\u0438.'},
+    ob_s1_t:{ru:'\u0412\u044b\u0431\u0435\u0440\u0438 \u043a\u0435\u0439\u0441'},
+    ob_s1_d:{ru:'\u041e\u0442\u0444\u0438\u043b\u044c\u0442\u0440\u0443\u0439 \u043f\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u044e/\u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0438 \u043e\u0442\u043a\u0440\u043e\u0439 \u0441\u0442\u0440\u043e\u043a\u0443.'},
+    ob_s1_l:{ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c Corpus \u2192'},
+    ob_s2_t:{ru:'\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0438 \u0441\u0442\u043e\u043f-\u043f\u0440\u0430\u0432\u0438\u043b\u0430'},
+    ob_s2_d:{ru:'\u041f\u043e\u0439\u043c\u0438, \u043a\u0430\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u043b\u043e \u0432\u044b\u043a\u0430\u0442\u043a\u0443 \u0438 \u043f\u043e\u0447\u0435\u043c\u0443.'},
+    ob_s2_l:{ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0435\u043d\u0438\u0435 \u0432 Policy \u2192'},
+    ob_s3_t:{ru:'\u041f\u0440\u043e\u0438\u0433\u0440\u0430\u0439 \u043f\u0440\u043e\u0433\u043e\u043d \u0430\u0433\u0435\u043d\u0442\u043e\u0432'},
+    ob_s3_d:{ru:'\u0422\u0430\u0439\u043c\u043b\u0430\u0439\u043d + \u0430\u0440\u0442\u0435\u0444\u0430\u043a\u0442\u044b: reader/stats/decision/viz.'},
+    ob_s3_l:{ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c Replay \u2192'},
     footer:{ru:'AB Factory Demo \u00b7 stdlib-only \u00b7 Python 3.10+'}
   };
   if(LANG==='ru'){
@@ -283,7 +338,7 @@ python3 tools/build_replays_index.py</pre>
       var k=el.getAttribute('data-t');
       if(T[k]&&T[k].ru) el.innerHTML=T[k].ru;
     });
-    document.querySelectorAll('.buttons a[href]:not([href^="http"]), .dcard-links a[href], a.card-link').forEach(function(a){
+    document.querySelectorAll('.buttons a[href]:not([href^="http"]), .dcard-links a[href], a.card-link, .stop-links a[href], .step-card a[href]').forEach(function(a){
       if(a.href.indexOf('lang=')<0){
         var u=new URL(a.href,location.href);
         u.searchParams.set('lang','ru');

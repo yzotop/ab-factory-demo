@@ -5,125 +5,104 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Decision Engine — AB Factory</title>
 <style>
-:root {
-  --bg: #fafafa; --fg: #1d1d1f; --muted: #6e6e73;
-  --accent: #0071e3; --accent-hover: #0077ed;
-  --card-bg: #fff; --border: #d2d2d7; --hover-bg: #f0f0f5;
-  --green: #34c759; --red: #ff3b30; --orange: #ff9500;
-  --radius: 12px;
-}
-@media(prefers-color-scheme:dark){:root{
-  --bg:#000; --fg:#f5f5f7; --muted:#86868b;
-  --accent:#2997ff; --accent-hover:#40a9ff;
-  --card-bg:#1c1c1e; --border:#38383a; --hover-bg:#2c2c2e;
-  --green:#30d158; --red:#ff453a; --orange:#ffa00a;
-}}
+:root{--bg:#fafafa;--fg:#1d1d1f;--muted:#6e6e73;--accent:#0071e3;--accent-hover:#0077ed;--card-bg:#fff;--border:#d2d2d7;--hover-bg:#f0f0f5;--green:#34c759;--red:#ff3b30;--orange:#ff9500;--radius:12px}
+@media(prefers-color-scheme:dark){:root{--bg:#000;--fg:#f5f5f7;--muted:#86868b;--accent:#2997ff;--accent-hover:#40a9ff;--card-bg:#1c1c1e;--border:#38383a;--hover-bg:#2c2c2e;--green:#30d158;--red:#ff453a;--orange:#ffa00a}}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;background:var(--bg);color:var(--fg);line-height:1.5;-webkit-font-smoothing:antialiased}
-
 .top-bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:48px;gap:24px}
 .top-bar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .15s}
 .top-bar a:hover,.top-bar a.active{color:var(--accent)}
 .top-bar .spacer{flex:1}
-
-.container{max-width:960px;margin:0 auto;padding:32px 24px 80px}
-h1{font-size:28px;font-weight:700;margin-bottom:6px}
-.subtitle{color:var(--muted);font-size:15px;margin-bottom:32px;max-width:640px}
-
-.pipeline-section{margin-bottom:40px}
-.pipeline-section h2{font-size:18px;font-weight:700;margin-bottom:16px}
-.pipeline{display:flex;gap:0;flex-wrap:wrap;margin-bottom:8px}
-.pipe-step{flex:1;min-width:120px;text-align:center;position:relative;padding:16px 8px 14px}
-.pipe-step::after{content:'\2192';position:absolute;right:-6px;top:50%;transform:translateY(-50%);color:var(--border);font-size:16px;font-weight:700}
-.pipe-step:last-child::after{display:none}
-.pipe-num{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px}
-.pipe-name{font-size:13px;font-weight:600;margin-bottom:4px}
-.pipe-outcome{font-size:11px;color:var(--muted)}
-.pipe-step-hard .pipe-name{color:var(--red)}
-.pipe-step-soft .pipe-name{color:var(--orange)}
-.pipe-step-ok .pipe-name{color:var(--green)}
-.pipe-desc{font-size:13px;color:var(--muted);line-height:1.6;max-width:640px}
-
-.try-section{margin-bottom:40px}
-.try-section h2{font-size:18px;font-weight:700;margin-bottom:16px}
-.try-layout{display:grid;grid-template-columns:280px 1fr;gap:24px}
-@media(max-width:720px){.try-layout{grid-template-columns:1fr}}
-
-.controls{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
-.ctrl{margin-bottom:16px}
-.ctrl:last-child{margin-bottom:0}
-.ctrl label{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
-.ctrl select{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--fg);font-size:13px;outline:none}
-.ctrl select:focus{border-color:var(--accent)}
-.ctrl input[type=range]{width:100%;accent-color:var(--accent);margin-top:2px}
-.ctrl .val{font-size:12px;font-weight:600;color:var(--fg);margin-top:3px;font-variant-numeric:tabular-nums}
-.btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.ctrl-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--fg);font-size:12px;font-weight:500;cursor:pointer;transition:background .12s}
-.ctrl-btn:hover{background:var(--hover-bg)}
-.ctrl-btn-accent{background:var(--accent);color:#fff;border-color:var(--accent)}
-.ctrl-btn-accent:hover{background:var(--accent-hover)}
-
-.preset-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
-.preset-row .preset-lbl{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;width:100%;margin-bottom:2px}
-.preset-btn{padding:5px 11px;border-radius:6px;border:1px solid var(--border);background:var(--card-bg);color:var(--fg);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s}
-.preset-btn:hover{border-color:var(--accent);color:var(--accent)}
-.preset-hint{font-size:11px;color:var(--accent);margin-top:8px;min-height:16px}
-
-.result{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
-.result-hdr{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
-.result-hdr .case-title{font-size:15px;font-weight:700;flex:1;min-width:140px}
-.badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.container{max-width:1140px;margin:0 auto;padding:28px 24px 40px}
+h1{font-size:28px;font-weight:700;margin-bottom:4px}
+.subtitle{color:var(--muted);font-size:15px;margin-bottom:24px;max-width:720px}
+.controls-bar{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;padding:14px 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px}
+.ct{display:flex;flex-direction:column;gap:2px}
+.ct label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.ct select{padding:5px 8px;border:1px solid var(--border);border-radius:7px;background:var(--card-bg);color:var(--fg);font-size:12px;outline:none}
+.ct select:focus{border-color:var(--accent)}
+.ct input[type=range]{width:90px;accent-color:var(--accent)}
+.ct .vl{font-size:10px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--fg)}
+.ct-inline{display:flex;align-items:center;gap:5px}
+.brow{display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap}
+.cb{padding:5px 12px;border-radius:7px;border:1px solid var(--border);background:var(--card-bg);color:var(--fg);font-size:11px;font-weight:500;cursor:pointer;transition:background .12s}
+.cb:hover{background:var(--hover-bg)}
+.cb-a{background:var(--accent);color:#fff;border-color:var(--accent)}
+.cb-a:hover{background:var(--accent-hover)}
+.pb{padding:4px 9px;border-radius:5px;border:1px solid var(--border);background:var(--card-bg);color:var(--fg);font-size:10px;font-weight:500;cursor:pointer;transition:all .12s}
+.pb:hover{border-color:var(--accent);color:var(--accent)}
+.hint{font-size:11px;color:var(--accent);min-height:14px;margin-bottom:8px}
+.layout{display:grid;grid-template-columns:260px 1fr 280px;gap:16px;align-items:start}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.col-v{position:static!important}}
+.panel{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.panel h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:10px}
+.col-v{position:sticky;top:60px}
+.step-list{padding-left:16px}
+.si{position:relative;padding:8px 8px 8px 18px;border-radius:7px;transition:background .3s}
+.si::before{content:'';position:absolute;left:5px;top:0;bottom:0;width:2px;background:var(--border)}
+.si:first-child::before{top:14px}
+.si:last-child::before{height:14px}
+.sd{position:absolute;left:-1px;top:12px;width:12px;height:12px;border-radius:50%;border:2px solid var(--border);background:var(--card-bg);z-index:1;transition:all .4s}
+.si-p .sd{background:var(--green);border-color:var(--green)}
+.si-s .sd{background:var(--red);border-color:var(--red);box-shadow:0 0 10px color-mix(in srgb,var(--red) 40%,transparent)}
+.si-s.si-inv .sd{background:var(--orange);border-color:var(--orange);box-shadow:0 0 10px color-mix(in srgb,var(--orange) 40%,transparent)}
+.si-k .sd{background:var(--border)}
+.si-num{font-size:9px;font-weight:700;color:var(--muted)}
+.si-nm{font-size:12px;font-weight:600;display:inline}
+.si-p .si-nm{color:var(--green)}.si-s .si-nm{color:var(--red)}.si-s.si-inv .si-nm{color:var(--orange)}.si-k .si-nm{color:var(--muted)}
+.si-tag{display:inline-block;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;letter-spacing:.04em;margin-left:5px;vertical-align:middle}
+.si-p .si-tag{background:color-mix(in srgb,var(--green) 12%,transparent);color:var(--green)}
+.si-s .si-tag{background:color-mix(in srgb,var(--red) 12%,transparent);color:var(--red)}
+.si-s.si-inv .si-tag{background:color-mix(in srgb,var(--orange) 12%,transparent);color:var(--orange)}
+.si-k .si-tag{background:var(--hover-bg);color:var(--muted)}
+.si-desc{font-size:10px;color:var(--muted);margin-top:1px}
+.si-ev{font-size:10px;color:var(--muted);font-style:italic;margin-top:2px}
+.si-hl{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;margin-bottom:12px}
+.s1{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+.s1-l{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:1px}
+.s1-v{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.cc{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.cc-l{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px}
+.br{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.br:last-child{margin-bottom:0}
+.br-t{font-size:10px;color:var(--muted);width:44px;text-align:right;flex-shrink:0}
+.br-k{flex:1;height:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.br-f{height:100%;border-radius:3px;min-width:2px}
+.br-n{font-size:10px;font-weight:600;width:52px;flex-shrink:0;font-variant-numeric:tabular-nums}
+.br-u{text-align:center;font-size:11px;font-weight:600;margin-top:4px}
+.badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:13px;font-weight:700}
 .badge-ship{background:color-mix(in srgb,var(--green) 15%,transparent);color:var(--green)}
 .badge-do_not_ship{background:color-mix(in srgb,var(--red) 15%,transparent);color:var(--red)}
 .badge-investigate{background:color-mix(in srgb,var(--orange) 15%,transparent);color:var(--orange)}
-.conf-bar{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-variant-numeric:tabular-nums}
-.conf-bar .bar{width:48px;height:5px;border-radius:3px;background:var(--border);overflow:hidden}
-.conf-bar .bar .fill{height:100%;border-radius:3px}
-
-.wt{padding-left:14px;margin-bottom:16px}
-.wt-rule{position:relative;padding:8px 0 8px 18px;border-left:2px solid var(--border);transition:background .3s}
-.wt-rule:last-child{border-left-color:transparent}
-.wt-rule::before{content:'';position:absolute;left:-6px;top:12px;width:10px;height:10px;border-radius:50%;border:2px solid var(--border);background:var(--card-bg)}
-.wt-stop::before{background:var(--red);border-color:var(--red);box-shadow:0 0 8px color-mix(in srgb,var(--red) 40%,transparent)}
-.wt-stop.wt-investigate::before{background:var(--orange);border-color:var(--orange);box-shadow:0 0 8px color-mix(in srgb,var(--orange) 40%,transparent)}
-.wt-pass::before{background:var(--green);border-color:var(--green)}
-.wt-skip::before{background:var(--border)}
-.wt-top{display:flex;align-items:center;gap:6px}
-.wt-name{font-size:12px;font-weight:600;flex:1}
-.wt-stop .wt-name{color:var(--red)}
-.wt-stop.wt-investigate .wt-name{color:var(--orange)}
-.wt-pass .wt-name{color:var(--green)}
-.wt-skip .wt-name{color:var(--muted)}
-.wt-tag{font-size:9px;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.04em}
-.wt-stop .wt-tag{background:color-mix(in srgb,var(--red) 12%,transparent);color:var(--red)}
-.wt-stop.wt-investigate .wt-tag{background:color-mix(in srgb,var(--orange) 12%,transparent);color:var(--orange)}
-.wt-pass .wt-tag{background:color-mix(in srgb,var(--green) 12%,transparent);color:var(--green)}
-.wt-skip .wt-tag{background:var(--hover-bg);color:var(--muted)}
-.wt-ev{font-size:11px;color:var(--muted);margin-top:2px}
-.wt-why{font-size:13px;color:var(--fg);margin-bottom:16px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px}
-.wt-why strong{font-weight:600}
-
-.wt-rule.wt-highlight{background:color-mix(in srgb,var(--accent) 8%,transparent);border-radius:6px}
-
-.signals{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:14px}
-.sig{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
-.sig-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:2px}
-.sig-val{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
-
-.chart-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
-.chart-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:8px}
-.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
-.bar-row:last-child{margin-bottom:0}
-.bar-tag{font-size:11px;color:var(--muted);width:48px;text-align:right;flex-shrink:0}
-.bar-track{flex:1;height:18px;background:var(--card-bg);border:1px solid var(--border);border-radius:5px;overflow:hidden}
-.bar-fill-inner{height:100%;border-radius:4px;min-width:2px}
-.bar-num{font-size:11px;font-weight:600;width:56px;flex-shrink:0;font-variant-numeric:tabular-nums}
-.bar-uplift{text-align:center;font-size:12px;font-weight:600;margin-top:5px}
-
-.reason-tag{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:11px}
-.tags{display:flex;flex-wrap:wrap;gap:4px}
-.placeholder{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px}
-
+.cm{display:flex;align-items:center;gap:6px;margin:12px 0}
+.cm .bar{flex:1;height:5px;border-radius:3px;background:var(--border);overflow:hidden}
+.cm .bar .fill{height:100%;border-radius:3px}
+.cm .pct{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.ebox{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:8px 12px;font-size:12px;margin-bottom:12px}
+.ebox strong{font-weight:600}
+.ri{padding:5px 0;border-bottom:1px solid var(--border);font-size:11px}
+.ri:last-child{border-bottom:none}
+.ri-c{font-weight:600;color:var(--fg)}
+.ri-e{color:var(--muted);font-size:10px;margin-top:1px}
+.cta{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+.cta a{display:block;padding:7px 12px;border-radius:7px;font-size:11px;font-weight:500;text-decoration:none;text-align:center;transition:background .12s}
+.cta-p{background:var(--accent);color:#fff}
+.cta-p:hover{background:var(--accent-hover)}
+.cta-s{background:var(--card-bg);color:var(--accent);border:1px solid var(--border)}
+.cta-s:hover{background:var(--hover-bg)}
+.replay-sec{margin-top:24px}
+.replay-sec .panel{margin-bottom:0}
+.sw{display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
+.sw-l{width:56px;font-size:10px;font-weight:600;color:var(--muted);text-align:right;flex-shrink:0;padding-top:2px}
+.sw-e{display:flex;flex-wrap:wrap;gap:3px}
+.sw-ev{font-size:9px;padding:2px 6px;border-radius:3px;background:var(--bg);border:1px solid var(--border)}
+.sw-ev-reader{border-left:3px solid var(--accent)}
+.sw-ev-stats{border-left:3px solid var(--orange)}
+.sw-ev-decision{border-left:3px solid var(--red)}
+.sw-ev-viz{border-left:3px solid var(--green)}
+.sw-t{font-size:8px;color:var(--muted);margin-left:3px}
+.ph{text-align:center;padding:30px 16px;color:var(--muted);font-size:13px}
 footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
 </style>
 </head>
@@ -140,64 +119,43 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 
 <div class="container">
   <h1 data-t="de_title">Decision Engine</h1>
-  <p class="subtitle" data-t="de_subtitle">A step-by-step stop-rule pipeline for A/B test decisions. Each case walks through 6 rules in order; the first rule that triggers determines the verdict.</p>
+  <p class="subtitle" data-t="de_subtitle">Interactive stop-rule diagram. Pick a case, adjust policy thresholds, watch which rule fires first.</p>
 
-  <div class="pipeline-section">
-    <h2 data-t="de_pipeline">The Pipeline</h2>
-    <div class="pipeline">
-      <div class="pipe-step pipe-step-hard"><div class="pipe-num">1</div><div class="pipe-name" data-t="rule_guardrails">Guardrails</div><div class="pipe-outcome">STOP &rarr; do not ship</div></div>
-      <div class="pipe-step pipe-step-hard"><div class="pipe-num">2</div><div class="pipe-name" data-t="rule_reversal">Long-term reversal</div><div class="pipe-outcome">STOP &rarr; do not ship</div></div>
-      <div class="pipe-step pipe-step-soft"><div class="pipe-num">3</div><div class="pipe-name" data-t="rule_segment">Segment conflict</div><div class="pipe-outcome">STOP &rarr; investigate</div></div>
-      <div class="pipe-step pipe-step-soft"><div class="pipe-num">4</div><div class="pipe-name" data-t="rule_significance">Significance</div><div class="pipe-outcome">STOP &rarr; do not ship</div></div>
-      <div class="pipe-step pipe-step-soft"><div class="pipe-num">5</div><div class="pipe-name" data-t="rule_practical">Practical threshold</div><div class="pipe-outcome">STOP &rarr; do not ship</div></div>
-      <div class="pipe-step pipe-step-ok"><div class="pipe-num">6</div><div class="pipe-name" data-t="rule_default">Default ship</div><div class="pipe-outcome" data-t="rule_default_out">No blockers &rarr; ship</div></div>
+  <div class="controls-bar">
+    <div class="ct" style="flex:1;min-width:160px">
+      <label data-t="lbl_case">Case</label>
+      <select id="ctrlCase"><option value="">Loading&#8230;</option></select>
     </div>
-    <p class="pipe-desc" data-t="de_pipe_desc">Rules 1&ndash;2 are <strong>hard blockers</strong>: guardrail breaches and long-term metric reversals immediately reject the experiment. Rule 3 sends ambiguous segment splits to investigation. Rules 4&ndash;5 check statistical and practical significance. If nothing fires, the experiment ships.</p>
+    <div class="ct">
+      <label data-t="lbl_alpha">&alpha;</label>
+      <select id="ctrlAlpha"><option value="0.01">0.01</option><option value="0.05" selected>0.05</option><option value="0.10">0.10</option></select>
+    </div>
+    <div class="ct">
+      <label data-t="lbl_uplift">Min uplift</label>
+      <div class="ct-inline"><input type="range" id="ctrlUplift" min="0" max="2" step="0.1" value="0.5"><span class="vl" id="valU">0.5%</span></div>
+    </div>
+    <div class="ct">
+      <label data-t="lbl_ctr">CTR guard</label>
+      <div class="ct-inline"><input type="range" id="ctrlCtr" min="0" max="10" step="0.5" value="3"><span class="vl" id="valC">&minus;3.0%</span></div>
+    </div>
+    <div class="brow">
+      <button class="cb cb-a" id="btnRand" data-t="btn_random">Random</button>
+      <button class="cb" id="btnReset" data-t="btn_reset">Reset</button>
+      <button class="pb" data-preset="guardrail" data-t="preset_guardrail">Guardrail</button>
+      <button class="pb" data-preset="segment" data-t="preset_segment">Segment</button>
+      <button class="pb" data-preset="reversal" data-t="preset_reversal">Reversal</button>
+    </div>
+  </div>
+  <div class="hint" id="hint"></div>
+
+  <div class="layout">
+    <div class="panel" id="colP"><h3 data-t="hdr_pipeline">Stop-Rule Pipeline</h3><div class="step-list" id="stepList"></div></div>
+    <div id="colS"><div class="panel"><h3 data-t="hdr_signals">Case Signals</h3><div id="sigC"><div class="ph" data-t="ph_pick">Select a case to begin.</div></div></div></div>
+    <div class="panel col-v" id="colV"><h3 data-t="hdr_verdict">Verdict</h3><div id="verC"><div class="ph">&mdash;</div></div></div>
   </div>
 
-  <div class="try-section">
-    <h2 data-t="de_try">Try It on a Case</h2>
-    <div class="try-layout">
-      <div class="controls">
-        <div class="ctrl">
-          <label data-t="lbl_case">Case</label>
-          <select id="ctrlCase"><option value="" data-t="pick_case">Loading&#8230;</option></select>
-        </div>
-        <div class="ctrl">
-          <label data-t="lbl_alpha">Significance level (&alpha;)</label>
-          <select id="ctrlAlpha">
-            <option value="0.01">0.01 (strict)</option>
-            <option value="0.05" selected>0.05 (standard)</option>
-            <option value="0.10">0.10 (lenient)</option>
-          </select>
-        </div>
-        <div class="ctrl">
-          <label data-t="lbl_uplift">Min practical uplift</label>
-          <input type="range" id="ctrlUplift" min="0" max="2.0" step="0.1" value="0.5">
-          <div class="val" id="valUplift">0.5%</div>
-        </div>
-        <div class="ctrl">
-          <label data-t="lbl_ctr">CTR guardrail threshold</label>
-          <input type="range" id="ctrlCtr" min="0" max="10" step="0.5" value="3.0">
-          <div class="val" id="valCtr">&minus;3.0%</div>
-        </div>
-        <div class="btn-row">
-          <button class="ctrl-btn ctrl-btn-accent" id="btnRandom" data-t="btn_random">Random case</button>
-          <button class="ctrl-btn" id="btnReset" data-t="btn_reset">Reset</button>
-        </div>
-        <div class="preset-row">
-          <span class="preset-lbl" data-t="lbl_presets">Presets</span>
-          <button class="preset-btn" data-preset="guardrail" data-t="preset_guardrail">Guardrail breach</button>
-          <button class="preset-btn" data-preset="segment" data-t="preset_segment">Segment conflict</button>
-          <button class="preset-btn" data-preset="reversal" data-t="preset_reversal">Long-term reversal</button>
-        </div>
-        <div class="preset-hint" id="presetHint"></div>
-      </div>
-
-      <div class="result" id="result">
-        <div class="placeholder" data-t="de_placeholder">Select a case to see the decision walkthrough.</div>
-      </div>
-    </div>
+  <div class="replay-sec" id="replaySec" style="display:none">
+    <div class="panel"><h3 data-t="hdr_replay">Agent Replay</h3><div id="repC"></div></div>
   </div>
 </div>
 
@@ -205,281 +163,352 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 
 <script>
 (function(){
-  var params=new URLSearchParams(location.search);
-  var LANG=params.get('lang')==='ru'?'ru':'en';
+var P=new URLSearchParams(location.search);
+var LANG=P.get('lang')==='ru'?'ru':'en';
+var DEBUG=P.get('debug')==='1';
 
-  var T={
-    nav_home:{en:'Home',ru:'\u0413\u043b\u0430\u0432\u043d\u0430\u044f'},
-    nav_traces:{en:'Traces',ru:'\u0422\u0440\u0435\u0439\u0441\u044b'},
-    nav_engine:{en:'Decision Engine',ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439'},
-    nav_corpus:{en:'Corpus Explorer',ru:'\u041a\u043e\u0440\u043f\u0443\u0441 \u043a\u0435\u0439\u0441\u043e\u0432'},
-    nav_ru_explainer:{en:'RU Explainer',ru:'RU \u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435'},
-    de_title:{en:'Decision Engine',ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u043f\u0440\u0438\u043d\u044f\u0442\u0438\u044f \u0440\u0435\u0448\u0435\u043d\u0438\u0439'},
-    de_subtitle:{en:'A step-by-step stop-rule pipeline for A/B test decisions. Each case walks through 6 rules in order; the first rule that triggers determines the verdict.',ru:'\u041f\u043e\u0448\u0430\u0433\u043e\u0432\u044b\u0439 stop-rule \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d \u0434\u043b\u044f A/B-\u0442\u0435\u0441\u0442\u043e\u0432. \u041a\u0430\u0436\u0434\u044b\u0439 \u043a\u0435\u0439\u0441 \u043f\u0440\u043e\u0445\u043e\u0434\u0438\u0442 6 \u043f\u0440\u0430\u0432\u0438\u043b \u043f\u043e \u043f\u043e\u0440\u044f\u0434\u043a\u0443; \u043f\u0435\u0440\u0432\u043e\u0435 \u0441\u0440\u0430\u0431\u043e\u0442\u0430\u0432\u0448\u0435\u0435 \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442 \u0432\u0435\u0440\u0434\u0438\u043a\u0442.'},
-    de_pipeline:{en:'The Pipeline',ru:'\u041f\u0430\u0439\u043f\u043b\u0430\u0439\u043d'},
-    rule_guardrails:{en:'Guardrails',ru:'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u044b'},
-    rule_reversal:{en:'Long-term reversal',ru:'\u0414\u043e\u043b\u0433\u043e\u0441\u0440\u043e\u0447\u043d\u044b\u0439 \u0440\u0435\u0432\u0435\u0440\u0441'},
-    rule_segment:{en:'Segment conflict',ru:'\u041a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},
-    rule_significance:{en:'Significance',ru:'\u0417\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c'},
-    rule_practical:{en:'Practical threshold',ru:'\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043f\u043e\u0440\u043e\u0433'},
-    rule_default:{en:'Default ship',ru:'\u0428\u0438\u043f \u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e'},
-    rule_default_out:{en:'No blockers \u2192 ship',ru:'\u041d\u0435\u0442 \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u043e\u043a \u2192 ship'},
-    de_pipe_desc:{en:'Rules 1\u20132 are <strong>hard blockers</strong>: guardrail breaches and long-term metric reversals immediately reject the experiment. Rule 3 sends ambiguous segment splits to investigation. Rules 4\u20135 check statistical and practical significance. If nothing fires, the experiment ships.',ru:'\u041f\u0440\u0430\u0432\u0438\u043b\u0430 1\u20132 \u2014 <strong>\u0436\u0451\u0441\u0442\u043a\u0438\u0435 \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u043a\u0438</strong>: \u043d\u0430\u0440\u0443\u0448\u0435\u043d\u0438\u0435 \u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u043e\u0432 \u0438 \u0434\u043e\u043b\u0433\u043e\u0441\u0440\u043e\u0447\u043d\u044b\u0439 \u0440\u0435\u0432\u0435\u0440\u0441 \u043c\u0435\u0442\u0440\u0438\u043a\u0438 \u0441\u0440\u0430\u0437\u0443 \u043e\u0442\u043a\u043b\u043e\u043d\u044f\u044e\u0442 \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442. \u041f\u0440\u0430\u0432\u0438\u043b\u043e 3 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u044f\u0435\u0442 \u043d\u0435\u043e\u0434\u043d\u043e\u0437\u043d\u0430\u0447\u043d\u044b\u0435 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u044b \u043d\u0430 \u0440\u0430\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0435. \u041f\u0440\u0430\u0432\u0438\u043b\u0430 4\u20135 \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u044e\u0442 \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u0447\u0435\u0441\u043a\u0443\u044e \u0438 \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0443\u044e \u0437\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c. \u0415\u0441\u043b\u0438 \u043d\u0438\u0447\u0435\u0433\u043e \u043d\u0435 \u0441\u0440\u0430\u0431\u043e\u0442\u0430\u043b\u043e \u2014 \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442 \u0448\u0438\u043f\u0438\u0442\u0441\u044f.'},
-    de_try:{en:'Try It on a Case',ru:'\u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u043d\u0430 \u043a\u0435\u0439\u0441\u0435'},
-    lbl_case:{en:'Case',ru:'\u041a\u0435\u0439\u0441'},
-    pick_case:{en:'\u2014 pick a case \u2014',ru:'\u2014 \u0432\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441 \u2014'},
-    lbl_alpha:{en:'Significance level (\u03b1)',ru:'\u0423\u0440\u043e\u0432\u0435\u043d\u044c \u0437\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u0438 (\u03b1)'},
-    lbl_uplift:{en:'Min practical uplift',ru:'\u041c\u0438\u043d. \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 uplift'},
-    lbl_ctr:{en:'CTR guardrail threshold',ru:'\u041f\u043e\u0440\u043e\u0433 CTR-\u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u0430'},
-    btn_random:{en:'Random case',ru:'\u0421\u043b\u0443\u0447\u0430\u0439\u043d\u044b\u0439 \u043a\u0435\u0439\u0441'},
-    btn_reset:{en:'Reset',ru:'\u0421\u0431\u0440\u043e\u0441'},
-    lbl_presets:{en:'Presets',ru:'\u041f\u0440\u0435\u0441\u0435\u0442\u044b'},
-    preset_guardrail:{en:'Guardrail breach',ru:'\u041d\u0430\u0440\u0443\u0448\u0435\u043d\u0438\u0435 \u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u0430'},
-    preset_segment:{en:'Segment conflict',ru:'\u041a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},
-    preset_reversal:{en:'Long-term reversal',ru:'\u0414\u043e\u043b\u0433\u043e\u0441\u0440\u043e\u0447\u043d\u044b\u0439 \u0440\u0435\u0432\u0435\u0440\u0441'},
-    de_placeholder:{en:'Select a case to see the decision walkthrough.',ru:'\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441 \u0434\u043b\u044f \u043f\u043e\u0448\u0430\u0433\u043e\u0432\u043e\u0433\u043e \u0440\u0430\u0437\u0431\u043e\u0440\u0430 \u0440\u0435\u0448\u0435\u043d\u0438\u044f.'},
-    de_footer:{en:'AB Factory Demo \u00b7 Decision Engine \u00b7 zero dependencies',ru:'AB Factory Demo \u00b7 \u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u00b7 \u0431\u0435\u0437 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0435\u0439'},
-    why_prefix:{en:'Why:',ru:'\u041f\u043e\u0447\u0435\u043c\u0443:'},
-    baseline_reasons:{en:'Baseline reasons',ru:'\u0411\u0430\u0437\u043e\u0432\u044b\u0435 \u043f\u0440\u0438\u0447\u0438\u043d\u044b'},
-    view_corpus:{en:'View in Corpus Explorer \u2192',ru:'\u0421\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435 \u2192'},
-    preset_picked:{en:'Preset picked',ru:'\u041f\u0440\u0435\u0441\u0435\u0442 \u0432\u044b\u0431\u0440\u0430\u043b'},
-    preset_because_gr:{en:'because it has a guardrail breach',ru:'\u2014 \u043d\u0430\u0440\u0443\u0448\u0435\u043d\u0438\u0435 \u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u0430'},
-    preset_because_seg:{en:'because it has a segment conflict',ru:'\u2014 \u043a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},
-    preset_because_rev:{en:'because it has a long-term reversal',ru:'\u2014 \u0434\u043e\u043b\u0433\u043e\u0441\u0440\u043e\u0447\u043d\u044b\u0439 \u0440\u0435\u0432\u0435\u0440\u0441'},
-    preset_none:{en:'No matching case found',ru:'\u041d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e \u043f\u043e\u0434\u0445\u043e\u0434\u044f\u0449\u0435\u0433\u043e \u043a\u0435\u0439\u0441\u0430'}
-  };
+var T={
+  nav_home:{en:'Home',ru:'\u0413\u043b\u0430\u0432\u043d\u0430\u044f'},
+  nav_traces:{en:'Traces',ru:'\u0422\u0440\u0435\u0439\u0441\u044b'},
+  nav_engine:{en:'Decision Engine',ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439'},
+  nav_corpus:{en:'Corpus Explorer',ru:'\u041a\u043e\u0440\u043f\u0443\u0441 \u043a\u0435\u0439\u0441\u043e\u0432'},
+  nav_ru_explainer:{en:'RU Explainer',ru:'RU \u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435'},
+  de_title:{en:'Decision Engine',ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u043f\u0440\u0438\u043d\u044f\u0442\u0438\u044f \u0440\u0435\u0448\u0435\u043d\u0438\u0439'},
+  de_subtitle:{en:'Interactive stop-rule diagram. Pick a case, adjust policy thresholds, watch which rule fires first.',ru:'\u0418\u043d\u0442\u0435\u0440\u0430\u043a\u0442\u0438\u0432\u043d\u0430\u044f \u0441\u0445\u0435\u043c\u0430 stop-rule. \u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441, \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u0442\u0435 \u043f\u043e\u0440\u043e\u0433\u0438, \u0441\u043c\u043e\u0442\u0440\u0438\u0442\u0435 \u043a\u0430\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u0441\u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u043f\u0435\u0440\u0432\u044b\u043c.'},
+  lbl_case:{en:'Case',ru:'\u041a\u0435\u0439\u0441'},
+  pick_case:{en:'\u2014 pick a case \u2014',ru:'\u2014 \u0432\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441 \u2014'},
+  lbl_alpha:{en:'\u03b1',ru:'\u03b1'},
+  lbl_uplift:{en:'Min uplift',ru:'\u041c\u0438\u043d. uplift'},
+  lbl_ctr:{en:'CTR guard',ru:'\u041f\u043e\u0440\u043e\u0433 CTR'},
+  btn_random:{en:'Random',ru:'\u0421\u043b\u0443\u0447\u0430\u0439\u043d\u044b\u0439'},
+  btn_reset:{en:'Reset',ru:'\u0421\u0431\u0440\u043e\u0441'},
+  preset_guardrail:{en:'Guardrail',ru:'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b'},
+  preset_segment:{en:'Segment',ru:'\u0421\u0435\u0433\u043c\u0435\u043d\u0442'},
+  preset_reversal:{en:'Reversal',ru:'\u0420\u0435\u0432\u0435\u0440\u0441'},
+  hdr_pipeline:{en:'Stop-Rule Pipeline',ru:'Stop-Rule \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d'},
+  hdr_signals:{en:'Case Signals',ru:'\u0421\u0438\u0433\u043d\u0430\u043b\u044b \u043a\u0435\u0439\u0441\u0430'},
+  hdr_verdict:{en:'Verdict',ru:'\u0412\u0435\u0440\u0434\u0438\u043a\u0442'},
+  hdr_replay:{en:'Agent Replay',ru:'\u0420\u0435\u043f\u043b\u0435\u0439 \u0430\u0433\u0435\u043d\u0442\u043e\u0432'},
+  ph_pick:{en:'Select a case to begin.',ru:'\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441 \u0434\u043b\u044f \u043d\u0430\u0447\u0430\u043b\u0430.'},
+  de_footer:{en:'AB Factory Demo \u00b7 Decision Engine \u00b7 zero dependencies',ru:'AB Factory Demo \u00b7 \u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u00b7 \u0431\u0435\u0437 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0435\u0439'},
+  preset_picked:{en:'Preset picked',ru:'\u041f\u0440\u0435\u0441\u0435\u0442 \u0432\u044b\u0431\u0440\u0430\u043b'},
+  preset_because_gua:{en:'because it has a guardrail breach',ru:'\u2014 \u043d\u0430\u0440\u0443\u0448\u0435\u043d\u0438\u0435 \u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u0430'},
+  preset_because_seg:{en:'because it has a segment conflict',ru:'\u2014 \u043a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},
+  preset_because_rev:{en:'because it has a long-term reversal',ru:'\u2014 \u0434\u043e\u043b\u0433\u043e\u0441\u0440\u043e\u0447\u043d\u044b\u0439 \u0440\u0435\u0432\u0435\u0440\u0441'},
+  preset_none:{en:'No matching case found',ru:'\u041d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e \u043f\u043e\u0434\u0445\u043e\u0434\u044f\u0449\u0435\u0433\u043e \u043a\u0435\u0439\u0441\u0430'},
+  r_guardrails:{en:'Guardrails',ru:'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u044b'},
+  r_reversal:{en:'Long-term reversal',ru:'\u0420\u0435\u0432\u0435\u0440\u0441 \u0432 \u0434\u043e\u043b\u0433\u043e\u0441\u0440\u043e\u043a\u0435'},
+  r_segment:{en:'Segment conflict',ru:'\u041a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},
+  r_significance:{en:'Significance',ru:'\u0421\u0442\u0430\u0442\u0437\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c'},
+  r_practical:{en:'Practical threshold',ru:'\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043f\u043e\u0440\u043e\u0433'},
+  r_default:{en:'Ship',ru:'Ship'},
+  d_guardrails:{en:'Hard metric floor violations',ru:'\u0416\u0451\u0441\u0442\u043a\u0438\u0435 \u043f\u043e\u0440\u043e\u0433\u0438 \u043c\u0435\u0442\u0440\u0438\u043a'},
+  d_reversal:{en:'Late negative trend in metric',ru:'\u041f\u043e\u0437\u0434\u043d\u0438\u0439 \u043d\u0435\u0433\u0430\u0442\u0438\u0432\u043d\u044b\u0439 \u0442\u0440\u0435\u043d\u0434'},
+  d_segment:{en:'Opposite effects across user groups',ru:'\u041f\u0440\u043e\u0442\u0438\u0432\u043e\u043f\u043e\u043b\u043e\u0436\u043d\u044b\u0435 \u044d\u0444\u0444\u0435\u043a\u0442\u044b \u043f\u043e \u0433\u0440\u0443\u043f\u043f\u0430\u043c'},
+  d_significance:{en:'p-value vs \u03b1 threshold',ru:'p-value \u043f\u0440\u043e\u0442\u0438\u0432 \u03b1'},
+  d_practical:{en:'Uplift vs minimum required effect',ru:'Uplift \u043f\u0440\u043e\u0442\u0438\u0432 \u043c\u0438\u043d. \u044d\u0444\u0444\u0435\u043a\u0442\u0430'},
+  d_default:{en:'No blockers \u2192 deploy',ru:'\u041d\u0435\u0442 \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u043e\u043a \u2192 \u0432\u044b\u043a\u0430\u0442\u043a\u0430'},
+  s_pass:{en:'PASS',ru:'\u041f\u0420\u041e\u0428\u041b\u041e'},
+  s_stop:{en:'STOP',ru:'\u0421\u0422\u041e\u041f'},
+  s_skip:{en:'SKIP',ru:'\u0421\u041a\u0418\u041f'},
+  stopped_at:{en:'Stopped at Step',ru:'\u041e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 \u043d\u0430 \u0448\u0430\u0433\u0435'},
+  no_blockers:{en:'No blockers \u2192 Ship (Step 6)',ru:'\u041d\u0435\u0442 \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u043e\u043a \u2192 Ship (\u0448\u0430\u0433 6)'},
+  top_reasons:{en:'Top reasons',ru:'\u0413\u043b\u0430\u0432\u043d\u044b\u0435 \u043f\u0440\u0438\u0447\u0438\u043d\u044b'},
+  open_corpus:{en:'Open in Corpus',ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435'},
+  open_replay:{en:'Open Replay',ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0440\u0435\u043f\u043b\u0435\u0439'},
+  replay_na:{en:'Replay not built. Run: python3 tools/build_replays_index.py',ru:'\u0420\u0435\u043f\u043b\u0435\u0438 \u043d\u0435 \u043f\u043e\u0441\u0442\u0440\u043e\u0435\u043d\u044b. \u0417\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u0435: python3 tools/build_replays_index.py'},
+  replay_miss:{en:'No replay for this case.',ru:'\u041d\u0435\u0442 \u0440\u0435\u043f\u043b\u0435\u044f \u0434\u043b\u044f \u044d\u0442\u043e\u0433\u043e \u043a\u0435\u0439\u0441\u0430.'}
+};
 
-  function t(k){var e=T[k];return e?e[LANG]||e.en:k;}
+function t(k){var e=T[k];return e?(e[LANG]||e.en):k;}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtD(d){return(d||'').replace(/_/g,' ');}
+function cc(v){return v>=0.6?'var(--green)':v>=0.3?'var(--orange)':'var(--red)';}
+function pf(v){return parseFloat(v).toFixed(1);}
 
-  function applyI18n(){
-    document.querySelectorAll('[data-t]').forEach(function(el){
-      var k=el.getAttribute('data-t');
-      var v=t(k);
-      if(v) el.innerHTML=v;
-    });
-    if(LANG==='ru') document.documentElement.lang='ru';
-    document.querySelectorAll('.top-bar a[href]').forEach(function(a){
-      if(LANG==='ru'&&a.href.indexOf('lang=')<0){
-        var u=new URL(a.href,location.href);
-        u.searchParams.set('lang','ru');
-        a.href=u.pathname+u.search;
-      }
-    });
-  }
-
-  applyI18n();
-
-  var CASES=[];
-  var $case=document.getElementById('ctrlCase');
-  var $alpha=document.getElementById('ctrlAlpha');
-  var $uplift=document.getElementById('ctrlUplift');
-  var $ctr=document.getElementById('ctrlCtr');
-  var $vU=document.getElementById('valUplift');
-  var $vC=document.getElementById('valCtr');
-  var $result=document.getElementById('result');
-  var $hint=document.getElementById('presetHint');
-
-  fetch('data/corpus_100.json').then(function(r){return r.json();}).then(function(data){
-    CASES=data;
-    $case.innerHTML='<option value="">'+t('pick_case')+'</option>';
-    CASES.forEach(function(c){
-      var o=document.createElement('option');
-      o.value=c.case_id;
-      o.textContent=c.case_id.replace('case_','')+' \u2014 '+c.title;
-      $case.appendChild(o);
-    });
-    var urlCase=params.get('case');
-    if(urlCase){
-      var found=CASES.find(function(x){return x.case_id===urlCase;});
-      if(found){$case.value=urlCase; evaluate();}
+function applyI18n(){
+  document.querySelectorAll('[data-t]').forEach(function(el){
+    var v=t(el.getAttribute('data-t'));
+    if(v) el.innerHTML=v;
+  });
+  if(LANG==='ru') document.documentElement.lang='ru';
+  document.querySelectorAll('.top-bar a[href]').forEach(function(a){
+    if(LANG==='ru'&&a.href.indexOf('lang=')<0){
+      var u=new URL(a.href,location.href);u.searchParams.set('lang','ru');a.href=u.pathname+u.search;
     }
   });
+}
+applyI18n();
 
-  $case.addEventListener('change',evaluate);
-  $alpha.addEventListener('change',evaluate);
-  $uplift.addEventListener('input',function(){$vU.textContent=pf($uplift.value)+'%';evaluate();});
-  $ctr.addEventListener('input',function(){$vC.textContent='\u2212'+pf($ctr.value)+'%';evaluate();});
-  document.getElementById('btnReset').addEventListener('click',function(){
-    $alpha.value='0.05';$uplift.value='0.5';$ctr.value='3.0';
-    $vU.textContent='0.5%';$vC.textContent='\u2212'+'3.0%';
-    $hint.textContent='';
+var SMETA=[
+  {tk:'r_guardrails',td:'d_guardrails'},
+  {tk:'r_reversal',td:'d_reversal'},
+  {tk:'r_segment',td:'d_segment'},
+  {tk:'r_significance',td:'d_significance'},
+  {tk:'r_practical',td:'d_practical'},
+  {tk:'r_default',td:'d_default'}
+];
+
+var CASES=[],REPIDX=null,REPCACHE={};
+var $cs=document.getElementById('ctrlCase');
+var $al=document.getElementById('ctrlAlpha');
+var $up=document.getElementById('ctrlUplift');
+var $ct=document.getElementById('ctrlCtr');
+var $vU=document.getElementById('valU');
+var $vC=document.getElementById('valC');
+var $hint=document.getElementById('hint');
+
+renderPipelineEmpty();
+
+fetch('data/corpus_100.json').then(function(r){return r.json();}).then(function(data){
+  CASES=data;
+  $cs.innerHTML='<option value="">'+t('pick_case')+'</option>';
+  CASES.forEach(function(c){
+    var o=document.createElement('option');o.value=c.case_id;
+    o.textContent=c.case_id.replace('case_','')+' \u2014 '+c.title;
+    $cs.appendChild(o);
+  });
+  readUrlState();
+  if(DEBUG) runConsistencyCheck();
+});
+
+fetch('data/replays/index.json').then(function(r){return r.json();}).then(function(idx){REPIDX=idx;}).catch(function(){});
+
+$cs.addEventListener('change',evaluate);
+$al.addEventListener('change',evaluate);
+$up.addEventListener('input',function(){$vU.textContent=pf($up.value)+'%';evaluate();});
+$ct.addEventListener('input',function(){$vC.textContent='\u2212'+pf($ct.value)+'%';evaluate();});
+document.getElementById('btnReset').addEventListener('click',function(){
+  $al.value='0.05';$up.value='0.5';$ct.value='3';
+  $vU.textContent='0.5%';$vC.textContent='\u22123.0%';$hint.textContent='';evaluate();
+});
+document.getElementById('btnRand').addEventListener('click',function(){
+  if(!CASES.length) return;
+  $cs.value=CASES[Math.floor(Math.random()*CASES.length)].case_id;
+  $hint.textContent='';evaluate();
+});
+document.querySelectorAll('.pb').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var pr=btn.dataset.preset,m=null,ctrT=parseFloat($ct.value);
+    if(pr==='guardrail') m=CASES.find(function(c){return c.reasons.some(function(r){return r.indexOf('guardrail_violation')>=0;})||(c.guardrail_ctr_delta!=null&&c.guardrail_ctr_delta<0&&Math.abs(c.guardrail_ctr_delta)>=ctrT);});
+    else if(pr==='segment') m=CASES.find(function(c){return !!c.segment_conflict;});
+    else if(pr==='reversal') m=CASES.find(function(c){return !!c.long_term_reversal;});
+    if(!m){$hint.textContent=t('preset_none');return;}
+    $cs.value=m.case_id;
+    $hint.textContent=t('preset_picked')+' '+m.case_id+' '+t('preset_because_'+pr.substring(0,3));
     evaluate();
+    setTimeout(function(){highlightStep(pr==='guardrail'?0:pr==='reversal'?1:2);},300);
   });
-  document.getElementById('btnRandom').addEventListener('click',function(){
-    if(!CASES.length) return;
-    var c=CASES[Math.floor(Math.random()*CASES.length)];
-    $case.value=c.case_id;
-    $hint.textContent='';
-    evaluate();
-  });
+});
 
-  document.querySelectorAll('.preset-btn').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var preset=btn.dataset.preset;
-      var ctrT=parseFloat($ctr.value);
-      var match=null;
-      if(preset==='guardrail'){
-        match=CASES.find(function(c){
-          return c.reasons.some(function(r){return r.indexOf('guardrail_violation')>=0;})
-            ||(c.guardrail_ctr_delta!=null&&c.guardrail_ctr_delta<0&&Math.abs(c.guardrail_ctr_delta)>=ctrT);
-        });
-      } else if(preset==='segment'){
-        match=CASES.find(function(c){return !!c.segment_conflict;});
-      } else if(preset==='reversal'){
-        match=CASES.find(function(c){return !!c.long_term_reversal;});
-      }
-      if(!match){$hint.textContent=t('preset_none');return;}
-      $case.value=match.case_id;
-      var reasonKey='preset_because_'+preset.substring(0,3);
-      $hint.textContent=t('preset_picked')+' '+match.case_id+' '+t(reasonKey);
-      evaluate();
-      $result.scrollIntoView({behavior:'smooth',block:'start'});
-      var ruleIdx=preset==='guardrail'?0:preset==='reversal'?1:2;
-      setTimeout(function(){highlightRule(ruleIdx);},350);
-    });
-  });
+function highlightStep(idx){
+  var items=document.querySelectorAll('#stepList .si');
+  if(items[idx]){items[idx].classList.add('si-hl');setTimeout(function(){items[idx].classList.remove('si-hl');},1500);}
+}
 
-  function highlightRule(idx){
-    var rules=$result.querySelectorAll('.wt-rule');
-    if(!rules[idx]) return;
-    rules[idx].classList.add('wt-highlight');
-    setTimeout(function(){rules[idx].classList.remove('wt-highlight');},1500);
+function evaluateStopRules(c,pol){
+  var alpha=pol.alpha,minUp=pol.minUplift,ctrT=pol.ctrThreshold;
+  var hasGr=c.reasons&&c.reasons.some(function(r){return r.indexOf('guardrail_violation')>=0;});
+  var ctrD=c.guardrail_ctr_delta;
+  var ctrB=ctrD!=null&&ctrD<0&&Math.abs(ctrD)>=ctrT;
+  var steps=[
+    {tr:hasGr||ctrB,v:'do_not_ship',ev:ctrD!=null?'CTR \u0394 = '+ctrD.toFixed(1)+'% < \u2212'+ctrT.toFixed(1)+'%'+(ctrB?' \u2014 breached':' \u2014 OK'):(hasGr?'Guardrail breach detected':'No guardrail signals'),rc:'guardrail_violation:ctr'},
+    {tr:!!c.long_term_reversal,v:'do_not_ship',ev:c.long_term_reversal?'Weekly reversal detected':'Not detected',rc:'long_term_reversal'},
+    {tr:!!c.segment_conflict,v:'investigate',ev:c.segment_conflict?'Opposite signed segment effects':'No conflict',rc:'segment_conflict'},
+    {tr:c.p_value!=null&&c.p_value>alpha,v:'do_not_ship',ev:c.p_value!=null?'p = '+c.p_value.toFixed(3)+' vs \u03b1 = '+alpha+(c.p_value>alpha?' \u2014 not significant':' \u2014 significant'):'p-value unavailable',rc:'not_significant'},
+    {tr:c.uplift_pct!=null&&c.uplift_pct<minUp,v:'do_not_ship',ev:c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+pf(c.uplift_pct)+'% vs min '+pf(minUp)+'%'+(c.uplift_pct<minUp?' \u2014 too small':' \u2014 OK'):'Uplift unavailable',rc:'practically_small'},
+    {tr:true,v:'ship',ev:(c.p_value!=null&&c.uplift_pct!=null)?'Significant and above threshold':'No blockers',rc:'ship_ok'}
+  ];
+  var sI=-1,verdict='ship',st=[];
+  for(var i=0;i<steps.length;i++){
+    if(sI>=0){st.push('SKIP');}
+    else if(steps[i].tr){sI=i;verdict=steps[i].v;st.push('STOP');}
+    else{st.push('PASS');}
   }
+  var topR=[];
+  if(sI>=0&&steps[sI].rc) topR.push({code:steps[sI].rc,ev:steps[sI].ev});
+  if(c.reasons) c.reasons.forEach(function(r){if(topR.length>=4||topR.some(function(x){return x.code===r;})) return;topR.push({code:r,ev:reasonEv(r,c,{alpha:alpha,minUp:minUp,ctrT:ctrT})});});
+  return{verdict:verdict,stopIdx:sI,statuses:st,steps:steps,topReasons:topR};
+}
 
-  function evaluate(){
-    var id=$case.value;
-    var c=CASES.find(function(x){return x.case_id===id;});
-    if(!c){$result.innerHTML='<div class="placeholder">'+t('de_placeholder')+'</div>';syncUrl('');return;}
-    syncUrl(id);
+function reasonEv(r,c,p){
+  if(r.indexOf('guardrail_violation')>=0){var d=c.guardrail_ctr_delta;return d!=null?'CTR \u0394 = '+d.toFixed(1)+'% < \u2212'+p.ctrT.toFixed(1)+'%':'Guardrail breach';}
+  if(r==='not_significant') return c.p_value!=null?'p = '+c.p_value.toFixed(3)+' > \u03b1 = '+p.alpha:'';
+  if(r==='practically_small') return c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+pf(c.uplift_pct)+'% < '+pf(p.minUp)+'%':'';
+  if(r==='segment_conflict') return 'Opposite signed segment effects';
+  if(r==='long_term_reversal') return 'Late negative effect detected';
+  if(r==='primary_uplift') return c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+pf(c.uplift_pct)+'% uplift':'';
+  if(r==='evidence_sparse') return 'Limited evidence available';
+  return '';
+}
 
-    var alpha=parseFloat($alpha.value);
-    var minUp=parseFloat($uplift.value);
-    var ctrT=parseFloat($ctr.value);
-
-    var hasGrBreach=c.reasons.some(function(r){return r.indexOf('guardrail_violation')>=0;});
-    var ctrD=c.guardrail_ctr_delta;
-    var ctrBreach=ctrD!=null&&ctrD<0&&Math.abs(ctrD)>=ctrT;
-
-    var ruleNames=[t('rule_guardrails'),t('rule_reversal'),t('rule_segment'),t('rule_significance'),t('rule_practical'),t('rule_default')];
-    var rules=[
-      {n:ruleNames[0],
-       triggered:hasGrBreach||ctrBreach,
-       dec:'do_not_ship',
-       ev:ctrD!=null?'CTR '+ctrD.toFixed(1)+'% vs \u2212'+ctrT+'% threshold'+(ctrBreach?' \u2014 breached':' \u2014 OK'):(hasGrBreach?'Guardrail breach detected':'No guardrail data')},
-      {n:ruleNames[1],
-       triggered:!!c.long_term_reversal,
-       dec:'do_not_ship',
-       ev:c.long_term_reversal?'Weekly reversal detected':'Not detected'},
-      {n:ruleNames[2],
-       triggered:!!c.segment_conflict,
-       dec:'investigate',
-       ev:c.segment_conflict?'Opposite signed segment effects':'No conflict'},
-      {n:ruleNames[3],
-       triggered:c.p_value!=null&&c.p_value>alpha,
-       dec:'do_not_ship',
-       ev:c.p_value!=null?'p = '+c.p_value.toFixed(3)+' vs \u03b1 = '+alpha+(c.p_value>alpha?' \u2014 not significant':' \u2014 significant'):'p-value unavailable'},
-      {n:ruleNames[4],
-       triggered:c.uplift_pct!=null&&c.uplift_pct<minUp,
-       dec:'do_not_ship',
-       ev:c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+c.uplift_pct+'% vs min '+minUp+'%'+(c.uplift_pct<minUp?' \u2014 too small':' \u2014 OK'):'Uplift unavailable'},
-      {n:ruleNames[5],
-       triggered:true,
-       dec:'ship',
-       ev:'No blocking rules'}
-    ];
-
-    var stopIdx=-1,decision='ship';
-    for(var i=0;i<rules.length;i++){
-      if(rules[i].triggered){stopIdx=i;decision=rules[i].dec;break;}
-    }
-
-    var confPct=c.confidence!=null?(c.confidence*100).toFixed(1):'\u2014';
-    var cc=confCol(c.confidence);
-
-    var h='';
-    h+='<div class="result-hdr">';
-    h+='<span class="case-title">'+esc(c.title)+'</span>';
-    h+='<span class="badge badge-'+decision+'">'+fmtDec(decision)+'</span>';
-    h+='<span class="conf-bar"><span class="bar"><span class="fill" style="width:'+confPct+'%;background:'+cc+'"></span></span>'+confPct+'%</span>';
+function renderPipelineEmpty(){
+  var h='';
+  SMETA.forEach(function(m,i){
+    h+='<div class="si"><div class="sd"></div>';
+    h+='<div class="si-num">Step '+(i+1)+'</div>';
+    h+='<div><span class="si-nm">'+t(m.tk)+'</span></div>';
+    h+='<div class="si-desc">'+t(m.td)+'</div>';
     h+='</div>';
+  });
+  document.getElementById('stepList').innerHTML=h;
+}
 
-    var whyText=buildWhy(rules,stopIdx,decision);
-    h+='<div class="wt-why"><strong>'+t('why_prefix')+'</strong> '+whyText+'</div>';
+function renderPipeline(res){
+  var h='';
+  SMETA.forEach(function(m,i){
+    var st=res.statuses[i],cls=st==='PASS'?'si-p':st==='STOP'?'si-s':'si-k';
+    if(st==='STOP'&&res.steps[i].v==='investigate') cls+=' si-inv';
+    var stLabel=st==='PASS'?t('s_pass'):st==='STOP'?t('s_stop'):t('s_skip');
+    h+='<div class="si '+cls+'"><div class="sd"></div>';
+    h+='<div class="si-num">Step '+(i+1)+'</div>';
+    h+='<div><span class="si-nm">'+t(m.tk)+'</span><span class="si-tag">'+stLabel+'</span></div>';
+    h+='<div class="si-desc">'+t(m.td)+'</div>';
+    h+='<div class="si-ev">'+res.steps[i].ev+'</div>';
+    h+='</div>';
+  });
+  document.getElementById('stepList').innerHTML=h;
+}
 
-    h+='<div class="wt">';
-    for(var j=0;j<rules.length;j++){
-      var st=j<stopIdx?'pass':j===stopIdx?'stop':'skip';
-      var extra=st==='stop'&&rules[j].dec==='investigate'?' wt-investigate':'';
-      h+='<div class="wt-rule wt-'+st+extra+'">';
-      h+='<div class="wt-top"><span class="wt-name">'+rules[j].n+'</span><span class="wt-tag">'+st.toUpperCase()+'</span></div>';
-      h+='<div class="wt-ev">'+rules[j].ev+'</div>';
+function renderSignals(c){
+  var h='<div class="sg">';
+  h+=sig('Metric',esc(c.metric));
+  h+=sig('Uplift',c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+pf(c.uplift_pct)+'%':'\u2014');
+  h+=sig('p-value',c.p_value!=null?(c.p_value<0.001?'<0.001':c.p_value.toFixed(3)):'\u2014');
+  h+=sig('CTR \u0394',c.guardrail_ctr_delta!=null?c.guardrail_ctr_delta.toFixed(1)+'%':'\u2014');
+  h+=sig(LANG==='ru'?'\u0420\u0435\u0432\u0435\u0440\u0441':'Reversal',c.long_term_reversal?'<span style="color:var(--red)">Yes</span>':'No');
+  h+=sig(LANG==='ru'?'\u0421\u0435\u0433\u043c\u0435\u043d\u0442\u044b':'Segments',c.segment_conflict?'<span style="color:var(--orange)">Conflict</span>':'OK');
+  h+='</div>';
+  if(c.control_mean!=null&&c.test_mean!=null) h+=buildBar(c);
+  document.getElementById('sigC').innerHTML=h;
+}
+
+function renderVerdict(c,res){
+  var cp=c.confidence!=null?(c.confidence*100).toFixed(0):'\u2014';
+  var col=cc(c.confidence);
+  var h='<div style="text-align:center;margin-bottom:12px"><span class="badge badge-'+res.verdict+'">'+fmtD(res.verdict)+'</span></div>';
+  h+='<div class="cm"><span class="pct">'+cp+'%</span><div class="bar"><div class="fill" style="width:'+cp+'%;background:'+col+'"></div></div></div>';
+  var expl='';
+  if(res.stopIdx<5){
+    expl=t('stopped_at')+' '+(res.stopIdx+1)+': <strong>'+t(SMETA[res.stopIdx].tk)+'</strong> \u2192 '+fmtD(res.verdict);
+  }else{
+    expl=t('no_blockers');
+  }
+  h+='<div class="ebox">'+expl+'</div>';
+  if(res.topReasons.length){
+    h+='<div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px">'+t('top_reasons')+'</div>';
+    res.topReasons.forEach(function(r){
+      h+='<div class="ri"><div class="ri-c">'+esc(r.code)+'</div>';
+      if(r.ev) h+='<div class="ri-e">'+esc(r.ev)+'</div>';
       h+='</div>';
-    }
-    h+='</div>';
-
-    if(c.reasons&&c.reasons.length){
-      h+='<div style="margin-bottom:14px"><span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em">'+t('baseline_reasons')+'</span><div class="tags" style="margin-top:6px">';
-      c.reasons.forEach(function(r){h+='<span class="reason-tag">'+esc(r)+'</span>';});
-      h+='</div></div>';
-    }
-
-    h+='<div class="signals">';
-    h+=sig('Metric',esc(c.metric));
-    h+=sig('Uplift',c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+c.uplift_pct+'%':'\u2014');
-    h+=sig('p-value',c.p_value!=null?(c.p_value<0.001?'<0.001':c.p_value.toFixed(3)):'\u2014');
-    h+=sig('CTR \u0394',ctrD!=null?ctrD.toFixed(1)+'%':'\u2014');
-    h+=sig(LANG==='ru'?'\u0420\u0435\u0432\u0435\u0440\u0441':'Reversal',c.long_term_reversal?'<span style="color:var(--red)">Yes</span>':'No');
-    h+=sig(LANG==='ru'?'\u0421\u0435\u0433\u043c\u0435\u043d\u0442\u044b':'Segments',c.segment_conflict?'<span style="color:var(--orange)">Conflict</span>':'OK');
-    h+='</div>';
-
-    if(c.control_mean!=null&&c.test_mean!=null){
-      h+=buildBarChart(c);
-    }
-
-    h+='<div style="margin-top:14px"><a href="corpus.html?case='+c.case_id+'&tab=details'+(LANG==='ru'?'&lang=ru':'')+'" style="font-size:13px;color:var(--accent);text-decoration:none">'+t('view_corpus')+'</a></div>';
-
-    $result.innerHTML=h;
+    });
   }
+  var lp=LANG==='ru'?'&lang=ru':'';
+  h+='<div class="cta">';
+  h+='<a class="cta-p" href="corpus.html?case='+c.case_id+'&tab=details'+lp+'">'+t('open_corpus')+'</a>';
+  h+='<a class="cta-s" href="traces.html'+( LANG==='ru'?'?lang=ru':'')+'">'+t('open_replay')+'</a>';
+  h+='</div>';
+  document.getElementById('verC').innerHTML=h;
+}
 
-  function buildWhy(rules,stopIdx,decision){
-    if(stopIdx<0) return 'All rules passed \u2014 experiment ships.';
-    var r=rules[stopIdx];
-    if(decision==='do_not_ship') return (LANG==='ru'?'\u041e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 \u043d\u0430 ':'\u0053topped at ')+' <strong>'+esc(r.n)+'</strong>: '+r.ev+'. '+(LANG==='ru'?'\u0412\u0435\u0440\u0434\u0438\u043a\u0442: do not ship.':'Verdict: do not ship.');
-    if(decision==='investigate') return (LANG==='ru'?'\u041e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 \u043d\u0430 ':'Stopped at ')+' <strong>'+esc(r.n)+'</strong>: '+r.ev+'. '+(LANG==='ru'?'\u0422\u0440\u0435\u0431\u0443\u0435\u0442 \u0440\u0430\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u044f.':'Needs further investigation.');
-    return LANG==='ru'?'\u041d\u0438 \u043e\u0434\u043d\u043e \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043d\u0435 \u0441\u0440\u0430\u0431\u043e\u0442\u0430\u043b\u043e \u2014 \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442 \u0448\u0438\u043f\u0438\u0442\u0441\u044f.':'No blocking rules found \u2014 experiment ships.';
+function buildBar(c){
+  var cR=c.control_mean,tR=c.test_mean;
+  var mn=Math.min(cR,tR),mx=Math.max(cR,tR);
+  var fl=mn*0.92,sp=mx-fl||1;
+  var cW=((cR-fl)/sp*100).toFixed(1),tW=((tR-fl)/sp*100).toFixed(1);
+  var up=c.uplift_pct,uC=up>0?'var(--green)':up<0?'var(--red)':'var(--muted)';
+  var h='<div class="cc"><div class="cc-l">'+esc(c.metric)+': Control vs Test</div>';
+  h+='<div class="br"><span class="br-t">Control</span><div class="br-k"><div class="br-f" style="width:'+cW+'%;background:var(--muted);opacity:.55"></div></div><span class="br-n">'+cR.toFixed(4)+'</span></div>';
+  h+='<div class="br"><span class="br-t">Test</span><div class="br-k"><div class="br-f" style="width:'+tW+'%;background:'+uC+'"></div></div><span class="br-n">'+tR.toFixed(4)+'</span></div>';
+  h+='<div class="br-u" style="color:'+uC+'">'+(up!=null?(up>0?'+':'')+pf(up)+'% uplift':'\u2014')+'</div></div>';
+  return h;
+}
+
+function loadReplay(caseId){
+  var $sec=document.getElementById('replaySec'),$c=document.getElementById('repC');
+  if(!REPIDX){$sec.style.display='none';return;}
+  var entry=REPIDX.find(function(e){return e.case_id===caseId;});
+  if(!entry){$sec.style.display='block';$c.innerHTML='<div class="ph">'+t('replay_miss')+'</div>';return;}
+  if(REPCACHE[caseId]){$sec.style.display='block';renderReplay(REPCACHE[caseId]);return;}
+  $sec.style.display='block';$c.innerHTML='<div class="ph">Loading\u2026</div>';
+  fetch('data/replays/'+caseId+'.json').then(function(r){return r.json();}).then(function(rp){
+    REPCACHE[caseId]=rp;renderReplay(rp);
+  }).catch(function(){$c.innerHTML='<div class="ph">'+t('replay_miss')+'</div>';});
+}
+
+function renderReplay(rp){
+  var evts=rp.timeline||[];
+  var agents=['reader','stats','decision','viz'];
+  var h='';
+  agents.forEach(function(ag){
+    var ae=evts.filter(function(e){return e.agent===ag;});
+    if(!ae.length) return;
+    h+='<div class="sw"><div class="sw-l">'+ag+'</div><div class="sw-e">';
+    ae.forEach(function(e){
+      h+='<span class="sw-ev sw-ev-'+ag+'" title="'+esc(e.message)+'">'+esc(e.event_type)+'<span class="sw-t">'+e.t_ms+'ms</span></span>';
+    });
+    h+='</div></div>';
+  });
+  if(rp.decision){
+    var cp=rp.confidence!=null?(rp.confidence*100).toFixed(0):'?';
+    h+='<div style="margin-top:8px;text-align:center"><span class="badge badge-'+rp.decision+'">'+fmtD(rp.decision)+'</span> <span style="font-size:12px;color:var(--muted)">'+cp+'% confidence</span></div>';
   }
+  document.getElementById('repC').innerHTML=h;
+}
 
-  function buildBarChart(c){
-    var cR=c.control_mean,tR=c.test_mean;
-    var mn=Math.min(cR,tR),mx=Math.max(cR,tR);
-    var floor=mn*0.92,span=mx-floor||1;
-    var cW=((cR-floor)/span*100).toFixed(1);
-    var tW=((tR-floor)/span*100).toFixed(1);
-    var up=c.uplift_pct;
-    var upC=up>0?'var(--green)':up<0?'var(--red)':'var(--muted)';
-    var h='<div class="chart-card">';
-    h+='<div class="chart-label">'+esc(c.metric)+': Control vs Test</div>';
-    h+='<div class="bar-row"><span class="bar-tag">Control</span><div class="bar-track"><div class="bar-fill-inner" style="width:'+cW+'%;background:var(--muted);opacity:.55"></div></div><span class="bar-num">'+cR.toFixed(4)+'</span></div>';
-    h+='<div class="bar-row"><span class="bar-tag">Test</span><div class="bar-track"><div class="bar-fill-inner" style="width:'+tW+'%;background:'+upC+'"></div></div><span class="bar-num">'+tR.toFixed(4)+'</span></div>';
-    h+='<div class="bar-uplift" style="color:'+upC+'">'+(up!=null?((up>0?'+':'')+up+'% uplift'):'\u2014')+'</div>';
-    h+='</div>';
-    return h;
+function sig(l,v){return '<div class="s1"><div class="s1-l">'+l+'</div><div class="s1-v">'+v+'</div></div>';}
+
+function evaluate(){
+  var id=$cs.value;
+  var c=CASES.find(function(x){return x.case_id===id;});
+  if(!c){
+    renderPipelineEmpty();
+    document.getElementById('sigC').innerHTML='<div class="ph">'+t('ph_pick')+'</div>';
+    document.getElementById('verC').innerHTML='<div class="ph">\u2014</div>';
+    document.getElementById('replaySec').style.display='none';
+    syncUrl('');return;
   }
+  var pol={alpha:parseFloat($al.value),minUplift:parseFloat($up.value),ctrThreshold:parseFloat($ct.value)};
+  var res=evaluateStopRules(c,pol);
+  renderPipeline(res);
+  renderSignals(c);
+  renderVerdict(c,res);
+  loadReplay(id);
+  syncUrl(id);
+}
 
-  function sig(label,val){return '<div class="sig"><div class="sig-label">'+label+'</div><div class="sig-val">'+val+'</div></div>';}
+function syncUrl(caseId){
+  var p=new URLSearchParams();
+  if(caseId) p.set('case',caseId);
+  var a=parseFloat($al.value),u=parseFloat($up.value),c=parseFloat($ct.value);
+  if(a!==0.05) p.set('alpha',a);
+  if(u!==0.5) p.set('uplift',u);
+  if(c!==3) p.set('ctr',c);
+  if(LANG==='ru') p.set('lang','ru');
+  if(DEBUG) p.set('debug','1');
+  var qs=p.toString();
+  history.replaceState(null,'',location.pathname+(qs?'?'+qs:''));
+}
 
-  function syncUrl(caseId){
-    var p=new URLSearchParams(location.search);
-    if(caseId) p.set('case',caseId); else p.delete('case');
-    if(LANG==='ru') p.set('lang','ru');
-    var qs=p.toString();
-    history.replaceState(null,'',location.pathname+(qs?'?'+qs:''));
+function readUrlState(){
+  var ca=P.get('case'),al=P.get('alpha'),up=P.get('uplift'),ct=P.get('ctr');
+  if(al&&['0.01','0.05','0.10'].indexOf(al)>=0){$al.value=al;}
+  if(up!=null&&!isNaN(parseFloat(up))){var uv=Math.min(2,Math.max(0,parseFloat(up)));$up.value=uv;$vU.textContent=pf(uv)+'%';}
+  if(ct!=null&&!isNaN(parseFloat(ct))){var cv=Math.min(10,Math.max(0,parseFloat(ct)));$ct.value=cv;$vC.textContent='\u2212'+pf(cv)+'%';}
+  if(ca){
+    var found=CASES.find(function(x){return x.case_id===ca;});
+    if(found){$cs.value=ca;evaluate();}
   }
+}
 
-  function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-  function fmtDec(d){return(d||'').replace(/_/g,' ');}
-  function confCol(v){return v>=0.6?'var(--green)':v>=0.3?'var(--orange)':'var(--red)';}
-  function pf(v){return parseFloat(v).toFixed(1);}
+function runConsistencyCheck(){
+  var mis=0;
+  CASES.forEach(function(c){
+    var r=evaluateStopRules(c,{alpha:0.05,minUplift:0.5,ctrThreshold:3});
+    if(r.verdict!==c.decision){mis++;console.warn('MISMATCH',c.case_id,'expected:',c.decision,'got:',r.verdict);}
+  });
+  console.log('Consistency check:',CASES.length,'cases,',mis,'mismatches');
+}
 })();
 </script>
 </body>
