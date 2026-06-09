@@ -16,3 +16,6 @@ __pycache__/
 
 # But allow docs/data/ (compact JSON for GitHub Pages)
 !docs/data/
+
+# secrets — never commit (security.md)
+.env
