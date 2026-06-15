@@ -10,6 +10,7 @@ __pycache__/
 
 # Auto-generated synthetic cases
 40_ab_factory/vk-style/cases_auto/
+40_ab_factory/vk-style/cases_auto_v2/
 
 # Any data/ directories with generated outputs
 **/data/
