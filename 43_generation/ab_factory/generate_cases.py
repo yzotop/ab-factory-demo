@@ -6,11 +6,15 @@ Produces N internally-consistent A/B test cases that the decision agent
 can classify correctly.  Deterministic via random.seed(42).
 
 Distribution (of N cases):
-  30%  clean uplift      → ship
-  20%  guardrail breach  → do_not_ship
-  20%  practically small → do_not_ship
-  15%  segment conflict  → investigate
-  15%  long-term reversal → do_not_ship
+  22%  clean uplift           → ship
+  14%  guardrail breach       → do_not_ship
+  12%  practically small      → do_not_ship
+  10%  segment conflict       → investigate
+  10%  long-term reversal     → do_not_ship  (blind)
+  10%  novelty effect         → do_not_ship  (blind)
+  8%   Simpson's paradox      → do_not_ship
+  8%   multiple comparisons   → do_not_ship
+  6%   underpowered           → investigate
 
 Usage:
   python3 generate_cases.py --n 300
@@ -70,6 +74,31 @@ TITLES_REVERSAL = [
     "Demand-side budget frontloading check",
     "Floor raise 28-day holdout",
     "Advertiser supply adjustment test",
+]
+TITLES_NOVELTY = [
+    "New ad format launch",
+    "Fresh creative rotation test",
+    "Redesigned ad unit rollout",
+    "First-time interstitial format",
+    "Novel placement debut",
+]
+TITLES_SIMPSON = [
+    "Mix-shift pricing test",
+    "Aggregate floor adjustment",
+    "Blended inventory experiment",
+    "Pooled segment rollout",
+]
+TITLES_MULTCOMP = [
+    "Multi-metric dashboard test",
+    "Broad KPI sweep experiment",
+    "Full-funnel metric scan",
+    "Exploratory metric battery",
+]
+TITLES_UNDERPOWERED = [
+    "Early-stage pilot test",
+    "Small-cohort experiment",
+    "Limited rollout check",
+    "Low-traffic placement test",
 ]
 
 
@@ -403,12 +432,240 @@ def gen_long_term_reversal(case_id: str, idx: int) -> tuple[dict, dict, str]:
     return contract, truth, data
 
 
+def gen_novelty_effect(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_NOVELTY) + f" (v{idx})"
+    start = _rand_date()
+    horizon = 7
+    end = start + timedelta(days=horizon)
+
+    rev_eff = round(random.uniform(0.02, 0.05), 4)
+    rev_pval = round(random.uniform(0.001, 0.02), 4)
+    ctr_eff = round(random.uniform(0.01, 0.04), 4)
+    ctr_pval = round(random.uniform(0.001, 0.04), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+            {"name": "dau", "direction": "neutral", "max_drop_relative": 0.02},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            "7-day window. Strong early signal — possible novelty effect, "
+            "needs longer horizon to confirm sustainability."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "do_not_ship",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["novelty_effect"],
+        "human_rationale": (
+            f"Revenue +{rev_eff:.1%} significant, but 7-day window likely captures "
+            f"novelty. No long-horizon data to confirm it sustains."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_simpson_paradox(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_SIMPSON) + f" (v{idx})"
+    start = _rand_date()
+    horizon = 14
+    end = start + timedelta(days=horizon)
+    segments = random.choice(SEGMENTS_POOL)
+
+    overall_eff = round(random.uniform(0.015, 0.03), 4)
+    overall_pval = round(random.uniform(0.001, 0.03), 4)
+    seg1_eff = round(random.uniform(-0.04, -0.015), 4)
+    seg1_pval = round(random.uniform(0.001, 0.04), 4)
+    seg2_eff = round(random.uniform(-0.04, -0.015), 4)
+    seg2_pval = round(random.uniform(0.001, 0.04), 4)
+    ctr_eff = round(random.uniform(-0.01, 0.01), 4)
+    ctr_pval = round(random.uniform(0.10, 0.80), 3)
+
+    base = _build_base_metrics()
+    test_all = _apply_effect(base, overall_eff, ctr_eff)
+
+    frac1 = round(random.uniform(0.45, 0.65), 2)
+    frac2 = round(1.0 - frac1, 2)
+
+    def _split(m: dict, frac: float) -> dict:
+        return {
+            "n_users": int(m["n_users"] * frac),
+            "revenue": _round(m["revenue"] * frac),
+            "cpm": m["cpm"],
+            "fillrate": m["fillrate"],
+            "ctr": m["ctr"],
+            "shows": int(m["shows"] * frac),
+        }
+
+    seg_data = []
+    for seg, frac, s_eff, s_pval in [
+        (segments[0], frac1, seg1_eff, seg1_pval),
+        (segments[1], frac2, seg2_eff, seg2_pval),
+    ]:
+        sc = _split(base, frac)
+        st = _apply_effect(sc, s_eff, ctr_eff)
+        seg_data.append({
+            "control": sc, "test": st,
+            "rev_eff": s_eff, "rev_pval": s_pval,
+            "ctr_eff": ctr_eff, "ctr_pval": ctr_pval,
+        })
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "segments": segments,
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": f"Experiment #{idx}. Aggregate uplift masks negative segment effects (mix shift).",
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "do_not_ship",
+        "primary_effect_relative": overall_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["simpson_paradox"],
+        "human_rationale": (
+            f"Aggregate +{overall_eff:.1%} sig, but both segments negative "
+            f"({seg1_eff:+.1%}, {seg2_eff:+.1%}) — Simpson's paradox from mix shift."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test_all, overall_eff, overall_pval, ctr_eff, ctr_pval,
+                      segments, seg_data)
+    return contract, truth, data
+
+
+def gen_multiple_comparisons(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_MULTCOMP) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    rev_eff = round(random.uniform(-0.003, 0.005), 4)
+    rev_pval = round(random.uniform(0.10, 0.50), 3)
+    ctr_eff = round(random.uniform(-0.01, 0.01), 4)
+    ctr_pval = round(random.uniform(0.10, 0.90), 3)
+    false_pos_metric = random.choice(["cpm", "fillrate", "shows"])
+    false_pos_pval = round(random.uniform(0.02, 0.049), 3)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"8 secondary metrics tested; {false_pos_metric} significant at p={false_pos_pval} "
+            f"(expected false positive under multiple comparisons). Primary revenue not significant."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "do_not_ship",
+        "primary_effect_relative": rev_eff, "is_stat_sig": False,
+        "guardrails_ok": True,
+        "key_reasons": ["multiple_comparisons", "not_significant"],
+        "human_rationale": (
+            f"Primary not sig. One of 8 secondary metrics sig at p={false_pos_pval} "
+            f"— expected false positive under multiple comparisons."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_underpowered(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_UNDERPOWERED) + f" (v{idx})"
+    start = _rand_date()
+    horizon = 7
+    end = start + timedelta(days=horizon)
+
+    n_users = random.randint(20_000, 60_000)
+    rev_eff = round(random.uniform(-0.02, 0.03), 4)
+    rev_pval = round(random.uniform(0.15, 0.70), 3)
+    ctr_eff = round(random.uniform(-0.02, 0.02), 4)
+    ctr_pval = round(random.uniform(0.20, 0.80), 3)
+
+    base = _build_base_metrics()
+    base["n_users"] = n_users
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Pilot on small cohort (n≈{n_users:,}). Underpowered — cannot conclude."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": False,
+        "guardrails_ok": True,
+        "key_reasons": ["underpowered", "not_significant"],
+        "human_rationale": (
+            f"Point estimate {rev_eff:+.1%} but n too small, p={rev_pval}. "
+            f"Wide CI — need more data, cannot decide."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
 GENERATORS = [
-    (0.30, "clean_uplift", gen_clean_uplift),
-    (0.20, "guardrail_breach", gen_guardrail_breach),
-    (0.20, "practically_small", gen_practically_small),
-    (0.15, "segment_conflict", gen_segment_conflict),
-    (0.15, "long_term_reversal", gen_long_term_reversal),
+    (0.22, "clean_uplift", gen_clean_uplift),
+    (0.14, "guardrail_breach", gen_guardrail_breach),
+    (0.12, "practically_small", gen_practically_small),
+    (0.10, "segment_conflict", gen_segment_conflict),
+    (0.10, "long_term_reversal", gen_long_term_reversal),
+    (0.10, "novelty_effect", gen_novelty_effect),
+    (0.08, "simpson_paradox", gen_simpson_paradox),
+    (0.08, "multiple_comparisons", gen_multiple_comparisons),
+    (0.06, "underpowered", gen_underpowered),
 ]
 
 
