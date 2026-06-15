@@ -25,6 +25,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue"
 .top-bar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .15s}
 .top-bar a:hover,.top-bar a.active{color:var(--accent)}
 .top-bar .spacer{flex:1}
+.lang-toggle{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500}
+.lang-toggle a{color:var(--muted);text-decoration:none;padding:4px 8px;border-radius:5px;transition:color .15s}
+.lang-toggle a:hover{color:var(--accent)}
+.lang-toggle a.active{color:var(--accent);font-weight:600;pointer-events:none}
+.lang-toggle .sep{color:var(--border);user-select:none}
+
+.entity-nav{display:flex;align-items:center;gap:8px;padding:8px 24px;background:var(--card-bg);border-bottom:1px solid var(--border);font-size:12px}
+.entity-nav a{color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:6px;transition:color .15s,background .15s}
+.entity-nav a:hover{color:var(--accent)}
+.entity-nav .en-active{color:var(--accent);font-weight:600;pointer-events:none}
+.entity-nav .en-sep{color:var(--border);font-size:10px}
 
 .container{max-width:1100px;margin:0 auto;padding:28px 24px 80px}
 h1{font-size:28px;font-weight:700;margin-bottom:4px}
@@ -57,6 +68,7 @@ thead th.sorted .arr{opacity:1;color:var(--accent)}
 tbody tr{cursor:pointer;transition:background .12s}
 tbody tr:hover{background:var(--hover-bg)}
 tbody td{padding:8px;border-bottom:1px solid var(--border);white-space:nowrap}
+tbody td{vertical-align:middle}
 td.wrap{white-space:normal;max-width:200px}
 
 .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
@@ -67,6 +79,11 @@ td.wrap{white-space:normal;max-width:200px}
 .conf-bar{display:inline-flex;align-items:center;gap:5px;font-variant-numeric:tabular-nums;font-size:12px}
 .conf-bar .bar{width:36px;height:5px;border-radius:3px;background:var(--border);overflow:hidden}
 .conf-bar .bar .fill{height:100%;border-radius:3px}
+.uplift-cell{font-weight:600;font-variant-numeric:tabular-nums}
+.uplift-pos{color:var(--green)}
+.uplift-neg{color:var(--red)}
+.pval-cell{font-variant-numeric:tabular-nums}
+.pval-cell.pval-ok{color:var(--green);font-weight:600}
 
 .flags{display:flex;gap:3px}
 .flag{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;border:1px solid var(--border)}
@@ -77,6 +94,8 @@ td.wrap{white-space:normal;max-width:200px}
 .flag.off{opacity:.2}
 
 .reason-tag{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:11px}
+.explain-link{display:inline-block;padding:3px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--accent);text-decoration:none;background:var(--bg)}
+.explain-link:hover{border-color:var(--accent);background:var(--card-bg)}
 
 /* drawer */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;display:none;justify-content:flex-end}
@@ -222,11 +241,13 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 
 <div class="top-bar">
   <a href="index.html" data-t="nav_home">Home</a>
-  <a href="traces.html" data-t="nav_traces">Traces</a>
   <a href="policy.html" data-t="nav_engine">Decision Engine</a>
   <a href="corpus.html" class="active" data-t="nav_corpus">Corpus Explorer</a>
+  <a href="pipeline.html">Pipeline</a>
   <span class="spacer"></span>
+  <span class="lang-toggle"><a href="#" id="lang-en">EN</a><span class="sep">|</span><a href="#" id="lang-ru">RU</a></span>
 </div>
+<nav class="entity-nav"><a href="corpus.html" class="en-active" data-t="en_corpus">Corpus</a><span class="en-sep">&rarr;</span><a href="policy.html" data-t="en_model">Model</a></nav>
 
 <div class="container">
   <h1 data-t="ce_title">Corpus Explorer</h1>
@@ -242,10 +263,11 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   <div class="preset-bar">
     <span class="preset-lbl" data-t="lbl_presets">Presets</span>
     <button class="preset-chip active" data-preset="all" data-t="preset_all">All</button>
-    <button class="preset-chip" data-preset="guardrail" data-t="preset_gr">Guardrail breach</button>
-    <button class="preset-chip" data-preset="segments" data-t="preset_seg">Investigate (segments)</button>
-    <button class="preset-chip" data-preset="reversal" data-t="preset_rev">Long-term reversal</button>
-    <button class="preset-chip" data-preset="hi_ship" data-t="preset_hi">High-confidence ships</button>
+    <button class="preset-chip" data-preset="best_ship" data-t="preset_best_ship">Best ship candidates</button>
+    <button class="preset-chip" data-preset="high_risk_fail" data-t="preset_high_risk_fail">High-risk failures</button>
+    <button class="preset-chip" data-preset="segments" data-t="preset_seg">Segment conflicts</button>
+    <button class="preset-chip" data-preset="reversal" data-t="preset_rev">Reversal traps</button>
+    <button class="preset-chip" data-preset="low_conf" data-t="preset_low_conf">Low confidence cases</button>
   </div>
 
   <div class="summary" id="summary"></div>
@@ -262,11 +284,13 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     <label class="cb"><input type="checkbox" id="fReversal"> <span data-t="f_reversal">Reversal</span></label>
     <span class="filter-count" id="filterCount"></span>
   </div>
+  <div id="comparePanel" class="chart-card" style="display:none"></div>
 
   <div class="table-wrap">
   <table>
     <thead>
       <tr>
+        <th data-t="th_compare">Compare</th>
         <th data-col="case_id"><span data-t="th_case">Case</span> <span class="arr">&#9650;</span></th>
         <th data-col="title"><span data-t="th_title">Title</span> <span class="arr">&#9650;</span></th>
         <th data-col="decision"><span data-t="th_decision">Decision</span> <span class="arr">&#9650;</span></th>
@@ -274,8 +298,10 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
         <th data-col="uplift_pct">Uplift <span class="arr">&#9660;</span></th>
         <th data-col="p_value">p-val <span class="arr">&#9650;</span></th>
         <th data-col="metric"><span data-t="th_metric">Metric</span> <span class="arr">&#9650;</span></th>
+        <th data-col="risk_score"><span data-t="th_risk">Risk</span> <span class="arr">&#9650;</span></th>
         <th data-t="th_flags">Flags</th>
         <th data-col="top_reason"><span data-t="th_reason">Reason</span> <span class="arr">&#9650;</span></th>
+        <th data-t="th_explain">Explain</th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -285,7 +311,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 
 <div class="overlay" id="overlay"><div class="drawer" id="drawer"></div></div>
 
-<footer data-t="ce_footer">AB Factory Demo &middot; 100 synthetic cases &middot; deterministic &middot; zero dependencies</footer>
+<footer data-t="ce_footer">AB Factory &middot; interactive decision simulator &middot; static and dependency-free</footer>
 
 <script>
 (function(){
@@ -296,16 +322,38 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     ce_title:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441 \u043a\u0435\u0439\u0441\u043e\u0432'},
     ce_subtitle:{ru:'100 \u0441\u0438\u043d\u0442\u0435\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0445 A/B-\u0442\u0435\u0441\u0442\u043e\u0432, \u043e\u0446\u0435\u043d\u0451\u043d\u043d\u044b\u0445 \u0447\u0435\u0442\u044b\u0440\u044c\u043c\u044f \u0430\u0433\u0435\u043d\u0442\u0430\u043c\u0438.'},
     ap_play:{ru:'\u25b6 \u0410\u0432\u0442\u043e-\u043f\u043b\u0435\u0439'},ap_stop:{ru:'\u0421\u0442\u043e\u043f'},ap_off:{ru:'\u0410\u0432\u0442\u043e-\u043f\u043b\u0435\u0439: \u0432\u044b\u043a\u043b'},
-    lbl_presets:{ru:'\u041f\u0440\u0435\u0441\u0435\u0442\u044b'},preset_all:{ru:'\u0412\u0441\u0435'},preset_gr:{ru:'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b'},preset_seg:{ru:'\u0421\u0435\u0433\u043c\u0435\u043d\u0442\u044b'},preset_rev:{ru:'\u0420\u0435\u0432\u0435\u0440\u0441'},preset_hi:{ru:'\u0428\u0438\u043f \u0441 \u0432\u044b\u0441. \u0443\u0432.'},
+    lbl_presets:{ru:'\u041f\u0440\u0435\u0441\u0435\u0442\u044b'},preset_all:{ru:'\u0412\u0441\u0435'},preset_best_ship:{ru:'\u041b\u0443\u0447\u0448\u0438\u0435 ship-\u043a\u0430\u043d\u0434\u0438\u0434\u0430\u0442\u044b'},preset_high_risk_fail:{ru:'\u0420\u0438\u0441\u043a\u043e\u0432\u044b\u0435 \u043e\u0442\u043a\u0430\u0437\u044b'},preset_seg:{ru:'\u041a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},preset_rev:{ru:'\u041b\u043e\u0432\u0443\u0448\u043a\u0438 \u0440\u0435\u0432\u0435\u0440\u0441\u0430'},preset_low_conf:{ru:'\u041d\u0438\u0437\u043a\u0430\u044f \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u044c'},
     f_search:{ru:'\u041f\u043e\u0438\u0441\u043a \u043f\u043e \u043d\u0430\u0437\u0432\u0430\u043d\u0438\u044e, \u0442\u0438\u043f\u0443, \u043f\u0440\u0438\u0447\u0438\u043d\u0430\u043c\u2026'},f_all_dec:{ru:'\u0412\u0441\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u044f'},f_all_met:{ru:'\u0412\u0441\u0435 \u043c\u0435\u0442\u0440\u0438\u043a\u0438'},
     f_conf:{ru:'\u0423\u0432\u0435\u0440. \u2265'},f_guardrail:{ru:'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b'},f_segment:{ru:'\u0421\u0435\u0433\u043c\u0435\u043d\u0442'},f_reversal:{ru:'\u0420\u0435\u0432\u0435\u0440\u0441'},
-    th_case:{ru:'\u041a\u0435\u0439\u0441'},th_title:{ru:'\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435'},th_decision:{ru:'\u0420\u0435\u0448\u0435\u043d\u0438\u0435'},th_conf:{ru:'\u0423\u0432\u0435\u0440.'},th_metric:{ru:'\u041c\u0435\u0442\u0440\u0438\u043a\u0430'},th_flags:{ru:'\u0424\u043b\u0430\u0433\u0438'},th_reason:{ru:'\u041f\u0440\u0438\u0447\u0438\u043d\u0430'},
-    ce_footer:{ru:'AB Factory Demo \u00b7 100 \u0441\u0438\u043d\u0442\u0435\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u043a\u0435\u0439\u0441\u043e\u0432 \u00b7 \u0431\u0435\u0437 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0435\u0439'},
+    th_compare:{ru:'\u0421\u0440\u0430\u0432\u043d.'},th_case:{ru:'\u041a\u0435\u0439\u0441'},th_title:{ru:'\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435'},th_decision:{ru:'\u0420\u0435\u0448\u0435\u043d\u0438\u0435'},th_conf:{ru:'\u0423\u0432\u0435\u0440.'},th_metric:{ru:'\u041c\u0435\u0442\u0440\u0438\u043a\u0430'},th_risk:{ru:'\u0420\u0438\u0441\u043a'},th_flags:{ru:'\u0424\u043b\u0430\u0433\u0438'},th_reason:{ru:'\u041f\u0440\u0438\u0447\u0438\u043d\u0430'},th_explain:{ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0438\u0442\u044c'},
+    ce_footer:{ru:'AB Factory \u00b7 \u0438\u043d\u0442\u0435\u0440\u0430\u043a\u0442\u0438\u0432\u043d\u044b\u0439 \u0441\u0438\u043c\u0443\u043b\u044f\u0442\u043e\u0440 \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u00b7 \u0441\u0442\u0430\u0442\u0438\u0447\u043d\u043e \u0438 \u0431\u0435\u0437 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0435\u0439'},
     ap_running:{en:'running',ru:'\u0438\u0433\u0440\u0430\u0435\u0442'},ap_finished:{en:'finished',ru:'\u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043d\u043e'},ap_stopped:{en:'stopped',ru:'\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043e'},ap_no_cases:{en:'No cases match filters.',ru:'\u041d\u0435\u0442 \u043a\u0435\u0439\u0441\u043e\u0432 \u043f\u043e \u0444\u0438\u043b\u044c\u0442\u0440\u0430\u043c.'},
     drawer_details:{en:'Details',ru:'\u0414\u0435\u0442\u0430\u043b\u0438'},drawer_charts:{en:'Charts',ru:'\u0413\u0440\u0430\u0444\u0438\u043a\u0438'},drawer_replay:{en:'Replay',ru:'\u0420\u0435\u043f\u043b\u0435\u0439'},
-    explain_link:{en:'Explain decision \u2192',ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0438\u0442\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u2192'}
+    explain_link:{en:'Explain decision \u2192',ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0438\u0442\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u2192'},
+    explain_btn:{en:'Explain decision',ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0438\u0442\u044c'},
+    compare_mode:{en:'Quick compare mode',ru:'\u0411\u044b\u0441\u0442\u0440\u043e\u0435 \u0441\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435'},
+    fld_metric:{en:'Metric',ru:'\u041c\u0435\u0442\u0440\u0438\u043a\u0430'},
+    fld_uplift:{en:'Uplift',ru:'Uplift'},
+    fld_pvalue:{en:'p-value',ru:'p-value'},
+    fld_flags:{en:'Flags',ru:'\u0424\u043b\u0430\u0433\u0438'},
+    fld_verdict:{en:'Verdict',ru:'\u0412\u0435\u0440\u0434\u0438\u043a\u0442'},
+    fld_reason:{en:'Reason',ru:'\u041f\u0440\u0438\u0447\u0438\u043d\u0430'},
+    en_corpus:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441'},en_model:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c'},en_traces:{ru:'\u0422\u0440\u0435\u0439\u0441\u044b'}
   };
   function _t(k){var e=_T[k];return e?(e[LANG]||e.en||''):'';}
+
+  (function(){
+    var u=new URL(location.href);
+    var p=new URLSearchParams(u.search);
+    var isRu=p.get('lang')==='ru';
+    p.delete('lang');
+    var base=u.pathname+(p.toString()?'?'+p.toString():'');
+    p.set('lang','ru');
+    var ruUrl=u.pathname+'?'+p.toString();
+    var e=document.getElementById('lang-en'),r=document.getElementById('lang-ru');
+    if(e){e.href=base;e.classList.toggle('active',!isRu);}
+    if(r){r.href=ruUrl;r.classList.toggle('active',isRu);}
+  })();
 
   (function _applyI18n(){
     if(LANG!=='ru') return;
@@ -318,7 +366,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
       var v=_t(el.getAttribute('data-t-placeholder'));
       if(v) el.placeholder=v;
     });
-    document.querySelectorAll('.top-bar a[href]:not([href^="http"])').forEach(function(a){
+    document.querySelectorAll('.top-bar a[href]:not([href^="http"]), .entity-nav a[href]:not([href^="http"])').forEach(function(a){
       if(a.href.indexOf('lang=')<0){
         var u=new URL(a.href,location.href);
         u.searchParams.set('lang','ru');
@@ -343,16 +391,20 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   var $overlay=document.getElementById('overlay');
   var $drawer=document.getElementById('drawer');
   var $summary=document.getElementById('summary');
+  var $comparePanel=document.getElementById('comparePanel');
 
   /* ── presets ─────────────────────────── */
   var PRESETS={
     all:{q:'',decision:'',metric:'',conf:0,g:false,s:false,r:false,autoplay:false},
-    guardrail:{q:'',decision:'do_not_ship',metric:'',conf:0,g:true,s:false,r:false,autoplay:true},
+    best_ship:{q:'',decision:'ship',metric:'',conf:70,g:false,s:false,r:false,autoplay:true},
+    high_risk_fail:{q:'',decision:'do_not_ship',metric:'',conf:0,g:true,s:false,r:false,autoplay:true},
     segments:{q:'',decision:'investigate',metric:'',conf:0,g:false,s:true,r:false,autoplay:true},
     reversal:{q:'',decision:'do_not_ship',metric:'',conf:0,g:false,s:false,r:true,autoplay:true},
-    hi_ship:{q:'',decision:'ship',metric:'',conf:60,g:false,s:false,r:false,autoplay:true}
+    low_conf:{q:'',decision:'',metric:'',conf:0,g:false,s:false,r:false,autoplay:true}
   };
   var currentCaseId=null, currentTab='details';
+  var compareIds=[];
+  var CURRENT_PRESET='all';
 
   function _setFilters(p){
     $search.value=p.q; $decision.value=p.decision; $metric.value=p.metric;
@@ -363,7 +415,11 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   function detectActivePreset(){
     var cur={q:$search.value,decision:$decision.value,metric:$metric.value,
              conf:parseInt($conf.value),g:$guardrail.checked,s:$segment.checked,r:$reversal.checked};
+    if(CURRENT_PRESET==='low_conf'&&cur.q===''&&cur.decision===''&&cur.metric===''&&cur.conf===0&&!cur.g&&!cur.s&&!cur.r){
+      return 'low_conf';
+    }
     for(var name in PRESETS){
+      if(name==='low_conf') continue;
       var p=PRESETS[name];
       if(cur.q===p.q&&cur.decision===p.decision&&cur.metric===p.metric&&
          cur.conf===p.conf&&cur.g===p.g&&cur.s===p.s&&cur.r===p.r) return name;
@@ -373,6 +429,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 
   function updateActivePreset(){
     var active=detectActivePreset();
+    CURRENT_PRESET=active||'custom';
     document.querySelectorAll('.preset-chip').forEach(function(c){
       c.classList.toggle('active',c.dataset.preset===active);
     });
@@ -381,6 +438,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   function applyPreset(name){
     if(AP.running) stopAutoplay('preset change');
     var p=PRESETS[name]; if(!p) return;
+    CURRENT_PRESET=name;
     _setFilters(p);
     render();
     if(p.autoplay) setTimeout(startAutoplay,120);
@@ -529,6 +587,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     var ws=$segment.checked;
     var wr=$reversal.checked;
     return CASES.filter(function(c){
+      c.risk_score=riskScore(c);
       if(d && c.decision!==d) return false;
       if(m && c.metric!==m) return false;
       if(c.confidence!=null && c.confidence<mc) return false;
@@ -539,8 +598,20 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
         var hay=(c.case_id+' '+c.title+' '+c.type+' '+c.reasons.join(' ')).toLowerCase();
         if(hay.indexOf(q)<0) return false;
       }
+      if(CURRENT_PRESET==='low_conf' && c.confidence!=null && c.confidence>0.4) return false;
       return true;
     });
+  }
+
+  function riskScore(c){
+    var score=0;
+    if(c.reasons.some(function(r){return r.indexOf('guardrail')>=0;})) score+=2;
+    if(c.segment_conflict) score+=1;
+    if(c.long_term_reversal) score+=1;
+    if(c.confidence!=null && c.confidence<0.35) score+=1;
+    if(score>=3) return 'HIGH';
+    if(score>=1) return 'MEDIUM';
+    return 'LOW';
   }
 
   function sorted(arr){
@@ -560,25 +631,46 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     $count.textContent=list.length+(LANG==='ru'?' \u0438\u0437 ':' of ')+CASES.length;
     $tbody.innerHTML=list.map(function(c){
       var cp=(c.confidence!=null?(c.confidence*100).toFixed(0):'—');
+      var risk=c.risk_score||riskScore(c);
       return '<tr data-id="'+c.case_id+'">'
+        +'<td><input type="checkbox" class="cmp-check" data-cmp="'+c.case_id+'" '+(compareIds.indexOf(c.case_id)>=0?'checked':'')+'></td>'
         +'<td style="font-weight:600;font-variant-numeric:tabular-nums">'+c.case_id.replace('case_','')+'</td>'
         +'<td class="wrap">'+esc(c.title)+'</td>'
         +'<td><span class="badge badge-'+c.decision+'">'+fmtDec(c.decision)+'</span></td>'
         +'<td><span class="conf-bar"><span class="bar"><span class="fill" style="width:'+cp+'%;background:'+confCol(c.confidence)+'"></span></span>'+cp+'%</span></td>'
-        +'<td>'+(c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+c.uplift_pct+'%':'—')+'</td>'
-        +'<td>'+fmtP(c.p_value)+'</td>'
+        +'<td><span class="uplift-cell '+(c.uplift_pct!=null?(c.uplift_pct>0?'uplift-pos':'uplift-neg'):'')+'">'+(c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+c.uplift_pct+'%':'—')+'</span></td>'
+        +'<td><span class="pval-cell'+(c.p_value!=null&&c.p_value<=0.05?' pval-ok':'')+'">'+fmtP(c.p_value)+'</span></td>'
         +'<td>'+esc(c.metric)+'</td>'
+        +'<td><span class="reason-tag">'+risk+'</span></td>'
         +'<td><div class="flags">'
           +flag('G','g',c.reasons.some(function(r){return r.indexOf('guardrail')>=0;}))
           +flag('S','s',c.segment_conflict)
           +flag('R','r',c.long_term_reversal)
         +'</div></td>'
-        +'<td><span class="reason-tag">'+esc(c.reasons[0]||'—')+'</span></td>'
+        +'<td><span class="reason-tag">'+esc(reasonLabel(c.reasons[0]||'—'))+'</span></td>'
+        +'<td><a href="policy.html?case='+c.case_id+(LANG==='ru'?'&lang=ru':'')+'" class="explain-link">'+_t('explain_btn')+'</a></td>'
       +'</tr>';
     }).join('');
     $tbody.querySelectorAll('tr').forEach(function(tr){
-      tr.addEventListener('click',function(){ openDrawer(tr.dataset.id); });
+      tr.addEventListener('click',function(e){
+        if(e.target.closest('.cmp-check')||e.target.closest('a')) return;
+        openDrawer(tr.dataset.id);
+      });
     });
+    $tbody.querySelectorAll('.cmp-check').forEach(function(ch){
+      ch.addEventListener('click',function(e){
+        e.stopPropagation();
+        var id=ch.dataset.cmp;
+        if(ch.checked){
+          if(compareIds.length>=2){ch.checked=false;return;}
+          compareIds.push(id);
+        }else{
+          compareIds=compareIds.filter(function(x){return x!==id;});
+        }
+        renderComparePanel();
+      });
+    });
+    renderComparePanel();
     updateActivePreset();
     syncUrl();
   }
@@ -587,8 +679,30 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     return '<span class="flag flag-'+cls+(on?' on':' off')+'" title="'+(cls==='g'?'Guardrail':cls==='s'?'Segment':'Reversal')+'">'+ch+'</span>';
   }
 
+  function renderComparePanel(){
+    if(compareIds.length!==2){
+      $comparePanel.style.display='none';
+      return;
+    }
+    var a=CASES.find(function(c){return c.case_id===compareIds[0];});
+    var b=CASES.find(function(c){return c.case_id===compareIds[1];});
+    if(!a||!b){$comparePanel.style.display='none';return;}
+    var h='<div class="chart-label">'+_t('compare_mode')+'</div>';
+    h+='<table style="width:100%;font-size:12px;border-collapse:collapse">';
+    h+='<tr><th style="text-align:left;padding:4px 6px;border-bottom:1px solid var(--border)">Field</th><th style="text-align:left;padding:4px 6px;border-bottom:1px solid var(--border)">'+a.case_id+'</th><th style="text-align:left;padding:4px 6px;border-bottom:1px solid var(--border)">'+b.case_id+'</th></tr>';
+    function row(name,av,bv){h+='<tr><td style="padding:4px 6px;color:var(--muted)">'+name+'</td><td style="padding:4px 6px">'+av+'</td><td style="padding:4px 6px">'+bv+'</td></tr>';}
+    row(_t('fld_metric'),esc(a.metric),esc(b.metric));
+    row(_t('fld_uplift'),a.uplift_pct==null?'—':(a.uplift_pct>0?'+':'')+a.uplift_pct+'%',b.uplift_pct==null?'—':(b.uplift_pct>0?'+':'')+b.uplift_pct+'%');
+    row(_t('fld_pvalue'),fmtP(a.p_value),fmtP(b.p_value));
+    row(_t('fld_flags'),(a.segment_conflict?'S ':'')+(a.long_term_reversal?'R ':'')+(a.reasons.some(function(r){return r.indexOf('guardrail')>=0;})?'G':''),(b.segment_conflict?'S ':'')+(b.long_term_reversal?'R ':'')+(b.reasons.some(function(r){return r.indexOf('guardrail')>=0;})?'G':''));
+    row(_t('fld_verdict'),fmtDec(a.decision),fmtDec(b.decision));
+    row(_t('fld_reason'),esc(reasonLabel(a.reasons[0]||'—')),esc(reasonLabel(b.reasons[0]||'—')));
+    h+='</table>';
+    $comparePanel.innerHTML=h;
+    $comparePanel.style.display='block';
+  }
+
   /* ── drawer ─────────────────────────── */
-  var REPLAY_CACHE={};
 
   function openDrawer(id){
     if(AP.running && !AP._opening) stopAutoplay('manual selection');
@@ -605,7 +719,6 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     h+='<div class="dtab-bar">';
     h+='<button class="dtab-btn active" data-tab="details">'+(_t('drawer_details')||'Details')+'</button>';
     h+='<button class="dtab-btn" data-tab="charts">'+(_t('drawer_charts')||'Charts')+'</button>';
-    h+='<button class="dtab-btn" data-tab="replay">'+(_t('drawer_replay')||'Replay')+'</button>';
     h+='</div>';
 
     /* ── details tab ── */
@@ -631,10 +744,10 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     h+='</dl></section>';
 
     h+='<section><h3>Reasons</h3><div class="tags">';
-    c.reasons.forEach(function(r){ h+='<span class="reason-tag">'+esc(r)+'</span>'; });
+    c.reasons.forEach(function(r){ h+='<span class="reason-tag">'+esc(reasonLabel(r))+'</span>'; });
     h+='</div></section>';
 
-    h+=buildDecisionPanel(c,REPLAY_CACHE[c.case_id]||null);
+    h+=buildDecisionPanel(c,null);
 
     h+='<section style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">';
     h+='<a href="policy.html?case='+c.case_id+(LANG==='ru'?'&lang=ru':'')+'" style="font-size:13px;color:var(--accent);text-decoration:none;font-weight:500">'+(_t('explain_link')||'Explain decision \u2192')+'</a>';
@@ -697,12 +810,6 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 
     h+='</div>';
 
-    /* ── replay tab ── */
-    h+='<div class="dtab-panel" id="dtab-replay">';
-    h+='<div class="ap-progress" id="apProgress" style="display:none"><div class="ap-fill" id="apFill"></div></div>';
-    h+='<div id="replayContent"><p class="replay-hint">Loading replay…</p></div>';
-    h+='</div>';
-
     $drawer.innerHTML=h;
 
     /* wire tabs */
@@ -714,7 +821,6 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
         var panel=document.getElementById('dtab-'+btn.dataset.tab);
         if(panel) panel.classList.add('active');
         currentTab=btn.dataset.tab;
-        if(btn.dataset.tab==='replay') loadReplay(c.case_id);
         syncUrl();
       });
     });
@@ -788,184 +894,9 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     await apSleep(350);
     if(myRun!==AP.runId) return;
 
-    $drawer.querySelectorAll('.dtab-btn').forEach(function(b){b.classList.remove('active');});
-    $drawer.querySelectorAll('.dtab-panel').forEach(function(p){p.classList.remove('active');});
-    var rpBtn=$drawer.querySelector('[data-tab="replay"]');
-    if(rpBtn) rpBtn.classList.add('active');
-    var rpPanel=document.getElementById('dtab-replay');
-    if(rpPanel) rpPanel.classList.add('active');
-
-    updateApStatus('loading replay\u2026');
-    var rp=await ensureReplayLoaded(c.case_id);
-    if(myRun!==AP.runId) return;
-
-    if(!rp){
-      updateApStatus('replay not available');
-      AP.running=false;
-      return;
-    }
-
-    await apSleep(100);
-    if(myRun!==AP.runId) return;
-
-    var prog=document.getElementById('apProgress');
-    var fill=document.getElementById('apFill');
-    if(prog){prog.style.display='';if(fill)fill.style.width='0';}
-
-    updateApStatus('playing '+c.case_id+'\u2026');
-
-    var tl=rp.timeline;
-    var delay=Math.round(450/speed);
-
-    for(var i=0;i<tl.length;i++){
-      if(myRun!==AP.runId) return;
-      var pct=((i+1)/tl.length*100).toFixed(0);
-      if(fill) fill.style.width=pct+'%';
-
-      document.querySelectorAll('.event-active').forEach(function(e){e.classList.remove('event-active');});
-      document.querySelectorAll('.lane-active').forEach(function(e){e.classList.remove('lane-active');});
-
-      var evEl=document.querySelector('[data-evt-idx="'+i+'"]');
-      var laneEl=document.querySelector('[data-agent="'+tl[i].agent+'"]');
-      if(evEl){evEl.classList.add('event-active');evEl.scrollIntoView({behavior:'smooth',block:'nearest'});}
-      if(laneEl) laneEl.classList.add('lane-active');
-
-      await apSleep(delay);
-    }
-
-    if(myRun!==AP.runId) return;
-
-    document.querySelectorAll('.event-active').forEach(function(e){e.classList.remove('event-active');});
-    document.querySelectorAll('.lane-active').forEach(function(e){e.classList.remove('lane-active');});
-
-    var vb=$drawer.querySelector('.verdict-banner');
-    if(vb){
-      vb.classList.add('verdict-flash');
-      await apSleep(900);
-      if(vb) vb.classList.remove('verdict-flash');
-    }
-
-    if(prog) prog.style.display='none';
     updateApStatus('finished ('+c.case_id+')');
     AP.running=false;
     syncUrl();
-  }
-
-  function ensureReplayLoaded(caseId){
-    return new Promise(function(resolve){
-      if(REPLAY_CACHE[caseId]){
-        var el=document.getElementById('replayContent');
-        if(el) renderReplay(REPLAY_CACHE[caseId],el);
-        resolve(REPLAY_CACHE[caseId]);
-        return;
-      }
-      fetch('data/replays/'+caseId+'.json').then(function(r){
-        if(!r.ok) throw new Error(r.status);
-        return r.json();
-      }).then(function(data){
-        REPLAY_CACHE[caseId]=data;
-        var el=document.getElementById('replayContent');
-        if(el) renderReplay(data,el);
-        resolve(data);
-      }).catch(function(){
-        var el=document.getElementById('replayContent');
-        if(el) el.innerHTML='<p class="replay-hint">Replay not available for this case.</p>';
-        resolve(null);
-      });
-    });
-  }
-
-  /* ── replay loader ─────────────────── */
-  function loadReplay(caseId){
-    var el=document.getElementById('replayContent');
-    if(!el) return;
-    if(REPLAY_CACHE[caseId]){
-      renderReplay(REPLAY_CACHE[caseId],el);
-      return;
-    }
-    el.innerHTML='<p class="replay-hint">Loading replay…</p>';
-    fetch('data/replays/'+caseId+'.json').then(function(r){
-      if(!r.ok) throw new Error(r.status);
-      return r.json();
-    }).then(function(data){
-      REPLAY_CACHE[caseId]=data;
-      renderReplay(data,el);
-    }).catch(function(){
-      el.innerHTML='<p class="replay-hint">Replay not built. Run: <code>python3 tools/build_replays_index.py</code> after running the workflow.</p>';
-    });
-  }
-
-  function renderReplay(rp,el){
-    var h='';
-
-    /* timeline swimlanes */
-    h+='<section><h3>Agent Timeline</h3>';
-    var agents=['reader','stats','decision','viz'];
-    var byAgent={};
-    rp.timeline.forEach(function(ev,idx){
-      ev._idx=idx;
-      var a=ev.agent;
-      if(!byAgent[a]) byAgent[a]=[];
-      byAgent[a].push(ev);
-    });
-    agents.forEach(function(agent){
-      var evts=byAgent[agent];
-      if(!evts) return;
-      h+='<div class="swim-lane" data-agent="'+agent+'">';
-      h+='<div class="lane-label">'+agent+'</div>';
-      h+='<div class="lane-events">';
-      evts.forEach(function(ev){
-        h+='<div class="evt evt-'+agent+'" data-evt-idx="'+ev._idx+'" title="'+esc(ev.message)+'">';
-        h+='<span class="dot"></span>';
-        h+='<span>'+esc(ev.event_type)+'</span>';
-        h+='<span class="t">'+ev.t_ms+'ms</span>';
-        h+='</div> ';
-      });
-      h+='</div></div>';
-    });
-
-    /* verdict banner */
-    var cp3=rp.confidence!=null?(rp.confidence*100).toFixed(0):'—';
-    var cc=confCol(rp.confidence);
-    h+='<div class="verdict-banner">';
-    h+='<span class="vb-label">Verdict</span>';
-    h+='<span class="badge badge-'+rp.decision+'" style="font-size:13px;padding:4px 14px">'+fmtDec(rp.decision)+'</span>';
-    h+='<span class="conf-bar" style="font-size:14px"><span class="bar" style="width:56px"><span class="fill" style="width:'+cp3+'%;background:'+cc+'"></span></span>'+cp3+'%</span>';
-    if(rp.duration_ms!=null) h+='<span style="font-size:12px;color:var(--muted)">'+rp.duration_ms+'ms</span>';
-    h+='</div>';
-    h+='</section>';
-
-    /* artifacts accordion */
-    h+='<section><h3>Artifacts</h3>';
-    var arts=[
-      ['Reader Summary',rp.artifacts.reader_summary],
-      ['Stats Checks',rp.artifacts.stats_checks],
-      ['Decision Rationale',rp.artifacts.decision_md],
-      ['Viz Output',rp.artifacts.viz],
-      ['decision.json',rp.artifacts.decision_json?JSON.stringify(rp.artifacts.decision_json,null,2):null]
-    ];
-    arts.forEach(function(pair,i){
-      var label=pair[0], body=pair[1];
-      if(body==null) return;
-      h+='<div class="acc">';
-      h+='<div class="acc-hd" data-acc="'+i+'">'+esc(label)+'<span class="chevron">▶</span></div>';
-      h+='<div class="acc-body" data-acc-body="'+i+'">'+esc(body)+'</div>';
-      h+='</div>';
-    });
-    h+='</section>';
-
-    el.innerHTML=h;
-
-    /* wire accordion toggles */
-    el.querySelectorAll('.acc-hd').forEach(function(hd){
-      hd.addEventListener('click',function(){
-        var idx=hd.dataset.acc;
-        var body=el.querySelector('[data-acc-body="'+idx+'"]');
-        if(!body) return;
-        hd.classList.toggle('open');
-        body.classList.toggle('open');
-      });
-    });
   }
 
   /* ── decision panel ───────────────── */
@@ -1088,7 +1019,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
         h+='</div>';
       });
     } else {
-      h+='<p class="replay-hint" style="padding:8px 0">Available in Replay &rarr; <code>python3 tools/build_replays_index.py</code></p>';
+      h+='<p class="replay-hint" style="padding:8px 0">'+(LANG==='ru'?'Разбивка по факторам — см. decision.json':'Factor breakdown — see decision.json')+'</p>';
     }
     h+='</div>';
 
@@ -1107,6 +1038,18 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   function fmtDec(d){return d.replace(/_/g,' ');}
   function confCol(v){return v>=0.6?'var(--green)':v>=0.3?'var(--orange)':'var(--red)';}
   function fmtP(p){if(p==null)return'—';if(p<0.001)return'<0.001';return p.toFixed(3);}
+  function reasonLabel(r){
+    var map={
+      primary_uplift:{en:'Strong primary uplift',ru:'\u0421\u0438\u043b\u044c\u043d\u044b\u0439 \u0440\u043e\u0441\u0442 \u043e\u0441\u043d\u043e\u0432\u043d\u043e\u0439 \u043c\u0435\u0442\u0440\u0438\u043a\u0438'},
+      segment_conflict:{en:'Segment conflict detected',ru:'\u041a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},
+      practically_small:{en:'Effect below practical threshold',ru:'\u042d\u0444\u0444\u0435\u043a\u0442 \u043d\u0438\u0436\u0435 \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u043f\u043e\u0440\u043e\u0433\u0430'},
+      not_significant:{en:'Not statistically significant',ru:'\u041d\u0435\u0434\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u0430\u044f \u0437\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c'},
+      long_term_reversal:{en:'Long-term reversal detected',ru:'\u0414\u043e\u043b\u0433\u043e\u0441\u0440\u043e\u0447\u043d\u044b\u0439 \u0440\u0435\u0432\u0435\u0440\u0441'}
+    };
+    if(r&&r.indexOf('guardrail_violation')===0) return LANG==='ru'?'\u041d\u0430\u0440\u0443\u0448\u0435\u043d\u0438\u0435 guardrail':'Guardrail violation';
+    var x=map[r];
+    return x?(x[LANG]||x.en):r;
+  }
 })();
 </script>
 </body>

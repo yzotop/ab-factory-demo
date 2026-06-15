@@ -13,10 +13,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue"
 .top-bar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .15s}
 .top-bar a:hover,.top-bar a.active{color:var(--accent)}
 .top-bar .spacer{flex:1}
-.container{max-width:1140px;margin:0 auto;padding:28px 24px 40px}
-h1{font-size:28px;font-weight:700;margin-bottom:4px}
-.subtitle{color:var(--muted);font-size:15px;margin-bottom:24px;max-width:720px}
-.controls-bar{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;padding:14px 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px}
+.lang-toggle{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500}
+.lang-toggle a{color:var(--muted);text-decoration:none;padding:4px 8px;border-radius:5px;transition:color .15s,background .15s}
+.lang-toggle a:hover{color:var(--accent)}
+.lang-toggle a.active{color:var(--accent);font-weight:600;pointer-events:none}
+.lang-toggle .sep{color:var(--border);font-weight:400;user-select:none}
+.entity-nav{display:flex;align-items:center;gap:8px;padding:8px 24px;background:var(--card-bg);border-bottom:1px solid var(--border);font-size:12px}
+.entity-nav a{color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:6px;transition:color .15s}
+.entity-nav a:hover{color:var(--accent)}
+.entity-nav .en-active{color:var(--accent);font-weight:600;pointer-events:none}
+.entity-nav .en-sep{color:var(--border);font-size:10px}
+.container{max-width:1100px;margin:0 auto;padding:20px 24px 40px}
+h1{font-size:26px;font-weight:700;margin-bottom:2px}
+.subtitle{color:var(--muted);font-size:14px;margin-bottom:16px;max-width:640px}
+.controls-bar{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;padding:12px 16px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px}
 .ct{display:flex;flex-direction:column;gap:2px}
 .ct label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
 .ct select{padding:5px 8px;border:1px solid var(--border);border-radius:7px;background:var(--card-bg);color:var(--fg);font-size:12px;outline:none}
@@ -32,9 +42,13 @@ h1{font-size:28px;font-weight:700;margin-bottom:4px}
 .pb{padding:4px 9px;border-radius:5px;border:1px solid var(--border);background:var(--card-bg);color:var(--fg);font-size:10px;font-weight:500;cursor:pointer;transition:all .12s}
 .pb:hover{border-color:var(--accent);color:var(--accent)}
 .hint{font-size:11px;color:var(--accent);min-height:14px;margin-bottom:8px}
-.layout{display:grid;grid-template-columns:260px 1fr 280px;gap:16px;align-items:start}
-@media(max-width:900px){.layout{grid-template-columns:1fr}.col-v{position:static!important}}
-.panel{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.preset-bar{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.preset-chip{padding:5px 10px;border-radius:16px;border:1px solid var(--border);background:var(--card-bg);color:var(--fg);font-size:11px;font-weight:600;cursor:pointer}
+.preset-chip:hover{background:var(--hover-bg)}
+.preset-chip.active{border-color:var(--accent);color:var(--accent)}
+.layout{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:start}
+@media(max-width:768px){.layout{grid-template-columns:1fr}}
+.panel{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
 .panel h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:10px}
 .col-v{position:sticky;top:60px}
 .step-list{padding-left:16px}
@@ -58,16 +72,34 @@ h1{font-size:28px;font-weight:700;margin-bottom:4px}
 .si-desc{font-size:10px;color:var(--muted);margin-top:1px}
 .si-ev{font-size:10px;color:var(--muted);font-style:italic;margin-top:2px}
 .si-hl{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.si-active{outline:2px solid color-mix(in srgb,var(--accent) 45%,transparent)}
+.ab-metrics{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 4%,var(--bg)),var(--bg));border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:12px}
+.ab-metrics-h{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.ab-cols{display:flex;flex-wrap:nowrap;align-items:center;gap:6px}
+.ab-col{flex:1;min-width:0;text-align:center;padding:6px 6px;background:var(--card-bg);border:1px solid var(--border);border-radius:6px}
+.ab-cols .ab-arrow{flex-shrink:0}
+.ab-col-label{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:2px}
+.ab-col-val{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+.ab-col-val.good{color:var(--green)}
+.ab-col-val.bad{color:var(--red)}
+.ab-col-val.muted{color:var(--muted)}
+.ab-arrow{font-size:12px;color:var(--muted);font-weight:700}
+@media(max-width:360px){.ab-cols{flex-wrap:wrap}.ab-cols .ab-arrow:nth-of-type(2){display:none}}
 .sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;margin-bottom:12px}
 .s1{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+.s1.ok{border-color:color-mix(in srgb,var(--green) 40%,var(--border));background:color-mix(in srgb,var(--green) 6%,var(--bg))}
+.s1.fail{border-color:color-mix(in srgb,var(--red) 40%,var(--border));background:color-mix(in srgb,var(--red) 6%,var(--bg))}
 .s1-l{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:1px}
 .s1-v{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.s1-v .check{color:var(--green);margin-left:4px}
+.s1-v .cross{color:var(--red);margin-left:4px}
 .cc{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:10px}
-.cc-l{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px}
-.br{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.cc-l{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.cc-l .ab-label{font-size:9px;opacity:.8}
+.br{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .br:last-child{margin-bottom:0}
-.br-t{font-size:10px;color:var(--muted);width:44px;text-align:right;flex-shrink:0}
-.br-k{flex:1;height:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.br-t{font-size:11px;font-weight:600;color:var(--muted);width:52px;text-align:right;flex-shrink:0}
+.br-k{flex:1;height:20px;background:var(--card-bg);border:1px solid var(--border);border-radius:6px;overflow:hidden}
 .br-f{height:100%;border-radius:3px;min-width:2px}
 .br-n{font-size:10px;font-weight:600;width:52px;flex-shrink:0;font-variant-numeric:tabular-nums}
 .br-u{text-align:center;font-size:11px;font-weight:600;margin-top:4px}
@@ -80,19 +112,31 @@ h1{font-size:28px;font-weight:700;margin-bottom:4px}
 .cm .bar .fill{height:100%;border-radius:3px}
 .cm .pct{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
 .ebox{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:8px 12px;font-size:12px;margin-bottom:12px}
-.ebox strong{font-weight:600}
+.ebox strong{font-weight:700}
+.verdict-priority{border-color:color-mix(in srgb,var(--accent) 30%,var(--border));box-shadow:0 1px 6px color-mix(in srgb,var(--accent) 12%,transparent)}
 .ri{padding:5px 0;border-bottom:1px solid var(--border);font-size:11px}
 .ri:last-child{border-bottom:none}
 .ri-c{font-weight:600;color:var(--fg)}
 .ri-e{color:var(--muted);font-size:10px;margin-top:1px}
+.step-inspector{margin-bottom:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.step-inspector h4{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:6px}
+.step-inspector p{font-size:12px;margin-bottom:4px}
+.step-inspector code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;background:var(--card-bg);border:1px solid var(--border);padding:1px 5px;border-radius:4px}
+.cf-box{margin-top:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.cf-box h4{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:6px}
+.cf-box ul{padding-left:18px;font-size:12px}
+.cf-box li{margin-bottom:3px}
+.next-action{margin-top:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.next-action h4{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:6px}
+.next-action.legit-investigate{border-color:color-mix(in srgb,var(--orange) 35%,var(--border));background:color-mix(in srgb,var(--orange) 8%,var(--bg))}
+.next-action ul{padding-left:18px;font-size:12px}
+.next-action li{margin-bottom:3px}
 .cta{display:flex;flex-direction:column;gap:6px;margin-top:14px}
 .cta a{display:block;padding:7px 12px;border-radius:7px;font-size:11px;font-weight:500;text-decoration:none;text-align:center;transition:background .12s}
 .cta-p{background:var(--accent);color:#fff}
 .cta-p:hover{background:var(--accent-hover)}
 .cta-s{background:var(--card-bg);color:var(--accent);border:1px solid var(--border)}
 .cta-s:hover{background:var(--hover-bg)}
-.replay-sec{margin-top:24px}
-.replay-sec .panel{margin-bottom:0}
 .sw{display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
 .sw-l{width:56px;font-size:10px;font-weight:600;color:var(--muted);text-align:right;flex-shrink:0;padding-top:2px}
 .sw-e{display:flex;flex-wrap:wrap;gap:3px}
@@ -104,18 +148,63 @@ h1{font-size:28px;font-weight:700;margin-bottom:4px}
 .sw-t{font-size:8px;color:var(--muted);margin-left:3px}
 .ph{text-align:center;padding:30px 16px;color:var(--muted);font-size:13px}
 footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+
+/* Model Overview — внизу страницы */
+.model-overview{margin-bottom:24px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.model-overview-bottom{margin-top:24px}
+.model-overview-header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;cursor:pointer;transition:background .15s;user-select:none}
+.model-overview-header:hover{background:var(--hover-bg)}
+.model-overview-header h2{font-size:14px;font-weight:600;color:var(--fg)}
+.model-overview-header .chevron{font-size:12px;color:var(--muted);transition:transform .2s}
+.model-overview-header.open .chevron{transform:rotate(180deg)}
+.model-overview-body{padding:0 18px 18px;border-top:1px solid var(--border)}
+.model-overview-body.collapsed{display:none}
+.entity-map{display:flex;align-items:stretch;gap:0;margin-bottom:20px;flex-wrap:wrap}
+.entity-map .em-item{flex:1;min-width:140px;padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;text-align:center;transition:border-color .15s}
+.entity-map .em-item:first-child{border-radius:8px 0 0 8px}
+.entity-map .em-item:last-child{border-radius:0 8px 8px 0}
+.entity-map .em-item:only-child{border-radius:8px}
+@media(max-width:600px){.entity-map .em-item{min-width:100%;border-radius:8px!important}}
+.entity-map .em-item.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,var(--bg))}
+.entity-map .em-item a{text-decoration:none;color:inherit;display:block}
+.entity-map .em-item .em-icon{font-size:20px;margin-bottom:4px;opacity:.9}
+.entity-map .em-item .em-name{font-size:12px;font-weight:700;color:var(--fg)}
+.entity-map .em-item .em-desc{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3}
+.entity-map .em-arrow{display:flex;align-items:center;padding:0 6px;color:var(--border);font-size:14px}
+@media(max-width:600px){.entity-map .em-arrow{display:none}}
+.pipeline-summary{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5}
+.pipeline-summary strong{color:var(--fg)}
+.policy-params{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+.policy-params .pp-row{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px}
+.policy-params .pp-k{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.policy-params .pp-v{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:2px}
+.order-why{font-size:11px;color:var(--muted);margin-top:12px;padding:10px 12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--accent)}
+
+/* Verdict — интегрирован в правую колонку */
+.verdict-panel{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 6%,var(--bg)),var(--bg));border-left:3px solid var(--accent)}
+.verdict-panel .badge{font-size:14px;padding:4px 14px}
+.vh-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+.vh-row .vh-conf{font-size:11px;color:var(--muted);font-weight:600}
+.vh-stop{font-size:13px;font-weight:600;color:var(--fg);margin-bottom:2px}
+.vh-stop .vh-step-num{color:var(--accent);font-variant-numeric:tabular-nums}
+.vh-why{font-size:12px;color:var(--muted);line-height:1.35}
+.col-right{display:flex;flex-direction:column;gap:12px}
+.preset-bar-wrap{margin-bottom:16px}
+.model-overview-bottom{margin-top:24px;margin-bottom:0}
 </style>
 </head>
 <body>
 
 <div class="top-bar">
   <a href="index.html" data-t="nav_home">Home</a>
-  <a href="traces.html" data-t="nav_traces">Traces</a>
   <a href="policy.html" class="active" data-t="nav_engine">Decision Engine</a>
   <a href="corpus.html" data-t="nav_corpus">Corpus Explorer</a>
+  <a href="pipeline.html">Pipeline</a>
   <span class="spacer"></span>
   <a href="policy-ru.html" style="font-size:12px" data-t="nav_ru_explainer">RU Explainer</a>
+  <span class="lang-toggle" id="langToggle"><a href="#" id="lang-en">EN</a><span class="sep">|</span><a href="#" id="lang-ru">RU</a></span>
 </div>
+<nav class="entity-nav"><a href="corpus.html" data-t="en_corpus">Corpus</a><span class="en-sep">&rarr;</span><a href="policy.html" class="en-active" data-t="en_model">Model</a></nav>
 
 <div class="container">
   <h1 data-t="de_title">Decision Engine</h1>
@@ -147,19 +236,52 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     </div>
   </div>
   <div class="hint" id="hint"></div>
-
-  <div class="layout">
-    <div class="panel" id="colP"><h3 data-t="hdr_pipeline">Stop-Rule Pipeline</h3><div class="step-list" id="stepList"></div></div>
-    <div id="colS"><div class="panel"><h3 data-t="hdr_signals">Case Signals</h3><div id="sigC"><div class="ph" data-t="ph_pick">Select a case to begin.</div></div></div></div>
-    <div class="panel col-v" id="colV"><h3 data-t="hdr_verdict">Verdict</h3><div id="verC"><div class="ph">&mdash;</div></div></div>
+  <div class="preset-bar-wrap">
+    <div class="preset-bar" id="policyPresetBar">
+      <button class="preset-chip active" data-policy="balanced" data-t="preset_balanced">Balanced</button>
+      <button class="preset-chip" data-policy="conservative" data-t="preset_conservative">Conservative</button>
+      <button class="preset-chip" data-policy="growth" data-t="preset_growth">Growth</button>
+      <button class="preset-chip" data-policy="safety" data-t="preset_safety">Safety-first</button>
+    </div>
   </div>
 
-  <div class="replay-sec" id="replaySec" style="display:none">
-    <div class="panel"><h3 data-t="hdr_replay">Agent Replay</h3><div id="repC"></div></div>
+  <div class="layout" id="mainLayout">
+    <div class="panel" id="colP"><h3 data-t="hdr_pipeline">6 steps: where did it stop?</h3><div class="step-list" id="stepList"></div></div>
+    <div id="colS" class="col-right">
+      <div class="panel verdict-panel" id="verdictHero" style="display:none">
+        <div class="vh-row"><span class="badge badge-ship" id="vhBadge">—</span><span class="vh-conf" id="vhConf">—</span></div>
+        <div class="vh-stop" id="vhStop"></div>
+        <div class="vh-why" id="vhWhy"></div>
+      </div>
+      <div class="panel"><h3 data-t="hdr_signals">Case Signals</h3><div id="sigC"><div class="ph" data-t="ph_pick">Select a case to begin.</div></div></div>
+      <div class="panel" id="colV"><h3 data-t="hdr_details">Details</h3><div id="verC"><div class="ph">&mdash;</div></div></div>
+    </div>
   </div>
+
+  <section class="model-overview model-overview-bottom" id="modelOverview">
+    <div class="model-overview-header" id="modelOverviewToggle" data-t-open="model_overview_open" data-t-closed="model_overview_closed">
+      <h2 data-t="model_overview_title">Understand the model</h2>
+      <span class="chevron">&#9660;</span>
+    </div>
+    <div class="model-overview-body collapsed" id="modelOverviewBody">
+      <div class="entity-map">
+        <a href="corpus.html" class="em-item" title="Corpus Explorer"><span class="em-icon">&#128203;</span><span class="em-name" data-t="em_corpus">Corpus</span><span class="em-desc" data-t="em_corpus_d">Cases to evaluate</span></a>
+        <span class="em-arrow">&rarr;</span>
+        <div class="em-item active"><span class="em-icon">&#9881;</span><span class="em-name" data-t="em_model">Decision Model</span><span class="em-desc" data-t="em_model_d">Stop-rules + policy</span></div>
+      </div>
+      <p class="pipeline-summary"><strong data-t="pipe_summary_h">6-step pipeline:</strong> <span data-t="pipe_summary_d">Guardrails &rarr; Reversal &rarr; Segment &rarr; Significance &rarr; Practical &rarr; Ship. First STOP defines the verdict (ship / do_not_ship / investigate).</span></p>
+      <div class="policy-params" id="policyParamsPreview">
+        <div class="pp-row"><div class="pp-k">&alpha;</div><div class="pp-v" id="ppAlpha">0.05</div></div>
+        <div class="pp-row"><div class="pp-k" data-t="pp_min_up">Min uplift</div><div class="pp-v" id="ppUplift">0.5%</div></div>
+        <div class="pp-row"><div class="pp-k" data-t="pp_ctr">CTR guard</div><div class="pp-v" id="ppCtr">&minus;3.0%</div></div>
+      </div>
+      <p class="order-why" data-t="order_why">Safety first: hard blockers (guardrails, reversal) are checked before statistical significance. Changing policy presets above updates these thresholds.</p>
+    </div>
+  </section>
+
 </div>
 
-<footer data-t="de_footer">AB Factory Demo &middot; Decision Engine &middot; zero dependencies</footer>
+<footer data-t="de_footer">AB Factory &middot; interactive decision simulator &middot; static and dependency-free</footer>
 
 <script>
 (function(){
@@ -174,7 +296,7 @@ var T={
   nav_corpus:{en:'Corpus Explorer',ru:'\u041a\u043e\u0440\u043f\u0443\u0441 \u043a\u0435\u0439\u0441\u043e\u0432'},
   nav_ru_explainer:{en:'RU Explainer',ru:'RU \u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435'},
   de_title:{en:'Decision Engine',ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u043f\u0440\u0438\u043d\u044f\u0442\u0438\u044f \u0440\u0435\u0448\u0435\u043d\u0438\u0439'},
-  de_subtitle:{en:'Interactive stop-rule diagram. Pick a case, adjust policy thresholds, watch which rule fires first.',ru:'\u0418\u043d\u0442\u0435\u0440\u0430\u043a\u0442\u0438\u0432\u043d\u0430\u044f \u0441\u0445\u0435\u043c\u0430 stop-rule. \u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441, \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u0442\u0435 \u043f\u043e\u0440\u043e\u0433\u0438, \u0441\u043c\u043e\u0442\u0440\u0438\u0442\u0435 \u043a\u0430\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u0441\u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u043f\u0435\u0440\u0432\u044b\u043c.'},
+  de_subtitle:{en:'Pick a case and see why, how, and at which step the decision was made.',ru:'\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441 — \u0443\u0437\u043d\u0430\u0439\u0442\u0435 \u043f\u043e\u0447\u0435\u043c\u0443, \u043a\u0430\u043a \u0438 \u043d\u0430 \u043a\u0430\u043a\u043e\u043c \u0448\u0430\u0433\u0435 \u043f\u0440\u0438\u043d\u044f\u0442\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u0435.'},
   lbl_case:{en:'Case',ru:'\u041a\u0435\u0439\u0441'},
   pick_case:{en:'\u2014 pick a case \u2014',ru:'\u2014 \u0432\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441 \u2014'},
   lbl_alpha:{en:'\u03b1',ru:'\u03b1'},
@@ -185,12 +307,23 @@ var T={
   preset_guardrail:{en:'Guardrail',ru:'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b'},
   preset_segment:{en:'Segment',ru:'\u0421\u0435\u0433\u043c\u0435\u043d\u0442'},
   preset_reversal:{en:'Reversal',ru:'\u0420\u0435\u0432\u0435\u0440\u0441'},
-  hdr_pipeline:{en:'Stop-Rule Pipeline',ru:'Stop-Rule \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d'},
+  preset_balanced:{en:'Balanced',ru:'\u0421\u0431\u0430\u043b\u0430\u043d\u0441\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e'},
+  preset_conservative:{en:'Conservative',ru:'\u041a\u043e\u043d\u0441\u0435\u0440\u0432\u0430\u0442\u0438\u0432\u043d\u043e'},
+  preset_growth:{en:'Growth',ru:'\u0420\u043e\u0441\u0442'},
+  preset_safety:{en:'Safety-first',ru:'\u0411\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u044c \u0441\u043d\u0430\u0447\u0430\u043b\u0430'},
+  btn_prev_step:{en:'Prev step',ru:'\u041d\u0430\u0437\u0430\u0434'},
+  btn_next_step:{en:'Next step',ru:'\u0414\u0430\u043b\u0435\u0435'},
+  autoplay_label:{en:'Auto play',ru:'\u0410\u0432\u0442\u043e-\u043f\u043b\u0435\u0439'},
+  stop_auto_label:{en:'Stop auto',ru:'\u0421\u0442\u043e\u043f \u0430\u0432\u0442\u043e'},
+  step_playback_off:{en:'Step playback: off',ru:'\u041f\u043e\u0448\u0430\u0433\u043e\u0432\u044b\u0439 \u0440\u0430\u0437\u0431\u043e\u0440: \u0432\u044b\u043a\u043b'},
+  step_playback_auto:{en:'Step playback: auto',ru:'\u041f\u043e\u0448\u0430\u0433\u043e\u0432\u044b\u0439 \u0440\u0430\u0437\u0431\u043e\u0440: \u0430\u0432\u0442\u043e'},
+  step_label:{en:'Step',ru:'\u0428\u0430\u0433'},
+  hdr_pipeline:{en:'6 steps: where did it stop?',ru:'6 \u0448\u0430\u0433\u043e\u0432: \u043d\u0430 \u043a\u0430\u043a\u043e\u043c \u043e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u043b\u043e\u0441\u044c?'},
   hdr_signals:{en:'Case Signals',ru:'\u0421\u0438\u0433\u043d\u0430\u043b\u044b \u043a\u0435\u0439\u0441\u0430'},
-  hdr_verdict:{en:'Verdict',ru:'\u0412\u0435\u0440\u0434\u0438\u043a\u0442'},
+  hdr_details:{en:'Details',ru:'\u0414\u0435\u0442\u0430\u043b\u0438'},
   hdr_replay:{en:'Agent Replay',ru:'\u0420\u0435\u043f\u043b\u0435\u0439 \u0430\u0433\u0435\u043d\u0442\u043e\u0432'},
   ph_pick:{en:'Select a case to begin.',ru:'\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441 \u0434\u043b\u044f \u043d\u0430\u0447\u0430\u043b\u0430.'},
-  de_footer:{en:'AB Factory Demo \u00b7 Decision Engine \u00b7 zero dependencies',ru:'AB Factory Demo \u00b7 \u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u00b7 \u0431\u0435\u0437 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0435\u0439'},
+  de_footer:{en:'AB Factory \u00b7 interactive decision simulator \u00b7 static and dependency-free',ru:'AB Factory \u00b7 \u0438\u043d\u0442\u0435\u0440\u0430\u043a\u0442\u0438\u0432\u043d\u044b\u0439 \u0441\u0438\u043c\u0443\u043b\u044f\u0442\u043e\u0440 \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u00b7 \u0441\u0442\u0430\u0442\u0438\u0447\u043d\u043e \u0438 \u0431\u0435\u0437 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0435\u0439'},
   preset_picked:{en:'Preset picked',ru:'\u041f\u0440\u0435\u0441\u0435\u0442 \u0432\u044b\u0431\u0440\u0430\u043b'},
   preset_because_gua:{en:'because it has a guardrail breach',ru:'\u2014 \u043d\u0430\u0440\u0443\u0448\u0435\u043d\u0438\u0435 \u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u0430'},
   preset_because_seg:{en:'because it has a segment conflict',ru:'\u2014 \u043a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},
@@ -213,16 +346,52 @@ var T={
   s_skip:{en:'SKIP',ru:'\u0421\u041a\u0418\u041f'},
   stopped_at:{en:'Stopped at Step',ru:'\u041e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 \u043d\u0430 \u0448\u0430\u0433\u0435'},
   no_blockers:{en:'No blockers \u2192 Ship (Step 6)',ru:'\u041d\u0435\u0442 \u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u043e\u043a \u2192 Ship (\u0448\u0430\u0433 6)'},
-  top_reasons:{en:'Top reasons',ru:'\u0413\u043b\u0430\u0432\u043d\u044b\u0435 \u043f\u0440\u0438\u0447\u0438\u043d\u044b'},
+  top_reasons:{en:'Key reasons',ru:'\u041a\u043b\u044e\u0447\u0435\u0432\u044b\u0435 \u043f\u0440\u0438\u0447\u0438\u043d\u044b'},
+  why_change:{en:'What would change the verdict?',ru:'\u0427\u0442\u043e \u0438\u0437\u043c\u0435\u043d\u0438\u0442 \u0432\u0435\u0440\u0434\u0438\u043a\u0442?'},
+  next_action:{en:'Recommended next action',ru:'\u0420\u0435\u043a\u043e\u043c\u0435\u043d\u0434\u0443\u0435\u043c\u043e\u0435 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0435\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0435'},
+  confidence_lbl:{en:'Confidence',ru:'\u0423\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u044c'},
+  step_inspector:{en:'Step inspector',ru:'\u0420\u0430\u0437\u0431\u043e\u0440 \u0448\u0430\u0433\u0430'},
+  rule_lbl:{en:'Rule',ru:'\u041f\u0440\u0430\u0432\u0438\u043b\u043e'},
+  condition_lbl:{en:'Condition',ru:'\u0423\u0441\u043b\u043e\u0432\u0438\u0435'},
+  passfail_lbl:{en:'Pass/Fail',ru:'\u0421\u0442\u0430\u0442\u0443\u0441'},
+  signals_lbl:{en:'Signals used',ru:'\u0421\u0438\u0433\u043d\u0430\u043b\u044b'},
+  stopped_here:{en:'Decision stopped here.',ru:'\u0420\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u043b\u043e\u0441\u044c \u043d\u0430 \u044d\u0442\u043e\u043c \u0448\u0430\u0433\u0435.'},
   open_corpus:{en:'Open in Corpus',ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435'},
   open_replay:{en:'Open Replay',ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0440\u0435\u043f\u043b\u0435\u0439'},
   replay_na:{en:'Replay not built. Run: python3 tools/build_replays_index.py',ru:'\u0420\u0435\u043f\u043b\u0435\u0438 \u043d\u0435 \u043f\u043e\u0441\u0442\u0440\u043e\u0435\u043d\u044b. \u0417\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u0435: python3 tools/build_replays_index.py'},
-  replay_miss:{en:'No replay for this case.',ru:'\u041d\u0435\u0442 \u0440\u0435\u043f\u043b\u0435\u044f \u0434\u043b\u044f \u044d\u0442\u043e\u0433\u043e \u043a\u0435\u0439\u0441\u0430.'}
+  replay_miss:{en:'No replay for this case.',ru:'\u041d\u0435\u0442 \u0440\u0435\u043f\u043b\u0435\u044f \u0434\u043b\u044f \u044d\u0442\u043e\u0433\u043e \u043a\u0435\u0439\u0441\u0430.'},
+  model_overview_title:{en:'Understand the model',ru:'\u041f\u043e\u043d\u044f\u0442\u044c \u043c\u043e\u0434\u0435\u043b\u044c'},
+  model_overview_open:{en:'Collapse',ru:'\u0421\u0432\u0435\u0440\u043d\u0443\u0442\u044c'},
+  model_overview_closed:{en:'Expand',ru:'\u0420\u0430\u0437\u0432\u0435\u0440\u043d\u0443\u0442\u044c'},
+  em_corpus:{en:'Corpus',ru:'\u041a\u043e\u0440\u043f\u0443\u0441'},
+  em_corpus_d:{en:'Cases to evaluate',ru:'\u041a\u0435\u0439\u0441\u044b \u0434\u043b\u044f \u043e\u0446\u0435\u043d\u043a\u0438'},
+  em_model:{en:'Decision Model',ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439'},
+  em_model_d:{en:'Stop-rules + policy',ru:'Stop-rules \u0438 \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0430'},
+  em_traces:{en:'Traces',ru:'\u0422\u0440\u0435\u0439\u0441\u044b'},
+  em_traces_d:{en:'Agent run replay',ru:'\u0420\u0435\u043f\u043b\u0435\u0439 \u0430\u0433\u0435\u043d\u0442\u043e\u0432'},
+  pipe_summary_h:{en:'6-step pipeline:',ru:'6 \u0448\u0430\u0433\u043e\u0432:'},
+  pipe_summary_d:{en:'Guardrails \u2192 Reversal \u2192 Segment \u2192 Significance \u2192 Practical \u2192 Ship. First STOP defines the verdict (ship / do_not_ship / investigate).',ru:'\u0413\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u044b \u2192 \u0420\u0435\u0432\u0435\u0440\u0441 \u2192 \u0421\u0435\u0433\u043c\u0435\u043d\u0442\u044b \u2192 \u0417\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c \u2192 \u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u2192 Ship. \u041f\u0435\u0440\u0432\u044b\u0439 STOP \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442 \u0432\u0435\u0440\u0434\u0438\u043a\u0442.'},
+  pp_min_up:{en:'Min uplift',ru:'\u041c\u0438\u043d. uplift'},
+  pp_ctr:{en:'CTR guard',ru:'\u041f\u043e\u0440\u043e\u0433 CTR'},
+  order_why:{en:'Safety first: hard blockers (guardrails, reversal) are checked before statistical significance. Changing policy presets above updates these thresholds.',ru:'\u0411\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u044c \u0432 \u043f\u0440\u0438\u043e\u0440\u0438\u0442\u0435\u0442\u0435: \u0436\u0451\u0441\u0442\u043a\u0438\u0435 \u0431\u043b\u043e\u043a\u0438\u0440\u044b (\u0433\u0430\u0440\u0434\u0440\u0435\u0439\u043b\u044b, \u0440\u0435\u0432\u0435\u0440\u0441) \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u044e\u0442\u0441\u044f \u0434\u043e \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043a\u0438. \u041f\u0440\u0435\u0441\u0435\u0442\u044b \u0432\u044b\u0448\u0435 \u043c\u0435\u043d\u044f\u044e\u0442 \u044d\u0442\u0438 \u043f\u043e\u0440\u043e\u0433\u0438.'}
 };
 
 function t(k){var e=T[k];return e?(e[LANG]||e.en):k;}
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function fmtD(d){return(d||'').replace(/_/g,' ');}
+function reasonLabel(r){
+  var map={
+    primary_uplift:{en:'Strong primary uplift',ru:'\u0421\u0438\u043b\u044c\u043d\u044b\u0439 \u0440\u043e\u0441\u0442 \u043e\u0441\u043d\u043e\u0432\u043d\u043e\u0439 \u043c\u0435\u0442\u0440\u0438\u043a\u0438'},
+    segment_conflict:{en:'Segment conflict detected',ru:'\u041e\u0431\u043d\u0430\u0440\u0443\u0436\u0435\u043d \u043a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},
+    practically_small:{en:'Effect below practical threshold',ru:'\u042d\u0444\u0444\u0435\u043a\u0442 \u043d\u0438\u0436\u0435 \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u043f\u043e\u0440\u043e\u0433\u0430'},
+    not_significant:{en:'Not statistically significant',ru:'\u041d\u0435\u0434\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u0430\u044f \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0437\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c'},
+    long_term_reversal:{en:'Long-term reversal detected',ru:'\u041e\u0431\u043d\u0430\u0440\u0443\u0436\u0435\u043d \u0434\u043e\u043b\u0433\u043e\u0441\u0440\u043e\u0447\u043d\u044b\u0439 \u0440\u0430\u0437\u0432\u043e\u0440\u043e\u0442'},
+    evidence_sparse:{en:'Evidence is limited',ru:'\u041d\u0435\u0434\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u043e \u0434\u0430\u043d\u043d\u044b\u0445'}
+  };
+  if(r&&r.indexOf('guardrail_violation')===0) return LANG==='ru'?'\u041d\u0430\u0440\u0443\u0448\u0435\u043d\u0438\u0435 guardrail':'Guardrail violation';
+  var x=map[r];
+  return x?(x[LANG]||x.en):r;
+}
 function cc(v){return v>=0.6?'var(--green)':v>=0.3?'var(--orange)':'var(--red)';}
 function pf(v){return parseFloat(v).toFixed(1);}
 
@@ -232,13 +401,40 @@ function applyI18n(){
     if(v) el.innerHTML=v;
   });
   if(LANG==='ru') document.documentElement.lang='ru';
-  document.querySelectorAll('.top-bar a[href]').forEach(function(a){
-    if(LANG==='ru'&&a.href.indexOf('lang=')<0){
+  document.querySelectorAll('.top-bar a[href], .entity-nav a[href], .entity-map a[href], .model-overview a[href]').forEach(function(a){
+    if(LANG==='ru'&&a.href.indexOf('lang=')<0&&!a.href.startsWith('http')){
       var u=new URL(a.href,location.href);u.searchParams.set('lang','ru');a.href=u.pathname+u.search;
     }
   });
 }
 applyI18n();
+
+(function(){
+  var u=new URL(location.href);
+  var p=new URLSearchParams(u.search);
+  var isRu=p.get('lang')==='ru';
+  p.delete('lang');
+  var base=u.pathname+(p.toString()?'?'+p.toString():'');
+  p.set('lang','ru');
+  var ruUrl=u.pathname+'?'+p.toString();
+  var $e=document.getElementById('lang-en'),$r=document.getElementById('lang-ru');
+  if($e){$e.href=base;$e.classList.toggle('active',!isRu);}
+  if($r){$r.href=ruUrl;$r.classList.toggle('active',isRu);}
+})();
+
+function updatePolicyParamsPreview(){
+  var $a=document.getElementById('ctrlAlpha'),$u=document.getElementById('ctrlUplift'),$c=document.getElementById('ctrlCtr');
+  if(!$a||!$u||!$c) return;
+  document.getElementById('ppAlpha').textContent=$a.value;
+  document.getElementById('ppUplift').textContent=pf($u.value)+'%';
+  document.getElementById('ppCtr').textContent='\u2212'+pf($c.value)+'%';
+}
+document.getElementById('modelOverviewToggle').addEventListener('click',function(){
+  var body=document.getElementById('modelOverviewBody');
+  var collapsed=body.classList.toggle('collapsed');
+  this.classList.toggle('open',!collapsed);
+});
+updatePolicyParamsPreview();
 
 var SMETA=[
   {tk:'r_guardrails',td:'d_guardrails'},
@@ -249,7 +445,8 @@ var SMETA=[
   {tk:'r_default',td:'d_default'}
 ];
 
-var CASES=[],REPIDX=null,REPCACHE={};
+var CASES=[];
+var STATE={caseId:'',policyPreset:'balanced',lastResult:null,lastPolicy:null};
 var $cs=document.getElementById('ctrlCase');
 var $al=document.getElementById('ctrlAlpha');
 var $up=document.getElementById('ctrlUplift');
@@ -272,12 +469,10 @@ fetch('data/corpus_100.json').then(function(r){return r.json();}).then(function(
   if(DEBUG) runConsistencyCheck();
 });
 
-fetch('data/replays/index.json').then(function(r){return r.json();}).then(function(idx){REPIDX=idx;}).catch(function(){});
-
 $cs.addEventListener('change',evaluate);
-$al.addEventListener('change',evaluate);
-$up.addEventListener('input',function(){$vU.textContent=pf($up.value)+'%';evaluate();});
-$ct.addEventListener('input',function(){$vC.textContent='\u2212'+pf($ct.value)+'%';evaluate();});
+$al.addEventListener('change',function(){updatePolicyParamsPreview();evaluate();});
+$up.addEventListener('input',function(){$vU.textContent=pf($up.value)+'%';updatePolicyParamsPreview();evaluate();});
+$ct.addEventListener('input',function(){$vC.textContent='\u2212'+pf($ct.value)+'%';updatePolicyParamsPreview();evaluate();});
 document.getElementById('btnReset').addEventListener('click',function(){
   $al.value='0.05';$up.value='0.5';$ct.value='3';
   $vU.textContent='0.5%';$vC.textContent='\u22123.0%';$hint.textContent='';evaluate();
@@ -297,14 +492,41 @@ document.querySelectorAll('.pb').forEach(function(btn){
     $cs.value=m.case_id;
     $hint.textContent=t('preset_picked')+' '+m.case_id+' '+t('preset_because_'+pr.substring(0,3));
     evaluate();
-    setTimeout(function(){highlightStep(pr==='guardrail'?0:pr==='reversal'?1:2);},300);
   });
 });
 
-function highlightStep(idx){
-  var items=document.querySelectorAll('#stepList .si');
-  if(items[idx]){items[idx].classList.add('si-hl');setTimeout(function(){items[idx].classList.remove('si-hl');},1500);}
+function policyFromPreset(name){
+  if(name==='conservative') return {alpha:0.01,minUplift:1.0,ctrThreshold:2.0};
+  if(name==='growth') return {alpha:0.10,minUplift:0.2,ctrThreshold:4.0};
+  if(name==='safety') return {alpha:0.05,minUplift:0.8,ctrThreshold:1.5};
+  return {alpha:0.05,minUplift:0.5,ctrThreshold:3.0};
 }
+
+function setPolicyControls(pol){
+  $al.value=String(pol.alpha);
+  $up.value=String(pol.minUplift);
+  $ct.value=String(pol.ctrThreshold);
+  $vU.textContent=pf(pol.minUplift)+'%';
+  $vC.textContent='−'+pf(pol.ctrThreshold)+'%';
+  if(typeof updatePolicyParamsPreview==='function') updatePolicyParamsPreview();
+}
+
+document.getElementById('policyPresetBar').querySelectorAll('.preset-chip').forEach(function(chip){
+  chip.addEventListener('click',function(){
+    var prev=STATE.lastResult?STATE.lastResult.verdict:null;
+    document.querySelectorAll('.preset-chip').forEach(function(c){c.classList.remove('active');});
+    chip.classList.add('active');
+    STATE.policyPreset=chip.dataset.policy;
+    setPolicyControls(policyFromPreset(STATE.policyPreset));
+    evaluate();
+    var next=STATE.lastResult?STATE.lastResult.verdict:null;
+    if(prev&&next&&prev!==next){
+      $hint.textContent='Preset changed verdict: '+fmtD(prev)+' → '+fmtD(next);
+    }else{
+      $hint.textContent='Preset applied: '+chip.textContent;
+    }
+  });
+});
 
 function evaluateStopRules(c,pol){
   var alpha=pol.alpha,minUp=pol.minUplift,ctrT=pol.ctrThreshold;
@@ -356,9 +578,11 @@ function renderPipelineEmpty(){
 
 function renderPipeline(res){
   var h='';
+  var stopIdx=res.stopIdx>=0?res.stopIdx:5;
   SMETA.forEach(function(m,i){
     var st=res.statuses[i],cls=st==='PASS'?'si-p':st==='STOP'?'si-s':'si-k';
     if(st==='STOP'&&res.steps[i].v==='investigate') cls+=' si-inv';
+    if(i===stopIdx) cls+=' si-active';
     var stLabel=st==='PASS'?t('s_pass'):st==='STOP'?t('s_stop'):t('s_skip');
     h+='<div class="si '+cls+'"><div class="sd"></div>';
     h+='<div class="si-num">Step '+(i+1)+'</div>';
@@ -370,14 +594,30 @@ function renderPipeline(res){
   document.getElementById('stepList').innerHTML=h;
 }
 
-function renderSignals(c){
-  var h='<div class="sg">';
-  h+=sig('Metric',esc(c.metric));
-  h+=sig('Uplift',c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+pf(c.uplift_pct)+'%':'\u2014');
-  h+=sig('p-value',c.p_value!=null?(c.p_value<0.001?'<0.001':c.p_value.toFixed(3)):'\u2014');
-  h+=sig('CTR \u0394',c.guardrail_ctr_delta!=null?c.guardrail_ctr_delta.toFixed(1)+'%':'\u2014');
-  h+=sig(LANG==='ru'?'\u0420\u0435\u0432\u0435\u0440\u0441':'Reversal',c.long_term_reversal?'<span style="color:var(--red)">Yes</span>':'No');
-  h+=sig(LANG==='ru'?'\u0421\u0435\u0433\u043c\u0435\u043d\u0442\u044b':'Segments',c.segment_conflict?'<span style="color:var(--orange)">Conflict</span>':'OK');
+function renderSignals(c,res,pol){
+  var h='';
+  var alpha=pol.alpha,minUp=pol.minUplift,ctrT=pol.ctrThreshold;
+  var upliftOk=c.uplift_pct!=null&&c.uplift_pct>=minUp;
+  var pvalOk=c.p_value!=null&&c.p_value<=alpha;
+  var upliftStr=c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+pf(c.uplift_pct)+'%':'\u2014';
+  var pvalStr=c.p_value!=null?(c.p_value<0.001?'<0.001':c.p_value.toFixed(3)):'\u2014';
+
+  h+='<div class="ab-metrics"><div class="ab-metrics-h">'+(LANG==='ru'?'Результаты A/B':'A/B Results')+'</div>';
+  h+='<div class="ab-cols">';
+  h+='<div class="ab-col"><div class="ab-col-label">'+(LANG==='ru'?'Контроль':'Control')+'</div><div class="ab-col-val">'+(c.control_mean!=null?c.control_mean.toFixed(2):'\u2014')+'</div></div>';
+  h+='<div class="ab-arrow">\u2192</div>';
+  h+='<div class="ab-col"><div class="ab-col-label">'+(LANG==='ru'?'Тест':'Test')+'</div><div class="ab-col-val">'+(c.test_mean!=null?c.test_mean.toFixed(2):'\u2014')+'</div></div>';
+  h+='<div class="ab-arrow"></div>';
+  h+='<div class="ab-col"><div class="ab-col-label">'+(LANG==='ru'?'Uplift':'Uplift')+' <span style="font-weight:400;opacity:.7">(&ge;'+pf(minUp)+'%)</span></div><div class="ab-col-val '+(c.uplift_pct!=null?(upliftOk?'good':'bad'):'muted')+'">'+upliftStr+'</div></div>';
+  h+='</div></div>';
+
+  h+='<div class="sg">';
+  h+=sigStatus('Metric',esc(c.metric),null);
+  h+=sigStatus('Uplift',upliftStr,upliftOk);
+  h+=sigStatus('p-value',pvalStr,pvalOk);
+  h+=sigStatus('CTR \u0394',c.guardrail_ctr_delta!=null?c.guardrail_ctr_delta.toFixed(1)+'%':'\u2014',c.guardrail_ctr_delta==null?null:c.guardrail_ctr_delta>=-(ctrT));
+  h+=sig(LANG==='ru'?'\u0420\u0435\u0432\u0435\u0440\u0441':'Reversal',c.long_term_reversal?'<span style="color:var(--red)">Yes</span>':'<span style="color:var(--green)">No</span>');
+  h+=sig(LANG==='ru'?'\u0421\u0435\u0433\u043c\u0435\u043d\u0442\u044b':'Segments',c.segment_conflict?'<span style="color:var(--orange)">Conflict</span>':'<span style="color:var(--green)">OK</span>');
   h+='</div>';
   if(c.control_mean!=null&&c.test_mean!=null) h+=buildBar(c);
   document.getElementById('sigC').innerHTML=h;
@@ -386,19 +626,21 @@ function renderSignals(c){
 function renderVerdict(c,res){
   var cp=c.confidence!=null?(c.confidence*100).toFixed(0):'\u2014';
   var col=cc(c.confidence);
-  var h='<div style="text-align:center;margin-bottom:12px"><span class="badge badge-'+res.verdict+'">'+fmtD(res.verdict)+'</span></div>';
-  h+='<div class="cm"><span class="pct">'+cp+'%</span><div class="bar"><div class="fill" style="width:'+cp+'%;background:'+col+'"></div></div></div>';
-  var expl='';
-  if(res.stopIdx<5){
-    expl=t('stopped_at')+' '+(res.stopIdx+1)+': <strong>'+t(SMETA[res.stopIdx].tk)+'</strong> \u2192 '+fmtD(res.verdict);
-  }else{
-    expl=t('no_blockers');
-  }
-  h+='<div class="ebox">'+expl+'</div>';
+  var stopIdx=res.stopIdx>=0?res.stopIdx:5;
+  var stepNum=stopIdx+1;
+  var ruleName=t(SMETA[stopIdx].tk);
+  var ev=res.steps[stopIdx].ev;
+  document.getElementById('verdictHero').style.display='block';
+  document.getElementById('vhBadge').textContent=fmtD(res.verdict);
+  document.getElementById('vhBadge').className='badge badge-'+res.verdict;
+  document.getElementById('vhStop').innerHTML=(LANG==='ru'?'\u041e\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 \u043d\u0430 \u0448\u0430\u0433\u0435 ':'Stopped at Step ')+'<span class="vh-step-num">'+stepNum+'</span>: <strong>'+esc(ruleName)+'</strong> \u2192 '+esc(fmtD(res.verdict));
+  document.getElementById('vhWhy').textContent=(LANG==='ru'?'\u041f\u043e\u0447\u0435\u043c\u0443: ':'Why: ')+ev;
+  document.getElementById('vhConf').textContent=(LANG==='ru'?'\u0423\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u044c: ':'Confidence: ')+cp+'%';
+  var h='';
   if(res.topReasons.length){
     h+='<div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px">'+t('top_reasons')+'</div>';
     res.topReasons.forEach(function(r){
-      h+='<div class="ri"><div class="ri-c">'+esc(r.code)+'</div>';
+      h+='<div class="ri"><div class="ri-c">'+esc(reasonLabel(r.code))+'</div>';
       if(r.ev) h+='<div class="ri-e">'+esc(r.ev)+'</div>';
       h+='</div>';
     });
@@ -406,9 +648,62 @@ function renderVerdict(c,res){
   var lp=LANG==='ru'?'&lang=ru':'';
   h+='<div class="cta">';
   h+='<a class="cta-p" href="corpus.html?case='+c.case_id+'&tab=details'+lp+'">'+t('open_corpus')+'</a>';
-  h+='<a class="cta-s" href="traces.html'+( LANG==='ru'?'?lang=ru':'')+'">'+t('open_replay')+'</a>';
   h+='</div>';
+  h+=buildCounterfactual(c,res,STATE.lastPolicy);
+  h+=buildNextAction(res.verdict);
   document.getElementById('verC').innerHTML=h;
+}
+
+function buildCounterfactual(c,res,pol){
+  var items=[];
+  var stop=res.stopIdx;
+  if(stop===0){
+    items.push(LANG==='ru'?'Снимите блокировку guardrail: удержите падение CTR выше порога −'+pf(pol.ctrThreshold)+'%.':'Reduce guardrail breach: keep CTR drop above −'+pf(pol.ctrThreshold)+'%.');
+    items.push(LANG==='ru'?'Либо устраните флаг нарушения guardrail в конфигурации эксперимента.':'Or remove guardrail violation flag from the experiment setup.');
+  }else if(stop===1){
+    items.push(LANG==='ru'?'Уберите долгосрочный разворот: поздний uplift должен быть неотрицательным.':'Remove long-term reversal: keep late-period uplift non-negative.');
+    items.push(LANG==='ru'?'Продлите тест и стабилизируйте недельную динамику эффекта.':'Extend test duration and stabilize week-over-week effect.');
+  }else if(stop===2){
+    items.push(LANG==='ru'?'Снимите конфликт сегментов: выровняйте знак эффекта в ключевых сегментах.':'Resolve segment conflict: align signs across key segments.');
+    items.push(LANG==='ru'?'Запустите сегментный rollout и переоцените каждый сегмент отдельно.':'Split rollout by segment and re-evaluate each segment independently.');
+  }else if(stop===3){
+    var targetP=Math.max(0.0001,pol.alpha-0.001).toFixed(3);
+    items.push(LANG==='ru'?'Повышайте мощность теста, чтобы p-value стало ≤ '+targetP+'.':'Improve statistical power so p-value becomes ≤ '+targetP+'.');
+    items.push(LANG==='ru'?'Увеличьте выборку или уменьшите дисперсию в шумных сегментах.':'Increase sample size or reduce variance in noisy segments.');
+  }else if(stop===4){
+    items.push(LANG==='ru'?'Поднимите uplift до минимум '+pf(pol.minUplift)+'%.':'Increase uplift to at least '+pf(pol.minUplift)+'%.');
+    items.push(LANG==='ru'?'Усильте treatment-эффект или переработайте вариант с большим практическим импактом.':'Raise treatment effect or redesign variant with larger practical impact.');
+  }else{
+    items.push(LANG==='ru'?'При текущей политике кейс уже проходит в ship.':'Decision already ships under current policy.');
+    items.push(LANG==='ru'?'Дальше мониторьте guardrails и дрейф уверенности.':'Keep monitoring guardrails and confidence drift.');
+  }
+  var h='<div class="cf-box"><h4>'+t('why_change')+'</h4><ul>';
+  items.forEach(function(it){h+='<li>'+esc(it)+'</li>';});
+  h+='</ul></div>';
+  return h;
+}
+
+function buildNextAction(verdict){
+  var actions={
+    ship:[
+      LANG==='ru'?'Расширяйте rollout на более широкую аудиторию.':'Roll out to broader audience.',
+      LANG==='ru'?'После запуска контролируйте guardrails.':'Monitor guardrails after rollout.'
+    ],
+    do_not_ship:[
+      LANG==='ru'?'Отклоните текущий вариант на данном этапе.':'Reject current variant for now.',
+      LANG==='ru'?'Переработайте дизайн эксперимента и перезапустите с более сильным treatment.':'Redesign experiment and rerun with stronger treatment.'
+    ],
+    investigate:[
+      LANG==='ru'?'Проведите сегментный разбор и локализуйте источник неопределенности.':'Run focused segment drilldown to localize uncertainty.',
+      LANG==='ru'?'Соберите дополнительные данные и продлите эксперимент до уверенного решения.':'Collect more data and extend duration before final call.'
+    ]
+  };
+  var list=actions[verdict]||[];
+  var cls=verdict==='investigate'?'next-action legit-investigate':'next-action';
+  var h='<div class="'+cls+'"><h4>'+t('next_action')+'</h4><ul>';
+  list.forEach(function(it){h+='<li>'+esc(it)+'</li>';});
+  h+='</ul></div>';
+  return h;
 }
 
 function buildBar(c){
@@ -417,63 +712,38 @@ function buildBar(c){
   var fl=mn*0.92,sp=mx-fl||1;
   var cW=((cR-fl)/sp*100).toFixed(1),tW=((tR-fl)/sp*100).toFixed(1);
   var up=c.uplift_pct,uC=up>0?'var(--green)':up<0?'var(--red)':'var(--muted)';
-  var h='<div class="cc"><div class="cc-l">'+esc(c.metric)+': Control vs Test</div>';
-  h+='<div class="br"><span class="br-t">Control</span><div class="br-k"><div class="br-f" style="width:'+cW+'%;background:var(--muted);opacity:.55"></div></div><span class="br-n">'+cR.toFixed(4)+'</span></div>';
-  h+='<div class="br"><span class="br-t">Test</span><div class="br-k"><div class="br-f" style="width:'+tW+'%;background:'+uC+'"></div></div><span class="br-n">'+tR.toFixed(4)+'</span></div>';
-  h+='<div class="br-u" style="color:'+uC+'">'+(up!=null?(up>0?'+':'')+pf(up)+'% uplift':'\u2014')+'</div></div>';
+  var ctrlLbl=LANG==='ru'?'Контроль (A)':'Control (A)';
+  var testLbl=LANG==='ru'?'Тест (B)':'Test (B)';
+  var h='<div class="cc"><div class="cc-l">'+esc(c.metric)+' <span class="ab-label">'+(LANG==='ru'?'A \u2192 B':'A \u2192 B')+'</span></div>';
+  h+='<div class="br"><span class="br-t">'+ctrlLbl+'</span><div class="br-k"><div class="br-f" style="width:'+cW+'%;background:var(--muted);opacity:.6"></div></div><span class="br-n">'+cR.toFixed(3)+'</span></div>';
+  h+='<div class="br"><span class="br-t">'+testLbl+'</span><div class="br-k"><div class="br-f" style="width:'+tW+'%;background:'+uC+'"></div></div><span class="br-n">'+tR.toFixed(3)+'</span></div>';
+  h+='<div class="br-u" style="color:'+uC+';font-size:13px">'+(up!=null?(up>0?'+':'')+pf(up)+'% '+(LANG==='ru'?'uplift':'uplift'):'\u2014')+'</div></div>';
   return h;
 }
 
-function loadReplay(caseId){
-  var $sec=document.getElementById('replaySec'),$c=document.getElementById('repC');
-  if(!REPIDX){$sec.style.display='none';return;}
-  var entry=REPIDX.find(function(e){return e.case_id===caseId;});
-  if(!entry){$sec.style.display='block';$c.innerHTML='<div class="ph">'+t('replay_miss')+'</div>';return;}
-  if(REPCACHE[caseId]){$sec.style.display='block';renderReplay(REPCACHE[caseId]);return;}
-  $sec.style.display='block';$c.innerHTML='<div class="ph">Loading\u2026</div>';
-  fetch('data/replays/'+caseId+'.json').then(function(r){return r.json();}).then(function(rp){
-    REPCACHE[caseId]=rp;renderReplay(rp);
-  }).catch(function(){$c.innerHTML='<div class="ph">'+t('replay_miss')+'</div>';});
-}
-
-function renderReplay(rp){
-  var evts=rp.timeline||[];
-  var agents=['reader','stats','decision','viz'];
-  var h='';
-  agents.forEach(function(ag){
-    var ae=evts.filter(function(e){return e.agent===ag;});
-    if(!ae.length) return;
-    h+='<div class="sw"><div class="sw-l">'+ag+'</div><div class="sw-e">';
-    ae.forEach(function(e){
-      h+='<span class="sw-ev sw-ev-'+ag+'" title="'+esc(e.message)+'">'+esc(e.event_type)+'<span class="sw-t">'+e.t_ms+'ms</span></span>';
-    });
-    h+='</div></div>';
-  });
-  if(rp.decision){
-    var cp=rp.confidence!=null?(rp.confidence*100).toFixed(0):'?';
-    h+='<div style="margin-top:8px;text-align:center"><span class="badge badge-'+rp.decision+'">'+fmtD(rp.decision)+'</span> <span style="font-size:12px;color:var(--muted)">'+cp+'% confidence</span></div>';
-  }
-  document.getElementById('repC').innerHTML=h;
-}
-
 function sig(l,v){return '<div class="s1"><div class="s1-l">'+l+'</div><div class="s1-v">'+v+'</div></div>';}
+function sigStatus(l,v,ok){var cls=ok===null?'':ok?' s1 ok':' s1 fail';var icon=ok===null?'':ok?' <span class="check">\u2713</span>':' <span class="cross">\u2717</span>';return '<div class="s1'+cls+'"><div class="s1-l">'+l+'</div><div class="s1-v">'+v+icon+'</div></div>';}
 
 function evaluate(){
   var id=$cs.value;
   var c=CASES.find(function(x){return x.case_id===id;});
   if(!c){
+    stopStepAutoplay();
     renderPipelineEmpty();
     document.getElementById('sigC').innerHTML='<div class="ph">'+t('ph_pick')+'</div>';
     document.getElementById('verC').innerHTML='<div class="ph">\u2014</div>';
-    document.getElementById('replaySec').style.display='none';
+    document.getElementById('verdictHero').style.display='none';
+    STATE.caseId='';STATE.lastResult=null;STATE.lastPolicy=null;
     syncUrl('');return;
   }
   var pol={alpha:parseFloat($al.value),minUplift:parseFloat($up.value),ctrThreshold:parseFloat($ct.value)};
   var res=evaluateStopRules(c,pol);
+  STATE.caseId=id;
+  STATE.lastResult=res;
+  STATE.lastPolicy=pol;
   renderPipeline(res);
-  renderSignals(c);
+  renderSignals(c,res,pol);
   renderVerdict(c,res);
-  loadReplay(id);
   syncUrl(id);
 }
 

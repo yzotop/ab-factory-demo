@@ -25,6 +25,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue"
 .top-bar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .15s}
 .top-bar a:hover,.top-bar a.active{color:var(--accent)}
 .top-bar .spacer{flex:1}
+.lang-toggle{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500}
+.lang-toggle a{color:var(--muted);text-decoration:none;padding:4px 8px;border-radius:5px;transition:color .15s}
+.lang-toggle a:hover{color:var(--accent)}
+.lang-toggle a.active{color:var(--accent);font-weight:600;pointer-events:none}
+.lang-toggle .sep{color:var(--border);user-select:none}
 
 .container{max-width:720px;margin:0 auto;padding:40px 24px 80px}
 h1{font-size:28px;font-weight:700;margin-bottom:8px}
@@ -66,11 +71,11 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 
 <div class="top-bar">
   <a href="index.html?lang=ru">Главная</a>
-  <a href="traces.html?lang=ru">Трейсы</a>
   <a href="policy.html?lang=ru">Модель решений</a>
   <a href="corpus.html?lang=ru">Корпус кейсов</a>
   <span class="spacer"></span>
   <a href="policy-ru.html" class="active">RU Описание</a>
+  <span class="lang-toggle"><a href="policy.html" id="lang-en">EN</a><span class="sep">|</span><a href="policy-ru.html" id="lang-ru" class="active">RU</a></span>
 </div>
 
 <div class="container">

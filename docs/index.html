@@ -49,6 +49,15 @@
     border: 1px solid var(--border); border-radius: 6px; transition: color .15s;
   }
   .lang-switch a:hover { color: var(--accent); border-color: var(--accent); }
+  .top-bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:48px;gap:24px}
+  .top-bar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .15s}
+  .top-bar a:hover{color:var(--accent)}
+  .top-bar .spacer{flex:1}
+  .lang-toggle{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500}
+  .lang-toggle a{color:var(--muted);text-decoration:none;padding:4px 8px;border-radius:5px;transition:color .15s}
+  .lang-toggle a:hover{color:var(--accent)}
+  .lang-toggle a.active{color:var(--accent);font-weight:600;pointer-events:none}
+  .lang-toggle .sep{color:var(--border);user-select:none}
   .cards {
     max-width: 880px; margin: 0 auto; padding: 0 24px 80px;
     display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;
@@ -112,7 +121,7 @@
   .onboard-section { max-width: 880px; margin: 0 auto; padding: 0 24px 80px; }
   .onboard-section h2 { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 8px; }
   .onboard-sub { font-size: 14px; color: var(--muted); text-align: center; margin-bottom: 28px; }
-  .onboard-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .onboard-steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .step-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 20px; transition: transform .15s, box-shadow .15s; }
   .step-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.06); }
   .step-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 10px; }
@@ -125,27 +134,50 @@
 </head>
 <body>
 
+<div class="top-bar">
+  <a href="corpus.html" data-t="nav_corpus">Corpus</a>
+  <a href="policy.html" data-t="nav_engine">Model</a>
+  <a href="pipeline.html">Pipeline</a>
+  <span class="spacer"></span>
+  <span class="lang-toggle"><a href="#" id="lang-en">EN</a><span class="sep">|</span><a href="#" id="lang-ru">RU</a></span>
+</div>
+
 <div class="hero">
   <h1 data-t="title">AB Factory</h1>
   <p class="subtitle" data-t="subtitle">
-    A deterministic agent system that evaluates A/B test decisions
-    with policy-driven logic and confidence scoring.
-    No dependencies. Pure Python.
+    Standardize A/B decisions with deterministic rules, explain WHY each verdict happens,
+    and show WHAT would change the outcome.
   </p>
   <div class="buttons">
     <a href="corpus.html" class="btn btn-primary" data-t="btn_corpus">Corpus Explorer &rarr;</a>
     <a href="policy.html" class="btn btn-primary" style="background:#ff9500" data-t="btn_engine">Decision Engine &rarr;</a>
-    <a href="traces.html" class="btn btn-primary" style="background:#af52de" data-t="btn_traces">Trace Viewer &rarr;</a>
     <a href="https://github.com/yzotop/ab-factory-demo" class="btn btn-secondary">GitHub</a>
-  </div>
-  <div class="lang-switch">
-    <a href="policy-ru.html" data-t="link_ru">&#127479;&#127482; Описание на русском</a>
   </div>
   <div class="stats-row" id="stats-row">
     <span class="stat-pill"><strong id="st-ship">30</strong> ship</span>
     <span class="stat-pill"><strong id="st-dns">55</strong> do&nbsp;not&nbsp;ship</span>
     <span class="stat-pill"><strong id="st-inv">15</strong> investigate</span>
     <span class="stat-pill"><span data-t="st_avgconf">avg conf</span> <strong id="st-conf">35</strong>%</span>
+  </div>
+</div>
+
+<div class="run-section" id="featured-case">
+  <h3 data-t="fc_title">Try a real case</h3>
+  <p class="run-sub" data-t="fc_sub">One featured case from the live corpus.</p>
+  <div class="run-code-wrap" style="padding:14px 16px">
+    <div id="fc-body" style="font-size:13px;line-height:1.6" data-t="fc_loading">Loading featured case…</div>
+    <div style="margin-top:10px"><a id="fc-link" href="policy.html" class="btn btn-primary" style="padding:8px 16px;font-size:13px" data-t="fc_cta">Explore decision</a></div>
+  </div>
+</div>
+
+<div class="diagram-section">
+  <h2 data-t="flow_title">Decision flow</h2>
+  <p class="diagram-sub" data-t="flow_sub">Case → Signals → Rules → Verdict</p>
+  <div class="cards" style="padding-bottom:0;grid-template-columns:repeat(4,1fr)">
+    <div class="card"><h3 data-t="flow_case_h">Case</h3><p data-t="flow_case_d">Structured experiment contract and metrics.</p></div>
+    <div class="card"><h3 data-t="flow_sig_h">Signals</h3><p data-t="flow_sig_d">Uplift, p-value, guardrails, segments, reversal.</p></div>
+    <div class="card"><h3 data-t="flow_rules_h">Rules</h3><p data-t="flow_rules_d">Stop-rule pipeline checks blockers in fixed order.</p></div>
+    <div class="card"><h3 data-t="flow_v_h">Verdict</h3><p data-t="flow_v_d">ship / do_not_ship / investigate + confidence.</p></div>
   </div>
 </div>
 
@@ -184,7 +216,7 @@
         <span>Viz</span>
       </div>
       <ul class="dcard-items" style="margin-top:8px">
-        <li><span class="tag tag-agent">agent</span> <span style="font-size:11px;color:var(--muted)" data-t="dia_each_traces">each emits traces.jsonl</span></li>
+        <li><span class="tag tag-agent">agent</span> <span style="font-size:11px;color:var(--muted)">modular pipeline</span></li>
       </ul>
     </div>
 
@@ -199,7 +231,6 @@
         <li><code>reader_summary.md</code></li>
         <li><code>stats_checks.md</code></li>
         <li><code>viz.md</code></li>
-        <li><code>traces.jsonl</code></li>
       </ul>
     </div>
 
@@ -211,8 +242,6 @@
       <ul class="dcard-items">
         <li><code>build_corpus_index</code></li>
         <li style="padding-left:12px;color:var(--muted)">&rarr; <code>corpus_100.json</code></li>
-        <li><code>build_replays_index</code></li>
-        <li style="padding-left:12px;color:var(--muted)">&rarr; <code>replays/*.json</code></li>
       </ul>
     </div>
 
@@ -224,7 +253,6 @@
       <ul class="dcard-items">
         <li><code>corpus.html</code></li>
         <li><code>policy.html</code></li>
-        <li><code>traces.html</code></li>
       </ul>
       <div class="dcard-links">
         <a href="corpus.html" data-t="dia_link_corpus">Open Corpus Explorer &rarr;</a>
@@ -233,7 +261,7 @@
     </div>
   </div>
 
-  <p class="diagram-caption" data-t="dia_caption">Every step emits JSONL traces &rarr; replayable timeline &rarr; explainable decisions (Reason &rarr; Evidence).</p>
+  <p class="diagram-caption" data-t="dia_caption">Case &rarr; decision pipeline &rarr; explainable verdicts (Reason &rarr; Evidence).</p>
 </div>
 
 <div class="onboard-section">
@@ -252,28 +280,21 @@
       <p data-t="ob_s2_d">See which rule stopped the rollout and why.</p>
       <a href="policy.html" data-t="ob_s2_l">Explain in Policy &rarr;</a>
     </div>
-    <div class="step-card">
-      <div class="step-num">3</div>
-      <h4 data-t="ob_s3_t">Replay the agent run</h4>
-      <p data-t="ob_s3_d">Timeline + artifacts: reader/stats/decision/viz.</p>
-      <a href="traces.html" data-t="ob_s3_l">Open Replay &rarr;</a>
-    </div>
   </div>
 </div>
 
 <div class="run-section">
   <h3 data-t="run_title">Run locally</h3>
-  <p class="run-sub" data-t="run_sub">Reproduce the corpus and replays locally (stdlib-only).</p>
+  <p class="run-sub" data-t="run_sub">Reproduce the corpus locally (stdlib-only).</p>
   <div class="run-code-wrap">
     <pre class="run-code" id="run-code">./43_generation/ab_factory/run.sh --n 100
 cd 42_workflows/ab_factory && python3 run_case.py --all --root ../../40_ab_factory/vk-style/cases_auto
-cd ../.. && python3 tools/build_corpus_index.py
-python3 tools/build_replays_index.py</pre>
+cd ../.. && python3 tools/build_corpus_index.py</pre>
     <button class="run-copy" id="run-copy" data-t="run_copy">Copy</button>
   </div>
 </div>
 
-<footer data-t="footer">AB Factory Demo &middot; stdlib-only &middot; Python 3.10+</footer>
+<footer data-t="footer">AB Factory &middot; interactive decision simulator &middot; static and dependency-free</footer>
 
 <script>
 (function(){
@@ -281,11 +302,10 @@ python3 tools/build_replays_index.py</pre>
   var LANG=params.get('lang')==='ru'?'ru':'en';
   var T={
     title:{ru:'AB Factory'},
-    subtitle:{ru:'\u0414\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0441\u0442\u0438\u0447\u043d\u0430\u044f \u0430\u0433\u0435\u043d\u0442\u043d\u0430\u044f \u0441\u0438\u0441\u0442\u0435\u043c\u0430 \u0434\u043b\u044f \u043e\u0446\u0435\u043d\u043a\u0438 A/B-\u0442\u0435\u0441\u0442\u043e\u0432: \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0430, \u043b\u043e\u0433\u0438\u043a\u0430, \u043e\u0446\u0435\u043d\u043a\u0430 \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u0438. \u0411\u0435\u0437 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0435\u0439. \u0427\u0438\u0441\u0442\u044b\u0439 Python.'},
+    subtitle:{ru:'\u0421\u0442\u0430\u043d\u0434\u0430\u0440\u0442\u0438\u0437\u0443\u0439\u0442\u0435 A/B-\u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0434\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0441\u0442\u0438\u0447\u043d\u044b\u043c\u0438 \u043f\u0440\u0430\u0432\u0438\u043b\u0430\u043c\u0438, \u043f\u043e\u043d\u0438\u043c\u0430\u0439\u0442\u0435 \u041f\u041e\u0427\u0415\u041c\u0423 \u043f\u0440\u0438\u043d\u044f\u0442 \u0432\u0435\u0440\u0434\u0438\u043a\u0442 \u0438 \u0427\u0422\u041e \u043d\u0443\u0436\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u0434\u043b\u044f \u0434\u0440\u0443\u0433\u043e\u0433\u043e \u0438\u0441\u0445\u043e\u0434\u0430.'},
     btn_corpus:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441 \u043a\u0435\u0439\u0441\u043e\u0432 \u2192'},
     btn_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2192'},
-    btn_traces:{ru:'\u0422\u0440\u0435\u0439\u0441\u044b \u2192'},
-    link_ru:{ru:'\ud83c\uddf7\ud83c\uddfa \u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043d\u0430 \u0440\u0443\u0441\u0441\u043a\u043e\u043c'},
+    nav_corpus:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441'},nav_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c'},
     c_agents:{ru:'\u0410\u0433\u0435\u043d\u0442\u044b'},
     c_agents_d:{ru:'Reader, Stats, Decision, Viz \u2014 \u043a\u0430\u0436\u0434\u044b\u0439 \u043c\u043e\u0434\u0443\u043b\u044c\u043d\u044b\u0439 \u0438 \u0442\u0440\u0430\u0441\u0441\u0438\u0440\u0443\u0435\u043c\u044b\u0439.'},
     c_stoprule:{ru:'Stop-Rule \u043c\u043e\u0434\u0435\u043b\u044c'},
@@ -301,7 +321,7 @@ python3 tools/build_replays_index.py</pre>
     c_corpus_d:{ru:'\u041e\u0446\u0435\u043d\u0435\u043d\u044b 4-\u0430\u0433\u0435\u043d\u0442\u043d\u044b\u043c \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d\u043e\u043c.'},
     st_avgconf:{ru:'\u0441\u0440. \u0443\u0432\u0435\u0440.'},
     run_title:{ru:'\u0417\u0430\u043f\u0443\u0441\u043a \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e'},
-    run_sub:{ru:'\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u043e\u0440\u043f\u0443\u0441 \u0438 \u0440\u0435\u043f\u043b\u0435\u0438 \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e (\u0442\u043e\u043b\u044c\u043a\u043e stdlib).'},
+    run_sub:{ru:'\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u043e\u0440\u043f\u0443\u0441 \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e (\u0442\u043e\u043b\u044c\u043a\u043e stdlib).'},
     run_copy:{ru:'\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c'},
     c_selfcheck:{ru:'\u0422\u043e\u0447\u043d\u043e\u0441\u0442\u044c \u0441\u0435\u043b\u0444\u0447\u0435\u043a\u0430'},
     c_selfcheck_d:{ru:'\u041a\u0430\u0436\u0434\u043e\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u0430\u0433\u0435\u043d\u0442\u0430 \u0441\u043e\u0432\u043f\u0430\u0434\u0430\u0435\u0442 \u0441 ground truth \u043d\u0430 \u0432\u0441\u0435\u0445 \u043a\u0435\u0439\u0441\u0430\u0445.'},
@@ -313,12 +333,11 @@ python3 tools/build_replays_index.py</pre>
     dia_sub:{ru:'\u041e\u0442 \u0441\u044b\u0440\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445 \u043a\u0435\u0439\u0441\u0430 \u0434\u043e \u0438\u043d\u0442\u0435\u0440\u0430\u043a\u0442\u0438\u0432\u043d\u043e\u0433\u043e UI.'},
     dia_inputs:{ru:'\u0412\u0445\u043e\u0434\u043d\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435'},
     dia_pipeline:{ru:'\u041f\u0430\u0439\u043f\u043b\u0430\u0439\u043d \u0430\u0433\u0435\u043d\u0442\u043e\u0432'},
-    dia_each_traces:{ru:'\u043a\u0430\u0436\u0434\u044b\u0439 \u043f\u0438\u0448\u0435\u0442 traces.jsonl'},
     dia_artifacts:{ru:'\u0410\u0440\u0442\u0435\u0444\u0430\u043a\u0442\u044b'},
     dia_indexers:{ru:'\u0418\u043d\u0434\u0435\u043a\u0441\u0435\u0440\u044b'},
     dia_link_corpus:{ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043a\u043e\u0440\u043f\u0443\u0441 \u2192'},
     dia_link_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2192'},
-    dia_caption:{ru:'\u041a\u0430\u0436\u0434\u044b\u0439 \u0448\u0430\u0433 \u043f\u0438\u0448\u0435\u0442 JSONL-\u0442\u0440\u0435\u0439\u0441\u044b \u2192 \u0440\u0435\u043f\u043b\u0435\u0439 \u0442\u0430\u0439\u043c\u043b\u0430\u0439\u043d\u0430 \u2192 \u043e\u0431\u044a\u044f\u0441\u043d\u0438\u043c\u044b\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u044f (\u041f\u0440\u0438\u0447\u0438\u043d\u0430 \u2192 \u0414\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u043e).'},
+    dia_caption:{ru:'\u041a\u0435\u0439\u0441 \u2192 \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2192 \u043e\u0431\u044a\u044f\u0441\u043d\u0438\u043c\u044b\u0435 \u0432\u0435\u0440\u0434\u0438\u043a\u0442\u044b (\u041f\u0440\u0438\u0447\u0438\u043d\u0430 \u2192 \u0414\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u043e).'},
     ob_title:{ru:'\u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439 \u0437\u0430 30 \u0441\u0435\u043a\u0443\u043d\u0434'},
     ob_sub:{ru:'\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0438, \u043a\u0430\u043a \u0430\u0433\u0435\u043d\u0442\u044b \u043f\u0440\u0435\u0432\u0440\u0430\u0449\u0430\u044e\u0442 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b A/B \u0432 \u0432\u0435\u0440\u0434\u0438\u043a\u0442 \u0441 \u0434\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u0430\u043c\u0438.'},
     ob_s1_t:{ru:'\u0412\u044b\u0431\u0435\u0440\u0438 \u043a\u0435\u0439\u0441'},
@@ -327,18 +346,42 @@ python3 tools/build_replays_index.py</pre>
     ob_s2_t:{ru:'\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0438 \u0441\u0442\u043e\u043f-\u043f\u0440\u0430\u0432\u0438\u043b\u0430'},
     ob_s2_d:{ru:'\u041f\u043e\u0439\u043c\u0438, \u043a\u0430\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u043b\u043e \u0432\u044b\u043a\u0430\u0442\u043a\u0443 \u0438 \u043f\u043e\u0447\u0435\u043c\u0443.'},
     ob_s2_l:{ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0435\u043d\u0438\u0435 \u0432 Policy \u2192'},
-    ob_s3_t:{ru:'\u041f\u0440\u043e\u0438\u0433\u0440\u0430\u0439 \u043f\u0440\u043e\u0433\u043e\u043d \u0430\u0433\u0435\u043d\u0442\u043e\u0432'},
-    ob_s3_d:{ru:'\u0422\u0430\u0439\u043c\u043b\u0430\u0439\u043d + \u0430\u0440\u0442\u0435\u0444\u0430\u043a\u0442\u044b: reader/stats/decision/viz.'},
-    ob_s3_l:{ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c Replay \u2192'},
-    footer:{ru:'AB Factory Demo \u00b7 stdlib-only \u00b7 Python 3.10+'}
+    fc_title:{ru:'\u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439 \u0440\u0435\u0430\u043b\u044c\u043d\u044b\u0439 \u043a\u0435\u0439\u0441'},
+    fc_sub:{ru:'\u041e\u0434\u0438\u043d \u0444\u0438\u0447\u0435\u0440\u043d\u044b\u0439 \u043a\u0435\u0439\u0441 \u0438\u0437 live-\u043a\u043e\u0440\u043f\u0443\u0441\u0430.'},
+    fc_loading:{ru:'\u0418\u0434\u0451\u0442 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043a\u0435\u0439\u0441\u0430...'},
+    fc_cta:{ru:'\u0418\u0437\u0443\u0447\u0438\u0442\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0435'},
+    flow_title:{ru:'\u041f\u043e\u0442\u043e\u043a \u0440\u0435\u0448\u0435\u043d\u0438\u044f'},
+    flow_sub:{ru:'\u041a\u0435\u0439\u0441 \u2192 \u0421\u0438\u0433\u043d\u0430\u043b\u044b \u2192 \u041f\u0440\u0430\u0432\u0438\u043b\u0430 \u2192 \u0412\u0435\u0440\u0434\u0438\u043a\u0442'},
+    flow_case_h:{ru:'\u041a\u0435\u0439\u0441'},
+    flow_case_d:{ru:'\u0421\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u0430 \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u0430 \u0438 \u043c\u0435\u0442\u0440\u0438\u043a\u0438.'},
+    flow_sig_h:{ru:'\u0421\u0438\u0433\u043d\u0430\u043b\u044b'},
+    flow_sig_d:{ru:'Uplift, p-value, guardrails, \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u044b, \u0440\u0435\u0432\u0435\u0440\u0441.'},
+    flow_rules_h:{ru:'\u041f\u0440\u0430\u0432\u0438\u043b\u0430'},
+    flow_rules_d:{ru:'Stop-rule \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442 \u0431\u043b\u043e\u043a\u0435\u0440\u044b \u0432 \u0444\u0438\u043a\u0441\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435.'},
+    flow_v_h:{ru:'\u0412\u0435\u0440\u0434\u0438\u043a\u0442'},
+    flow_v_d:{ru:'ship / do_not_ship / investigate + \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u044c.'},
+    footer:{ru:'AB Factory \u00b7 \u0438\u043d\u0442\u0435\u0440\u0430\u043a\u0442\u0438\u0432\u043d\u044b\u0439 \u0441\u0438\u043c\u0443\u043b\u044f\u0442\u043e\u0440 \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u00b7 \u0441\u0442\u0430\u0442\u0438\u0447\u043d\u043e \u0438 \u0431\u0435\u0437 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0435\u0439'}
   };
+  (function(){
+    var u=new URL(location.href);
+    var p=new URLSearchParams(u.search);
+    var isRu=p.get('lang')==='ru';
+    p.delete('lang');
+    var base=u.pathname+(p.toString()?'?'+p.toString():'');
+    p.set('lang','ru');
+    var ruUrl=u.pathname+'?'+p.toString();
+    var e=document.getElementById('lang-en'),r=document.getElementById('lang-ru');
+    if(e){e.href=base;e.classList.toggle('active',!isRu);}
+    if(r){r.href=ruUrl;r.classList.toggle('active',isRu);}
+  })();
+
   if(LANG==='ru'){
     document.documentElement.lang='ru';
     document.querySelectorAll('[data-t]').forEach(function(el){
       var k=el.getAttribute('data-t');
       if(T[k]&&T[k].ru) el.innerHTML=T[k].ru;
     });
-    document.querySelectorAll('.buttons a[href]:not([href^="http"]), .dcard-links a[href], a.card-link, .stop-links a[href], .step-card a[href]').forEach(function(a){
+    document.querySelectorAll('.top-bar a[href]:not([href^="http"]), .buttons a[href]:not([href^="http"]), .dcard-links a[href], a.card-link, .stop-links a[href], .step-card a[href]').forEach(function(a){
       if(a.href.indexOf('lang=')<0){
         var u=new URL(a.href,location.href);
         u.searchParams.set('lang','ru');
@@ -357,6 +400,21 @@ python3 tools/build_replays_index.py</pre>
     var tot=s.total||1;
     var avg=((dc.ship||0)*(ac.ship||0)+(dc.do_not_ship||0)*(ac.do_not_ship||0)+(dc.investigate||0)*(ac.investigate||0))/tot;
     if((el=document.getElementById('st-conf'))) el.textContent=Math.round(avg*100);
+  }).catch(function(){});
+  fetch('data/corpus_100.json').then(function(r){return r.json();}).then(function(list){
+    if(!list||!list.length) return;
+    var c=list.find(function(x){return x.decision==='investigate';})||list[0];
+    var conf=c.confidence!=null?Math.round(c.confidence*100)+'%':'n/a';
+    var reasons=(c.reasons||[]).slice(0,2).join(', ')||'n/a';
+    var body=document.getElementById('fc-body');
+    if(body){
+      body.innerHTML='<strong>'+c.case_id+'</strong> — '+c.title+'<br>'
+        +'<strong>'+(LANG==='ru'?'Вердикт':'Verdict')+':</strong> '+c.decision.replace(/_/g,' ')+'<br>'
+        +'<strong>'+(LANG==='ru'?'Уверенность':'Confidence')+':</strong> '+conf+'<br>'
+        +'<strong>'+(LANG==='ru'?'Ключевые причины':'Key reasons')+':</strong> '+reasons;
+    }
+    var link=document.getElementById('fc-link');
+    if(link) link.href='policy.html?case='+c.case_id+(LANG==='ru'?'&lang=ru':'');
   }).catch(function(){});
   var copyBtn=document.getElementById('run-copy');
   if(copyBtn) copyBtn.addEventListener('click',function(){

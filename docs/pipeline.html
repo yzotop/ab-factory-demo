@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pipeline — AB Factory</title>
+<style>
+:root {
+  --bg: #fafafa; --fg: #1d1d1f; --muted: #6e6e73;
+  --accent: #0071e3; --accent-h: #0077ed;
+  --card: #fff; --border: #d2d2d7; --radius: 14px;
+  --green: #34c759; --red: #ff3b30; --orange: #ff9500;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#000; --fg:#f5f5f7; --muted:#86868b;
+  --accent:#2997ff; --accent-h:#40a9ff;
+  --card:#1c1c1e; --border:#38383a;
+  --green:#30d158; --red:#ff453a; --orange:#ffa00a;
+}}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;background:var(--bg);color:var(--fg);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+/* ── Top bar ── */
+.top-bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:48px;gap:24px}
+.top-bar .brand{font-weight:700;color:var(--fg);font-size:14px;text-decoration:none}
+.top-bar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .15s}
+.top-bar a:hover{color:var(--fg)}
+.top-bar a.active{color:var(--accent)}
+.top-bar .spacer{flex:1}
+
+/* ── Layout ── */
+.wrap{max-width:1080px;margin:0 auto;padding:40px 24px 120px}
+.page-head{margin-bottom:32px}
+.page-head h1{font-size:34px;font-weight:700;letter-spacing:-.025em;margin-bottom:6px}
+.page-head p{font-size:15px;color:var(--muted)}
+
+/* ── Presets ── */
+.presets{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.presets-label{font-size:12px;color:var(--muted);margin-right:4px}
+.preset{padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.preset:hover{color:var(--fg);border-color:var(--fg)}
+.preset-ship:hover{color:var(--green);border-color:var(--green)}
+.preset-no:hover{color:var(--red);border-color:var(--red)}
+.preset-inv:hover{color:var(--orange);border-color:var(--orange)}
+
+/* ── Input card ── */
+.input-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 24px 20px;margin-bottom:28px}
+
+.groups{display:grid;grid-template-columns:1fr 48px 1fr;gap:0;align-items:start;margin-bottom:20px}
+.group-head{display:flex;align-items:center;gap:8px;margin-bottom:18px}
+.group-pill{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px}
+.pill-a{background:color-mix(in srgb,var(--muted) 15%,transparent);color:var(--muted)}
+.pill-b{background:color-mix(in srgb,var(--accent) 15%,transparent);color:var(--accent)}
+.group-name{font-size:15px;font-weight:600}
+
+.mrow{display:grid;grid-template-columns:72px 1fr;align-items:center;gap:6px;margin-bottom:9px}
+.mlabel{font-size:12px;color:var(--muted);font-weight:500}
+.minputs{display:flex;align-items:center;gap:6px}
+.minputs input{flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--fg);font-size:13px;outline:none;transition:border-color .15s;font-variant-numeric:tabular-nums;min-width:0}
+.minputs input:focus{border-color:var(--accent)}
+.pval-inp{max-width:76px!important;flex:none!important}
+.plabel{font-size:10px;color:var(--muted);white-space:nowrap}
+.eff-badge{font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;min-width:52px;text-align:right;transition:color .2s}
+.eff-pos{color:var(--green)}
+.eff-neg{color:var(--red)}
+
+.vs-col{display:flex;align-items:center;justify-content:center;padding-top:46px}
+.vs-chip{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--muted);letter-spacing:.05em;flex-shrink:0}
+
+/* Options row */
+.opts{display:flex;gap:20px;flex-wrap:wrap;align-items:center;padding-top:16px;border-top:1px solid var(--border)}
+.opt{display:flex;align-items:center;gap:7px;font-size:13px}
+.opt label{color:var(--muted)}
+.opt input[type=checkbox]{accent-color:var(--accent);width:14px;height:14px;cursor:pointer}
+.opt input[type=number]{width:58px;padding:5px 8px;border:1px solid var(--border);border-radius:7px;background:var(--bg);color:var(--fg);font-size:13px;outline:none}
+.opt input[type=number]:focus{border-color:var(--accent)}
+
+/* Run button */
+.run-btn{display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:13px 30px;border-radius:980px;background:var(--accent);color:#fff;border:none;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,transform .1s,box-shadow .2s;box-shadow:0 4px 18px color-mix(in srgb,var(--accent) 40%,transparent)}
+.run-btn:hover{background:var(--accent-h);transform:translateY(-1px);box-shadow:0 6px 22px color-mix(in srgb,var(--accent) 50%,transparent)}
+.run-btn:active{transform:scale(.97)}
+.run-btn.busy{opacity:.7;cursor:not-allowed;transform:none}
+.run-btn svg{width:16px;height:16px;flex-shrink:0}
+
+/* ── Pipeline stages bar ── */
+.pipeline-bar{display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr 40px 1fr;gap:0;margin-bottom:20px}
+
+.stage{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 14px 14px;transition:border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
+.stage::after{content:'';position:absolute;inset:0;border-radius:var(--radius);pointer-events:none}
+
+/* running state */
+@keyframes ring-pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 55%,transparent)}70%{box-shadow:0 0 0 7px color-mix(in srgb,var(--accent) 0%,transparent)}100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 0%,transparent)}}
+.stage.running{border-color:var(--accent);animation:ring-pulse 1.2s ease-out infinite}
+.stage.done{border-color:color-mix(in srgb,var(--accent) 35%,var(--border))}
+
+.s-icon{font-size:22px;margin-bottom:5px;line-height:1}
+.s-name{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.s-status{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;min-height:18px}
+.s-status.run{color:var(--accent)}
+.s-status.ok{color:var(--green)}
+
+/* spinner */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{width:11px;height:11px;border:2px solid color-mix(in srgb,currentColor 25%,transparent);border-top-color:currentColor;border-radius:50%;animation:spin .65s linear infinite;flex-shrink:0}
+
+/* mini output in stage card */
+.s-out{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);line-height:1.7;opacity:0;transform:translateY(3px);transition:opacity .3s,transform .3s;display:none}
+.s-out.vis{opacity:1;transform:none;display:block}
+.s-out strong{color:var(--fg)}
+
+/* connector */
+.conn-wrap{display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.conn-line{width:100%;height:2px;background:var(--border);position:relative;overflow:hidden;border-radius:1px}
+.conn-fill{position:absolute;top:0;left:-100%;height:100%;width:100%;background:var(--accent);border-radius:1px}
+.conn-line.flow .conn-fill{animation:flow-fill .55s ease-in-out forwards}
+.conn-line.done .conn-fill{left:0}
+@keyframes flow-fill{from{left:-100%}to{left:0}}
+
+/* flowing particles */
+.conn-line .dot{position:absolute;top:50%;transform:translateY(-50%);width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0}
+.conn-line.flow .dot:nth-child(2){animation:dot-go .55s ease-in-out forwards}
+.conn-line.flow .dot:nth-child(3){animation:dot-go .55s .14s ease-in-out forwards}
+.conn-line.flow .dot:nth-child(4){animation:dot-go .55s .28s ease-in-out forwards}
+@keyframes dot-go{0%{left:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:calc(100% - 5px);opacity:0}}
+
+/* ── Detail panels ── */
+.panels{display:flex;flex-direction:column;gap:14px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:none;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+.panel.vis{display:block}
+.panel.show{opacity:1;transform:none}
+.panel-head{display:flex;align-items:center;gap:10px;padding:11px 18px;border-bottom:1px solid var(--border);background:color-mix(in srgb,var(--border) 25%,var(--card))}
+.agent-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:5px;background:color-mix(in srgb,var(--accent) 13%,transparent);color:var(--accent)}
+.panel-title{font-size:13px;font-weight:600}
+.panel-body{padding:16px 18px}
+
+/* Stats checks */
+.checks{display:flex;flex-direction:column;gap:6px}
+.chk{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;font-size:13px}
+.chk.ok{background:color-mix(in srgb,var(--green) 9%,transparent)}
+.chk.bad{background:color-mix(in srgb,var(--red) 9%,transparent)}
+.chk-icon{font-size:13px;flex-shrink:0}
+.chk-name{font-weight:500;flex:1}
+.chk-detail{font-size:12px;color:var(--muted)}
+
+/* Decision steps */
+.steps{display:flex;flex-direction:column}
+.step{display:flex;align-items:flex-start;gap:12px;padding:9px 10px;border-radius:8px}
+.step.hit{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.step.skip{opacity:.45}
+.step-n{width:21px;height:21px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--muted);flex-shrink:0;margin-top:2px}
+.step.hit .step-n{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 13%,transparent)}
+.step-body{flex:1}
+.step-name{font-size:13px;font-weight:600}
+.step-detail{font-size:12px;color:var(--muted);margin-top:2px}
+.step-badge{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;align-self:center;flex-shrink:0;white-space:nowrap}
+.badge-ok{background:color-mix(in srgb,var(--green) 14%,transparent);color:var(--green)}
+.badge-bad{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red)}
+.badge-warn{background:color-mix(in srgb,var(--orange) 14%,transparent);color:var(--orange)}
+.badge-skip{background:color-mix(in srgb,var(--muted) 14%,transparent);color:var(--muted)}
+
+/* Viz table */
+.viz-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.viz-tbl th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:6px 10px;text-align:left;border-bottom:2px solid var(--border)}
+.viz-tbl td{padding:8px 10px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums;vertical-align:middle}
+.viz-tbl tr:last-child td{border-bottom:none}
+.viz-tbl .pm td{font-weight:700}
+.delta-wrap{display:flex;align-items:center;gap:8px}
+.delta-bar-bg{width:56px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;flex-shrink:0}
+.delta-bar{height:100%;border-radius:2px;transition:width .6s}
+
+/* ── VERDICT ── */
+.verdict{border-radius:20px;padding:44px 36px 36px;text-align:center;margin-top:28px;display:none;opacity:0;transform:translateY(16px) scale(.99);transition:opacity .5s ease,transform .5s ease;border:1px solid var(--border)}
+.verdict.vis{display:block}
+.verdict.show{opacity:1;transform:none}
+.verdict.v-ship{background:linear-gradient(150deg,color-mix(in srgb,var(--green) 10%,var(--card)) 0%,var(--card) 60%);border-color:color-mix(in srgb,var(--green) 35%,var(--border))}
+.verdict.v-no{background:linear-gradient(150deg,color-mix(in srgb,var(--red) 10%,var(--card)) 0%,var(--card) 60%);border-color:color-mix(in srgb,var(--red) 35%,var(--border))}
+.verdict.v-inv{background:linear-gradient(150deg,color-mix(in srgb,var(--orange) 10%,var(--card)) 0%,var(--card) 60%);border-color:color-mix(in srgb,var(--orange) 35%,var(--border))}
+
+.v-eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.v-decision{font-size:44px;font-weight:800;letter-spacing:-.025em;line-height:1;margin-bottom:28px}
+.verdict.v-ship .v-decision{color:var(--green)}
+.verdict.v-no .v-decision{color:var(--red)}
+.verdict.v-inv .v-decision{color:var(--orange)}
+
+/* SVG gauge */
+.gauge-wrap{margin:0 auto 28px;display:block}
+.gauge-track{stroke:var(--border)}
+.gauge-arc{stroke-dasharray:188.5;stroke-dashoffset:188.5;transition:stroke-dashoffset .9s cubic-bezier(.25,.46,.45,.94)}
+.v-ship .gauge-arc{stroke:var(--green)}
+.v-no .gauge-arc{stroke:var(--red)}
+.v-inv .gauge-arc{stroke:var(--orange)}
+
+/* Verdict meta */
+.v-meta{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.vm{text-align:center}
+.vm-val{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1;margin-bottom:3px}
+.vm-label{font-size:11px;color:var(--muted)}
+
+/* Reason pills */
+.reasons{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.reason{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500;background:color-mix(in srgb,var(--border) 60%,transparent);color:var(--muted)}
+
+/* Factors */
+.factors{margin:0 auto;max-width:380px;text-align:left}
+.factors-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;text-align:center}
+.factor{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid color-mix(in srgb,var(--border) 40%,transparent);font-size:12px}
+.factor:last-child{border-bottom:none}
+.f-name{color:var(--muted)}
+.f-w{font-weight:700;font-variant-numeric:tabular-nums}
+.f-pos{color:var(--green)}
+.f-neg{color:var(--red)}
+
+/* SVG text */
+svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif}
+
+/* ── Responsive ── */
+@media(max-width:720px){
+  .groups{grid-template-columns:1fr}
+  .vs-col{padding:8px 0;justify-content:flex-start}
+  .vs-chip{width:28px;height:28px;font-size:9px}
+  .pipeline-bar{grid-template-columns:1fr;gap:0}
+  .conn-wrap{height:28px;width:100%}
+  .conn-line{width:2px;height:100%;margin:0 auto}
+  .stage{border-radius:10px}
+  .v-decision{font-size:32px}
+  .v-meta{gap:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="index.html" class="brand">AB Factory</a>
+  <a href="corpus.html">Corpus</a>
+  <a href="pipeline.html" class="active">Pipeline</a>
+  <div class="spacer"></div>
+</div>
+
+<div class="wrap">
+
+  <div class="page-head">
+    <h1>Pipeline</h1>
+    <p>Введи данные групп — агенты примут решение в реальном времени</p>
+  </div>
+
+  <!-- Preset scenarios -->
+  <div class="presets">
+    <span class="presets-label">Сценарий:</span>
+    <button class="preset preset-ship" onclick="loadPreset('ship')">✓ Clean uplift</button>
+    <button class="preset preset-no" onclick="loadPreset('guardrail')">✗ Guardrail breach</button>
+    <button class="preset preset-inv" onclick="loadPreset('conflict')">? Segment conflict</button>
+    <button class="preset preset-no" onclick="loadPreset('reversal')">↩ Long-term reversal</button>
+    <button class="preset preset-no" onclick="loadPreset('small')">~ Tiny effect</button>
+  </div>
+
+  <!-- Input -->
+  <div class="input-card">
+    <div class="groups">
+
+      <!-- Group A -->
+      <div>
+        <div class="group-head">
+          <span class="group-pill pill-a">A</span>
+          <span class="group-name">Control</span>
+        </div>
+        <div class="mrow"><span class="mlabel">Users</span><div class="minputs"><input type="number" id="a_n" value="350000"></div></div>
+        <div class="mrow"><span class="mlabel">Revenue</span><div class="minputs"><input type="number" id="a_rev" value="5.870" step="0.001"></div></div>
+        <div class="mrow"><span class="mlabel">CTR</span><div class="minputs"><input type="number" id="a_ctr" value="0.0674" step="0.0001"></div></div>
+        <div class="mrow"><span class="mlabel">CPM</span><div class="minputs"><input type="number" id="a_cpm" value="236.25" step="0.01"></div></div>
+        <div class="mrow"><span class="mlabel">Fillrate</span><div class="minputs"><input type="number" id="a_fill" value="0.789" step="0.001"></div></div>
+        <div class="mrow"><span class="mlabel">Shows</span><div class="minputs"><input type="number" id="a_shows" value="22375853"></div></div>
+      </div>
+
+      <!-- VS -->
+      <div class="vs-col"><div class="vs-chip">VS</div></div>
+
+      <!-- Group B -->
+      <div>
+        <div class="group-head">
+          <span class="group-pill pill-b">B</span>
+          <span class="group-name">Test</span>
+        </div>
+        <div class="mrow"><span class="mlabel">Users</span><div class="minputs"><input type="number" id="b_n" value="350000"></div></div>
+        <div class="mrow">
+          <span class="mlabel">Revenue</span>
+          <div class="minputs">
+            <input type="number" id="b_rev" value="6.150" step="0.001">
+            <span class="plabel">p =</span>
+            <input type="number" id="p_rev" class="pval-inp" value="0.001" step="0.001" min="0" max="1">
+            <span class="eff-badge" id="eff_rev"></span>
+          </div>
+        </div>
+        <div class="mrow">
+          <span class="mlabel">CTR</span>
+          <div class="minputs">
+            <input type="number" id="b_ctr" value="0.0685" step="0.0001">
+            <span class="plabel">p =</span>
+            <input type="number" id="p_ctr" class="pval-inp" value="0.120" step="0.001" min="0" max="1">
+            <span class="eff-badge" id="eff_ctr"></span>
+          </div>
+        </div>
+        <div class="mrow"><span class="mlabel">CPM</span><div class="minputs"><input type="number" id="b_cpm" value="242.00" step="0.01"></div></div>
+        <div class="mrow"><span class="mlabel">Fillrate</span><div class="minputs"><input type="number" id="b_fill" value="0.792" step="0.001"></div></div>
+        <div class="mrow"><span class="mlabel">Shows</span><div class="minputs"><input type="number" id="b_shows" value="22410000"></div></div>
+      </div>
+    </div>
+
+    <!-- Options -->
+    <div class="opts">
+      <div class="opt">
+        <label>Длительность</label>
+        <input type="number" id="duration" value="14" min="1">
+        <label>дней</label>
+      </div>
+      <div class="opt">
+        <input type="checkbox" id="reversal" />
+        <label for="reversal">Long-term reversal signal</label>
+      </div>
+      <div class="opt">
+        <input type="checkbox" id="seg_conflict" />
+        <label for="seg_conflict">Конфликт сегментов</label>
+      </div>
+    </div>
+
+    <button class="run-btn" id="run-btn" onclick="run()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Запустить конвейер
+    </button>
+  </div>
+
+  <!-- Pipeline bar -->
+  <div class="pipeline-bar" id="pipeline-bar">
+    <!-- Reader -->
+    <div class="stage" id="s-reader">
+      <div class="s-icon">📖</div>
+      <div class="s-name">Reader</div>
+      <div class="s-status" id="st-reader">Ожидание</div>
+      <div class="s-out" id="so-reader"></div>
+    </div>
+    <!-- Conn 1 -->
+    <div class="conn-wrap">
+      <div class="conn-line" id="c1"><div class="conn-fill"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    </div>
+    <!-- Stats -->
+    <div class="stage" id="s-stats">
+      <div class="s-icon">📊</div>
+      <div class="s-name">Stats</div>
+      <div class="s-status" id="st-stats">Ожидание</div>
+      <div class="s-out" id="so-stats"></div>
+    </div>
+    <!-- Conn 2 -->
+    <div class="conn-wrap">
+      <div class="conn-line" id="c2"><div class="conn-fill"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    </div>
+    <!-- Decision -->
+    <div class="stage" id="s-decision">
+      <div class="s-icon">⚖️</div>
+      <div class="s-name">Decision</div>
+      <div class="s-status" id="st-decision">Ожидание</div>
+      <div class="s-out" id="so-decision"></div>
+    </div>
+    <!-- Conn 3 -->
+    <div class="conn-wrap">
+      <div class="conn-line" id="c3"><div class="conn-fill"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    </div>
+    <!-- Viz -->
+    <div class="stage" id="s-viz">
+      <div class="s-icon">📈</div>
+      <div class="s-name">Viz</div>
+      <div class="s-status" id="st-viz">Ожидание</div>
+      <div class="s-out" id="so-viz"></div>
+    </div>
+  </div>
+
+  <!-- Detail panels -->
+  <div class="panels" id="panels">
+    <div class="panel" id="p-reader">
+      <div class="panel-head"><span class="agent-tag">reader</span><span class="panel-title">Факты кейса</span></div>
+      <div class="panel-body" id="pb-reader"></div>
+    </div>
+    <div class="panel" id="p-stats">
+      <div class="panel-head"><span class="agent-tag">stats</span><span class="panel-title">Проверки данных</span></div>
+      <div class="panel-body" id="pb-stats"></div>
+    </div>
+    <div class="panel" id="p-decision">
+      <div class="panel-head"><span class="agent-tag">decision</span><span class="panel-title">Применение политики</span></div>
+      <div class="panel-body" id="pb-decision"></div>
+    </div>
+    <div class="panel" id="p-viz">
+      <div class="panel-head"><span class="agent-tag">viz</span><span class="panel-title">Сравнение метрик</span></div>
+      <div class="panel-body" id="pb-viz"></div>
+    </div>
+  </div>
+
+  <!-- Verdict -->
+  <div class="verdict" id="verdict">
+    <div class="v-eyebrow">Вердикт конвейера</div>
+    <div class="v-decision" id="v-text"></div>
+
+    <svg class="gauge-wrap" id="gauge-svg" width="180" height="100" viewBox="0 0 180 100">
+      <path class="gauge-track" d="M 20 90 A 70 70 0 0 1 160 90" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <path class="gauge-arc" id="gauge-arc" d="M 20 90 A 70 70 0 0 1 160 90" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <text id="gauge-num" x="90" y="80" text-anchor="middle" font-size="24" font-weight="700" fill="currentColor">0.00</text>
+      <text x="90" y="96" text-anchor="middle" font-size="11" fill="#6e6e73">confidence</text>
+    </svg>
+
+    <div class="v-meta" id="v-meta"></div>
+    <div class="reasons" id="v-reasons"></div>
+    <div class="factors" id="v-factors"></div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+// ─────────────────────────────────────────────
+// Policy
+// ─────────────────────────────────────────────
+const POL = {
+  alpha: 0.05,
+  practical_pct: 0.5,         // minimum meaningful uplift %
+  ctr_guardrail_pct: -3.0,    // hard stop if CTR drops more than this
+  weights: {
+    primary_uplift_strong:  1.2,
+    primary_uplift_small:  -0.8,
+    not_significant:       -0.7,
+    guardrail_hard:        -1.8,
+    segment_conflict:      -0.9,
+    long_term_reversal:    -1.0,
+    evidence_sparse:       -0.6,
+  }
+};
+
+// ─────────────────────────────────────────────
+// Preset data
+// ─────────────────────────────────────────────
+const PRESETS = {
+  ship: {
+    a_n:350000, b_n:352000,
+    a_rev:5.870, b_rev:6.150, p_rev:0.001,
+    a_ctr:0.0674, b_ctr:0.0685, p_ctr:0.120,
+    a_cpm:236.25, b_cpm:242.00,
+    a_fill:0.789, b_fill:0.792,
+    a_shows:22375853, b_shows:22410000,
+    duration:14, reversal:false, seg_conflict:false,
+  },
+  guardrail: {
+    a_n:346413, b_n:348090,
+    a_rev:5.872, b_rev:5.918, p_rev:0.021,
+    a_ctr:0.0674, b_ctr:0.0630, p_ctr:0.026,
+    a_cpm:236.25, b_cpm:239.25,
+    a_fill:0.789, b_fill:0.790,
+    a_shows:22375853, b_shows:22373300,
+    duration:14, reversal:false, seg_conflict:false,
+  },
+  conflict: {
+    a_n:350000, b_n:350000,
+    a_rev:5.870, b_rev:5.930, p_rev:0.032,
+    a_ctr:0.0674, b_ctr:0.0678, p_ctr:0.210,
+    a_cpm:236.25, b_cpm:237.10,
+    a_fill:0.789, b_fill:0.790,
+    a_shows:22375853, b_shows:22380000,
+    duration:21, reversal:false, seg_conflict:true,
+  },
+  reversal: {
+    a_n:350000, b_n:350000,
+    a_rev:5.870, b_rev:5.930, p_rev:0.041,
+    a_ctr:0.0674, b_ctr:0.0676, p_ctr:0.310,
+    a_cpm:236.25, b_cpm:237.10,
+    a_fill:0.789, b_fill:0.791,
+    a_shows:22375853, b_shows:22378000,
+    duration:28, reversal:true, seg_conflict:false,
+  },
+  small: {
+    a_n:350000, b_n:350000,
+    a_rev:5.870, b_rev:5.896, p_rev:0.031,
+    a_ctr:0.0674, b_ctr:0.0675, p_ctr:0.450,
+    a_cpm:236.25, b_cpm:236.50,
+    a_fill:0.789, b_fill:0.790,
+    a_shows:22375853, b_shows:22377000,
+    duration:14, reversal:false, seg_conflict:false,
+  },
+};
+
+function loadPreset(name) {
+  const p = PRESETS[name];
+  if (!p) return;
+  ['a_n','b_n','a_rev','b_rev','p_rev','a_ctr','b_ctr','p_ctr','a_cpm','b_cpm','a_fill','b_fill','a_shows','b_shows','duration'].forEach(k => {
+    const el = document.getElementById(k);
+    if (el && p[k] !== undefined) el.value = p[k];
+  });
+  document.getElementById('reversal').checked = !!p.reversal;
+  document.getElementById('seg_conflict').checked = !!p.seg_conflict;
+  refreshBadges();
+  resetPipeline();
+}
+
+// ─────────────────────────────────────────────
+// Live effect badges
+// ─────────────────────────────────────────────
+function eff(a, b) { return a && a !== 0 ? (b - a) / Math.abs(a) : null; }
+function fmtPct(v, digits=2) {
+  if (v === null) return '';
+  return (v >= 0 ? '+' : '') + (v * 100).toFixed(digits) + '%';
+}
+
+function refreshBadges() {
+  [['a_rev','b_rev','eff_rev'], ['a_ctr','b_ctr','eff_ctr']].forEach(([ak, bk, eid]) => {
+    const a = +document.getElementById(ak).value;
+    const b = +document.getElementById(bk).value;
+    const el = document.getElementById(eid);
+    const e = eff(a, b);
+    el.textContent = fmtPct(e);
+    el.className = 'eff-badge ' + (e === null ? '' : e >= 0 ? 'eff-pos' : 'eff-neg');
+  });
+}
+['a_rev','b_rev','a_ctr','b_ctr'].forEach(id => {
+  document.getElementById(id).addEventListener('input', refreshBadges);
+});
+refreshBadges();
+
+// ─────────────────────────────────────────────
+// Decision engine
+// ─────────────────────────────────────────────
+function sigmoid(x) {
+  if (x > 500) return 1; if (x < -500) return 0;
+  return 1 / (1 + Math.exp(-x));
+}
+
+function readForm() {
+  const g  = id => parseFloat(document.getElementById(id).value) || 0;
+  const gb = id => document.getElementById(id).checked;
+  const a_rev = g('a_rev'), b_rev = g('b_rev');
+  const a_ctr = g('a_ctr'), b_ctr = g('b_ctr');
+  return {
+    a_n: g('a_n'), b_n: g('b_n'),
+    a_rev, b_rev, p_rev: g('p_rev'),
+    rev_eff: eff(a_rev, b_rev),
+    a_ctr, b_ctr, p_ctr: g('p_ctr'),
+    ctr_eff: eff(a_ctr, b_ctr),
+    a_cpm: g('a_cpm'), b_cpm: g('b_cpm'),
+    cpm_eff: eff(g('a_cpm'), g('b_cpm')),
+    a_fill: g('a_fill'), b_fill: g('b_fill'),
+    fill_eff: eff(g('a_fill'), g('b_fill')),
+    a_shows: g('a_shows'), b_shows: g('b_shows'),
+    duration: g('duration'),
+    reversal: gb('reversal'),
+    seg_conflict: gb('seg_conflict'),
+  };
+}
+
+function decide(d) {
+  const uplift = d.rev_eff !== null ? d.rev_eff * 100 : null;
+  const sig    = d.p_rev <= POL.alpha;
+  const big    = uplift !== null && Math.abs(uplift) >= POL.practical_pct;
+  const ctr_dp = d.ctr_eff !== null ? d.ctr_eff * 100 : null;
+  const ctr_ok = ctr_dp === null || ctr_dp > POL.ctr_guardrail_pct;
+
+  const steps = [];
+  let decision = null, reasons = [];
+
+  // 1. Guardrails
+  if (!ctr_ok) {
+    decision = 'do_not_ship'; reasons = ['guardrail_violation:ctr'];
+    if (sig && big) reasons.unshift('primary_uplift');
+    steps.push({ name:'Guardrails', detail:`CTR: ${ctr_dp.toFixed(1)}% ≤ порога ${POL.ctr_guardrail_pct}%`, badge:'VIOLATED', hit:true });
+  } else {
+    steps.push({ name:'Guardrails', detail:`CTR: ${ctr_dp !== null ? (ctr_dp>=0?'+':'')+ctr_dp.toFixed(2)+'%' : 'нет данных'} — OK`, badge:'PASS', hit:false });
+  }
+
+  // 2. Long-term reversal
+  if (!decision) {
+    if (d.reversal) {
+      decision = 'do_not_ship'; reasons = ['long_term_reversal'];
+      if (!sig) reasons.push('not_significant');
+      steps.push({ name:'Long-term reversal', detail:'Обнаружен сигнал реверсии', badge:'TRIGGERED', hit:true });
+    } else {
+      steps.push({ name:'Long-term reversal', detail:'Сигнала нет', badge:'PASS', hit:false });
+    }
+  } else {
+    steps.push({ name:'Long-term reversal', detail:'—', badge:'SKIP', hit:false, skip:true });
+  }
+
+  // 3. Segment conflict
+  if (!decision) {
+    if (d.seg_conflict) {
+      decision = 'investigate'; reasons = ['segment_conflict'];
+      steps.push({ name:'Конфликт сегментов', detail:'Разнонаправленные эффекты в сегментах', badge:'CONFLICT', hit:true });
+    } else {
+      steps.push({ name:'Конфликт сегментов', detail:'Конфликта нет', badge:'PASS', hit:false });
+    }
+  } else {
+    steps.push({ name:'Конфликт сегментов', detail:'—', badge:'SKIP', hit:false, skip:true });
+  }
+
+  // 4. Practical threshold
+  if (!decision) {
+    if (sig && !big) {
+      decision = 'do_not_ship'; reasons = ['practically_small'];
+      steps.push({ name:'Практический порог', detail:`|${uplift.toFixed(2)}%| < ${POL.practical_pct}% (MDE)`, badge:'TOO SMALL', hit:true });
+    } else {
+      steps.push({ name:'Практический порог', detail: uplift !== null ? `|${uplift.toFixed(2)}%| vs ${POL.practical_pct}%` : 'N/A', badge: big ? 'PASS' : '—', hit:false });
+    }
+  } else {
+    steps.push({ name:'Практический порог', detail:'—', badge:'SKIP', hit:false, skip:true });
+  }
+
+  // 5. Significance
+  if (!decision) {
+    if (!sig) {
+      decision = 'investigate'; reasons = ['not_significant'];
+      steps.push({ name:'Значимость', detail:`p=${d.p_rev} > α=${POL.alpha}`, badge:'NOT SIG', hit:true });
+    } else {
+      steps.push({ name:'Значимость', detail:`p=${d.p_rev} ≤ α=${POL.alpha} — значимо`, badge:'PASS', hit:false });
+    }
+  } else {
+    steps.push({ name:'Значимость', detail:`p=${d.p_rev}`, badge:'—', hit:false, skip:true });
+  }
+
+  // 6. Default
+  if (!decision) {
+    if (sig && big) {
+      decision = 'ship'; reasons = ['primary_uplift'];
+      steps.push({ name:'Итог', detail:'Все проверки пройдены — значимый uplift выше MDE', badge:'SHIP', hit:true });
+    } else {
+      decision = 'investigate'; reasons = ['insufficient_evidence'];
+      steps.push({ name:'Итог', detail:'Недостаточно свидетельств', badge:'INVESTIGATE', hit:true });
+    }
+  } else {
+    steps.push({ name:'Итог', detail:'Решение принято на предыдущем шаге', badge:'SKIP', hit:false, skip:true });
+  }
+
+  // Confidence
+  let score = 0;
+  const factors = [];
+  function add(name) {
+    const w = POL.weights[name] || 0;
+    score += w;
+    factors.push({ name, w });
+  }
+  if (uplift !== null && Math.abs(uplift) >= POL.practical_pct) add('primary_uplift_strong');
+  if (uplift !== null && Math.abs(uplift) < POL.practical_pct)  add('primary_uplift_small');
+  if (!sig)         add('not_significant');
+  if (!ctr_ok)      add('guardrail_hard');
+  if (d.reversal)   add('long_term_reversal');
+  if (d.seg_conflict) add('segment_conflict');
+  if (uplift === null || d.p_rev === null) add('evidence_sparse');
+
+  const conf = Math.max(0.01, Math.min(0.99, Math.round(sigmoid(score) * 10000) / 10000));
+
+  return { decision, reasons, steps, conf, factors,
+    signals: { uplift, sig, big, ctr_dp, ctr_ok, p_rev: d.p_rev } };
+}
+
+// ─────────────────────────────────────────────
+// Render helpers
+// ─────────────────────────────────────────────
+function readerShort(d) {
+  const e = fmtPct(d.rev_eff);
+  const cls = d.rev_eff >= 0 ? 'eff-pos' : 'eff-neg';
+  return `Пользователей: <strong>${(d.a_n+d.b_n).toLocaleString()}</strong><br>Revenue: <span class="${cls}">${e}</span> &nbsp;p=${d.p_rev}<br>Длительность: <strong>${d.duration} дней</strong>`;
+}
+
+function readerFull(d) {
+  const rows = [
+    ['Контроль (n)', d.a_n.toLocaleString()],
+    ['Тест (n)', d.b_n.toLocaleString()],
+    ['Revenue (A)', d.a_rev.toFixed(3)],
+    ['Revenue (B)', d.b_rev.toFixed(3)],
+    ['Revenue Δ', `<span class="${d.rev_eff>=0?'eff-pos':'eff-neg'}">${fmtPct(d.rev_eff)}</span>`],
+    ['Revenue p-val', d.p_rev],
+    ['CTR (A)', d.a_ctr.toFixed(4)],
+    ['CTR (B)', d.b_ctr.toFixed(4)],
+    ['CTR Δ', `<span class="${d.ctr_eff>=0?'eff-pos':'eff-neg'}">${fmtPct(d.ctr_eff)}</span>`],
+    ['CPM (A→B)', `${d.a_cpm.toFixed(2)} → ${d.b_cpm.toFixed(2)}`],
+    ['Fillrate (A→B)', `${d.a_fill.toFixed(3)} → ${d.b_fill.toFixed(3)}`],
+    ['Длительность', `${d.duration} дней`],
+  ];
+  return `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px 20px">
+    ${rows.map(([l,v])=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid color-mix(in srgb,var(--border) 50%,transparent)"><span style="color:var(--muted)">${l}</span><span style="font-weight:500">${v}</span></div>`).join('')}
+  </div>`;
+}
+
+function statsShort(checks) {
+  const n = checks.filter(c=>c.ok).length;
+  return `<strong>${n}/${checks.length}</strong> проверок ОК`;
+}
+
+function statsFull(checks) {
+  return `<div class="checks">${checks.map(c=>`
+    <div class="chk ${c.ok?'ok':'bad'}">
+      <span class="chk-icon">${c.ok?'✓':'✗'}</span>
+      <span class="chk-name">${c.name}</span>
+      <span class="chk-detail">${c.detail}</span>
+    </div>`).join('')}</div>`;
+}
+
+function buildChecks(d) {
+  return [
+    { name:'Размеры выборок > 0', ok: d.a_n>0 && d.b_n>0, detail:`${d.a_n.toLocaleString()} / ${d.b_n.toLocaleString()}` },
+    { name:'Revenue p-value ∈ [0, 1]', ok: d.p_rev>=0 && d.p_rev<=1, detail:`p = ${d.p_rev}` },
+    { name:'CTR p-value ∈ [0, 1]', ok: d.p_ctr>=0 && d.p_ctr<=1, detail:`p = ${d.p_ctr}` },
+    { name:'Revenue эффект разумный (|Δ| ≤ 50%)', ok: d.rev_eff!==null && Math.abs(d.rev_eff)<=0.5, detail: d.rev_eff!==null?fmtPct(d.rev_eff):'N/A' },
+    { name:'CTR эффект разумный (|Δ| ≤ 50%)', ok: d.ctr_eff!==null && Math.abs(d.ctr_eff)<=0.5, detail: d.ctr_eff!==null?fmtPct(d.ctr_eff):'N/A' },
+    { name:'Fillrate ∈ [0, 1]', ok: d.a_fill>=0&&d.a_fill<=1&&d.b_fill>=0&&d.b_fill<=1, detail:`${d.a_fill} / ${d.b_fill}` },
+  ];
+}
+
+function decisionShort(r) {
+  const col = r.decision==='ship'?'var(--green)':r.decision==='do_not_ship'?'var(--red)':'var(--orange)';
+  return `<strong style="color:${col}">${r.decision.replace(/_/g,' ').toUpperCase()}</strong><br>Confidence: <strong>${r.conf.toFixed(2)}</strong>`;
+}
+
+function decisionFull(r) {
+  function bc(badge) {
+    if (['PASS','SIG','SHIP'].includes(badge)) return 'badge-ok';
+    if (['VIOLATED','TRIGGERED','CONFLICT','NOT SIG','TOO SMALL'].includes(badge)) return 'badge-bad';
+    if (['SKIP'].includes(badge)) return 'badge-skip';
+    return 'badge-warn';
+  }
+  return `<div class="steps">${r.steps.map((s,i)=>`
+    <div class="step ${s.hit?'hit':''} ${s.skip?'skip':''}">
+      <div class="step-n">${i+1}</div>
+      <div class="step-body">
+        <div class="step-name">${s.name}</div>
+        <div class="step-detail">${s.detail}</div>
+      </div>
+      <span class="step-badge ${bc(s.badge)}">${s.badge}</span>
+    </div>`).join('')}
+  </div>`;
+}
+
+function vizShort() { return '4 метрики · Control vs Test'; }
+
+function vizFull(d) {
+  const metrics = [
+    { name:'revenue', a:d.a_rev, b:d.b_rev, e:d.rev_eff, p:d.p_rev, pm:true },
+    { name:'ctr',     a:d.a_ctr, b:d.b_ctr, e:d.ctr_eff, p:d.p_ctr },
+    { name:'cpm',     a:d.a_cpm, b:d.b_cpm, e:d.cpm_eff, p:null },
+    { name:'fillrate',a:d.a_fill,b:d.b_fill,e:d.fill_eff,p:null },
+  ];
+  const rows = metrics.map(m => {
+    const eStr = m.e !== null ? fmtPct(m.e) : '—';
+    const eCol = m.e !== null ? (m.e>=0?'var(--green)':'var(--red)') : 'var(--muted)';
+    const barW = m.e !== null ? Math.min(Math.abs(m.e)*300, 100) : 0;
+    const af = m.a > 10 ? m.a.toFixed(2) : m.a.toFixed(4);
+    const bf = m.b > 10 ? m.b.toFixed(2) : m.b.toFixed(4);
+    return `<tr class="${m.pm?'pm':''}">
+      <td>${m.pm?`<strong>${m.name}</strong>`:m.name}</td>
+      <td>${af}</td><td>${bf}</td>
+      <td><div class="delta-wrap"><span style="color:${eCol};font-weight:700;font-size:12px;min-width:56px">${eStr}</span><div class="delta-bar-bg"><div class="delta-bar" style="width:${barW}%;background:${eCol}"></div></div></div></td>
+      <td style="color:var(--muted)">${m.p!==null?m.p.toFixed(3):'—'}</td>
+    </tr>`;
+  }).join('');
+  return `<div style="overflow-x:auto"><table class="viz-tbl">
+    <thead><tr><th>Метрика</th><th>Control</th><th>Test</th><th>Δ relative</th><th>p-value</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>`;
+}
+
+// ─────────────────────────────────────────────
+// Pipeline animation
+// ─────────────────────────────────────────────
+let busy = false;
+
+function resetPipeline() {
+  ['reader','stats','decision','viz'].forEach(a => {
+    document.getElementById(`s-${a}`).className = 'stage';
+    const st = document.getElementById(`st-${a}`);
+    st.textContent = 'Ожидание'; st.className = 's-status';
+    const so = document.getElementById(`so-${a}`);
+    so.className = 's-out'; so.innerHTML = '';
+    const p = document.getElementById(`p-${a}`);
+    p.className = 'panel'; p.style.opacity = 0; p.style.transform = 'translateY(8px)';
+  });
+  ['c1','c2','c3'].forEach(id => { document.getElementById(id).className = 'conn-line'; });
+  const v = document.getElementById('verdict');
+  v.className = 'verdict'; v.style.opacity = 0;
+}
+
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+function setRunning(agent) {
+  document.getElementById(`s-${agent}`).className = 'stage running';
+  const st = document.getElementById(`st-${agent}`);
+  st.innerHTML = '<span class="spin"></span> Обработка…';
+  st.className = 's-status run';
+}
+
+function setDone(agent, shortHTML, fullHTML) {
+  document.getElementById(`s-${agent}`).className = 'stage done';
+  const st = document.getElementById(`st-${agent}`);
+  st.innerHTML = '✓ Готово'; st.className = 's-status ok';
+  const so = document.getElementById(`so-${agent}`);
+  so.innerHTML = shortHTML;
+  requestAnimationFrame(() => requestAnimationFrame(() => { so.className = 's-out vis'; }));
+
+  const p = document.getElementById(`p-${agent}`);
+  document.getElementById(`pb-${agent}`).innerHTML = fullHTML;
+  p.className = 'panel vis';
+  requestAnimationFrame(() => requestAnimationFrame(() => { p.className = 'panel vis show'; }));
+}
+
+async function flowConn(id) {
+  document.getElementById(id).className = 'conn-line flow';
+  await wait(600);
+  document.getElementById(id).className = 'conn-line done';
+}
+
+function showVerdict(r, d) {
+  const v = document.getElementById('verdict');
+  const cls = r.decision === 'ship' ? 'v-ship' : r.decision === 'do_not_ship' ? 'v-no' : 'v-inv';
+  v.className = `verdict vis ${cls}`;
+
+  // decision text
+  document.getElementById('v-text').textContent =
+    r.decision === 'ship' ? 'SHIP' :
+    r.decision === 'do_not_ship' ? 'DO NOT SHIP' : 'INVESTIGATE';
+
+  // gauge arc — circumference of arc M20,90 A70,70 0,0,1 160,90 ≈ π*70 = 219.9
+  const C = 219.9;
+  const arc = document.getElementById('gauge-arc');
+  arc.setAttribute('stroke-dasharray', C);
+  arc.style.strokeDashoffset = C;
+  document.getElementById('gauge-num').textContent = r.conf.toFixed(2);
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    v.className = `verdict vis show ${cls}`;
+    setTimeout(() => { arc.style.strokeDashoffset = C * (1 - r.conf); }, 80);
+  }));
+
+  // meta
+  const { uplift, sig, ctr_ok, p_rev } = r.signals;
+  const upStr = uplift !== null ? (uplift>=0?'+':'') + uplift.toFixed(2) + '%' : 'N/A';
+  const upCol = uplift !== null && uplift >= 0 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('v-meta').innerHTML = `
+    <div class="vm"><div class="vm-val" style="color:${upCol}">${upStr}</div><div class="vm-label">Revenue uplift</div></div>
+    <div class="vm"><div class="vm-val">${p_rev}</div><div class="vm-label">p-value</div></div>
+    <div class="vm"><div class="vm-val">${sig?'Да':'Нет'}</div><div class="vm-label">Значимо (α=0.05)</div></div>
+    <div class="vm"><div class="vm-val">${ctr_ok?'✓ OK':'⚠ НАРУШЕН'}</div><div class="vm-label">CTR guardrail</div></div>
+  `;
+
+  // reasons
+  document.getElementById('v-reasons').innerHTML = r.reasons.map(rr =>
+    `<span class="reason">${rr.replace(/_/g,' ')}</span>`).join('');
+
+  // factors
+  if (r.factors.length) {
+    document.getElementById('v-factors').innerHTML = `
+      <div class="factors-title">Факторы уверенности</div>
+      ${r.factors.map(f=>`<div class="factor"><span class="f-name">${f.name.replace(/_/g,' ')}</span><span class="f-w ${f.w>0?'f-pos':'f-neg'}">${f.w>0?'+':''}${f.w.toFixed(1)}</span></div>`).join('')}
+    `;
+  }
+}
+
+// ─────────────────────────────────────────────
+// Main runner
+// ─────────────────────────────────────────────
+async function run() {
+  if (busy) return;
+  busy = true;
+
+  const btn = document.getElementById('run-btn');
+  btn.className = 'run-btn busy';
+  btn.innerHTML = `<span class="spin" style="border-color:rgba(255,255,255,.3);border-top-color:#fff"></span> Запускаю…`;
+
+  resetPipeline();
+  await wait(150);
+
+  const d = readForm();
+  const result = decide(d);
+  const checks = buildChecks(d);
+
+  // ── READER ──
+  setRunning('reader');
+  await wait(480);
+  setDone('reader', readerShort(d), readerFull(d));
+  await flowConn('c1');
+
+  // ── STATS ──
+  setRunning('stats');
+  await wait(480);
+  setDone('stats', statsShort(checks), statsFull(checks));
+  await flowConn('c2');
+
+  // ── DECISION ──
+  setRunning('decision');
+  await wait(680);
+  setDone('decision', decisionShort(result), decisionFull(result));
+  await flowConn('c3');
+
+  // ── VIZ ──
+  setRunning('viz');
+  await wait(380);
+  setDone('viz', vizShort(), vizFull(d));
+
+  await wait(250);
+
+  // ── VERDICT ──
+  showVerdict(result, d);
+  await wait(200);
+
+  btn.className = 'run-btn';
+  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Запустить снова`;
+  busy = false;
+}
+</script>
+
+</body>
+</html>
