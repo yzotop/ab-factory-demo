@@ -15,7 +15,7 @@
     },
     "primary_effect_relative": { "type": "number" },
     "is_stat_sig": { "type": "boolean" },
-    "guardrails_ok": { "type": "boolean" },
+    "guardrails_ok": { "type": ["boolean", "null"] },
     "key_reasons": {
       "type": "array",
       "items": {
@@ -27,7 +27,14 @@
           "long_term_reversal",
           "practically_small",
           "not_significant",
-          "overall_positive"
+          "overall_positive",
+          "novelty_effect",
+          "simpson_paradox",
+          "multiple_comparisons",
+          "underpowered",
+          "srm",
+          "peeking",
+          "longterm_value"
         ]
       }
     },

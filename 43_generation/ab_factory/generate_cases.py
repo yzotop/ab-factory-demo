@@ -6,15 +6,18 @@ Produces N internally-consistent A/B test cases that the decision agent
 can classify correctly.  Deterministic via random.seed(42).
 
 Distribution (of N cases):
-  22%  clean uplift           → ship
-  14%  guardrail breach       → do_not_ship
-  12%  practically small      → do_not_ship
-  10%  segment conflict       → investigate
-  10%  long-term reversal     → do_not_ship  (blind)
-  10%  novelty effect         → do_not_ship  (blind)
-  8%   Simpson's paradox      → do_not_ship
-  8%   multiple comparisons   → do_not_ship
-  6%   underpowered           → investigate
+  18%  clean uplift           → ship
+  12%  guardrail breach       → do_not_ship
+  10%  practically small      → do_not_ship
+   8%  segment conflict       → investigate
+   8%  long-term reversal     → do_not_ship  (blind)
+   8%  novelty effect         → do_not_ship  (blind)
+   7%  Simpson's paradox      → do_not_ship
+   7%  multiple comparisons   → do_not_ship
+   5%  underpowered           → investigate
+   6%  sample ratio mismatch  → do_not_ship
+   6%  peeking                → do_not_ship
+   5%  long-term value trap   → do_not_ship
 
 Usage:
   python3 generate_cases.py --n 300
@@ -100,6 +103,24 @@ TITLES_UNDERPOWERED = [
     "Limited rollout check",
     "Low-traffic placement test",
 ]
+TITLES_SRM = [
+    "Assignment pipeline audit test",
+    "User-level split integrity check",
+    "Randomization QA experiment",
+    "Bucket balance monitoring test",
+]
+TITLES_PEEKING = [
+    "Early-stop revenue monitor",
+    "Sequential readout pilot",
+    "Day-3 significance checkpoint",
+    "Interim KPI gate test",
+]
+TITLES_LONGTERM_VALUE = [
+    "Engagement-first format test",
+    "CTR-optimized layout rollout",
+    "Session depth boost experiment",
+    "Click surface expansion test",
+]
 
 
 def _rand_date(year: int = 2025) -> date:
@@ -176,6 +197,19 @@ def _csv_rows(
                  sd["rev_eff"], sd["rev_pval"], sd["ctr_eff"], sd["ctr_pval"])
 
     return buf.getvalue()
+
+
+def _srm_chi2_p(n_control: int, n_test: int) -> tuple[float, float]:
+    """Chi-square (1 df) for 50/50 split vs observed counts."""
+    n = n_control + n_test
+    expected = n / 2
+    chi2 = (n_control - expected) ** 2 / expected + (n_test - expected) ** 2 / expected
+    # Wilson-Hilferty approx for p-value when chi2 > 0
+    if chi2 <= 0:
+        return 0.0, 1.0
+    z = ((chi2 / 1) ** (1 / 3) - (1 - 2 / (9 * 1))) / math.sqrt(2 / (9 * 1))
+    p = 0.5 * math.erfc(z / math.sqrt(2))
+    return chi2, max(p, 1e-12)
 
 
 # ---- Case type generators ----
@@ -656,16 +690,224 @@ def gen_underpowered(case_id: str, idx: int) -> tuple[dict, dict, str]:
     return contract, truth, data
 
 
+def gen_srm(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_SRM) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    total_users = random.randint(400_000, 700_000)
+    ctrl_share = round(random.uniform(0.505, 0.515), 4)
+    n_control = int(total_users * ctrl_share)
+    n_test = total_users - n_control
+    chi2, srm_p = _srm_chi2_p(n_control, n_test)
+
+    rev_eff = round(random.uniform(0.02, 0.045), 4)
+    rev_pval = round(random.uniform(0.001, 0.02), 4)
+    ctr_eff = round(random.uniform(0.01, 0.03), 4)
+    ctr_pval = round(random.uniform(0.01, 0.04), 4)
+
+    base = _build_base_metrics()
+    base["n_users"] = n_control
+    test = _apply_effect(base, rev_eff, ctr_eff)
+    test["n_users"] = n_test
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "randomization": {"target_split": [0.5, 0.5], "unit": "user"},
+        "notes": (
+            f"Target randomization 50/50 by user. Observed split: "
+            f"control {n_control:,} ({ctrl_share:.1%}) vs test {n_test:,} "
+            f"({1 - ctrl_share:.1%}). SRM chi-square={chi2:.2f}, p={srm_p:.2e}."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["srm"],
+        "human_rationale": (
+            f"Split declared 50/50 but observed {ctrl_share:.1%}/{1 - ctrl_share:.1%} "
+            f"differs significantly (SRM p={srm_p:.2e}). Comparison invalid until cause "
+            f"found — investigate the randomization before any ship/no-ship decision. "
+            f"The feature itself is not judged here; the measurement is broken."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_peeking(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_PEEKING) + f" (v{idx})"
+    start = _rand_date()
+    planned_horizon = 14
+    actual_horizon = 3
+    end = start + timedelta(days=actual_horizon)
+
+    rev_eff = round(random.uniform(0.025, 0.05), 4)
+    rev_pval = round(random.uniform(0.005, 0.045), 4)
+    ctr_eff = round(random.uniform(0.01, 0.03), 4)
+    ctr_pval = round(random.uniform(0.02, 0.05), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {
+            "start_date": str(start), "end_date": str(end),
+            "horizon_days": actual_horizon, "planned_horizon_days": planned_horizon,
+        },
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Planned {planned_horizon}-day experiment; stopped on day {actual_horizon} "
+            f"when revenue first reached p<{rev_pval:.3f}. No sequential alpha "
+            f"correction applied (no O'Brien-Fleming / alpha-spending)."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "do_not_ship",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["peeking"],
+        "human_rationale": (
+            f"Significant +{rev_eff:.1%} after early stop on day {actual_horizon}/{planned_horizon} "
+            f"without multiplicity control — inflated false-positive risk. Do not ship."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_longterm_value(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    """Subtype A (~50%): retention visible and falling. Subtype B: LTV absent — proxy-only trap."""
+    subtype_b = idx % 2 == 0
+    title = random.choice(TITLES_LONGTERM_VALUE) + f" (v{idx})"
+    start = _rand_date()
+
+    ctr_eff = round(random.uniform(0.03, 0.06), 4)
+    ctr_pval = round(random.uniform(0.001, 0.02), 4)
+
+    base = _build_base_metrics()
+
+    if subtype_b:
+        horizon = 7
+        end = start + timedelta(days=horizon)
+        rev_eff = round(random.uniform(0.005, 0.02), 4)
+        rev_pval = round(random.uniform(0.05, 0.20), 4)
+        test = _apply_effect(base, rev_eff, ctr_eff)
+
+        contract = {
+            "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+            "variants": ["control", "test"],
+            "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+            "primary_metric": {"name": "ctr", "direction": "up", "mde_relative": 0.01},
+            "guardrails": [
+                {"name": "retention", "direction": "up", "max_drop_relative": 0.02},
+                {"name": "ltv", "direction": "up", "max_drop_relative": 0.02},
+            ],
+            "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+            "decision_framework": {
+                "rule": "ship_if_primary_sig_and_guardrails_ok",
+                "practical_threshold_relative": 0.005,
+            },
+            "notes": (
+                f"{horizon}-day CTR readout only. Strong short-term engagement signal. "
+                f"D7 retention and LTV cohorts are not mature yet — not included in this export."
+            ),
+        }
+
+        truth = {
+            "case_id": case_id, "expected_decision": "do_not_ship",
+            "primary_effect_relative": ctr_eff, "is_stat_sig": True,
+            "guardrails_ok": None,
+            "key_reasons": ["longterm_value"],
+            "human_rationale": (
+                f"CTR +{ctr_eff:.1%} on a {horizon}-day window, but no retention/LTV data "
+                f"to judge long-term value — shipping on a proxy alone is unsafe. Do not ship."
+            ),
+        }
+    else:
+        horizon = random.choice([14, 21])
+        end = start + timedelta(days=horizon)
+        rev_eff = round(random.uniform(-0.04, -0.015), 4)
+        rev_pval = round(random.uniform(0.02, 0.08), 4)
+        ret_drop = round(random.uniform(0.03, 0.06), 4)
+        ctrl_ret = round(random.uniform(0.44, 0.48), 4)
+        test_ret = round(ctrl_ret * (1 - ret_drop), 4)
+        test = _apply_effect(base, rev_eff, ctr_eff)
+
+        contract = {
+            "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+            "variants": ["control", "test"],
+            "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+            "primary_metric": {"name": "ctr", "direction": "up", "mde_relative": 0.01},
+            "guardrails": [
+                {"name": "retention", "direction": "up", "max_drop_relative": 0.02},
+                {"name": "revenue", "direction": "up", "max_drop_relative": 0.02},
+            ],
+            "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+            "decision_framework": {
+                "rule": "ship_if_primary_sig_and_guardrails_ok",
+                "practical_threshold_relative": 0.005,
+            },
+            "notes": (
+                f"Primary readout is short-term CTR (engagement proxy). Cohort panel: "
+                f"D7 retention test {test_ret:.1%} vs control {ctrl_ret:.1%} "
+                f"(−{ret_drop:.1%} relative, breaches 2% guardrail)."
+            ),
+        }
+
+        truth = {
+            "case_id": case_id, "expected_decision": "do_not_ship",
+            "primary_effect_relative": ctr_eff, "is_stat_sig": True,
+            "guardrails_ok": False,
+            "key_reasons": ["longterm_value"],
+            "human_rationale": (
+                f"CTR +{ctr_eff:.1%} (sugar rush) but D7 retention −{ret_drop:.1%} and "
+                f"revenue {rev_eff:+.1%} — short-term proxy ≠ long-term value. Do not ship."
+            ),
+        }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
 GENERATORS = [
-    (0.22, "clean_uplift", gen_clean_uplift),
-    (0.14, "guardrail_breach", gen_guardrail_breach),
-    (0.12, "practically_small", gen_practically_small),
-    (0.10, "segment_conflict", gen_segment_conflict),
-    (0.10, "long_term_reversal", gen_long_term_reversal),
-    (0.10, "novelty_effect", gen_novelty_effect),
-    (0.08, "simpson_paradox", gen_simpson_paradox),
-    (0.08, "multiple_comparisons", gen_multiple_comparisons),
-    (0.06, "underpowered", gen_underpowered),
+    (0.18, "clean_uplift", gen_clean_uplift),
+    (0.12, "guardrail_breach", gen_guardrail_breach),
+    (0.10, "practically_small", gen_practically_small),
+    (0.08, "segment_conflict", gen_segment_conflict),
+    (0.08, "long_term_reversal", gen_long_term_reversal),
+    (0.08, "novelty_effect", gen_novelty_effect),
+    (0.07, "simpson_paradox", gen_simpson_paradox),
+    (0.07, "multiple_comparisons", gen_multiple_comparisons),
+    (0.05, "underpowered", gen_underpowered),
+    (0.06, "srm", gen_srm),
+    (0.06, "peeking", gen_peeking),
+    (0.05, "longterm_value", gen_longterm_value),
 ]
 
 
@@ -674,20 +916,39 @@ def main() -> None:
     parser.add_argument("--n", type=int, default=300, help="Number of cases (default 300)")
     parser.add_argument("--out", type=str, default=None, help="Output directory")
     parser.add_argument("--seed", type=int, default=42, help="Random seed (default 42)")
+    parser.add_argument("--types", nargs="+", default=None,
+                        help="Generate only these trap labels (even split across --n)")
     args = parser.parse_args()
 
     random.seed(args.seed)
     out_dir = Path(args.out) if args.out else DEFAULT_OUT
 
     schedule: list[tuple[str, callable]] = []
-    for frac, label, gen_fn in GENERATORS:
-        count = round(args.n * frac)
-        for _ in range(count):
-            schedule.append((label, gen_fn))
-    while len(schedule) < args.n:
-        schedule.append(("clean_uplift", gen_clean_uplift))
-    schedule = schedule[:args.n]
-    random.shuffle(schedule)
+    if args.types:
+        wanted = set(args.types)
+        selected = [(label, gen_fn) for _, label, gen_fn in GENERATORS if label in wanted]
+        missing = wanted - {label for label, _ in selected}
+        if missing:
+            parser.error(f"Unknown --types: {sorted(missing)}")
+        if not selected:
+            parser.error("No generators matched --types")
+        per_type = max(1, args.n // len(selected))
+        for label, gen_fn in selected:
+            for _ in range(per_type):
+                schedule.append((label, gen_fn))
+        while len(schedule) < args.n:
+            schedule.append(selected[len(schedule) % len(selected)])
+        schedule = schedule[:args.n]
+        random.shuffle(schedule)
+    else:
+        for frac, label, gen_fn in GENERATORS:
+            count = round(args.n * frac)
+            for _ in range(count):
+                schedule.append((label, gen_fn))
+        while len(schedule) < args.n:
+            schedule.append(("clean_uplift", gen_clean_uplift))
+        schedule = schedule[:args.n]
+        random.shuffle(schedule)
 
     out_dir.mkdir(parents=True, exist_ok=True)
 

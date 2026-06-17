@@ -43,7 +43,8 @@ VALID_DIRECTIONS = {"up", "down"}
 VALID_REASONS = {
     "primary_uplift", "guardrail_violation", "segment_conflict",
     "long_term_reversal", "practically_small", "not_significant",
-    "overall_positive",
+    "overall_positive", "novelty_effect", "simpson_paradox",
+    "multiple_comparisons", "underpowered", "srm", "peeking", "longterm_value",
 }
 
 
@@ -130,8 +131,9 @@ def validate_truth(case_dir: Path, case_name: str) -> list[ValidationError]:
     if not isinstance(t.get("is_stat_sig"), bool):
         errors.append(ValidationError(case_name, "truth.json", "is_stat_sig must be boolean"))
 
-    if not isinstance(t.get("guardrails_ok"), bool):
-        errors.append(ValidationError(case_name, "truth.json", "guardrails_ok must be boolean"))
+    gok = t.get("guardrails_ok")
+    if gok is not None and not isinstance(gok, bool):
+        errors.append(ValidationError(case_name, "truth.json", "guardrails_ok must be boolean or null"))
 
     if isinstance(t.get("key_reasons"), list):
         for r in t["key_reasons"]:
