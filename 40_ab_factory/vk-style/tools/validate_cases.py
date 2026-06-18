@@ -49,6 +49,7 @@ VALID_REASONS = {
     "twyman", "dilution", "seasonality",
     "unit_randomization", "contamination", "bots",
     "harking", "heterogeneity", "winners_curse",
+    "cuped_missing", "heavy_tails", "bad_oec",
 }
 
 

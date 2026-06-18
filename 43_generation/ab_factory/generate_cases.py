@@ -30,6 +30,9 @@ Distribution (of N cases):
    3%  HARKing (post-hoc hypothesis)      → investigate
    3%  segment heterogeneity (no interaction) → investigate
    2%  winner's curse (best-of-N)        → investigate
+   2%  CUPED not applied (underpowered)   → investigate
+   2%  heavy-tail revenue distortion      → investigate
+   2%  bad OEC (proxy up, goal down)      → do_not_ship
 
 Usage:
   python3 generate_cases.py --n 300
@@ -207,6 +210,24 @@ TITLES_WINNERS_CURSE = [
 ]
 HARKING_SEGMENTS = ["premium", "high_value", "loyal_subscriber"]
 HETEROGENEITY_SEGMENTS = ["mobile", "desktop"]
+TITLES_CUPED = [
+    "Pre-period covariate readout",
+    "Baseline-adjusted revenue test",
+    "Covariate-enriched pilot",
+    "Matched pre-period experiment",
+]
+TITLES_HEAVY_TAILS = [
+    "Whale-sensitive revenue test",
+    "High-variance monetization pilot",
+    "Top-spender revenue readout",
+    "Skewed revenue distribution test",
+]
+TITLES_BAD_OEC = [
+    "CTR-first layout optimization",
+    "Click-surface expansion test",
+    "Engagement proxy format rollout",
+    "CTR-maximizing placement test",
+]
 
 
 def _rand_date(year: int = 2025) -> date:
@@ -1649,8 +1670,166 @@ def gen_winners_curse(case_id: str, idx: int) -> tuple[dict, dict, str]:
     return contract, truth, data
 
 
+def gen_cuped_missing(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_CUPED) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    rev_eff = round(random.uniform(0.008, 0.018), 4)
+    rev_pval = round(random.uniform(0.055, 0.095), 4)
+    is_sig = rev_pval < 0.05
+    ctr_eff = round(random.uniform(-0.005, 0.01), 4)
+    ctr_pval = round(random.uniform(0.20, 0.55), 4)
+    corr = round(random.uniform(0.55, 0.75), 2)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Pre-period covariate data available (14-day baseline revenue per user, "
+            f"ρ≈{corr} with in-period outcome) but CUPED variance reduction not applied — "
+            f"analysis uses raw delta only. Point estimate {rev_eff:+.1%}, p={rev_pval}."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": is_sig,
+        "guardrails_ok": True, "key_reasons": ["cuped_missing"],
+        "human_rationale": (
+            "Pre-period data available but CUPED not applied — variance reducible, "
+            "test underpowered as-is. Apply CUPED and re-evaluate before concluding. "
+            "Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_heavy_tails(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_HEAVY_TAILS) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    rev_eff = round(random.uniform(0.015, 0.028), 4)
+    rev_pval = round(random.uniform(0.01, 0.035), 4)
+    ctr_eff = round(random.uniform(-0.005, 0.01), 4)
+    ctr_pval = round(random.uniform(0.15, 0.45), 4)
+    top_share = round(random.uniform(0.004, 0.008), 4)
+    mean_rev = round(random.uniform(8, 15), 1)
+    max_rev = round(mean_rev * random.uniform(80, 150), 0)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Per-user revenue highly skewed: mean ${mean_rev:.0f} vs max ${max_rev:.0f} "
+            f"(top {top_share:.1%} spenders). Aggregate +{rev_eff:.1%} significant "
+            f"(p={rev_pval}) but effect driven by a few extreme users — t-test on "
+            f"means unreliable."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["heavy_tails"],
+        "human_rationale": (
+            f"Revenue effect driven by a few extreme spenders (top {top_share:.1%}) — "
+            f"mean distorted by heavy tail, t-test unreliable. Use robust methods / "
+            f"winsorize and re-check. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_bad_oec(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_BAD_OEC) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    ctr_eff = round(random.uniform(0.04, 0.06), 4)
+    ctr_pval = round(random.uniform(0.001, 0.015), 4)
+    rev_eff = round(random.uniform(-0.035, -0.018), 4)
+    rev_pval = round(random.uniform(0.005, 0.025), 4)
+    ret_drop = round(random.uniform(0.025, 0.045), 4)
+    ctrl_ret = round(random.uniform(0.44, 0.48), 4)
+    test_ret = round(ctrl_ret * (1 - ret_drop), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "ctr", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "revenue", "direction": "up", "max_drop_relative": 0.02},
+            {"name": "retention", "direction": "up", "max_drop_relative": 0.02},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Experiment optimizing CTR (engagement proxy). Primary CTR +{ctr_eff:.0%} "
+            f"significant. Business guardrails in export: revenue {rev_eff:+.1%} "
+            f"(p={rev_pval}), D7 retention test {test_ret:.1%} vs control {ctrl_ret:.1%} "
+            f"(−{ret_drop:.1%} relative)."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "do_not_ship",
+        "primary_effect_relative": ctr_eff, "is_stat_sig": True,
+        "guardrails_ok": False, "key_reasons": ["bad_oec"],
+        "human_rationale": (
+            f"Proxy (CTR) +{ctr_eff:.0%} but business guardrails down — revenue "
+            f"{rev_eff:+.1%}, retention −{ret_drop:.1%}. Optimizing the wrong metric. "
+            f"Clickbait pattern. Do not ship."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
 GENERATORS = [
-    (0.16, "clean_uplift", gen_clean_uplift),
+    (0.085, "clean_uplift", gen_clean_uplift),
     (0.08, "guardrail_breach", gen_guardrail_breach),
     (0.07, "practically_small", gen_practically_small),
     (0.05, "segment_conflict", gen_segment_conflict),
@@ -1674,6 +1853,9 @@ GENERATORS = [
     (0.03, "harking", gen_harking),
     (0.03, "heterogeneity", gen_heterogeneity),
     (0.025, "winners_curse", gen_winners_curse),
+    (0.025, "cuped_missing", gen_cuped_missing),
+    (0.025, "heavy_tails", gen_heavy_tails),
+    (0.025, "bad_oec", gen_bad_oec),
 ]
 
 
