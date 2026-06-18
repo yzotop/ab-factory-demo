@@ -47,6 +47,7 @@ VALID_REASONS = {
     "multiple_comparisons", "underpowered", "srm", "peeking", "longterm_value",
     "interference", "ratio_metric", "posttreatment_selection",
     "twyman", "dilution", "seasonality",
+    "unit_randomization", "contamination", "bots",
 }
 
 

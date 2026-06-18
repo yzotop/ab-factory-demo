@@ -40,7 +40,10 @@
           "posttreatment_selection",
           "twyman",
           "dilution",
-          "seasonality"
+          "seasonality",
+          "unit_randomization",
+          "contamination",
+          "bots"
         ]
       }
     },

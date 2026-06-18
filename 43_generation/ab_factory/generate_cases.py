@@ -24,6 +24,9 @@ Distribution (of N cases):
    4%  Twyman's law (implausible lift) → investigate
    4%  exposure dilution (ITT)       → investigate
    4%  seasonality / promo period    → investigate
+   3%  unit mismatch (pseudoreplication) → investigate
+   3%  control contamination (shareable)  → investigate
+   3%  bot traffic inflation              → investigate
 
 Usage:
   python3 generate_cases.py --n 300
@@ -162,6 +165,24 @@ TITLES_SEASONALITY = [
     "Year-end peak format rollout",
     "Black Friday ad density experiment",
     "New Year campaign slot test",
+]
+TITLES_UNIT_RANDOMIZATION = [
+    "Session-level revenue readout",
+    "Per-event CTR significance test",
+    "Session-grain metric experiment",
+    "Event-level uplift analysis",
+]
+TITLES_CONTAMINATION = [
+    "Shareable referral link promo",
+    "Social invite reward banner",
+    "Viral share-to-unlock offer",
+    "Friend-referral ad credit test",
+]
+TITLES_BOTS = [
+    "New placement traffic audit",
+    "Format rollout quality check",
+    "Inventory source monitoring test",
+    "Demand-side traffic validation",
 ]
 
 
@@ -1250,25 +1271,179 @@ def gen_seasonality(case_id: str, idx: int) -> tuple[dict, dict, str]:
     return contract, truth, data
 
 
+def gen_unit_randomization(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_UNIT_RANDOMIZATION) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+    analysis_unit = random.choice(["session", "event"])
+
+    rev_eff = round(random.uniform(0.015, 0.035), 4)
+    rev_pval = round(random.uniform(0.002, 0.025), 4)
+    ctr_eff = round(random.uniform(0.01, 0.025), 4)
+    ctr_pval = round(random.uniform(0.005, 0.03), 4)
+    sessions_per_user = round(random.uniform(8, 18), 1)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "session_level_ttest", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Randomization unit: user (50/50 at login). Analysis unit: {analysis_unit} "
+            f"(~{sessions_per_user:.0f} {analysis_unit}s per user on average). Significance "
+            f"from t-test at {analysis_unit} level — not clustered by randomization unit."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["unit_randomization"],
+        "human_rationale": (
+            f"Randomized by user but tested at {analysis_unit} level — pseudoreplication "
+            f"understates variance, significance unreliable. Re-test at randomization "
+            f"unit or use cluster-robust SE. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_contamination(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_CONTAMINATION) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    rev_eff = round(random.uniform(0.004, 0.008), 4)
+    rev_pval = round(random.uniform(0.035, 0.095), 4)
+    is_sig = rev_pval < 0.05
+    ctr_eff = round(random.uniform(-0.003, 0.005), 4)
+    ctr_pval = round(random.uniform(0.20, 0.55), 4)
+    leak_rate = round(random.uniform(0.08, 0.18), 3)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Feature is socially shareable — users can forward referral links / shared "
+            f"account access to friends. Estimated ~{leak_rate:.0%} of control users may "
+            f"receive partial exposure via leakage (contamination), diluting the contrast."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": is_sig,
+        "guardrails_ok": True, "key_reasons": ["contamination"],
+        "human_rationale": (
+            f"Shareable feature — control likely partially exposed (contamination), "
+            f"diluting the contrast. Small/null effect ({rev_eff:+.1%}, p={rev_pval}) may "
+            f"be understated, not real. Assess leakage; cluster-randomize. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_bots(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_BOTS) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    bot_share = round(random.uniform(0.10, 0.15), 3)
+    rev_eff = round(random.uniform(0.02, 0.04), 4)
+    rev_pval = round(random.uniform(0.002, 0.02), 4)
+    ctr_eff = round(random.uniform(0.015, 0.03), 4)
+    ctr_pval = round(random.uniform(0.005, 0.025), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Test group traffic quality flag: ~{bot_share:.0%} of test sessions from "
+            f"datacenter IPs / bot-like burst patterns (not seen in control). Metric "
+            f"lift may be inflated by non-human traffic."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["bots"],
+        "human_rationale": (
+            f"Anomalous bot/datacenter traffic (~{bot_share:.0%}) in test group inflates "
+            f"the metric. Filter and re-measure before trusting the lift. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
 GENERATORS = [
-    (0.17, "clean_uplift", gen_clean_uplift),
-    (0.10, "guardrail_breach", gen_guardrail_breach),
-    (0.08, "practically_small", gen_practically_small),
-    (0.06, "segment_conflict", gen_segment_conflict),
-    (0.06, "long_term_reversal", gen_long_term_reversal),
-    (0.06, "novelty_effect", gen_novelty_effect),
-    (0.05, "simpson_paradox", gen_simpson_paradox),
-    (0.05, "multiple_comparisons", gen_multiple_comparisons),
-    (0.03, "underpowered", gen_underpowered),
-    (0.04, "srm", gen_srm),
-    (0.04, "peeking", gen_peeking),
-    (0.03, "longterm_value", gen_longterm_value),
-    (0.04, "interference", gen_interference),
-    (0.04, "ratio_metric", gen_ratio_metric),
-    (0.03, "posttreatment_selection", gen_posttreatment),
-    (0.04, "twyman", gen_twyman),
-    (0.04, "dilution", gen_dilution),
-    (0.04, "seasonality", gen_seasonality),
+    (0.16, "clean_uplift", gen_clean_uplift),
+    (0.09, "guardrail_breach", gen_guardrail_breach),
+    (0.07, "practically_small", gen_practically_small),
+    (0.055, "segment_conflict", gen_segment_conflict),
+    (0.055, "long_term_reversal", gen_long_term_reversal),
+    (0.055, "novelty_effect", gen_novelty_effect),
+    (0.045, "simpson_paradox", gen_simpson_paradox),
+    (0.045, "multiple_comparisons", gen_multiple_comparisons),
+    (0.025, "underpowered", gen_underpowered),
+    (0.035, "srm", gen_srm),
+    (0.035, "peeking", gen_peeking),
+    (0.025, "longterm_value", gen_longterm_value),
+    (0.035, "interference", gen_interference),
+    (0.035, "ratio_metric", gen_ratio_metric),
+    (0.025, "posttreatment_selection", gen_posttreatment),
+    (0.035, "twyman", gen_twyman),
+    (0.035, "dilution", gen_dilution),
+    (0.035, "seasonality", gen_seasonality),
+    (0.035, "unit_randomization", gen_unit_randomization),
+    (0.035, "contamination", gen_contamination),
+    (0.035, "bots", gen_bots),
 ]
 
 
