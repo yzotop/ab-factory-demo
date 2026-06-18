@@ -45,6 +45,7 @@ VALID_REASONS = {
     "long_term_reversal", "practically_small", "not_significant",
     "overall_positive", "novelty_effect", "simpson_paradox",
     "multiple_comparisons", "underpowered", "srm", "peeking", "longterm_value",
+    "interference", "ratio_metric", "posttreatment_selection",
 }
 
 

@@ -34,7 +34,10 @@
           "underpowered",
           "srm",
           "peeking",
-          "longterm_value"
+          "longterm_value",
+          "interference",
+          "ratio_metric",
+          "posttreatment_selection"
         ]
       }
     },

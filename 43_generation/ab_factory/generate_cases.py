@@ -15,9 +15,12 @@ Distribution (of N cases):
    7%  Simpson's paradox      → do_not_ship
    7%  multiple comparisons   → do_not_ship
    5%  underpowered           → investigate
-   6%  sample ratio mismatch  → do_not_ship
-   6%  peeking                → do_not_ship
-   5%  long-term value trap   → do_not_ship
+   5%  sample ratio mismatch  → investigate
+   5%  peeking                → do_not_ship
+   4%  long-term value trap   → do_not_ship
+   5%  marketplace interference → investigate
+   5%  ratio metric stats     → investigate
+   3%  post-treatment selection → do_not_ship
 
 Usage:
   python3 generate_cases.py --n 300
@@ -120,6 +123,24 @@ TITLES_LONGTERM_VALUE = [
     "CTR-optimized layout rollout",
     "Session depth boost experiment",
     "Click surface expansion test",
+]
+TITLES_INTERFERENCE = [
+    "Shared auction pool bid test",
+    "Marketplace inventory split experiment",
+    "Common budget allocation test",
+    "Two-sided ad marketplace rollout",
+]
+TITLES_RATIO_METRIC = [
+    "CTR ratio readout experiment",
+    "Click-rate per-impression test",
+    "Event-level CTR significance check",
+    "Impression-normalized click test",
+]
+TITLES_POSTTREATMENT = [
+    "Activated-user uplift study",
+    "Clicker-only conversion test",
+    "Engaged cohort outcome analysis",
+    "Feature-adopter performance readout",
 ]
 
 
@@ -895,19 +916,179 @@ def gen_longterm_value(case_id: str, idx: int) -> tuple[dict, dict, str]:
     return contract, truth, data
 
 
+def gen_interference(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_INTERFERENCE) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    baseline_drop = round(random.uniform(0.025, 0.05), 4)
+    rev_eff = round(random.uniform(0.025, 0.045), 4)
+    rev_pval = round(random.uniform(0.001, 0.02), 4)
+    ctr_eff = round(random.uniform(0.01, 0.03), 4)
+    ctr_pval = round(random.uniform(0.01, 0.04), 4)
+
+    base = _build_base_metrics()
+    historical_rev = base["revenue"]
+    base["revenue"] = _round(historical_rev * (1 - baseline_drop))
+    base["shows"] = int(base["shows"] * (1 - baseline_drop * 0.7))
+    base["cpm"] = _round(base["cpm"] * (1 - baseline_drop * 0.5), 2)
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Two-sided marketplace experiment: control and test draw from shared "
+            f"marketplace inventory / common auction budget (not isolated arms). "
+            f"Pre-period control baseline revenue ${historical_rev:,.0f}; in-experiment "
+            f"control ${int(base['revenue']):,} ({-baseline_drop:.1%} vs baseline) — "
+            f"control cannibalized as test captures shared demand."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["interference"],
+        "human_rationale": (
+            "Two-sided market with shared inventory — test cannibalizes control, "
+            "measured uplift inflated. Need isolation (cluster/geo split) before "
+            "deciding. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_ratio_metric(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_RATIO_METRIC) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    ctr_eff = round(random.uniform(0.03, 0.06), 4)
+    ctr_pval = round(random.uniform(0.001, 0.015), 4)
+    rev_eff = round(random.uniform(0.005, 0.02), 4)
+    rev_pval = round(random.uniform(0.05, 0.25), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "ctr", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "revenue", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "naive_event_ttest", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            "Primary metric CTR = clicks / impressions (ratio metric). Randomization "
+            "unit is user. Significance from naive t-test on per-event rows — not "
+            "delta-method or user-level bootstrap; ratio variance understated."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": ctr_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["ratio_metric"],
+        "human_rationale": (
+            "Ratio metric with naive event-level t-test under user randomization — "
+            "variance understated, significance unreliable. Need delta-method / "
+            "user-level bootstrap. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_posttreatment(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_POSTTREATMENT) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    rev_eff = round(random.uniform(0.03, 0.055), 4)
+    rev_pval = round(random.uniform(0.001, 0.02), 4)
+    ctr_eff = round(random.uniform(0.02, 0.04), 4)
+    ctr_pval = round(random.uniform(0.001, 0.03), 4)
+    activation_rate = round(random.uniform(0.18, 0.32), 3)
+
+    base = _build_base_metrics()
+    base["n_users"] = int(base["n_users"] * activation_rate)
+    base["revenue"] = _round(base["revenue"] * activation_rate)
+    base["shows"] = int(base["shows"] * activation_rate)
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Analysis restricted to users who activated / clicked the new surface "
+            f"(post-treatment conditioning; ~{activation_rate:.0%} of assigned users). "
+            f"Not intent-to-treat — selection on a post-randomization outcome."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "do_not_ship",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["posttreatment_selection"],
+        "human_rationale": (
+            "Segmentation on a post-treatment outcome breaks randomization — "
+            "selection bias. Looks clean but invalid. Do not ship."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
 GENERATORS = [
-    (0.18, "clean_uplift", gen_clean_uplift),
-    (0.12, "guardrail_breach", gen_guardrail_breach),
-    (0.10, "practically_small", gen_practically_small),
-    (0.08, "segment_conflict", gen_segment_conflict),
-    (0.08, "long_term_reversal", gen_long_term_reversal),
-    (0.08, "novelty_effect", gen_novelty_effect),
-    (0.07, "simpson_paradox", gen_simpson_paradox),
-    (0.07, "multiple_comparisons", gen_multiple_comparisons),
-    (0.05, "underpowered", gen_underpowered),
-    (0.06, "srm", gen_srm),
-    (0.06, "peeking", gen_peeking),
-    (0.05, "longterm_value", gen_longterm_value),
+    (0.16, "clean_uplift", gen_clean_uplift),
+    (0.11, "guardrail_breach", gen_guardrail_breach),
+    (0.09, "practically_small", gen_practically_small),
+    (0.07, "segment_conflict", gen_segment_conflict),
+    (0.07, "long_term_reversal", gen_long_term_reversal),
+    (0.07, "novelty_effect", gen_novelty_effect),
+    (0.06, "simpson_paradox", gen_simpson_paradox),
+    (0.06, "multiple_comparisons", gen_multiple_comparisons),
+    (0.04, "underpowered", gen_underpowered),
+    (0.05, "srm", gen_srm),
+    (0.05, "peeking", gen_peeking),
+    (0.04, "longterm_value", gen_longterm_value),
+    (0.05, "interference", gen_interference),
+    (0.05, "ratio_metric", gen_ratio_metric),
+    (0.03, "posttreatment_selection", gen_posttreatment),
 ]
 
 
