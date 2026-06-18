@@ -33,6 +33,9 @@ Distribution (of N cases):
    2%  CUPED not applied (underpowered)   → investigate
    2%  heavy-tail revenue distortion      → investigate
    2%  bad OEC (proxy up, goal down)      → do_not_ship
+   2%  incomplete weekly cycle            → investigate
+   2%  external shock mid-test           → investigate
+   2%  narrow population generalization  → investigate
 
 Usage:
   python3 generate_cases.py --n 300
@@ -227,6 +230,24 @@ TITLES_BAD_OEC = [
     "Click-surface expansion test",
     "Engagement proxy format rollout",
     "CTR-maximizing placement test",
+]
+TITLES_INCOMPLETE_CYCLES = [
+    "Mid-week format pilot",
+    "Weekday-only readout test",
+    "Tue-start experiment window",
+    "Business-day metrics check",
+]
+TITLES_EXTERNAL_SHOCK = [
+    "In-flight promo overlap test",
+    "Concurrent campaign experiment",
+    "Mid-test marketing push readout",
+    "Overlapping promo window test",
+]
+TITLES_NARROW_GENERALIZATION = [
+    "Power-user cohort rollout",
+    "Top-decile activity experiment",
+    "Heavy-user monetization test",
+    "High-engagement segment pilot",
 ]
 
 
@@ -1828,8 +1849,160 @@ def gen_bad_oec(case_id: str, idx: int) -> tuple[dict, dict, str]:
     return contract, truth, data
 
 
+def gen_incomplete_cycles(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_INCOMPLETE_CYCLES) + f" (v{idx})"
+    year = random.choice([2024, 2025])
+    start = date(year, random.randint(3, 11), random.randint(4, 25))
+    while start.weekday() != 1:
+        start += timedelta(days=1)
+    end = start + timedelta(days=4)
+    horizon = 5
+
+    rev_eff = round(random.uniform(0.02, 0.04), 4)
+    rev_pval = round(random.uniform(0.005, 0.03), 4)
+    ctr_eff = round(random.uniform(0.01, 0.025), 4)
+    ctr_pval = round(random.uniform(0.01, 0.04), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Test ran {start} to {end} (Tue–Sat, {horizon} days). Weekend not "
+            f"included in the readout window."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["incomplete_cycles"],
+        "human_rationale": (
+            "Test ran only 5 weekday days — weekend not covered, weekly "
+            "seasonality incomplete. Run full weekly cycles before deciding. "
+            "Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_external_shock(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_EXTERNAL_SHOCK) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([10, 14])
+    end = start + timedelta(days=horizon)
+    shock_day = random.randint(3, min(6, horizon - 2))
+
+    rev_eff = round(random.uniform(0.02, 0.045), 4)
+    rev_pval = round(random.uniform(0.003, 0.025), 4)
+    ctr_eff = round(random.uniform(0.01, 0.03), 4)
+    ctr_pval = round(random.uniform(0.005, 0.03), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"{horizon}-day experiment ({start} to {end}). A major marketing promo "
+            f"launched on day {shock_day} of the test."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["external_shock"],
+        "human_rationale": (
+            "A major promo launched mid-test — confounds the result, measured effect "
+            "may be from the promo, not the feature. Control for it (A/A segments) "
+            "or re-run clean. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_narrow_generalization(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_NARROW_GENERALIZATION) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+    cohort_pct = round(random.uniform(0.08, 0.12), 2)
+
+    rev_eff = round(random.uniform(0.025, 0.045), 4)
+    rev_pval = round(random.uniform(0.002, 0.02), 4)
+    ctr_eff = round(random.uniform(0.01, 0.025), 4)
+    ctr_pval = round(random.uniform(0.005, 0.03), 4)
+
+    base = _build_base_metrics()
+    base["n_users"] = int(base["n_users"] * cohort_pct)
+    base["revenue"] = _round(base["revenue"] * cohort_pct)
+    base["shows"] = int(base["shows"] * cohort_pct)
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Tested on power users only (top {cohort_pct:.0%} by activity). "
+            f"Rollout plan is to all users."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["narrow_generalization"],
+        "human_rationale": (
+            "Effect measured on power users only but conclusion drawn for all users — "
+            "does not generalize. Limit claim to tested population or test broadly. "
+            "Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
 GENERATORS = [
-    (0.085, "clean_uplift", gen_clean_uplift),
+    (0.019, "clean_uplift", gen_clean_uplift),
     (0.08, "guardrail_breach", gen_guardrail_breach),
     (0.07, "practically_small", gen_practically_small),
     (0.05, "segment_conflict", gen_segment_conflict),
@@ -1856,6 +2029,9 @@ GENERATORS = [
     (0.025, "cuped_missing", gen_cuped_missing),
     (0.025, "heavy_tails", gen_heavy_tails),
     (0.025, "bad_oec", gen_bad_oec),
+    (0.022, "incomplete_cycles", gen_incomplete_cycles),
+    (0.022, "external_shock", gen_external_shock),
+    (0.022, "narrow_generalization", gen_narrow_generalization),
 ]
 
 

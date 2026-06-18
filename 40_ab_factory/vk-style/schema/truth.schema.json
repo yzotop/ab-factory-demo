@@ -49,7 +49,10 @@
           "winners_curse",
           "cuped_missing",
           "heavy_tails",
-          "bad_oec"
+          "bad_oec",
+          "incomplete_cycles",
+          "external_shock",
+          "narrow_generalization"
         ]
       }
     },

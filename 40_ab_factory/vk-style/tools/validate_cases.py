@@ -50,6 +50,7 @@ VALID_REASONS = {
     "unit_randomization", "contamination", "bots",
     "harking", "heterogeneity", "winners_curse",
     "cuped_missing", "heavy_tails", "bad_oec",
+    "incomplete_cycles", "external_shock", "narrow_generalization",
 }
 
 
