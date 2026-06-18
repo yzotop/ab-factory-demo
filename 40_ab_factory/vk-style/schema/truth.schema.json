@@ -43,7 +43,10 @@
           "seasonality",
           "unit_randomization",
           "contamination",
-          "bots"
+          "bots",
+          "harking",
+          "heterogeneity",
+          "winners_curse"
         ]
       }
     },

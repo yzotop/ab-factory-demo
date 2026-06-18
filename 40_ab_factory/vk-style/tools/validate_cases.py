@@ -48,6 +48,7 @@ VALID_REASONS = {
     "interference", "ratio_metric", "posttreatment_selection",
     "twyman", "dilution", "seasonality",
     "unit_randomization", "contamination", "bots",
+    "harking", "heterogeneity", "winners_curse",
 }
 
 

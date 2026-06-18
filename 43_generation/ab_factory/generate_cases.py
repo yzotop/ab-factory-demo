@@ -27,6 +27,9 @@ Distribution (of N cases):
    3%  unit mismatch (pseudoreplication) → investigate
    3%  control contamination (shareable)  → investigate
    3%  bot traffic inflation              → investigate
+   3%  HARKing (post-hoc hypothesis)      → investigate
+   3%  segment heterogeneity (no interaction) → investigate
+   2%  winner's curse (best-of-N)        → investigate
 
 Usage:
   python3 generate_cases.py --n 300
@@ -184,6 +187,26 @@ TITLES_BOTS = [
     "Inventory source monitoring test",
     "Demand-side traffic validation",
 ]
+TITLES_HARKING = [
+    "Premium cohort uplift readout",
+    "High-value segment deep-dive",
+    "Loyal-user monetization test",
+    "Subscriber tier format experiment",
+]
+TITLES_HETEROGENEITY = [
+    "Cross-device format rollout",
+    "Mobile vs desktop ad density test",
+    "Platform-specific layout experiment",
+    "Surface-specific pricing test",
+]
+TITLES_WINNERS_CURSE = [
+    "Multi-variant champion selection",
+    "Best-of-batch format rollout",
+    "Variant tournament winner deploy",
+    "Top-performing creative selection",
+]
+HARKING_SEGMENTS = ["premium", "high_value", "loyal_subscriber"]
+HETEROGENEITY_SEGMENTS = ["mobile", "desktop"]
 
 
 def _rand_date(year: int = 2025) -> date:
@@ -1422,28 +1445,235 @@ def gen_bots(case_id: str, idx: int) -> tuple[dict, dict, str]:
     return contract, truth, data
 
 
+def _split_metrics(m: dict, frac: float) -> dict:
+    return {
+        "n_users": int(m["n_users"] * frac),
+        "revenue": _round(m["revenue"] * frac),
+        "cpm": m["cpm"],
+        "fillrate": m["fillrate"],
+        "ctr": m["ctr"],
+        "shows": int(m["shows"] * frac),
+    }
+
+
+def gen_harking(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_HARKING) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+    focus_seg = random.choice(HARKING_SEGMENTS)
+    other_seg = "standard"
+
+    overall_eff = round(random.uniform(-0.005, 0.008), 4)
+    overall_pval = round(random.uniform(0.12, 0.45), 4)
+    focus_eff = round(random.uniform(0.08, 0.10), 4)
+    focus_pval = round(random.uniform(0.001, 0.02), 4)
+    other_eff = round(random.uniform(-0.01, 0.01), 4)
+    other_pval = round(random.uniform(0.25, 0.70), 4)
+    ctr_eff = round(random.uniform(-0.005, 0.01), 4)
+    ctr_pval = round(random.uniform(0.20, 0.60), 4)
+
+    base = _build_base_metrics()
+    test_all = _apply_effect(base, overall_eff, ctr_eff)
+    frac_focus = round(random.uniform(0.35, 0.45), 2)
+    frac_other = round(1.0 - frac_focus, 2)
+
+    seg_data = []
+    for seg, frac, s_eff, s_pval in [
+        (focus_seg, frac_focus, focus_eff, focus_pval),
+        (other_seg, frac_other, other_eff, other_pval),
+    ]:
+        sc = _split_metrics(base, frac)
+        st = _apply_effect(sc, s_eff, ctr_eff)
+        seg_data.append({
+            "control": sc, "test": st,
+            "rev_eff": s_eff, "rev_pval": s_pval,
+            "ctr_eff": ctr_eff, "ctr_pval": ctr_pval,
+        })
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "segments": [focus_seg, other_seg],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"No pre-registration on file. After the run, the {focus_seg} segment "
+            f"showed a strong lift (+{focus_eff:.0%}) and is presented as the "
+            f"leading finding — hypothesis was formed post-hoc from the data."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": overall_eff, "is_stat_sig": False,
+        "guardrails_ok": True, "key_reasons": ["harking"],
+        "human_rationale": (
+            f"Hypothesis formed after seeing the data (HARKing) and presented as a priori. "
+            f"The {focus_seg} segment was chosen post-hoc — significance not valid without "
+            f"correction/replication. Confirm on fresh data. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test_all, overall_eff, overall_pval, ctr_eff, ctr_pval,
+                      [focus_seg, other_seg], seg_data)
+    return contract, truth, data
+
+
+def gen_heterogeneity(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_HETEROGENEITY) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+    segments = HETEROGENEITY_SEGMENTS
+
+    overall_eff = round(random.uniform(0.005, 0.012), 4)
+    overall_pval = round(random.uniform(0.08, 0.25), 4)
+    mobile_eff = round(random.uniform(0.055, 0.07), 4)
+    mobile_pval = round(random.uniform(0.01, 0.04), 4)
+    desktop_eff = round(random.uniform(0.008, 0.015), 4)
+    desktop_pval = round(random.uniform(0.30, 0.65), 4)
+    ctr_eff = round(random.uniform(-0.005, 0.01), 4)
+    ctr_pval = round(random.uniform(0.20, 0.55), 4)
+
+    base = _build_base_metrics()
+    test_all = _apply_effect(base, overall_eff, ctr_eff)
+    frac_mobile = round(random.uniform(0.55, 0.65), 2)
+    frac_desktop = round(1.0 - frac_mobile, 2)
+
+    seg_data = []
+    for seg, frac, s_eff, s_pval in [
+        (segments[0], frac_mobile, mobile_eff, mobile_pval),
+        (segments[1], frac_desktop, desktop_eff, desktop_pval),
+    ]:
+        sc = _split_metrics(base, frac)
+        st = _apply_effect(sc, s_eff, ctr_eff)
+        seg_data.append({
+            "control": sc, "test": st,
+            "rev_eff": s_eff, "rev_pval": s_pval,
+            "ctr_eff": ctr_eff, "ctr_pval": ctr_pval,
+        })
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "segments": segments,
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Overall effect modest ({overall_eff:+.1%}). Segment readout: "
+            f"{segments[0]} {mobile_eff:+.1%} vs {segments[1]} {desktop_eff:+.1%} — "
+            f"team recommends rolling out on {segments[0]} only. No formal interaction "
+            f"test; no multiplicity correction across segments."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": overall_eff, "is_stat_sig": overall_pval < 0.05,
+        "guardrails_ok": True, "key_reasons": ["heterogeneity"],
+        "human_rationale": (
+            "Segment differences read as real without an interaction test — may be noise. "
+            "Test interaction and correct for multiple segments before targeting. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test_all, overall_eff, overall_pval, ctr_eff, ctr_pval,
+                      segments, seg_data)
+    return contract, truth, data
+
+
+def gen_winners_curse(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_WINNERS_CURSE) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    n_variants = random.choice([3, 4, 5, 6, 7])
+    rev_eff = round(random.uniform(0.008, 0.015), 4)
+    rev_pval = round(random.uniform(0.040, 0.050), 4)
+    ctr_eff = round(random.uniform(0.005, 0.015), 4)
+    ctr_pval = round(random.uniform(0.08, 0.20), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Champion variant selected as best of {n_variants} tested formats in the "
+            f"same experiment window. Reported primary effect p={rev_pval:.3f} — "
+            f"borderline significance after winner selection."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["winners_curse"],
+        "human_rationale": (
+            f"Borderline winner selected as best of {n_variants} variants — the estimate "
+            f"is upward-biased (winner's curse). True effect likely smaller. Replicate "
+            f"the winner before shipping. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
 GENERATORS = [
     (0.16, "clean_uplift", gen_clean_uplift),
-    (0.09, "guardrail_breach", gen_guardrail_breach),
+    (0.08, "guardrail_breach", gen_guardrail_breach),
     (0.07, "practically_small", gen_practically_small),
-    (0.055, "segment_conflict", gen_segment_conflict),
-    (0.055, "long_term_reversal", gen_long_term_reversal),
-    (0.055, "novelty_effect", gen_novelty_effect),
-    (0.045, "simpson_paradox", gen_simpson_paradox),
-    (0.045, "multiple_comparisons", gen_multiple_comparisons),
+    (0.05, "segment_conflict", gen_segment_conflict),
+    (0.05, "long_term_reversal", gen_long_term_reversal),
+    (0.05, "novelty_effect", gen_novelty_effect),
+    (0.04, "simpson_paradox", gen_simpson_paradox),
+    (0.04, "multiple_comparisons", gen_multiple_comparisons),
     (0.025, "underpowered", gen_underpowered),
-    (0.035, "srm", gen_srm),
-    (0.035, "peeking", gen_peeking),
+    (0.03, "srm", gen_srm),
+    (0.03, "peeking", gen_peeking),
     (0.025, "longterm_value", gen_longterm_value),
-    (0.035, "interference", gen_interference),
-    (0.035, "ratio_metric", gen_ratio_metric),
+    (0.03, "interference", gen_interference),
+    (0.03, "ratio_metric", gen_ratio_metric),
     (0.025, "posttreatment_selection", gen_posttreatment),
-    (0.035, "twyman", gen_twyman),
-    (0.035, "dilution", gen_dilution),
-    (0.035, "seasonality", gen_seasonality),
-    (0.035, "unit_randomization", gen_unit_randomization),
-    (0.035, "contamination", gen_contamination),
-    (0.035, "bots", gen_bots),
+    (0.03, "twyman", gen_twyman),
+    (0.03, "dilution", gen_dilution),
+    (0.03, "seasonality", gen_seasonality),
+    (0.03, "unit_randomization", gen_unit_randomization),
+    (0.03, "contamination", gen_contamination),
+    (0.03, "bots", gen_bots),
+    (0.03, "harking", gen_harking),
+    (0.03, "heterogeneity", gen_heterogeneity),
+    (0.025, "winners_curse", gen_winners_curse),
 ]
 
 
