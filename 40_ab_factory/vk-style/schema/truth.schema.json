@@ -37,7 +37,10 @@
           "longterm_value",
           "interference",
           "ratio_metric",
-          "posttreatment_selection"
+          "posttreatment_selection",
+          "twyman",
+          "dilution",
+          "seasonality"
         ]
       }
     },

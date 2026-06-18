@@ -21,6 +21,9 @@ Distribution (of N cases):
    5%  marketplace interference → investigate
    5%  ratio metric stats     → investigate
    3%  post-treatment selection → do_not_ship
+   4%  Twyman's law (implausible lift) → investigate
+   4%  exposure dilution (ITT)       → investigate
+   4%  seasonality / promo period    → investigate
 
 Usage:
   python3 generate_cases.py --n 300
@@ -141,6 +144,24 @@ TITLES_POSTTREATMENT = [
     "Clicker-only conversion test",
     "Engaged cohort outcome analysis",
     "Feature-adopter performance readout",
+]
+TITLES_TWYMAN = [
+    "Revenue surge format test",
+    "Breakthrough monetization rollout",
+    "Step-change ad yield experiment",
+    "Record uplift placement test",
+]
+TITLES_DILUTION = [
+    "Checkout error recovery prompt",
+    "Payment-failure retry banner",
+    "Cart-abandon rescue widget",
+    "Declined-card fallback offer",
+]
+TITLES_SEASONALITY = [
+    "Holiday promo layout test",
+    "Year-end peak format rollout",
+    "Black Friday ad density experiment",
+    "New Year campaign slot test",
 ]
 
 
@@ -1073,22 +1094,181 @@ def gen_posttreatment(case_id: str, idx: int) -> tuple[dict, dict, str]:
     return contract, truth, data
 
 
+def gen_twyman(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_TWYMAN) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    rev_eff = round(random.uniform(0.35, 0.45), 4)
+    rev_pval = round(random.uniform(1e-6, 1e-4), 6)
+    ctr_eff = round(random.uniform(0.08, 0.15), 4)
+    ctr_pval = round(random.uniform(1e-5, 0.001), 6)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Standard {horizon}-day revenue readout. Primary shows large significant "
+            f"uplift (+{rev_eff:.0%}); no product change beyond the tested variant "
+            f"was deployed during the window."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["twyman"],
+        "human_rationale": (
+            f"Effect implausibly large (+{rev_eff:.0%}) — Twyman's law: likely a "
+            f"tracking/logging bug or data artifact, not a real lift. Verify "
+            f"instrumentation before trusting. Investigate, do not ship on its face."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_dilution(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_DILUTION) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    trigger_rate = round(random.uniform(0.05, 0.10), 3)
+    triggered_lift = round(random.uniform(0.12, 0.22), 4)
+    rev_eff = round(triggered_lift * trigger_rate, 4)
+    rev_pval = round(random.uniform(0.08, 0.35), 4)
+    ctr_eff = round(random.uniform(-0.005, 0.008), 4)
+    ctr_pval = round(random.uniform(0.15, 0.60), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Feature triggers only for users hitting the checkout error path "
+            f"(~{trigger_rate:.0%} of assigned users). Analysis is intent-to-treat "
+            f"over the full randomized population — non-triggered users contribute "
+            f"zeros and dilute the measured effect."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": False,
+        "guardrails_ok": True, "key_reasons": ["dilution"],
+        "human_rationale": (
+            f"Feature triggers for ~{trigger_rate:.0%} of users but measured over all — "
+            f"effect diluted to non-significance (ITT {rev_eff:+.1%}, p={rev_pval}). "
+            f"Absence of significance here is not absence of effect. Re-analyze on "
+            f"triggered population. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_seasonality(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_SEASONALITY) + f" (v{idx})"
+    year = random.choice([2024, 2025])
+    if idx % 2 == 0:
+        start = date(year, 12, random.randint(18, 22))
+        end = date(year + 1, 1, random.randint(2, 5))
+        period_label = "holiday peak (Dec–Jan)"
+    else:
+        start = date(year, 11, random.randint(20, 26))
+        end = start + timedelta(days=random.randint(7, 10))
+        period_label = "major promo week (Black Friday / Cyber Monday)"
+    horizon = (end - start).days
+
+    rev_eff = round(random.uniform(0.02, 0.045), 4)
+    rev_pval = round(random.uniform(0.001, 0.025), 4)
+    ctr_eff = round(random.uniform(0.01, 0.03), 4)
+    ctr_pval = round(random.uniform(0.005, 0.04), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Test ran {start} to {end} during {period_label}. Elevated baseline "
+            f"traffic and promo-driven demand — atypical vs normal operating periods."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["seasonality"],
+        "human_rationale": (
+            f"Effect +{rev_eff:.1%} measured during {period_label} — may not generalize "
+            f"to normal periods. Flag and replicate off-peak. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
 GENERATORS = [
-    (0.16, "clean_uplift", gen_clean_uplift),
-    (0.11, "guardrail_breach", gen_guardrail_breach),
-    (0.09, "practically_small", gen_practically_small),
-    (0.07, "segment_conflict", gen_segment_conflict),
-    (0.07, "long_term_reversal", gen_long_term_reversal),
-    (0.07, "novelty_effect", gen_novelty_effect),
-    (0.06, "simpson_paradox", gen_simpson_paradox),
-    (0.06, "multiple_comparisons", gen_multiple_comparisons),
-    (0.04, "underpowered", gen_underpowered),
-    (0.05, "srm", gen_srm),
-    (0.05, "peeking", gen_peeking),
-    (0.04, "longterm_value", gen_longterm_value),
-    (0.05, "interference", gen_interference),
-    (0.05, "ratio_metric", gen_ratio_metric),
+    (0.17, "clean_uplift", gen_clean_uplift),
+    (0.10, "guardrail_breach", gen_guardrail_breach),
+    (0.08, "practically_small", gen_practically_small),
+    (0.06, "segment_conflict", gen_segment_conflict),
+    (0.06, "long_term_reversal", gen_long_term_reversal),
+    (0.06, "novelty_effect", gen_novelty_effect),
+    (0.05, "simpson_paradox", gen_simpson_paradox),
+    (0.05, "multiple_comparisons", gen_multiple_comparisons),
+    (0.03, "underpowered", gen_underpowered),
+    (0.04, "srm", gen_srm),
+    (0.04, "peeking", gen_peeking),
+    (0.03, "longterm_value", gen_longterm_value),
+    (0.04, "interference", gen_interference),
+    (0.04, "ratio_metric", gen_ratio_metric),
     (0.03, "posttreatment_selection", gen_posttreatment),
+    (0.04, "twyman", gen_twyman),
+    (0.04, "dilution", gen_dilution),
+    (0.04, "seasonality", gen_seasonality),
 ]
 
 

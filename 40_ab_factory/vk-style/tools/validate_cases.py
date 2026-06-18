@@ -46,6 +46,7 @@ VALID_REASONS = {
     "overall_positive", "novelty_effect", "simpson_paradox",
     "multiple_comparisons", "underpowered", "srm", "peeking", "longterm_value",
     "interference", "ratio_metric", "posttreatment_selection",
+    "twyman", "dilution", "seasonality",
 }
 
 
