@@ -51,6 +51,7 @@ VALID_REASONS = {
     "harking", "heterogeneity", "winners_curse",
     "cuped_missing", "heavy_tails", "bad_oec",
     "incomplete_cycles", "external_shock", "narrow_generalization",
+    "missing_data", "event_duplication", "logging_bug",
 }
 
 

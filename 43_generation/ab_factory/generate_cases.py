@@ -36,6 +36,9 @@ Distribution (of N cases):
    2%  incomplete weekly cycle            → investigate
    2%  external shock mid-test           → investigate
    2%  narrow population generalization  → investigate
+   2%  missing data / survivorship bias → investigate
+   2%  event duplication (no dedup)     → investigate
+   2%  logging schema mismatch          → investigate
 
 Usage:
   python3 generate_cases.py --n 300
@@ -248,6 +251,24 @@ TITLES_NARROW_GENERALIZATION = [
     "Top-decile activity experiment",
     "Heavy-user monetization test",
     "High-engagement segment pilot",
+]
+TITLES_MISSING_DATA = [
+    "Partial-coverage metrics readout",
+    "Tracking-gap experiment review",
+    "Incomplete event logging test",
+    "Dropped-events analysis pilot",
+]
+TITLES_EVENT_DUPLICATION = [
+    "Retry-heavy client conversion test",
+    "No-dedup event counting experiment",
+    "Client retry inflation pilot",
+    "Raw event stream A/B readout",
+]
+TITLES_LOGGING_BUG = [
+    "SDK v2 rollout experiment",
+    "New logging schema pilot",
+    "Instrumentation upgrade A/B test",
+    "Client SDK migration readout",
 ]
 
 
@@ -2001,37 +2022,185 @@ def gen_narrow_generalization(case_id: str, idx: int) -> tuple[dict, dict, str]:
     return contract, truth, data
 
 
+def gen_missing_data(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_MISSING_DATA) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+    missing_pct = round(random.uniform(0.16, 0.20), 2)
+
+    rev_eff = round(random.uniform(0.025, 0.045), 4)
+    rev_pval = round(random.uniform(0.003, 0.025), 4)
+    ctr_eff = round(random.uniform(0.01, 0.025), 4)
+    ctr_pval = round(random.uniform(0.005, 0.03), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"~{missing_pct:.0%} of test-arm events missing metric values (tracking gap), "
+            f"excluded from analysis."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["missing_data"],
+        "human_rationale": (
+            f"~{missing_pct:.0%} of test events missing and dropped — if missingness "
+            f"correlates with treatment, the surviving sample is biased. Check "
+            f"missingness mechanism before trusting the effect. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_event_duplication(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_EVENT_DUPLICATION) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+
+    rev_eff = round(random.uniform(0.03, 0.05), 4)
+    rev_pval = round(random.uniform(0.002, 0.02), 4)
+    ctr_eff = round(random.uniform(0.01, 0.03), 4)
+    ctr_pval = round(random.uniform(0.005, 0.025), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            "Event dedup not applied; client retries may double-count conversions "
+            "in the test arm."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["event_duplication"],
+        "human_rationale": (
+            "Deduplication not applied — retries may inflate conversions in test. "
+            "Re-measure on deduplicated events before deciding. Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
+def gen_logging_bug(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    title = random.choice(TITLES_LOGGING_BUG) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+    test_ver = random.choice([2, 3])
+
+    rev_eff = round(random.uniform(0.025, 0.05), 4)
+    rev_pval = round(random.uniform(0.002, 0.02), 4)
+    ctr_eff = round(random.uniform(0.01, 0.025), 4)
+    ctr_pval = round(random.uniform(0.005, 0.03), 4)
+
+    base = _build_base_metrics()
+    test = _apply_effect(base, rev_eff, ctr_eff)
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control", "test"],
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [
+            {"name": "ctr", "direction": "up", "max_drop_relative": 0.03},
+        ],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Test arm shipped new SDK; metric logging schema changed "
+            f"(v{test_ver} in test vs v1 in control) mid-experiment."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id, "expected_decision": "investigate",
+        "primary_effect_relative": rev_eff, "is_stat_sig": True,
+        "guardrails_ok": True, "key_reasons": ["logging_bug"],
+        "human_rationale": (
+            f"Test and control use different logging schemas (v{test_ver} vs v1) — "
+            f"metric not comparable across arms. Align instrumentation and re-measure. "
+            f"Investigate."
+        ),
+    }
+
+    data = _csv_rows(case_id, base, test, rev_eff, rev_pval, ctr_eff, ctr_pval)
+    return contract, truth, data
+
+
 GENERATORS = [
-    (0.019, "clean_uplift", gen_clean_uplift),
-    (0.08, "guardrail_breach", gen_guardrail_breach),
-    (0.07, "practically_small", gen_practically_small),
+    (0.001, "clean_uplift", gen_clean_uplift),
+    (0.071, "guardrail_breach", gen_guardrail_breach),
+    (0.061, "practically_small", gen_practically_small),
     (0.05, "segment_conflict", gen_segment_conflict),
     (0.05, "long_term_reversal", gen_long_term_reversal),
     (0.05, "novelty_effect", gen_novelty_effect),
     (0.04, "simpson_paradox", gen_simpson_paradox),
     (0.04, "multiple_comparisons", gen_multiple_comparisons),
     (0.025, "underpowered", gen_underpowered),
-    (0.03, "srm", gen_srm),
-    (0.03, "peeking", gen_peeking),
+    (0.028, "srm", gen_srm),
+    (0.028, "peeking", gen_peeking),
     (0.025, "longterm_value", gen_longterm_value),
-    (0.03, "interference", gen_interference),
-    (0.03, "ratio_metric", gen_ratio_metric),
+    (0.028, "interference", gen_interference),
+    (0.028, "ratio_metric", gen_ratio_metric),
     (0.025, "posttreatment_selection", gen_posttreatment),
-    (0.03, "twyman", gen_twyman),
-    (0.03, "dilution", gen_dilution),
-    (0.03, "seasonality", gen_seasonality),
-    (0.03, "unit_randomization", gen_unit_randomization),
-    (0.03, "contamination", gen_contamination),
-    (0.03, "bots", gen_bots),
-    (0.03, "harking", gen_harking),
-    (0.03, "heterogeneity", gen_heterogeneity),
+    (0.028, "twyman", gen_twyman),
+    (0.028, "dilution", gen_dilution),
+    (0.028, "seasonality", gen_seasonality),
+    (0.028, "unit_randomization", gen_unit_randomization),
+    (0.028, "contamination", gen_contamination),
+    (0.028, "bots", gen_bots),
+    (0.028, "harking", gen_harking),
+    (0.028, "heterogeneity", gen_heterogeneity),
     (0.025, "winners_curse", gen_winners_curse),
     (0.025, "cuped_missing", gen_cuped_missing),
     (0.025, "heavy_tails", gen_heavy_tails),
     (0.025, "bad_oec", gen_bad_oec),
-    (0.022, "incomplete_cycles", gen_incomplete_cycles),
-    (0.022, "external_shock", gen_external_shock),
-    (0.022, "narrow_generalization", gen_narrow_generalization),
+    (0.020, "incomplete_cycles", gen_incomplete_cycles),
+    (0.020, "external_shock", gen_external_shock),
+    (0.020, "narrow_generalization", gen_narrow_generalization),
+    (0.022, "missing_data", gen_missing_data),
+    (0.022, "event_duplication", gen_event_duplication),
+    (0.022, "logging_bug", gen_logging_bug),
 ]
 
 

@@ -52,7 +52,10 @@
           "bad_oec",
           "incomplete_cycles",
           "external_shock",
-          "narrow_generalization"
+          "narrow_generalization",
+          "missing_data",
+          "event_duplication",
+          "logging_bug"
         ]
       }
     },
