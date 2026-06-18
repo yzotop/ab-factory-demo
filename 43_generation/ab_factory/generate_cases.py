@@ -16,7 +16,7 @@ Distribution (of N cases):
    7%  multiple comparisons   → do_not_ship
    5%  underpowered           → investigate
    5%  sample ratio mismatch  → investigate
-   5%  peeking                → do_not_ship
+   5%  peeking                → investigate
    4%  long-term value trap   → do_not_ship
    5%  marketplace interference → investigate
    5%  ratio metric stats     → investigate
@@ -937,12 +937,14 @@ def gen_peeking(case_id: str, idx: int) -> tuple[dict, dict, str]:
     }
 
     truth = {
-        "case_id": case_id, "expected_decision": "do_not_ship",
+        "case_id": case_id, "expected_decision": "investigate",
         "primary_effect_relative": rev_eff, "is_stat_sig": True,
         "guardrails_ok": True, "key_reasons": ["peeking"],
         "human_rationale": (
-            f"Significant +{rev_eff:.1%} after early stop on day {actual_horizon}/{planned_horizon} "
-            f"without multiplicity control — inflated false-positive risk. Do not ship."
+            "Significant effect after early stop without sequential correction — "
+            "false-positive risk inflated. The measurement is compromised but fixable: "
+            "re-run with a sequential design / alpha-spending. Investigate, do not judge "
+            "the feature on this data."
         ),
     }
 
