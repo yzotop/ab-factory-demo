@@ -82,10 +82,10 @@
     }
   ],
   "artifacts": {
-    "reader_summary": "# Reader Summary — case_078\n\n**Segment-specific pricing experiment (v78)**\n\n| Field | Value |\n|---|---|\n| Primary metric | revenue (up) |\n| MDE | 1.0% |\n| Period | 2025-03-05 → 2025-03-19 (14d) |\n| Variants | control, test |\n| Segments | news, dzen |\n| Total users | 936,443 |\n| Effect (headline) | -0.1% |\n| p-value | 0.432 |\n| Guardrails | 1 defined |\n",
+    "reader_summary": "# Reader Summary — case_078\n\n**Segment-specific pricing experiment (v78)**\n\n| Field | Value |\n|---|---|\n| Primary metric | revenue (up) |\n| MDE | 1.0% |\n| Period | 2025-03-05 → 2025-03-19 (14d) |\n| Variants | control, test |\n| Segments | editorial, algorithmic |\n| Total users | 936,443 |\n| Effect (headline) | -0.1% |\n| p-value | 0.432 |\n| Guardrails | 1 defined |\n",
     "stats_checks": "# Stats Checks — case_078\n\nResult: **ALL PASS**\n\n| Check | Pass | Detail |\n|---|---|---|\n| required_columns | yes | all present |\n| no_empty_rows | yes | ok |\n| variants_per_segment | yes | ok |\n| p_values_in_range | yes | ok |\n| effects_reasonable | yes | ok |\n",
-    "decision_md": "# Decision — case_078\n\n## Verdict: **INVESTIGATE**\nConfidence: **0.05**\n\nReasons: segment_conflict, not_significant\n\nPolicy: ab_factory_policy v1.0.0\n\n## Key signals\n\n- Primary metric: revenue\n- Uplift: -0.07%\n- p-value: 0.432\n- Significant: no (alpha=0.05)\n- Above practical threshold (0.5%): no\n- Guardrails: all ok\n- Segment conflict: yes\n- Long-term reversal: no\n\n## Segments\n\n| Segment | Effect | p-value | Significant |\n|---|---|---|---|\n| news | +3.9% | 0.0064 | yes |\n| dzen | -2.2% | 0.0185 | yes |\n\n## Confidence\n\nScore: -3.0 → sigmoid → **0.0474**\n\n| Factor | Weight |\n|---|---|\n| primary_uplift_small | -0.8 |\n| not_significant | -0.7 |\n| segment_conflict | -0.9 |\n| evidence_sparse | -0.6 |\n\nMissing evidence: guardrail:retention, long_term\n",
-    "viz": "# Metric Comparison — case_078\n\n## Overall\n\n| Metric | control | test | Δ relative | p-value |\n|---|---|---|---|---|\n| **revenue** | 1,904,521 | 1,903,188 | -0.1% | 0.432 |\n| ctr | 6.64% | 6.54% | -1.5% | 0.155 |\n| cpm | 258.74 | 258.56 | — | — |\n| fillrate | 79.20% | 78.90% | — | — |\n| shows | 25,709,073 | 25,696,835 | — | — |\n\n## Segment: dzen\n\n| Metric | control | test | Δ relative | p-value |\n|---|---|---|---|---|\n| **revenue** | 952,260 | 931,501 | -2.2% | 0.0185 |\n| ctr | 6.64% | 6.54% | -1.5% | 0.155 |\n| cpm | 258.74 | 253.10 | — | — |\n| fillrate | 79.20% | 79.40% | — | — |\n| shows | 12,854,536 | 12,864,450 | — | — |\n\n## Segment: news\n\n| Metric | control | test | Δ relative | p-value |\n|---|---|---|---|---|\n| **revenue** | 952,260 | 989,780 | +3.9% | 0.0064 |\n| ctr | 6.64% | 6.54% | -1.5% | 0.155 |\n| cpm | 258.74 | 268.93 | — | — |\n| fillrate | 79.20% | 78.80% | — | — |\n| shows | 12,854,536 | 12,859,563 | — | — |\n",
+    "decision_md": "# Decision — case_078\n\n## Verdict: **INVESTIGATE**\nConfidence: **0.05**\n\nReasons: segment_conflict, not_significant\n\nPolicy: ab_factory_policy v1.0.0\n\n## Key signals\n\n- Primary metric: revenue\n- Uplift: -0.07%\n- p-value: 0.432\n- Significant: no (alpha=0.05)\n- Above practical threshold (0.5%): no\n- Guardrails: all ok\n- Segment conflict: yes\n- Long-term reversal: no\n\n## Segments\n\n| Segment | Effect | p-value | Significant |\n|---|---|---|---|\n| editorial | +3.9% | 0.0064 | yes |\n| algorithmic | -2.2% | 0.0185 | yes |\n\n## Confidence\n\nScore: -3.0 → sigmoid → **0.0474**\n\n| Factor | Weight |\n|---|---|\n| primary_uplift_small | -0.8 |\n| not_significant | -0.7 |\n| segment_conflict | -0.9 |\n| evidence_sparse | -0.6 |\n\nMissing evidence: guardrail:retention, long_term\n",
+    "viz": "# Metric Comparison — case_078\n\n## Overall\n\n| Metric | control | test | Δ relative | p-value |\n|---|---|---|---|---|\n| **revenue** | 1,904,521 | 1,903,188 | -0.1% | 0.432 |\n| ctr | 6.64% | 6.54% | -1.5% | 0.155 |\n| cpm | 258.74 | 258.56 | — | — |\n| fillrate | 79.20% | 78.90% | — | — |\n| shows | 25,709,073 | 25,696,835 | — | — |\n\n## Segment: algorithmic\n\n| Metric | control | test | Δ relative | p-value |\n|---|---|---|---|---|\n| **revenue** | 952,260 | 931,501 | -2.2% | 0.0185 |\n| ctr | 6.64% | 6.54% | -1.5% | 0.155 |\n| cpm | 258.74 | 253.10 | — | — |\n| fillrate | 79.20% | 79.40% | — | — |\n| shows | 12,854,536 | 12,864,450 | — | — |\n\n## Segment: editorial\n\n| Metric | control | test | Δ relative | p-value |\n|---|---|---|---|---|\n| **revenue** | 952,260 | 989,780 | +3.9% | 0.0064 |\n| ctr | 6.64% | 6.54% | -1.5% | 0.155 |\n| cpm | 258.74 | 268.93 | — | — |\n| fillrate | 79.20% | 78.80% | — | — |\n| shows | 12,854,536 | 12,859,563 | — | — |\n",
     "decision_json": {
       "case_id": "case_078",
       "decision": "investigate",
@@ -136,12 +136,12 @@
         ]
       },
       "segments_summary": {
-        "news": {
+        "editorial": {
           "effect": 0.0394,
           "p_value": 0.0064,
           "significant": true
         },
-        "dzen": {
+        "algorithmic": {
           "effect": -0.0218,
           "p_value": 0.0185,
           "significant": true

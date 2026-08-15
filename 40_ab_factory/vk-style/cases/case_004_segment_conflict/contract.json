@@ -1,10 +1,16 @@
 {
   "case_id": "case_004",
-  "title": "Fullscreen ad format: segment conflict (news vs dzen)",
+  "title": "Fullscreen ad format: segment conflict (editorial vs algorithmic)",
   "domain": "ads_monetization",
   "unit": "user",
-  "variants": ["control", "test"],
-  "segments": ["news", "dzen"],
+  "variants": [
+    "control",
+    "test"
+  ],
+  "segments": [
+    "editorial",
+    "algorithmic"
+  ],
   "time": {
     "start_date": "2025-05-01",
     "end_date": "2025-05-14",
@@ -16,8 +22,16 @@
     "mde_relative": 0.01
   },
   "guardrails": [
-    { "name": "ctr", "direction": "up", "max_drop_relative": 0.03 },
-    { "name": "dau", "direction": "neutral", "max_drop_relative": 0.02 }
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    },
+    {
+      "name": "dau",
+      "direction": "neutral",
+      "max_drop_relative": 0.02
+    }
   ],
   "stats": {
     "method": "delta",

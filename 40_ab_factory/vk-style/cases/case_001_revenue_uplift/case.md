@@ -3,7 +3,7 @@
 ## Context
 
 The ads monetization team raised the AutoCPM bid floor by 15% for all ad placements
-across news and dzen feeds. The hypothesis: a higher floor filters out low-value bids,
+across editorial and algorithmic feeds. The hypothesis: a higher floor filters out low-value bids,
 increasing average CPM and total revenue without harming user engagement.
 
 ## What changed

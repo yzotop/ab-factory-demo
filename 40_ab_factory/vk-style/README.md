@@ -35,7 +35,7 @@ Each case is a self-contained folder with a contract, data, narrative, and groun
 | 001 | Clean revenue uplift | **ship** | +2.1%, p=0.01, guardrails ok |
 | 002 | Revenue up, CTR down | **do_not_ship** | CTR −4% breaches 3% guardrail |
 | 003 | Stat sig, practically tiny | **do_not_ship** | +0.3% < 0.5% practical threshold |
-| 004 | Segment conflict | **investigate** | news +3% vs dzen −2%, Simpson's paradox |
+| 004 | Segment conflict | **investigate** | editorial +3% vs algorithmic −2%, Simpson's paradox |
 | 005 | Long-term reversal | **do_not_ship** | Week 1–2 +2%, week 3–4 −1.5% |
 
 ## Contract v1 fields
