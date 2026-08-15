@@ -1,115 +1,175 @@
-# AB Factory Demo
-Status: parked
+# AB Factory — корпус ошибок интерпретации A/B-тестов
 
-Live demo: https://yzotop.github.io/ab-factory-demo/
+660 синтетических кейсов A/B-экспериментов. В каждый вшита ровно одна ошибка
+интерпретации — подглядывание, перекос сплита, парадокс Симпсона, тяжёлые
+хвосты, боты, дефект логирования. К каждому кейсу приложен вычисленный
+эталонный вердикт.
 
-A deterministic, stdlib-only agent system for evaluating A/B test decisions.
+Детерминированное решающее правило (guardrails → значимость → практический
+порог) даёт **100% верных вердиктов** на учебном наборе из 100 кейсов с пятью
+механизмами — и **42.7%** на основном корпусе из 660 кейсов с 33 механизмами.
+**20 механизмов из 33 оно не детектирует вообще** — ноль правильных ответов на
+их кейсах.
 
-Four agents (reader → stats → decision → viz) process synthetic A/B test cases
-through a policy-driven decision framework with confidence scoring.
-No pip dependencies — runs on any machine with Python 3.10+ and bash.
+Провал не в арифметике. Правило уверенно ловит ловушки, которые сводятся к
+сравнению двух чисел с порогом, и слепо там, где вывод нужно сделать из
+обстоятельств эксперимента: тест остановили на третий день; сплит объявлен
+50/50, а по факту 51.4/48.6; метрика — отношение, а рандомизация по
+пользователю. Это и есть предмет корпуса.
 
-## What's inside
+Полный разбор всех 33 механизмов — что заложено в данные, как это выглядит
+аналитику, чем детектируется и чем грозит — в **[TRAPS.md](TRAPS.md)**. Он
+читается как справочник, без запуска кода.
 
-```
-40_ab_factory/   Schemas, validation tools, synthetic case output
-41_agents/       4 deterministic agents + policy.json + trace protocol
-42_workflows/    Orchestrator, run index, timeline, selfcheck
-43_generation/   Synthetic case generator (seeded, 5 scenario types)
-docs/            GitHub Pages site
-tools/           Corpus and replay index builders
-```
+## Что корпус говорит о себе
 
-## Quickstart
+Два свойства, которые нужно знать **до** того, как на корпусе что-то измерять.
+Оба обнаружены на нём же и оба меняют интерпретацию любых результатов.
+
+### 129 кейсов из 660 проверяют чтение, а не рассуждение
+
+**Что обнаружено.** В части кейсов механизм назван прямым текстом в поле
+`notes` внутри контракта — а `notes` уходит в промпт модели наравне с таблицей
+результатов. Решать там нечего: достаточно прочитать предложение.
+
+**Каким экспериментом.** Взяты 60 кейсов, две модели, два прогона. Отличался
+ровно один блок промпта: в первом арме `notes` были на месте, во втором блок
+убран целиком, весь остальной текст побайтово тот же. Различие зафиксировано
+разными `prompt_sha256` в манифестах прогонов. Всего 240 вызовов.
+
+**Какие цифры.**
+
+| | `notes` убраны | `notes` на месте |
+|---|---|---|
+| Доля «не катить» | 0.50 | **1.00** |
+| Ложная уверенность | **0.50** | 0.00 |
+| Назвали механизм верно | 0.00 | **0.98** |
+| Средняя заявленная уверенность | 0.87 / 0.92 | 0.77 / 0.84 |
+
+Обе модели повели себя одинаково. Без подсказки они катят кейс в половине
+случаев и делают это уверенно; с подсказкой — не катят никогда.
+
+**Сколько таких кейсов.** Перепись по всему опубликованному корпусу: механизм
+назван в `notes` у **129 кейсов из 660**, и это **шесть механизмов целиком**:
+
+| Механизм | Кейсов |
+|---|---|
+| `novelty_effect` | 33 из 33 |
+| `multiple_comparisons` | 26 из 26 |
+| `ratio_metric` | 18 из 18 |
+| `srm` | 18 из 18 |
+| `contamination` | 18 из 18 |
+| `underpowered` | 16 из 16 |
+
+**Что из этого следует для вас.** Если вы меряете на этом корпусе способность
+рассуждать — исключите эти 129 кейсов или уберите блок `notes` из входа.
+Иначе вы измерите внимательность к тексту, а она даёт почти стопроцентный
+результат и маскирует всё остальное. Метрика, построенная на таких кейсах без
+контроля, покажет высокую «честность» модели, которой нет.
+
+Обратная сторона: это готовый инструмент. Один переключатель на входе даёт
+чистый контрольный эксперимент — сравнить арм с подсказкой и без неё на одних
+и тех же кейсах.
+
+Весь эксперимент разобран подробно — с контролем, с проверкой промптов по
+хешу и с тем, что половина блока честности не различала вообще ничего, —
+в статье [«Проба на честность измеряла чтение
+подсказки»](https://davydov.my/workspace/articles/honesty-probe-hint/).
+
+### В 66 кейсах решающей улики нет в таблице результатов
+
+`long_term_reversal` (33 кейса) и `novelty_effect` (33) устроены так, что по
+числам их распознать **нельзя**. В `data.csv` там две строки, контроль и тест,
+без разбивки по неделям и без длинного горизонта. Агрегат близок к нулю и не
+значим — и это неотличимо от «эффекта не было».
+
+Улика живёт только в текстовом описании: «28-дневный холдаут, недельный разрез
+показывает разворот после второй недели». Уберите `notes` — и кейс становится
+неразрешимым в принципе, а не сложным.
+
+Практическое следствие: эти 66 кейсов нельзя скорить вместе с остальными. Либо
+считайте их отдельной популяцией, либо исключайте. Именно так поступает
+companion-бенчмарк — он выделяет их в отдельный набор и не смешивает с общей
+точностью.
+
+## Что внутри
+
+**Два корпуса.** По одному вшитому механизму на кейс:
+
+- `40_ab_factory/vk-style/cases_mvp_v2/` — **660 кейсов, 33 механизма**, основной;
+- `40_ab_factory/vk-style/cases_auto/` — **100 кейсов, 5 механизмов**, быстрый
+  пример и учебный набор.
+
+**Как устроен кейс.** Папка из трёх файлов:
+
+- `contract.json` — спецификация эксперимента: праймари-метрика и направление,
+  guardrails, α, практический порог, окно, единица рандомизации, сегменты и
+  текстовое поле `notes`;
+- `data.csv` — сводная таблица по вариантам и сегментам с уже вычисленными
+  `effect_relative` и `p_value` (это summary, а не сырые события);
+- `truth.json` — эталонный вердикт (`ship` / `do_not_ship` / `investigate`),
+  метки механизма в `key_reasons` и человекочитаемое обоснование.
+
+**Откуда эталон.** Вердикт вычислен по явной организационной политике
+(`41_agents/ab_factory/policy.json`): пороги заданы, приоритет правил
+детерминирован, версия политики зафиксирована. Генератор пишет `truth.json`
+вместе с данными. То есть «правильный ответ» — это решение заданного правила на
+заданных числах, а не человеческое суждение и не исход в проде.
+
+## Воспроизведение
+
+Нужен Python 3.10+ и bash. Зависимостей через pip нет.
 
 ```bash
-# 1. Generate 100 synthetic cases
-./43_generation/ab_factory/run.sh --n 100
-
-# 2. Run agents on all synthetic cases
 cd 42_workflows/ab_factory
-python3 run_case.py --all --root ../../40_ab_factory/vk-style/cases_auto
 
-# 3. Verify 100% accuracy
+# 100 кейсов, 5 механизмов → 100.0%
 python3 selfcheck.py --auto
 
-# 4. Build public corpus index
-cd ../..
-python3 tools/build_corpus_index.py
-
-# 5. Build case replays (agent timelines + artifacts)
-python3 tools/build_replays_index.py
-
-# 6. Preview locally
-cd docs && python3 -m http.server 8000
+# 660 кейсов, 33 механизма → 42.7% (282 из 660)
+python3 selfcheck.py --root ../../40_ab_factory/vk-style/cases_mvp_v2
 ```
 
-### Generate at scale
+Пересобрать корпус с нуля (детерминированно, `seed=42`):
 
 ```bash
-# 300 cases
-./43_generation/ab_factory/run.sh --n 300
-
-# Custom seed for different distributions
-./43_generation/ab_factory/run.sh --n 100 --seed 123
+./43_generation/ab_factory/run.sh --n 660
 ```
 
-## Case distribution (synthetic)
+Прогоны языковых моделей живут в отдельном репозитории
+[ab-decisions-bench](https://github.com/yzotop/ab-decisions-bench): он читает
+этот корпус как вход, а `truth.json` и `policy.json` использует только для
+подсчёта очков после получения ответа — в промпт они не попадают.
 
-| Scenario | Share | Expected decision |
-|---|---|---|
-| Clean uplift | 30% | ship |
-| Guardrail breach | 20% | do_not_ship |
-| Practically small effect | 20% | do_not_ship |
-| Segment conflict | 15% | investigate |
-| Long-term reversal | 15% | do_not_ship |
+## Ограничения
 
-## Decision + Confidence
+- **Данные синтетические.** Кейсы сгенерированы, а не собраны из реальных
+  экспериментов. Числа правдоподобны и внутренне согласованы, но это не
+  наблюдения из прода.
+- **Эталон вычислен по политике, а не по исходу.** Он объективен и
+  воспроизводим, но зависит от порогов и приоритетов в `policy.json`. Другая
+  политика дала бы другой эталон на части кейсов.
+- **Механизм на кейс — один.** Реальные эксперименты часто несут несколько
+  одновременно; здесь это намеренно разделено ради чистоты измерения.
+- **`p_value` заданы, а не пересчитаны.** Значимость лежит в `data.csv` как
+  вход. Корпус проверяет интерпретацию, а не арифметику статистических тестов.
+- **Домен один.** Все 660 кейсов — рекламная монетизация. Формулировки метрик
+  и guardrails за пределами этого домена не проверялись.
 
-Each case produces a `decision.json` with:
-- **decision**: ship / do_not_ship / investigate
-- **confidence**: sigmoid-based score (0.01–0.99)
-- **reasons**: machine-readable tags
-- **signals**: primary uplift, p-value, guardrails, segments, reversal
-- **policy reference**: version-tracked organizational policy
+**Чего корпус не доказывает.** Он не измеряет качество моделей на реальных
+данных, не ранжирует вендоров и не утверждает, что политика в `policy.json`
+правильная. Он показывает одно, но воспроизводимо: там, где ошибка
+интерпретации вшита в кейс, детерминированное правило проходит мимо —
+и проходит уверенно.
 
-## Run artifacts
+## Лицензия
 
-Each run creates `runs/<run_id>/`:
-- `final_report.md` — assembled decision + reader + stats + viz
-- `decision.json` — structured output with confidence
-- `traces.jsonl` — full agent trace log
-- `timeline.md` — grouped agent timeline
+- Код — [MIT](LICENSE).
+- Корпус и `TRAPS.md` — [CC BY 4.0](LICENSE-DATA): при переиспользовании
+  укажите автора.
 
-Global `runs/index.jsonl` — append-only decision log across all runs.
+## Автор
 
-## GitHub Pages site
+Александр Давыдов — [davydov.my](https://davydov.my)
 
-The `docs/` folder contains a static site for GitHub Pages.
-
-To enable Pages: **repo Settings → Pages → Source: Deploy from branch → Branch: main, folder: /docs**.
-
-Pages include:
-- **Landing** — hero + feature cards
-- **Corpus Explorer** — browse 100 synthetic cases with filtering, sorting, per-case charts, and agent replay viewer
-- **Decision Engine** — interactive stop-rule pipeline walkthrough on any corpus case
-- **Trace Viewer** — swim-lane timeline of the agent pipeline per case
-
-### Rebuild public data
-
-```bash
-python3 tools/build_corpus_index.py
-python3 tools/build_replays_index.py
-cd docs && python3 -m http.server 8000
-```
-
-## Requirements
-
-- macOS / Linux
-- Python 3.10+
-- bash
-- No pip dependencies
-
-## License
-
-Internal demo — not for redistribution.
+Для цитирования — [CITATION.cff](CITATION.cff).
