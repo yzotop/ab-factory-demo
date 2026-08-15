@@ -28,7 +28,7 @@
       "agent": "reader",
       "step": "done",
       "event_type": "artifact_written",
-      "message": "/Users/involute/projects/ab-factory-demo/42_workflows/ab_factory/runs/20260218_090236_e8cc/artifacts/reader_summary.md"
+      "message": "reader_summary.md"
     },
     {
       "t_ms": 0,
@@ -70,7 +70,7 @@
       "agent": "viz",
       "step": "done",
       "event_type": "artifact_written",
-      "message": "/Users/involute/projects/ab-factory-demo/42_workflows/ab_factory/runs/20260218_090236_e8cc/artifacts/viz.md"
+      "message": "viz.md"
     },
     {
       "t_ms": 1,

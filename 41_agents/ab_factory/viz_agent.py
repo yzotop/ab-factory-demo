@@ -105,8 +105,9 @@ def run(case_dir: Path, out_dir: Path, trace_path: Path, run_id: str) -> dict:
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(L) + "\n")
 
+    # Имя файла, а не полный путь — см. тот же комментарий в reader_agent.
     emit(trace_path, run_id=run_id, case_id=case_id, agent=AGENT,
-         step="done", event="artifact_written", message=str(out_path),
+         step="done", event="artifact_written", message=out_path.name,
          payload={"segments": len(segments_in_data), "metrics": len(metrics)})
 
     return {"segments": segments_in_data, "metrics": metrics}
