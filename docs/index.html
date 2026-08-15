@@ -27,7 +27,12 @@
     max-width: 720px; margin: 0 auto; padding: 120px 24px 80px; text-align: center;
   }
   .hero h1 { font-size: 48px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
-  .hero .subtitle { font-size: 20px; color: var(--muted); max-width: 480px; margin: 0 auto 40px; }
+  /* 560, а не 480: в подзаголовке теперь утверждение из трёх частей,
+     в узкой колонке оно вставало башней в семь строк. */
+  .hero .subtitle { font-size: 20px; color: var(--muted); max-width: 560px; margin: 0 auto 40px; }
+  .hero .subtitle strong { color: var(--fg); font-weight: 600; }
+  .hero .subtitle .sub-lead { display: block; margin-bottom: 14px; }
+  .hero .subtitle .sub-close { display: block; margin-top: 14px; }
   .buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
   .btn {
     display: inline-block; padding: 14px 28px; border-radius: 980px;
@@ -145,8 +150,11 @@
 <div class="hero">
   <h1 data-t="title">AB Factory</h1>
   <p class="subtitle" data-t="subtitle">
-    Standardize A/B decisions with deterministic rules, explain WHY each verdict happens,
-    and show WHAT would change the outcome.
+    <span class="sub-lead"><strong>A/B decisions are a solved problem — until they aren't.</strong></span>
+    A deterministic rule gets <strong>100%</strong> of verdicts right on 100 cases built from
+    five textbook mechanisms. On 660 cases built from 33, it gets <strong>42.7%</strong> —
+    and 20 of those mechanisms it never catches once.
+    <span class="sub-close">The corpus that breaks it — and the tools to see exactly where.</span>
   </p>
   <div class="buttons">
     <a href="corpus.html" class="btn btn-primary" data-t="btn_corpus">Corpus Explorer &rarr;</a>
@@ -185,7 +193,7 @@
   <div class="card"><div class="number">4</div><h3 data-t="c_agents">Agents</h3><p data-t="c_agents_d">Reader, Stats, Decision, Viz — each modular and traceable.</p></div>
   <div class="card"><div class="number">6</div><h3 data-t="c_stoprule">Stop-Rule Engine</h3><p data-t="c_stoprule_d">Deterministic decision pipeline. First triggered rule defines the verdict.</p><div class="stop-flow" data-t="c_stoprule_flow">Guardrails &rarr; Reversal &rarr; Segment &rarr; Significance &rarr; Practical &rarr; Ship</div><p class="stop-caption" data-t="c_stoprule_out">Output: ship / do_not_ship / investigate</p><p class="stop-caption" data-t="c_stoprule_cap">Safety first. Hard blockers evaluated before statistical uplift.</p><p class="stop-caption" data-t="c_stoprule_legend">Rule order matters: first STOP decides.</p><div class="stop-links"><a href="policy.html" data-t="c_stoprule_lp">Open Policy &rarr;</a><a href="corpus.html" data-t="c_stoprule_lc">Browse Corpus &rarr;</a></div></div>
   <a href="corpus.html" class="card card-link" id="corpus-card"><div class="number" id="corpus-total">100</div><h3><span data-t="c_corpus">Corpus cases</span> <span class="live-badge" data-t="c_live">Live</span></h3><p data-t="c_corpus_d">Evaluated by the four-agent pipeline.</p></a>
-  <div class="card"><div class="number">100%</div><h3 data-t="c_selfcheck">Selfcheck accuracy</h3><p data-t="c_selfcheck_d">Every agent decision matches ground truth on all cases, every time.</p></div>
+  <div class="card"><div class="number">100&thinsp;&rarr;&thinsp;42.7%</div><h3 data-t="c_selfcheck">Accuracy, and where it ends</h3><p data-t="c_selfcheck_d">100% on the 100-case set with five mechanisms. <strong>42.7%</strong> on 660 cases with 33 — and 20 of those 33 it never catches once. Same rule, harder corpus.</p></div>
   <div class="card"><div class="number">0</div><h3 data-t="c_deps">Dependencies</h3><p data-t="c_deps_d">Pure Python stdlib. No pip install, no Docker, no API keys.</p></div>
   <div class="card"><div class="number">&sigma;</div><h3 data-t="c_conf">Confidence model</h3><p data-t="c_conf_d">Linear score &rarr; sigmoid. Every decision includes an explainable confidence.</p></div>
 </div>
@@ -280,6 +288,18 @@
       <p data-t="ob_s2_d">See which rule stopped the rollout and why.</p>
       <a href="policy.html" data-t="ob_s2_l">Explain in Policy &rarr;</a>
     </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <h4 data-t="ob_s3_t">Feed it your own numbers</h4>
+      <p data-t="ob_s3_d">Type control and test results — users, revenue, CTR, CPM, fill rate — and watch the agents decide live. Five ready scenarios included.</p>
+      <a href="pipeline.html" data-t="ob_s3_l">Open Pipeline &rarr;</a>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <h4 data-t="ob_s4_t">Change the policy, change the verdict</h4>
+      <p data-t="ob_s4_d">Switch between Balanced, Conservative, Growth and Safety-first, or move the thresholds by hand. The same case flips verdict — the ground truth here is a policy, not a fact.</p>
+      <a href="policy.html" data-t="ob_s4_l">Adjust thresholds &rarr;</a>
+    </div>
   </div>
 </div>
 
@@ -302,7 +322,7 @@ cd ../.. && python3 tools/build_corpus_index.py</pre>
   var LANG=params.get('lang')==='ru'?'ru':'en';
   var T={
     title:{ru:'AB Factory'},
-    subtitle:{ru:'\u0421\u0442\u0430\u043d\u0434\u0430\u0440\u0442\u0438\u0437\u0443\u0439\u0442\u0435 A/B-\u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0434\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0441\u0442\u0438\u0447\u043d\u044b\u043c\u0438 \u043f\u0440\u0430\u0432\u0438\u043b\u0430\u043c\u0438, \u043f\u043e\u043d\u0438\u043c\u0430\u0439\u0442\u0435 \u041f\u041e\u0427\u0415\u041c\u0423 \u043f\u0440\u0438\u043d\u044f\u0442 \u0432\u0435\u0440\u0434\u0438\u043a\u0442 \u0438 \u0427\u0422\u041e \u043d\u0443\u0436\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u0434\u043b\u044f \u0434\u0440\u0443\u0433\u043e\u0433\u043e \u0438\u0441\u0445\u043e\u0434\u0430.'},
+    subtitle:{ru:'<span class="sub-lead"><strong>\u0420\u0435\u0448\u0435\u043d\u0438\u044f \u043f\u043e A/B \u043a\u0430\u0436\u0443\u0442\u0441\u044f \u0440\u0435\u0448\u0451\u043d\u043d\u043e\u0439 \u0437\u0430\u0434\u0430\u0447\u0435\u0439 \u2014 \u043f\u043e\u043a\u0430 \u043d\u0435 \u043f\u0435\u0440\u0435\u0441\u0442\u0430\u044e\u0442.</strong></span>\u0414\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043f\u0440\u0430\u0432\u043e \u0432 <strong>100%</strong> \u0441\u043b\u0443\u0447\u0430\u0435\u0432 \u043d\u0430 100 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 \u043f\u044f\u0442\u044c\u044e \u0445\u0440\u0435\u0441\u0442\u043e\u043c\u0430\u0442\u0438\u0439\u043d\u044b\u043c\u0438 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430\u043c\u0438. \u041d\u0430 660 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c\u044e \u0442\u0440\u0435\u043c\u044f \u2014 \u0432 <strong>42.7%</strong>, \u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432 \u043e\u043d\u043e \u043d\u0435 \u043b\u043e\u0432\u0438\u0442 \u043d\u0438 \u0440\u0430\u0437\u0443.<span class="sub-close">\u041a\u043e\u0440\u043f\u0443\u0441, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u0435\u0433\u043e \u043b\u043e\u043c\u0430\u0435\u0442, \u0438 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b, \u0447\u0442\u043e\u0431\u044b \u0443\u0432\u0438\u0434\u0435\u0442\u044c, \u0433\u0434\u0435 \u0438\u043c\u0435\u043d\u043d\u043e.</span>'},
     btn_corpus:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441 \u043a\u0435\u0439\u0441\u043e\u0432 \u2192'},
     btn_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2192'},
     nav_corpus:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441'},nav_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c'},
@@ -323,8 +343,14 @@ cd ../.. && python3 tools/build_corpus_index.py</pre>
     run_title:{ru:'\u0417\u0430\u043f\u0443\u0441\u043a \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e'},
     run_sub:{ru:'\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u043e\u0440\u043f\u0443\u0441 \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e (\u0442\u043e\u043b\u044c\u043a\u043e stdlib).'},
     run_copy:{ru:'\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c'},
-    c_selfcheck:{ru:'\u0422\u043e\u0447\u043d\u043e\u0441\u0442\u044c \u0441\u0435\u043b\u0444\u0447\u0435\u043a\u0430'},
-    c_selfcheck_d:{ru:'\u041a\u0430\u0436\u0434\u043e\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u0430\u0433\u0435\u043d\u0442\u0430 \u0441\u043e\u0432\u043f\u0430\u0434\u0430\u0435\u0442 \u0441 ground truth \u043d\u0430 \u0432\u0441\u0435\u0445 \u043a\u0435\u0439\u0441\u0430\u0445.'},
+    ob_s3_t:{ru:'\u041f\u043e\u0434\u0441\u0442\u0430\u0432\u044c\u0442\u0435 \u0441\u0432\u043e\u0438 \u0447\u0438\u0441\u043b\u0430'},
+    ob_s3_d:{ru:'\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044f \u0438 \u0442\u0435\u0441\u0442\u0430 \u2014 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0438, \u0432\u044b\u0440\u0443\u0447\u043a\u0430, CTR, CPM, fill rate \u2014 \u0438 \u0441\u043c\u043e\u0442\u0440\u0438\u0442\u0435, \u043a\u0430\u043a \u0430\u0433\u0435\u043d\u0442\u044b \u0440\u0435\u0448\u0430\u044e\u0442 \u0432 \u0440\u0435\u0430\u043b\u044c\u043d\u043e\u043c \u0432\u0440\u0435\u043c\u0435\u043d\u0438. \u041f\u044f\u0442\u044c \u0433\u043e\u0442\u043e\u0432\u044b\u0445 \u0441\u0446\u0435\u043d\u0430\u0440\u0438\u0435\u0432 \u0432 \u043a\u043e\u043c\u043f\u043b\u0435\u043a\u0442\u0435.'},
+    ob_s3_l:{ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c Pipeline \u2192'},
+    ob_s4_t:{ru:'\u0421\u043c\u0435\u043d\u0438\u0442\u0435 \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0443 \u2014 \u0441\u043c\u0435\u043d\u0438\u0442\u0441\u044f \u0432\u0435\u0440\u0434\u0438\u043a\u0442'},
+    ob_s4_d:{ru:'\u041f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0439\u0442\u0435\u0441\u044c \u043c\u0435\u0436\u0434\u0443 Balanced, Conservative, Growth \u0438 Safety-first \u0438\u043b\u0438 \u0434\u0432\u0438\u0433\u0430\u0439\u0442\u0435 \u043f\u043e\u0440\u043e\u0433\u0438 \u0440\u0443\u043a\u0430\u043c\u0438. \u0422\u043e\u0442 \u0436\u0435 \u043a\u0435\u0439\u0441 \u043c\u0435\u043d\u044f\u0435\u0442 \u0432\u0435\u0440\u0434\u0438\u043a\u0442: \u044d\u0442\u0430\u043b\u043e\u043d \u0437\u0434\u0435\u0441\u044c \u2014 \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0430, \u0430 \u043d\u0435 \u0444\u0430\u043a\u0442.'},
+    ob_s4_l:{ru:'\u041f\u043e\u0434\u0432\u0438\u0433\u0430\u0442\u044c \u043f\u043e\u0440\u043e\u0433\u0438 \u2192'},
+    c_selfcheck:{ru:'\u0422\u043e\u0447\u043d\u043e\u0441\u0442\u044c \u0438 \u0435\u0451 \u0433\u0440\u0430\u043d\u0438\u0446\u0430'},
+    c_selfcheck_d:{ru:'100% \u043d\u0430 \u043d\u0430\u0431\u043e\u0440\u0435 \u0438\u0437 100 \u043a\u0435\u0439\u0441\u043e\u0432 \u0441 \u043f\u044f\u0442\u044c\u044e \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430\u043c\u0438. <strong>42.7%</strong> \u043d\u0430 660 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 33 \u2014 \u0438 20 \u0438\u0437 \u044d\u0442\u0438\u0445 33 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043d\u0435 \u043b\u043e\u0432\u0438\u0442 \u043d\u0438 \u0440\u0430\u0437\u0443. \u0422\u043e \u0436\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e, \u0431\u043e\u043b\u0435\u0435 \u0442\u0440\u0443\u0434\u043d\u044b\u0439 \u043a\u043e\u0440\u043f\u0443\u0441.'},
     c_deps:{ru:'\u0417\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0438'},
     c_deps_d:{ru:'\u0427\u0438\u0441\u0442\u044b\u0439 Python stdlib. \u041d\u0438 pip, \u043d\u0438 Docker, \u043d\u0438 API-\u043a\u043b\u044e\u0447\u0435\u0439.'},
     c_conf:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u0438'},
