@@ -12,6 +12,21 @@ __pycache__/
 40_ab_factory/vk-style/cases_auto/
 40_ab_factory/vk-style/cases_auto_v2/
 
+# Промежуточные корпуса и черновики итераций — остаются локально.
+# Публикуются только cases_auto (100, быстрый пример) и cases_mvp_v2
+# (660, основной): они раз-игнорируются отдельным шагом.
+40_ab_factory/vk-style/cases_mvp_v1/
+40_ab_factory/vk-style/cases_auto_v3/
+40_ab_factory/vk-style/cases_probe_*/
+
+# Материалы диагностики подсказок в notes и заглохшей ветки trainer.
+# Относятся ко второй публикации (разбор эксперимента), не к корпусу.
+# Не мусор: cases_notes_diag — корпус на 100 кейсов по механизмам,
+# trainer/trap_zones.json — 33 записи, по одной на механизм.
+40_ab_factory/vk-style/cases_notes_diag/
+40_ab_factory/vk-style/trainer/
+tools/export_trainer_cases.py
+
 # Any data/ directories with generated outputs
 **/data/
 
