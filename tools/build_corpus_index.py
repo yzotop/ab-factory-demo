@@ -154,8 +154,26 @@ def build_corpus() -> list[dict]:
         if not reversal:
             reversal = "long_term_reversal" in truth.get("key_reasons", [])
 
+        # runs/ копится по всем корпусам, а case_id в них совпадают:
+        # case_001 есть и в cases_auto, и в cases_mvp_v2. _load_decisions
+        # ключуется только по case_id и берёт последний прогон по времени,
+        # поэтому сюда может прийти решение от однономерного кейса другого
+        # корпуса. Сверяем uplift из сигналов агента с эффектом этого кейса:
+        # не сошлось — считаем, что прогона нет, и не выдумываем correct.
+        agent_uplift = dj.get("signals", {}).get("primary_uplift_pct")
+        if dj and uplift_pct is not None and agent_uplift is not None:
+            if abs(agent_uplift - uplift_pct) > 0.01:
+                dj, signals = {}, {}
+
+        expected_decision = truth.get("expected_decision", "")
+        agent_decision = dj.get("decision")
+
         reasons = dj.get("reasons", truth.get("key_reasons", []))
-        decision = dj.get("decision", truth.get("expected_decision", ""))
+        # Для показа вердикт как раньше: нет прогона — берём эталон.
+        # Для correct подстановка недопустима, иначе «поймал» будет
+        # истинным просто потому, что агента не запускали.
+        decision = agent_decision if agent_decision else expected_decision
+        correct = (agent_decision == expected_decision) if agent_decision else None
         confidence = dj.get("confidence")
 
         time_info = contract.get("time", {})
@@ -169,6 +187,8 @@ def build_corpus() -> list[dict]:
             "uplift_pct": uplift_pct,
             "p_value": p_value,
             "decision": decision,
+            "expected_decision": expected_decision,
+            "correct": correct,
             "confidence": round(confidence, 4) if confidence is not None else None,
             "reasons": reasons,
             "guardrail_ctr_delta": ctr_delta,
