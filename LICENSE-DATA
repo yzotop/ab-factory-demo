@@ -1,0 +1,49 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Copyright (c) 2026 Alexander Davydov
+
+WHAT THIS COVERS
+
+This license applies to the DATA in this repository:
+
+  - 40_ab_factory/vk-style/cases_mvp_v2/   (660 synthetic A/B cases)
+  - 40_ab_factory/vk-style/cases_auto/     (100 synthetic A/B cases)
+  - 40_ab_factory/vk-style/cases/          (5 hand-written cases)
+  - TRAPS.md                               (catalogue of 33 mechanisms)
+  - docs/data/                             (aggregates for the static site)
+
+The CODE — generators, agents, workflows, tools — is licensed under MIT.
+See LICENSE.
+
+SUMMARY
+
+You are free to share and adapt this material for any purpose, including
+commercially, provided you give appropriate credit, link to the license, and
+indicate if changes were made.
+
+ATTRIBUTION
+
+  Alexander Davydov, "AB Factory — corpus of A/B test interpretation errors",
+  https://davydov.my — licensed under CC BY 4.0.
+
+Machine-readable citation metadata is in CITATION.cff.
+
+FULL TEXT
+
+The complete legal text is available at:
+
+  https://creativecommons.org/licenses/by/4.0/legalcode
+
+A human-readable summary:
+
+  https://creativecommons.org/licenses/by/4.0/
+
+NOTE ON THE DATA ITSELF
+
+All cases are synthetic — generated, not collected from real experiments.
+They contain no personal data and no observations from any production system.
+Two properties documented in README.md affect how the corpus may legitimately
+be used for measurement: 129 of 660 cases name their mechanism in plain text
+inside contract.notes, and in 66 cases the deciding evidence is absent from
+data.csv entirely. Read that section before reporting any numbers measured
+on this corpus.

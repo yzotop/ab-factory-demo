@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: "AB Factory — corpus of A/B test interpretation errors"
+message: "If you use this corpus, please cite it as below."
+type: dataset
+authors:
+  - family-names: Davydov
+    given-names: Alexander
+    website: "https://davydov.my"
+repository-code: "https://github.com/yzotop/ab-factory-demo"
+url: "https://yzotop.github.io/ab-factory-demo/"
+abstract: >-
+  660 synthetic A/B experiment cases, each with exactly one interpretation
+  error built into it — peeking, sample ratio mismatch, Simpson's paradox,
+  heavy tails, bot traffic, logging defects and 27 others — together with a
+  computed ground-truth verdict for every case. A deterministic policy rule
+  scores 100% on a 100-case set covering five mechanisms and 42.7% on the
+  full 660-case corpus covering 33; twenty of the thirty-three mechanisms it
+  fails completely. Two documented properties constrain measurement on this
+  corpus: 129 cases name their mechanism in plain text inside the contract,
+  and in 66 cases the deciding evidence is absent from the results table.
+keywords:
+  - ab-testing
+  - experimentation
+  - synthetic-dataset
+  - benchmark
+  - statistical-errors
+  - llm-evaluation
+license: CC-BY-4.0
+license-url: "https://creativecommons.org/licenses/by/4.0/"
+date-released: 2026-08-15
