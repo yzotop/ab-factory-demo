@@ -1,0 +1,11 @@
+{
+  "case_id": "case_221",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.0377,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "missing_data"
+  ],
+  "human_rationale": "~16% of test events missing and dropped — if missingness correlates with treatment, the surviving sample is biased. Check missingness mechanism before trusting the effect. Investigate."
+}

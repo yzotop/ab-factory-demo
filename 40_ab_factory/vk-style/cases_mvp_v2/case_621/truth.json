@@ -1,0 +1,12 @@
+{
+  "case_id": "case_621",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.0098,
+  "is_stat_sig": false,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "segment_conflict",
+    "not_significant"
+  ],
+  "human_rationale": "Overall +1.0% not sig. editorial +4.3% vs algorithmic -4.3%."
+}

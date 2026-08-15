@@ -62,7 +62,12 @@ AI_LAB = SCRIPT_DIR.parent.parent
 DEFAULT_OUT = AI_LAB / "40_ab_factory" / "vk-style" / "cases_auto"
 
 METRICS = ["revenue", "cpm", "fillrate", "ctr", "shows"]
-SEGMENTS_POOL = [["news", "dzen"], ["feed", "article"], ["mobile", "desktop"]]
+# Пары сегментов — противопоставления, на которых строятся segment_conflict
+# и simpson_paradox: площадка размещения, тип размещения, платформа.
+# editorial/algorithmic — редакционная лента против алгоритмической; раньше
+# здесь стояли названия реальных продуктов, что привязывало синтетический
+# корпус к конкретной компании.
+SEGMENTS_POOL = [["editorial", "algorithmic"], ["feed", "article"], ["mobile", "desktop"]]
 TITLES_SHIP = [
     "Bid floor optimization",
     "Ad slot refresh rate increase",

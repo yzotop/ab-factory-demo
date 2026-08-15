@@ -1,0 +1,37 @@
+{
+  "case_id": "case_081",
+  "title": "Session-level revenue readout (v81)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-06-10",
+    "end_date": "2025-07-01",
+    "horizon_days": 21
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    }
+  ],
+  "stats": {
+    "method": "session_level_ttest",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "Randomization unit: user (50/50 at login). Analysis unit: event (~16 events per user on average). Significance from t-test at event level — not clustered by randomization unit."
+}

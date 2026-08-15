@@ -1,0 +1,3 @@
+case_id,segment,variant,n_users,revenue,cpm,fillrate,ctr,shows,revenue_effect_relative,revenue_p_value,ctr_effect_relative,ctr_p_value
+case_368,all,control,247722,1022485,113.41,0.817,0.0451,21243827,,,,
+case_368,all,test,248471,1055306.7685,117.05,0.816,0.046,21267169,0.0321,0.0163,0.0201,0.0251

@@ -1,0 +1,12 @@
+{
+  "case_id": "case_001",
+  "expected_decision": "investigate",
+  "primary_effect_relative": -0.0006,
+  "is_stat_sig": false,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "underpowered",
+    "not_significant"
+  ],
+  "human_rationale": "Point estimate -0.1% but n too small, p=0.518. Wide CI — need more data, cannot decide."
+}

@@ -1,0 +1,37 @@
+{
+  "case_id": "case_353",
+  "title": "Top-spender revenue readout (v353)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-09-26",
+    "end_date": "2025-10-17",
+    "horizon_days": 21
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "Per-user revenue highly skewed: mean $11 vs max $1495 (top 0.7% spenders). Aggregate +2.1% significant (p=0.0235) but effect driven by a few extreme users — t-test on means unreliable."
+}

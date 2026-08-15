@@ -1,0 +1,11 @@
+{
+  "case_id": "case_480",
+  "expected_decision": "do_not_ship",
+  "primary_effect_relative": 0.0537,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "posttreatment_selection"
+  ],
+  "human_rationale": "Segmentation on a post-treatment outcome breaks randomization — selection bias. Looks clean but invalid. Do not ship."
+}

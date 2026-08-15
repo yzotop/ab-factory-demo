@@ -1,0 +1,37 @@
+{
+  "case_id": "case_554",
+  "title": "Top-performing creative selection (v554)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-08-24",
+    "end_date": "2025-09-14",
+    "horizon_days": 21
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "Champion variant selected as best of 7 tested formats in the same experiment window. Reported primary effect p=0.045 — borderline significance after winner selection."
+}

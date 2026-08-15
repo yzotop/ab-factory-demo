@@ -1,0 +1,11 @@
+{
+  "case_id": "case_327",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.0332,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "event_duplication"
+  ],
+  "human_rationale": "Deduplication not applied — retries may inflate conversions in test. Re-measure on deduplicated events before deciding. Investigate."
+}

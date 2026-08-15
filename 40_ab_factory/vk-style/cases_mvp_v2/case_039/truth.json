@@ -1,0 +1,12 @@
+{
+  "case_id": "case_039",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.0005,
+  "is_stat_sig": false,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "segment_conflict",
+    "not_significant"
+  ],
+  "human_rationale": "Overall +0.1% not sig. mobile +3.5% vs desktop -1.6%."
+}

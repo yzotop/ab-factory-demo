@@ -1,0 +1,41 @@
+{
+  "case_id": "case_006",
+  "title": "Segment-specific pricing experiment (v6)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "segments": [
+    "mobile",
+    "desktop"
+  ],
+  "time": {
+    "start_date": "2025-10-26",
+    "end_date": "2025-11-09",
+    "horizon_days": 14
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "Experiment #6. Cross-segment test."
+}

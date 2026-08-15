@@ -1,0 +1,37 @@
+{
+  "case_id": "case_536",
+  "title": "Partial-coverage metrics readout (v536)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-04-22",
+    "end_date": "2025-05-13",
+    "horizon_days": 21
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "~18% of test-arm events missing metric values (tracking gap), excluded from analysis."
+}

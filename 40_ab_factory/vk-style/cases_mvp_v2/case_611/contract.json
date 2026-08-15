@@ -1,0 +1,42 @@
+{
+  "case_id": "case_611",
+  "title": "CTR-first layout optimization (v611)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-02-17",
+    "end_date": "2025-03-10",
+    "horizon_days": 21
+  },
+  "primary_metric": {
+    "name": "ctr",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "revenue",
+      "direction": "up",
+      "max_drop_relative": 0.02
+    },
+    {
+      "name": "retention",
+      "direction": "up",
+      "max_drop_relative": 0.02
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "Experiment optimizing CTR (engagement proxy). Primary CTR +4% significant. Business guardrails in export: revenue -2.6% (p=0.0234), D7 retention test 45.1% vs control 46.4% (−2.7% relative)."
+}

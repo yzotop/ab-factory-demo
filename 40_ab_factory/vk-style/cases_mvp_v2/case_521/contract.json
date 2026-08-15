@@ -1,0 +1,42 @@
+{
+  "case_id": "case_521",
+  "title": "Novel placement debut (v521)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-08-04",
+    "end_date": "2025-08-11",
+    "horizon_days": 7
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    },
+    {
+      "name": "dau",
+      "direction": "neutral",
+      "max_drop_relative": 0.02
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "7-day window. Strong early signal — possible novelty effect, needs longer horizon to confirm sustainability."
+}

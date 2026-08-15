@@ -1,0 +1,11 @@
+{
+  "case_id": "case_261",
+  "expected_decision": "do_not_ship",
+  "primary_effect_relative": 0.046,
+  "is_stat_sig": true,
+  "guardrails_ok": false,
+  "key_reasons": [
+    "longterm_value"
+  ],
+  "human_rationale": "CTR +4.6% (sugar rush) but D7 retention −5.2% and revenue -1.6% — short-term proxy ≠ long-term value. Do not ship."
+}

@@ -1,0 +1,44 @@
+{
+  "case_id": "case_050",
+  "title": "Randomization QA experiment (v50)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-09-13",
+    "end_date": "2025-10-04",
+    "horizon_days": 21
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "randomization": {
+    "target_split": [
+      0.5,
+      0.5
+    ],
+    "unit": "user"
+  },
+  "notes": "Target randomization 50/50 by user. Observed split: control 238,963 (51.2%) vs test 228,037 (48.8%). SRM chi-square=255.63, p=1.00e-12."
+}

@@ -1,0 +1,11 @@
+{
+  "case_id": "case_011",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.0141,
+  "is_stat_sig": false,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "cuped_missing"
+  ],
+  "human_rationale": "Pre-period data available but CUPED not applied — variance reducible, test underpowered as-is. Apply CUPED and re-evaluate before concluding. Investigate."
+}

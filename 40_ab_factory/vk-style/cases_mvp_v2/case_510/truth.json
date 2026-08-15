@@ -1,0 +1,11 @@
+{
+  "case_id": "case_510",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.0273,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "bots"
+  ],
+  "human_rationale": "Anomalous bot/datacenter traffic (~10%) in test group inflates the metric. Filter and re-measure before trusting the lift. Investigate."
+}

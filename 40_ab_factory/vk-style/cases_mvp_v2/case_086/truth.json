@@ -1,0 +1,11 @@
+{
+  "case_id": "case_086",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.0341,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "narrow_generalization"
+  ],
+  "human_rationale": "Effect measured on power users only but conclusion drawn for all users — does not generalize. Limit claim to tested population or test broadly. Investigate."
+}

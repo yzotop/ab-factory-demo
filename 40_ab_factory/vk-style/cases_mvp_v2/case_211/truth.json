@@ -1,0 +1,11 @@
+{
+  "case_id": "case_211",
+  "expected_decision": "do_not_ship",
+  "primary_effect_relative": 0.0227,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "simpson_paradox"
+  ],
+  "human_rationale": "Aggregate +2.3% sig, but both segments negative (-1.6%, -1.8%) — Simpson's paradox from mix shift."
+}

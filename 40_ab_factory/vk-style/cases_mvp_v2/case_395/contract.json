@@ -1,0 +1,41 @@
+{
+  "case_id": "case_395",
+  "title": "Cross-device format rollout (v395)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "segments": [
+    "mobile",
+    "desktop"
+  ],
+  "time": {
+    "start_date": "2025-03-23",
+    "end_date": "2025-04-13",
+    "horizon_days": 21
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "Overall effect modest (+1.1%). Segment readout: mobile +5.6% vs desktop +1.1% — team recommends rolling out on mobile only. No formal interaction test; no multiplicity correction across segments."
+}

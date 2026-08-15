@@ -1,0 +1,11 @@
+{
+  "case_id": "case_008",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.023,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "external_shock"
+  ],
+  "human_rationale": "A major promo launched mid-test — confounds the result, measured effect may be from the promo, not the feature. Control for it (A/A segments) or re-run clean. Investigate."
+}

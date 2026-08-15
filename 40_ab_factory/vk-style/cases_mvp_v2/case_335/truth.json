@@ -1,0 +1,11 @@
+{
+  "case_id": "case_335",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.0348,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "interference"
+  ],
+  "human_rationale": "Two-sided market with shared inventory — test cannibalizes control, measured uplift inflated. Need isolation (cluster/geo split) before deciding. Investigate."
+}

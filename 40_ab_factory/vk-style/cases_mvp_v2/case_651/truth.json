@@ -1,0 +1,12 @@
+{
+  "case_id": "case_651",
+  "expected_decision": "investigate",
+  "primary_effect_relative": -0.0002,
+  "is_stat_sig": false,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "segment_conflict",
+    "not_significant"
+  ],
+  "human_rationale": "Overall -0.0% not sig. feed +1.9% vs article -1.2%."
+}

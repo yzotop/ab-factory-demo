@@ -1,0 +1,44 @@
+{
+  "case_id": "case_330",
+  "title": "Bucket balance monitoring test (v330)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-06-03",
+    "end_date": "2025-06-24",
+    "horizon_days": 21
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "randomization": {
+    "target_split": [
+      0.5,
+      0.5
+    ],
+    "unit": "user"
+  },
+  "notes": "Target randomization 50/50 by user. Observed split: control 219,186 (51.1%) vs test 209,667 (48.9%). SRM chi-square=211.29, p=1.00e-12."
+}

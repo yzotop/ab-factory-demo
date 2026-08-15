@@ -1,0 +1,11 @@
+{
+  "case_id": "case_177",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.0533,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "ratio_metric"
+  ],
+  "human_rationale": "Ratio metric with naive event-level t-test under user randomization — variance understated, significance unreliable. Need delta-method / user-level bootstrap. Investigate."
+}

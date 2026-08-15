@@ -1,0 +1,11 @@
+{
+  "case_id": "case_454",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.0297,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "incomplete_cycles"
+  ],
+  "human_rationale": "Test ran only 5 weekday days — weekend not covered, weekly seasonality incomplete. Run full weekly cycles before deciding. Investigate."
+}

@@ -1,0 +1,37 @@
+{
+  "case_id": "case_335",
+  "title": "Two-sided ad marketplace rollout (v335)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-02-21",
+    "end_date": "2025-03-14",
+    "horizon_days": 21
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "Two-sided marketplace experiment: control and test draw from shared marketplace inventory / common auction budget (not isolated arms). Pre-period control baseline revenue $3,068,002; in-experiment control $2,959,394 (-3.5% vs baseline) — control cannibalized as test captures shared demand."
+}

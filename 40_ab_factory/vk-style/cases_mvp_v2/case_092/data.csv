@@ -1,0 +1,7 @@
+case_id,segment,variant,n_users,revenue,cpm,fillrate,ctr,shows,revenue_effect_relative,revenue_p_value,ctr_effect_relative,ctr_p_value
+case_092,all,control,789704,2730894,291.95,0.795,0.0367,16148979,,,,
+case_092,all,test,788748,2730620.9106,291.92,0.793,0.037,16183744,-0.0001,0.369,0.0071,0.5659
+case_092,high_value,control,284293,983121.84,291.95,0.795,0.0367,5813632,,,,
+case_092,high_value,test,284135,1071111.24468,318.08,0.798,0.037,5775751,0.0895,0.0171,0.0071,0.5659
+case_092,standard,control,505410,1747772.16,291.95,0.795,0.0367,10335346,,,,
+case_092,standard,test,505603,1740781.07136,290.78,0.797,0.037,10310312,-0.004,0.5684,0.0071,0.5659

@@ -1,0 +1,42 @@
+{
+  "case_id": "case_336",
+  "title": "Scroll-triggered fullscreen ads (v336)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-02-12",
+    "end_date": "2025-02-19",
+    "horizon_days": 7
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    },
+    {
+      "name": "dau",
+      "direction": "neutral",
+      "max_drop_relative": 0.02
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.007
+  },
+  "notes": "Experiment #336. Expected engagement trade-off."
+}

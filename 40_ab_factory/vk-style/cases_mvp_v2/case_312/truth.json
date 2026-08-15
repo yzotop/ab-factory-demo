@@ -1,0 +1,11 @@
+{
+  "case_id": "case_312",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.0309,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "peeking"
+  ],
+  "human_rationale": "Significant effect after early stop without sequential correction — false-positive risk inflated. The measurement is compromised but fixable: re-run with a sequential design / alpha-spending. Investigate, do not judge the feature on this data."
+}

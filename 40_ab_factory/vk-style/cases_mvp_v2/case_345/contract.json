@@ -1,0 +1,42 @@
+{
+  "case_id": "case_345",
+  "title": "Click surface expansion test (v345)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-05-25",
+    "end_date": "2025-06-15",
+    "horizon_days": 21
+  },
+  "primary_metric": {
+    "name": "ctr",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "retention",
+      "direction": "up",
+      "max_drop_relative": 0.02
+    },
+    {
+      "name": "revenue",
+      "direction": "up",
+      "max_drop_relative": 0.02
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "Primary readout is short-term CTR (engagement proxy). Cohort panel: D7 retention test 44.2% vs control 45.8% (−3.4% relative, breaches 2% guardrail)."
+}

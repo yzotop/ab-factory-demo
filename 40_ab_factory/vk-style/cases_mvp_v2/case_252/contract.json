@@ -1,0 +1,37 @@
+{
+  "case_id": "case_252",
+  "title": "Pre-period covariate readout (v252)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-04-14",
+    "end_date": "2025-05-05",
+    "horizon_days": 21
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "Pre-period covariate data available (14-day baseline revenue per user, ρ≈0.7 with in-period outcome) but CUPED variance reduction not applied — analysis uses raw delta only. Point estimate +1.6%, p=0.0609."
+}

@@ -8,8 +8,10 @@ __pycache__/
 # Generated runs and artifacts
 42_workflows/ab_factory/runs/
 
-# Auto-generated synthetic cases
-40_ab_factory/vk-style/cases_auto/
+# Промежуточная генерация — не публикуется.
+# cases_auto (100, быстрый пример) и cases_mvp_v2 (660, основной корпус)
+# публикуются: без них бенчмарк ab-decisions-bench невоспроизводим,
+# он читает корпус отсюда симлинком.
 40_ab_factory/vk-style/cases_auto_v2/
 
 # Промежуточные корпуса и черновики итераций — остаются локально.

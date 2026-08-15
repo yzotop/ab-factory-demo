@@ -1,0 +1,11 @@
+{
+  "case_id": "case_057",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.012,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "winners_curse"
+  ],
+  "human_rationale": "Borderline winner selected as best of 4 variants — the estimate is upward-biased (winner's curse). True effect likely smaller. Replicate the winner before shipping. Investigate."
+}

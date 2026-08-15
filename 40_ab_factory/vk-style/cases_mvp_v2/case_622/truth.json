@@ -1,0 +1,11 @@
+{
+  "case_id": "case_622",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.021,
+  "is_stat_sig": false,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "dilution"
+  ],
+  "human_rationale": "Feature triggers for ~10% of users but measured over all — effect diluted to non-significance (ITT +2.1%, p=0.3051). Absence of significance here is not absence of effect. Re-analyze on triggered population. Investigate."
+}

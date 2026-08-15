@@ -1,0 +1,11 @@
+{
+  "case_id": "case_258",
+  "expected_decision": "investigate",
+  "primary_effect_relative": 0.0063,
+  "is_stat_sig": false,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "heterogeneity"
+  ],
+  "human_rationale": "Segment differences read as real without an interaction test — may be noise. Test interaction and correct for multiple segments before targeting. Investigate."
+}

@@ -1,0 +1,44 @@
+{
+  "case_id": "case_542",
+  "title": "Assignment pipeline audit test (v542)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-10-21",
+    "end_date": "2025-11-11",
+    "horizon_days": 21
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "randomization": {
+    "target_split": [
+      0.5,
+      0.5
+    ],
+    "unit": "user"
+  },
+  "notes": "Target randomization 50/50 by user. Observed split: control 319,237 (50.8%) vs test 308,936 (49.2%). SRM chi-square=168.92, p=1.00e-12."
+}

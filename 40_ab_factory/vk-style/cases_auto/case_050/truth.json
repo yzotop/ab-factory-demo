@@ -1,0 +1,12 @@
+{
+  "case_id": "case_050",
+  "expected_decision": "do_not_ship",
+  "primary_effect_relative": 0.0128,
+  "is_stat_sig": true,
+  "guardrails_ok": false,
+  "key_reasons": [
+    "primary_uplift",
+    "guardrail_violation"
+  ],
+  "human_rationale": "Revenue +1.3% but CTR dropped -4.4%, breaching 3% guardrail."
+}

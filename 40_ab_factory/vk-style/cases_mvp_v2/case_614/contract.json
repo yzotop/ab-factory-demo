@@ -1,0 +1,42 @@
+{
+  "case_id": "case_614",
+  "title": "Demand-side budget frontloading check (v614)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-04-28",
+    "end_date": "2025-05-26",
+    "horizon_days": 28
+  },
+  "primary_metric": {
+    "name": "revenue",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "ctr",
+      "direction": "up",
+      "max_drop_relative": 0.03
+    },
+    {
+      "name": "fillrate",
+      "direction": "up",
+      "max_drop_relative": 0.05
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "28-day holdout #614. Week-over-week analysis reveals trend reversal after week 2."
+}

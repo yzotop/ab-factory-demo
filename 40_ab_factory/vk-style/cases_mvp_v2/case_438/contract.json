@@ -1,0 +1,42 @@
+{
+  "case_id": "case_438",
+  "title": "Click-surface expansion test (v438)",
+  "domain": "ads_monetization",
+  "unit": "user",
+  "variants": [
+    "control",
+    "test"
+  ],
+  "time": {
+    "start_date": "2025-03-27",
+    "end_date": "2025-04-10",
+    "horizon_days": 14
+  },
+  "primary_metric": {
+    "name": "ctr",
+    "direction": "up",
+    "mde_relative": 0.01
+  },
+  "guardrails": [
+    {
+      "name": "revenue",
+      "direction": "up",
+      "max_drop_relative": 0.02
+    },
+    {
+      "name": "retention",
+      "direction": "up",
+      "max_drop_relative": 0.02
+    }
+  ],
+  "stats": {
+    "method": "delta",
+    "alpha": 0.05,
+    "power_target": 0.8
+  },
+  "decision_framework": {
+    "rule": "ship_if_primary_sig_and_guardrails_ok",
+    "practical_threshold_relative": 0.005
+  },
+  "notes": "Experiment optimizing CTR (engagement proxy). Primary CTR +5% significant. Business guardrails in export: revenue -3.3% (p=0.0198), D7 retention test 45.4% vs control 46.7% (−2.8% relative)."
+}
