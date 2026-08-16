@@ -15,6 +15,7 @@ No external dependencies.
 
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 import sys
@@ -101,24 +102,25 @@ def _aggregates_from_csv(csv_path: Path) -> dict:
     return agg
 
 
-def build_corpus() -> list[dict]:
-    if not CASES_AUTO.exists():
+def build_corpus(corpus_dir: Path = CASES_AUTO,
+                 expected_count: int = EXPECTED_COUNT) -> list[dict]:
+    if not corpus_dir.exists():
         print(
-            f"ERROR: {CASES_AUTO} not found.\n"
+            f"ERROR: {corpus_dir} not found.\n"
             "Run: ./43_generation/ab_factory/run.sh --n 100\n"
             "Then: cd 42_workflows/ab_factory && python3 run_case.py --all "
-            "--root ../../40_ab_factory/vk-style/cases_auto",
+            f"--root ../../40_ab_factory/vk-style/{corpus_dir.name}",
             file=sys.stderr,
         )
         sys.exit(1)
 
     case_dirs = sorted(
-        d for d in CASES_AUTO.iterdir()
+        d for d in corpus_dir.iterdir()
         if d.is_dir() and (d / "contract.json").exists()
     )
-    if len(case_dirs) < EXPECTED_COUNT:
+    if len(case_dirs) < expected_count:
         print(
-            f"WARN: found {len(case_dirs)} cases, expected {EXPECTED_COUNT}.",
+            f"WARN: found {len(case_dirs)} cases, expected {expected_count}.",
             file=sys.stderr,
         )
 
@@ -245,19 +247,49 @@ def build_stats(cases: list[dict]) -> dict:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Build the public corpus index from a case corpus.")
+    parser.add_argument(
+        "--corpus", default="cases_auto",
+        help="Имя каталога корпуса в 40_ab_factory/vk-style/ (по умолчанию cases_auto)")
+    parser.add_argument(
+        "--out", default=None,
+        help="Имя выходного файла в docs/data/ (по умолчанию corpus_<N>.json)")
+    parser.add_argument(
+        "--stats-out", default=None,
+        help="Имя файла со сводкой (по умолчанию corpus_stats.json для сотни, "
+             "corpus_stats_<N>.json для остальных)")
+    parser.add_argument(
+        "--expected", type=int, default=None,
+        help="Ожидаемое число кейсов для предупреждения (по умолчанию — сколько нашлось)")
+    args = parser.parse_args()
+
+    corpus_dir = REPO / "40_ab_factory" / "vk-style" / args.corpus
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    cases = build_corpus()
-    with open(OUT_DIR / "corpus_100.json", "w", encoding="utf-8", newline="\n") as f:
+    # Сколько кейсов в корпусе — узнаём до сборки, чтобы имя файла
+    # по умолчанию совпадало с размером набора: corpus_100, corpus_660.
+    found = len([d for d in corpus_dir.iterdir()
+                 if d.is_dir() and (d / "contract.json").exists()]) if corpus_dir.exists() else 0
+    expected = args.expected if args.expected is not None else found
+
+    cases = build_corpus(corpus_dir, expected)
+
+    out_name = args.out or f"corpus_{len(cases)}.json"
+    stats_name = args.stats_out or (
+        "corpus_stats.json" if len(cases) == EXPECTED_COUNT
+        else f"corpus_stats_{len(cases)}.json")
+
+    with open(OUT_DIR / out_name, "w", encoding="utf-8", newline="\n") as f:
         json.dump(cases, f, ensure_ascii=False, indent=2)
         f.write("\n")
-    print(f"  docs/data/corpus_100.json     {len(cases)} cases")
+    print(f"  docs/data/{out_name}     {len(cases)} cases")
 
     stats = build_stats(cases)
-    with open(OUT_DIR / "corpus_stats.json", "w", encoding="utf-8", newline="\n") as f:
+    with open(OUT_DIR / stats_name, "w", encoding="utf-8", newline="\n") as f:
         json.dump(stats, f, ensure_ascii=False, indent=2)
         f.write("\n")
-    print(f"  docs/data/corpus_stats.json   {stats['total']} total, "
+    print(f"  docs/data/{stats_name}   {stats['total']} total, "
           f"{stats['decision_counts']}")
 
     print(f"\nDone. Output: {OUT_DIR}")
