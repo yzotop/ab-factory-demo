@@ -82,6 +82,15 @@ td.wrap{white-space:normal;max-width:200px}
 .uplift-cell{font-weight:600;font-variant-numeric:tabular-nums}
 .uplift-pos{color:var(--green)}
 .uplift-neg{color:var(--red)}
+/* Отметка «поймал / не поймал»: вердикт агента против эталона.
+   Стоит вплотную к бейджу вердикта, а не отдельной колонкой —
+   в таблице их и так двенадцать. На корпусе из 100 все отметки
+   зелёные (агент прав всегда), смысл появляется на 660. */
+.vmark{font-size:11px;font-weight:700;margin-left:6px;white-space:nowrap}
+.vmark-ok{color:var(--green)}
+.vmark-bad{color:var(--red)}
+.vmark-na{color:var(--muted);font-weight:500}
+.vmark-exp{font-weight:500;color:var(--muted);margin-left:3px}
 .pval-cell{font-variant-numeric:tabular-nums}
 .pval-cell.pval-ok{color:var(--green);font-weight:600}
 
@@ -330,6 +339,13 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     ap_running:{en:'running',ru:'\u0438\u0433\u0440\u0430\u0435\u0442'},ap_finished:{en:'finished',ru:'\u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043d\u043e'},ap_stopped:{en:'stopped',ru:'\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043e'},ap_no_cases:{en:'No cases match filters.',ru:'\u041d\u0435\u0442 \u043a\u0435\u0439\u0441\u043e\u0432 \u043f\u043e \u0444\u0438\u043b\u044c\u0442\u0440\u0430\u043c.'},
     drawer_details:{en:'Details',ru:'\u0414\u0435\u0442\u0430\u043b\u0438'},drawer_charts:{en:'Charts',ru:'\u0413\u0440\u0430\u0444\u0438\u043a\u0438'},drawer_replay:{en:'Replay',ru:'\u0420\u0435\u043f\u043b\u0435\u0439'},
     explain_link:{en:'Explain decision \u2192',ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0438\u0442\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u2192'},
+    vm_ok:{en:'\u2713',ru:'\u2713'},
+    vm_bad:{en:'\u2717',ru:'\u2717'},
+    vm_ok_t:{en:'Agent matched the ground truth',ru:'\u0410\u0433\u0435\u043d\u0442 \u0441\u043e\u0432\u043f\u0430\u043b \u0441 \u044d\u0442\u0430\u043b\u043e\u043d\u043e\u043c'},
+    vm_bad_t:{en:'Agent missed it \u2014 ground truth differs',ru:'\u0410\u0433\u0435\u043d\u0442 \u043f\u0440\u043e\u0448\u0451\u043b \u043c\u0438\u043c\u043e \u2014 \u044d\u0442\u0430\u043b\u043e\u043d \u0434\u0440\u0443\u0433\u043e\u0439'},
+    vm_na_t:{en:'No agent run for this case',ru:'\u041f\u0440\u043e\u0433\u043e\u043d\u0430 \u0430\u0433\u0435\u043d\u0442\u0430 \u0434\u043b\u044f \u044d\u0442\u043e\u0433\u043e \u043a\u0435\u0439\u0441\u0430 \u043d\u0435\u0442'},
+    lbl_expected:{en:'Ground truth',ru:'\u042d\u0442\u0430\u043b\u043e\u043d'},
+    lbl_caught:{en:'Caught',ru:'\u041f\u043e\u0439\u043c\u0430\u043b'},
     explain_btn:{en:'Explain decision',ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0438\u0442\u044c'},
     compare_mode:{en:'Quick compare mode',ru:'\u0411\u044b\u0441\u0442\u0440\u043e\u0435 \u0441\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435'},
     fld_metric:{en:'Metric',ru:'\u041c\u0435\u0442\u0440\u0438\u043a\u0430'},
@@ -636,7 +652,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
         +'<td><input type="checkbox" class="cmp-check" data-cmp="'+c.case_id+'" '+(compareIds.indexOf(c.case_id)>=0?'checked':'')+'></td>'
         +'<td style="font-weight:600;font-variant-numeric:tabular-nums">'+c.case_id.replace('case_','')+'</td>'
         +'<td class="wrap">'+esc(c.title)+'</td>'
-        +'<td><span class="badge badge-'+c.decision+'">'+fmtDec(c.decision)+'</span></td>'
+        +'<td><span class="badge badge-'+c.decision+'">'+fmtDec(c.decision)+'</span>'+verdictMark(c,true)+'</td>'
         +'<td><span class="conf-bar"><span class="bar"><span class="fill" style="width:'+cp+'%;background:'+confCol(c.confidence)+'"></span></span>'+cp+'%</span></td>'
         +'<td><span class="uplift-cell '+(c.uplift_pct!=null?(c.uplift_pct>0?'uplift-pos':'uplift-neg'):'')+'">'+(c.uplift_pct!=null?(c.uplift_pct>0?'+':'')+c.uplift_pct+'%':'—')+'</span></td>'
         +'<td><span class="pval-cell'+(c.p_value!=null&&c.p_value<=0.05?' pval-ok':'')+'">'+fmtP(c.p_value)+'</span></td>'
@@ -731,7 +747,15 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
       var cp2=(c.confidence*100).toFixed(1);
       h+='<span class="conf-bar" style="font-size:14px"><span class="bar" style="width:56px"><span class="fill" style="width:'+cp2+'%;background:'+confCol(c.confidence)+'"></span></span>'+cp2+'%</span>';
     }
-    h+='</div></section>';
+    h+='</div>';
+    // Эталон отдельной строкой, а не только отметкой: в карточке есть
+    // место, и читателю важно увидеть сам правильный вердикт, а не
+    // только факт расхождения.
+    h+='<dl class="kv" style="margin-top:10px">';
+    h+='<dt>'+_t('lbl_expected')+'</dt><dd>'+(c.expected_decision?'<span class="badge badge-'+c.expected_decision+'">'+fmtDec(c.expected_decision)+'</span>':'—')+'</dd>';
+    h+='<dt>'+_t('lbl_caught')+'</dt><dd>'+verdictMark(c,false)+'</dd>';
+    h+='</dl>';
+    h+='</section>';
 
     h+='<section><h3>Key Signals</h3><dl class="kv">';
     h+='<dt>Metric</dt><dd>'+esc(c.metric)+'</dd>';
@@ -1038,6 +1062,18 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   function fmtDec(d){return d.replace(/_/g,' ');}
   function confCol(v){return v>=0.6?'var(--green)':v>=0.3?'var(--orange)':'var(--red)';}
   function fmtP(p){if(p==null)return'—';if(p<0.001)return'<0.001';return p.toFixed(3);}
+  // Поймал агент механизм или прошёл мимо. correct===null означает,
+  // что прогона агента для этого кейса нет — тогда молчим, а не
+  // выдаём отметку, которой нечем подкрепиться.
+  function verdictMark(c,withExpected){
+    if(c.correct===true) return '<span class="vmark vmark-ok" title="'+_t('vm_ok_t')+'">'+_t('vm_ok')+'</span>';
+    if(c.correct===false){
+      var h='<span class="vmark vmark-bad" title="'+_t('vm_bad_t')+'">'+_t('vm_bad')+'</span>';
+      if(withExpected&&c.expected_decision) h+='<span class="vmark-exp">'+fmtDec(c.expected_decision)+'</span>';
+      return h;
+    }
+    return '<span class="vmark vmark-na" title="'+_t('vm_na_t')+'">—</span>';
+  }
   function reasonLabel(r){
     var map={
       primary_uplift:{en:'Strong primary uplift',ru:'\u0421\u0438\u043b\u044c\u043d\u044b\u0439 \u0440\u043e\u0441\u0442 \u043e\u0441\u043d\u043e\u0432\u043d\u043e\u0439 \u043c\u0435\u0442\u0440\u0438\u043a\u0438'},
