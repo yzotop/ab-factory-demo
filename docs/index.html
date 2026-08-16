@@ -9,12 +9,14 @@
     --bg: #fafafa; --fg: #1d1d1f; --muted: #6e6e73;
     --accent: #0071e3; --accent-hover: #0077ed;
     --card-bg: #fff; --border: #d2d2d7; --radius: 12px;
+    --red: #ff3b30;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #000; --fg: #f5f5f7; --muted: #86868b;
       --accent: #2997ff; --accent-hover: #40a9ff;
       --card-bg: #1c1c1e; --border: #38383a;
+      --red: #ff453a;
     }
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -105,12 +107,55 @@
     .diagram-arrow { display: none; }
     .diagram-arrow-down { display: flex; justify-content: center; color: var(--border); font-size: 22px; font-weight: 700; padding: 4px 0; }
   }
+
+  /* Сетка механизмов вместо системной диаграммы. Три зоны, и главная —
+     «не ловит ни разу» — сделана единым блоком: общая рамка и заливка,
+     внутри просто список из двадцати названий без отдельных карточек.
+     Двадцать плиток читались бы как двадцать разных фактов, а факт тут
+     один: больше половины корпуса правило не видит. */
+  .mech-section { max-width: 1060px; margin: 0 auto; padding: 0 24px 80px; }
+  .mech-section h2 { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+  .mech-zone { border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 16px; }
+  .mech-zone--never { border-color: var(--red); background: color-mix(in srgb, var(--red) 6%, transparent); }
+  .mech-zone-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+  .mech-zone-n { font-size: 32px; font-weight: 700; line-height: 1; }
+  .mech-zone--never .mech-zone-n { color: var(--red); }
+  .mech-zone-t { font-size: 14px; color: var(--muted); }
+  .mech-list { display: flex; flex-wrap: wrap; gap: 6px 10px; }
+  .mech-list a { font-size: 13px; color: var(--fg); text-decoration: none; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; opacity: .85; }
+  .mech-list a:hover { color: var(--accent); opacity: 1; }
+  .mech-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* Цена слепоты: две короткие фразы, без единой длинной, которая
+     читается двусмысленно. Подлежащее одно и то же — речь о разрешениях. */
+  .cost { text-align: center; margin: 44px auto 8px; max-width: 620px; }
+  .cost-l1 { font-size: 26px; font-weight: 600; }
+  .cost-l2 { font-size: 26px; font-weight: 700; color: var(--red); margin-top: 2px; }
+  .cost-note { font-size: 14px; color: var(--muted); margin-top: 14px; }
+
+  /* Полоски распределения. Цвет не кодирует «хорошо/плохо» по вердикту:
+     три решения — оттенки нейтрального, красным помечено только то,
+     где правило ошиблось. Иначе зелёный за ship прочитался бы как
+     «на сложном корпусе стало лучше», хотя всё наоборот. */
+  .bars { max-width: 720px; margin: 36px auto 0; }
+  .bar-block { margin-bottom: 20px; }
+  .bar-label { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .bar { display: flex; height: 26px; border-radius: 6px; overflow: hidden; }
+  .seg { display: block; height: 100%; }
+  .seg-a { background: color-mix(in srgb, var(--fg) 22%, transparent); }
+  .seg-b { background: color-mix(in srgb, var(--fg) 38%, transparent); }
+  .seg-c { background: color-mix(in srgb, var(--fg) 60%, transparent); }
+  .seg-err { background: var(--red); }
+  .bar-legend { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .bars-note { font-size: 13px; color: var(--muted); text-align: center; margin-top: 18px; }
+
+  @media (max-width: 780px) {
+    .mech-row { grid-template-columns: 1fr; }
+    .cost-l1, .cost-l2 { font-size: 21px; }
+  }
   .card-link { text-decoration: none; color: inherit; display: block; transition: border-color .15s; cursor: pointer; }
   .card-link:hover { border-color: var(--accent); }
   .live-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 2px 7px; border-radius: 4px; background: var(--accent); color: #fff; vertical-align: middle; margin-left: 6px; }
-  .stats-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
-  .stat-pill { font-size: 13px; color: var(--muted); padding: 5px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); white-space: nowrap; }
-  .stat-pill strong { color: var(--fg); font-weight: 600; }
   .run-section { max-width: 640px; margin: 0 auto; padding: 0 24px 80px; }
   .run-section h3 { font-size: 18px; font-weight: 700; text-align: center; margin-bottom: 6px; }
   .run-sub { font-size: 13px; color: var(--muted); text-align: center; margin-bottom: 16px; }
@@ -161,12 +206,6 @@
     <a href="policy.html" class="btn btn-primary" style="background:#ff9500" data-t="btn_engine">Decision Engine &rarr;</a>
     <a href="https://github.com/yzotop/ab-factory-demo" class="btn btn-secondary">GitHub</a>
   </div>
-  <div class="stats-row" id="stats-row">
-    <span class="stat-pill"><strong id="st-ship">30</strong> ship</span>
-    <span class="stat-pill"><strong id="st-dns">55</strong> do&nbsp;not&nbsp;ship</span>
-    <span class="stat-pill"><strong id="st-inv">15</strong> investigate</span>
-    <span class="stat-pill"><span data-t="st_avgconf">avg conf</span> <strong id="st-conf">35</strong>%</span>
-  </div>
 </div>
 
 <div class="run-section" id="featured-case">
@@ -192,84 +231,72 @@
 <div class="cards">
   <div class="card"><div class="number">4</div><h3 data-t="c_agents">Agents</h3><p data-t="c_agents_d">Reader, Stats, Decision, Viz — each modular and traceable.</p></div>
   <div class="card"><div class="number">6</div><h3 data-t="c_stoprule">Stop-Rule Engine</h3><p data-t="c_stoprule_d">Deterministic decision pipeline. First triggered rule defines the verdict.</p><div class="stop-flow" data-t="c_stoprule_flow">Guardrails &rarr; Reversal &rarr; Segment &rarr; Significance &rarr; Practical &rarr; Ship</div><p class="stop-caption" data-t="c_stoprule_out">Output: ship / do_not_ship / investigate</p><p class="stop-caption" data-t="c_stoprule_cap">Safety first. Hard blockers evaluated before statistical uplift.</p><p class="stop-caption" data-t="c_stoprule_legend">Rule order matters: first STOP decides.</p><div class="stop-links"><a href="policy.html" data-t="c_stoprule_lp">Open Policy &rarr;</a><a href="corpus.html" data-t="c_stoprule_lc">Browse Corpus &rarr;</a></div></div>
-  <a href="corpus.html" class="card card-link" id="corpus-card"><div class="number" id="corpus-total">100</div><h3><span data-t="c_corpus">Corpus cases</span> <span class="live-badge" data-t="c_live">Live</span></h3><p data-t="c_corpus_d">Evaluated by the four-agent pipeline.</p></a>
+  <a href="corpus.html" class="card card-link" id="corpus-card"><div class="number" id="corpus-total">660</div><h3><span data-t="c_corpus">Corpus cases</span> <span class="live-badge" data-t="c_live">Live</span></h3><p data-t="c_corpus_d">Evaluated by the four-agent pipeline.</p></a>
   <div class="card"><div class="number">100&thinsp;&rarr;&thinsp;42.7%</div><h3 data-t="c_selfcheck">Accuracy, and where it ends</h3><p data-t="c_selfcheck_d">100% on the 100-case set with five mechanisms. <strong>42.7%</strong> on 660 cases with 33 — and 20 of those 33 it never catches once. Same rule, harder corpus.</p></div>
   <div class="card"><div class="number">0</div><h3 data-t="c_deps">Dependencies</h3><p data-t="c_deps_d">Pure Python stdlib. No pip install, no Docker, no API keys.</p></div>
   <div class="card"><div class="number">&sigma;</div><h3 data-t="c_conf">Confidence model</h3><p data-t="c_conf_d">Linear score &rarr; sigmoid. Every decision includes an explainable confidence.</p></div>
 </div>
 
-<div class="diagram-section">
-  <h2 data-t="dia_title">Agent System Diagram</h2>
-  <p class="diagram-sub" data-t="dia_sub">End-to-end: from raw case data to interactive UI.</p>
+<div class="mech-section">
+  <h2 data-t="mech_title">Where the rule stops working</h2>
+  <p class="diagram-sub" data-t="mech_sub">33 mechanisms in the corpus. Click any to open its cases.</p>
 
-  <div class="diagram-flow">
-    <div class="dcard">
-      <div class="dcard-head" data-t="dia_inputs">Inputs</div>
-      <ul class="dcard-items">
-        <li><code>contract.json</code></li>
-        <li><code>data.csv</code></li>
-        <li><code>truth.json</code> <span class="tag tag-eval">eval-only</span></li>
-      </ul>
+  <div class="mech-zone mech-zone--never">
+    <div class="mech-zone-head">
+      <span class="mech-zone-n">20</span>
+      <span class="mech-zone-t" data-t="mech_never">never caught &middot; 361 cases</span>
     </div>
+    <div class="mech-list" id="mechNever"></div>
+  </div>
 
-    <div class="diagram-arrow">&rarr;</div>
-    <div class="diagram-arrow-down">&darr;</div>
-
-    <div class="dcard">
-      <div class="dcard-head" data-t="dia_pipeline">Agent Pipeline</div>
-      <div class="dcard-pipe">
-        <span>Reader</span><span class="pipe-arrow">&rarr;</span>
-        <span>Stats</span><span class="pipe-arrow">&rarr;</span>
-        <span>Decision</span><span class="pipe-arrow">&rarr;</span>
-        <span>Viz</span>
+  <div class="mech-row">
+    <div class="mech-zone mech-zone--partial">
+      <div class="mech-zone-head">
+        <span class="mech-zone-n">3</span>
+        <span class="mech-zone-t" data-t="mech_partial">partially &middot; 50 cases</span>
       </div>
-      <ul class="dcard-items" style="margin-top:8px">
-        <li><span class="tag tag-agent">agent</span> <span style="font-size:11px;color:var(--muted)">modular pipeline</span></li>
-      </ul>
+      <div class="mech-list" id="mechPartial"></div>
     </div>
-
-    <div class="diagram-arrow">&rarr;</div>
-    <div class="diagram-arrow-down">&darr;</div>
-
-    <div class="dcard">
-      <div class="dcard-head" data-t="dia_artifacts">Artifacts</div>
-      <ul class="dcard-items">
-        <li><code>decision.json</code></li>
-        <li><code>decision.md</code></li>
-        <li><code>reader_summary.md</code></li>
-        <li><code>stats_checks.md</code></li>
-        <li><code>viz.md</code></li>
-      </ul>
-    </div>
-
-    <div class="diagram-arrow">&rarr;</div>
-    <div class="diagram-arrow-down">&darr;</div>
-
-    <div class="dcard">
-      <div class="dcard-head" data-t="dia_indexers">Indexers</div>
-      <ul class="dcard-items">
-        <li><code>build_corpus_index</code></li>
-        <li style="padding-left:12px;color:var(--muted)">&rarr; <code>corpus_100.json</code></li>
-      </ul>
-    </div>
-
-    <div class="diagram-arrow">&rarr;</div>
-    <div class="diagram-arrow-down">&darr;</div>
-
-    <div class="dcard">
-      <div class="dcard-head">GitHub Pages UI</div>
-      <ul class="dcard-items">
-        <li><code>corpus.html</code></li>
-        <li><code>policy.html</code></li>
-      </ul>
-      <div class="dcard-links">
-        <a href="corpus.html" data-t="dia_link_corpus">Open Corpus Explorer &rarr;</a>
-        <a href="policy.html" data-t="dia_link_engine">Explain the Decision Engine &rarr;</a>
+    <div class="mech-zone mech-zone--always">
+      <div class="mech-zone-head">
+        <span class="mech-zone-n">10</span>
+        <span class="mech-zone-t" data-t="mech_always">always &middot; 249 cases</span>
       </div>
+      <div class="mech-list" id="mechAlways"></div>
     </div>
   </div>
 
-  <p class="diagram-caption" data-t="dia_caption">Case &rarr; decision pipeline &rarr; explainable verdicts (Reason &rarr; Evidence).</p>
+  <div class="cost">
+    <div class="cost-lines">
+      <div class="cost-l1" data-t="cost_l1">The rule allowed rollout 362 times.</div>
+      <div class="cost-l2" data-t="cost_l2">Correct: 10.</div>
+    </div>
+    <p class="cost-note" data-t="cost_note">The other 352 are 263 cases that needed investigation and 89 that must not ship.</p>
+  </div>
+
+  <div class="bars">
+    <div class="bar-block">
+      <div class="bar-label"><span data-t="bar_100">100 cases &middot; 5 mechanisms</span></div>
+      <div class="bar">
+        <span class="seg seg-a" style="width:30%" title="ship 30"></span>
+        <span class="seg seg-b" style="width:15%" title="investigate 15"></span>
+        <span class="seg seg-c" style="width:55%" title="do not ship 55"></span>
+      </div>
+      <div class="bar-legend"><span>ship 30</span><span>investigate 15</span><span>do not ship 55</span></div>
+    </div>
+    <div class="bar-block">
+      <div class="bar-label"><span data-t="bar_660">660 cases &middot; 33 mechanisms</span></div>
+      <div class="bar">
+        <span class="seg seg-a" style="width:1.5%" title="ship, correct 10"></span>
+        <span class="seg seg-err" style="width:53.3%" title="ship, wrong 352"></span>
+        <span class="seg seg-b" style="width:20.3%" title="investigate, correct 134"></span>
+        <span class="seg seg-err" style="width:3.9%" title="investigate, wrong 26"></span>
+        <span class="seg seg-c" style="width:20.9%" title="do not ship 138, none wrong"></span>
+      </div>
+      <div class="bar-legend"><span>ship 362</span><span>investigate 160</span><span>do not ship 138</span></div>
+    </div>
+    <p class="bars-note" data-t="bars_note">Red marks where the rule was wrong. Refusals are always right &mdash; the error sits in the permissions.</p>
+  </div>
 </div>
 
 <div class="onboard-section">
@@ -323,6 +350,17 @@ cd ../.. && python3 tools/build_corpus_index.py</pre>
   var T={
     title:{ru:'AB Factory'},
     subtitle:{ru:'<span class="sub-lead"><strong>\u0420\u0435\u0448\u0435\u043d\u0438\u044f \u043f\u043e A/B \u043a\u0430\u0436\u0443\u0442\u0441\u044f \u0440\u0435\u0448\u0451\u043d\u043d\u043e\u0439 \u0437\u0430\u0434\u0430\u0447\u0435\u0439 \u2014 \u043f\u043e\u043a\u0430 \u043d\u0435 \u043f\u0435\u0440\u0435\u0441\u0442\u0430\u044e\u0442.</strong></span>\u0414\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043f\u0440\u0430\u0432\u043e \u0432 <strong>100%</strong> \u0441\u043b\u0443\u0447\u0430\u0435\u0432 \u043d\u0430 100 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 \u043f\u044f\u0442\u044c\u044e \u0445\u0440\u0435\u0441\u0442\u043e\u043c\u0430\u0442\u0438\u0439\u043d\u044b\u043c\u0438 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430\u043c\u0438. \u041d\u0430 660 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c\u044e \u0442\u0440\u0435\u043c\u044f \u2014 \u0432 <strong>42.7%</strong>, \u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432 \u043e\u043d\u043e \u043d\u0435 \u043b\u043e\u0432\u0438\u0442 \u043d\u0438 \u0440\u0430\u0437\u0443.<span class="sub-close">\u041a\u043e\u0440\u043f\u0443\u0441, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u0435\u0433\u043e \u043b\u043e\u043c\u0430\u0435\u0442, \u0438 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b, \u0447\u0442\u043e\u0431\u044b \u0443\u0432\u0438\u0434\u0435\u0442\u044c, \u0433\u0434\u0435 \u0438\u043c\u0435\u043d\u043d\u043e.</span>'},
+    mech_title:{ru:'\u0413\u0434\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043f\u0435\u0440\u0435\u0441\u0442\u0430\u0451\u0442 \u0440\u0430\u0431\u043e\u0442\u0430\u0442\u044c'},
+    mech_sub:{ru:'33 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430 \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435. \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u043b\u044e\u0431\u043e\u0439, \u0447\u0442\u043e\u0431\u044b \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0435\u0433\u043e \u043a\u0435\u0439\u0441\u044b.'},
+    mech_never:{ru:'\u043d\u0435 \u043b\u043e\u0432\u0438\u0442 \u043d\u0438 \u0440\u0430\u0437\u0443 \u00b7 361 \u043a\u0435\u0439\u0441'},
+    mech_partial:{ru:'\u043b\u043e\u0432\u0438\u0442 \u0447\u0430\u0441\u0442\u0438\u0447\u043d\u043e \u00b7 50 \u043a\u0435\u0439\u0441\u043e\u0432'},
+    mech_always:{ru:'\u043b\u043e\u0432\u0438\u0442 \u0432\u0441\u0435\u0433\u0434\u0430 \u00b7 249 \u043a\u0435\u0439\u0441\u043e\u0432'},
+    cost_l1:{ru:'\u041f\u0440\u0430\u0432\u0438\u043b\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0438\u043b\u043e \u0432\u044b\u043a\u0430\u0442\u043a\u0443 362 \u0440\u0430\u0437\u0430.'},
+    cost_l2:{ru:'\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e \u2014 10.'},
+    cost_note:{ru:'\u041e\u0441\u0442\u0430\u043b\u044c\u043d\u044b\u0435 352 \u2014 \u044d\u0442\u043e 263 \u0441\u043b\u0443\u0447\u0430\u044f, \u0433\u0434\u0435 \u043d\u0443\u0436\u043d\u043e \u0431\u044b\u043b\u043e \u0440\u0430\u0437\u0431\u0438\u0440\u0430\u0442\u044c\u0441\u044f, \u0438 89, \u0433\u0434\u0435 \u043a\u0430\u0442\u0438\u0442\u044c \u0431\u044b\u043b\u043e \u043d\u0435\u043b\u044c\u0437\u044f.'},
+    bar_100:{ru:'100 \u043a\u0435\u0439\u0441\u043e\u0432 \u00b7 5 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432'},
+    bar_660:{ru:'660 \u043a\u0435\u0439\u0441\u043e\u0432 \u00b7 33 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430'},
+    bars_note:{ru:'\u041a\u0440\u0430\u0441\u043d\u043e\u0435 \u2014 \u0442\u0430\u043c, \u0433\u0434\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043e\u0448\u0438\u0431\u043b\u043e\u0441\u044c. \u041e\u0442\u043a\u0430\u0437 \u043d\u0430\u0434\u0451\u0436\u0435\u043d \u0432\u0441\u0435\u0433\u0434\u0430, \u043e\u0448\u0438\u0431\u043a\u0430 \u0441\u0438\u0434\u0438\u0442 \u0432 \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f\u0445.'},
     btn_corpus:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441 \u043a\u0435\u0439\u0441\u043e\u0432 \u2192'},
     btn_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2192'},
     nav_corpus:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441'},nav_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c'},
@@ -339,7 +377,6 @@ cd ../.. && python3 tools/build_corpus_index.py</pre>
     c_corpus:{ru:'\u041a\u0435\u0439\u0441\u044b \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435'},
     c_live:{ru:'Live'},
     c_corpus_d:{ru:'\u041e\u0446\u0435\u043d\u0435\u043d\u044b 4-\u0430\u0433\u0435\u043d\u0442\u043d\u044b\u043c \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d\u043e\u043c.'},
-    st_avgconf:{ru:'\u0441\u0440. \u0443\u0432\u0435\u0440.'},
     run_title:{ru:'\u0417\u0430\u043f\u0443\u0441\u043a \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e'},
     run_sub:{ru:'\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u043e\u0440\u043f\u0443\u0441 \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e (\u0442\u043e\u043b\u044c\u043a\u043e stdlib).'},
     run_copy:{ru:'\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c'},
@@ -415,17 +452,45 @@ cd ../.. && python3 tools/build_corpus_index.py</pre>
       }
     });
   }
-  fetch('data/corpus_stats.json').then(function(r){return r.json();}).then(function(s){
+
+// Сетка механизмов строится из corpus_660.json, а не зашита в разметку:
+// пересобрали корпус — сетка обновилась сама. Числа в заголовках зон
+// тоже считаются здесь, чтобы не разъезжались с данными.
+fetch('data/corpus_660.json').then(function(r){return r.json();}).then(function(d){
+  var agg={};
+  d.forEach(function(c){
+    var k=c.type||'other';
+    if(!agg[k]) agg[k]={n:0,ok:0};
+    agg[k].n++; if(c.correct===true) agg[k].ok++;
+  });
+  var zones={never:[],partial:[],always:[]};
+  Object.keys(agg).forEach(function(k){
+    var a=agg[k], p=a.ok/a.n;
+    (p===0?zones.never:p===1?zones.always:zones.partial).push({k:k,n:a.n,pct:Math.round(p*100)});
+  });
+  function fill(id,list,withPct){
+    var el=document.getElementById(id); if(!el) return;
+    list.sort(function(a,b){return b.n-a.n||(a.k<b.k?-1:1);});
+    el.innerHTML=list.map(function(m){
+      var lbl=m.k+(withPct?' '+m.pct+'%':'');
+      return '<a href="corpus.html?mech='+encodeURIComponent(m.k)+(LANG==='ru'?'&lang=ru':'')+'">'+lbl+'</a>';
+    }).join('');
+    var head=el.parentNode.querySelector('.mech-zone-n');
+    if(head) head.textContent=list.length;
+    var cases=list.reduce(function(s,m){return s+m.n;},0);
+    var t=el.parentNode.querySelector('.mech-zone-t');
+    if(t) t.textContent=t.textContent.replace(/\d+ cases|\d+ \u043a\u0435\u0439\u0441\u043e\u0432/, cases+(LANG==='ru'?' \u043a\u0435\u0439\u0441\u043e\u0432':' cases'));
+  }
+  fill('mechNever',zones.never,false);
+  fill('mechPartial',zones.partial,true);
+  fill('mechAlways',zones.always,false);
+});
+
+  // Карточка ведёт в Corpus Explorer, а он открывается на наборе 660,
+  // поэтому и число берём оттуда: иначе на главной 100, а по клику 660.
+  fetch('data/corpus_stats_660.json').then(function(r){return r.json();}).then(function(s){
     var el;
     if(s.total&&(el=document.getElementById('corpus-total'))) el.textContent=s.total;
-    var dc=s.decision_counts||{};
-    if((el=document.getElementById('st-ship'))&&dc.ship!=null) el.textContent=dc.ship;
-    if((el=document.getElementById('st-dns'))&&dc.do_not_ship!=null) el.textContent=dc.do_not_ship;
-    if((el=document.getElementById('st-inv'))&&dc.investigate!=null) el.textContent=dc.investigate;
-    var ac=s.avg_confidence_by_decision||{};
-    var tot=s.total||1;
-    var avg=((dc.ship||0)*(ac.ship||0)+(dc.do_not_ship||0)*(ac.do_not_ship||0)+(dc.investigate||0)*(ac.investigate||0))/tot;
-    if((el=document.getElementById('st-conf'))) el.textContent=Math.round(avg*100);
   }).catch(function(){});
   fetch('data/corpus_100.json').then(function(r){return r.json();}).then(function(list){
     if(!list||!list.length) return;
