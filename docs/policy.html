@@ -457,7 +457,15 @@ var $hint=document.getElementById('hint');
 
 renderPipelineEmpty();
 
-fetch('data/corpus_100.json').then(function(r){return r.json();}).then(function(data){
+// Набор кейсов берём из ?set=. Идентификаторы наборов пересекаются
+// полностью (case_001…case_100 есть в обоих), но это разные кейсы,
+// поэтому без явного указания открываем сотню: ссылки без set созданы,
+// когда второго набора не существовало.
+var CORPUS_FILE=(function(){
+  var s=new URLSearchParams(location.search).get('set');
+  return s==='660' ? 'data/corpus_660.json' : 'data/corpus_100.json';
+})();
+fetch(CORPUS_FILE).then(function(r){return r.json();}).then(function(data){
   CASES=data;
   $cs.innerHTML='<option value="">'+t('pick_case')+'</option>';
   CASES.forEach(function(c){
@@ -756,6 +764,9 @@ function syncUrl(caseId){
   if(c!==3) p.set('ctr',c);
   if(LANG==='ru') p.set('lang','ru');
   if(DEBUG) p.set('debug','1');
+  // Набор обязан пережить перезапись адреса: без него перезагрузка
+  // страницы откроет кейс с тем же номером из другого корпуса.
+  if(CORPUS_FILE.indexOf('660')>=0) p.set('set','660');
   var qs=p.toString();
   history.replaceState(null,'',location.pathname+(qs?'?'+qs:''));
 }

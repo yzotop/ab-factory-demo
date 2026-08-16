@@ -86,6 +86,7 @@ td.wrap{white-space:normal;max-width:200px}
    Стоит вплотную к бейджу вердикта, а не отдельной колонкой —
    в таблице их и так двенадцать. На корпусе из 100 все отметки
    зелёные (агент прав всегда), смысл появляется на 660. */
+.set-hint{font-size:11px;color:var(--muted);white-space:nowrap}
 .vmark{font-size:11px;font-weight:700;margin-left:6px;white-space:nowrap}
 .vmark-ok{color:var(--green)}
 .vmark-bad{color:var(--red)}
@@ -282,6 +283,11 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   <div class="summary" id="summary"></div>
 
   <div class="filters">
+    <select id="setSwitch" title="Case set">
+      <option value="660">660 cases · 33 mechanisms</option>
+      <option value="100">100 cases · 5 mechanisms</option>
+    </select>
+    <span id="setHint" class="set-hint"></span>
     <input type="text" id="fSearch" data-t-placeholder="f_search" placeholder="Search title, type, reasons…">
     <select id="fDecision"><option value="" data-t="f_all_dec">All decisions</option><option value="ship">ship</option><option value="do_not_ship">do_not_ship</option><option value="investigate">investigate</option></select>
     <select id="fMetric"><option value="" data-t="f_all_met">All metrics</option></select>
@@ -346,6 +352,8 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     vm_na_t:{en:'No agent run for this case',ru:'\u041f\u0440\u043e\u0433\u043e\u043d\u0430 \u0430\u0433\u0435\u043d\u0442\u0430 \u0434\u043b\u044f \u044d\u0442\u043e\u0433\u043e \u043a\u0435\u0439\u0441\u0430 \u043d\u0435\u0442'},
     lbl_expected:{en:'Ground truth',ru:'\u042d\u0442\u0430\u043b\u043e\u043d'},
     lbl_caught:{en:'Caught',ru:'\u041f\u043e\u0439\u043c\u0430\u043b'},
+    set_hint_660:{en:'42.7% verdicts correct \u00b7 20 of 33 mechanisms never caught',ru:'42.7% \u0432\u0435\u0440\u043d\u044b\u0445 \u0432\u0435\u0440\u0434\u0438\u043a\u0442\u043e\u0432 \u00b7 20 \u0438\u0437 33 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432 \u043d\u0435 \u043b\u043e\u0432\u044f\u0442\u0441\u044f'},
+    set_hint_100:{en:'100% verdicts correct \u00b7 five textbook mechanisms',ru:'100% \u0432\u0435\u0440\u043d\u044b\u0445 \u0432\u0435\u0440\u0434\u0438\u043a\u0442\u043e\u0432 \u00b7 \u043f\u044f\u0442\u044c \u0445\u0440\u0435\u0441\u0442\u043e\u043c\u0430\u0442\u0438\u0439\u043d\u044b\u0445 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432'},
     explain_btn:{en:'Explain decision',ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0438\u0442\u044c'},
     compare_mode:{en:'Quick compare mode',ru:'\u0411\u044b\u0441\u0442\u0440\u043e\u0435 \u0441\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435'},
     fld_metric:{en:'Metric',ru:'\u041c\u0435\u0442\u0440\u0438\u043a\u0430'},
@@ -486,6 +494,9 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     if(AP.running) p.set('autoplay','1');
     var spd=parseInt($apSpeed.value)||1; if(spd!==1) p.set('speed',String(spd));
     if(LANG==='ru') p.set('lang','ru');
+    // Набор пишем в URL всегда, кроме умолчания: так ссылка на кейс
+    // из набора 100 остаётся однозначной, а короткие ссылки не пухнут.
+    if(CUR_SET!==DEFAULT_SET) p.set('set',CUR_SET);
     history.replaceState(null,'',location.pathname+(p.toString()?'?'+p:''));
   }
 
@@ -503,6 +514,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     if(p.has('s'))st.s=p.get('s')==='1';
     if(p.has('r'))st.r=p.get('r')==='1';
     if(p.has('sort')){var pts=p.get('sort').split(':');if(pts.length===2){st.sortCol=pts[0];st.sortAsc=pts[1]!=='desc';}}
+    st.set=p.get('set')||null;
     st.caseId=p.get('case')||null;
     st.tab=p.get('tab')||'details';
     st.autoplay=p.get('autoplay')==='1';
@@ -516,14 +528,48 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     if(th){th.classList.add('sorted');th.querySelector('.arr').textContent=sortAsc?'▲':'▼';}
   }
 
-  Promise.all([
-    fetch('data/corpus_100.json').then(function(r){return r.json();}),
-    fetch('data/corpus_stats.json').then(function(r){return r.json();})
-  ]).then(function(arr){
-    CASES=arr[0]; STATS=arr[1];
+  // Два набора кейсов. Грузим только выбранный: оба разом ни при каком
+  // сценарии не нужны, а 660 — это 384 КБ сырого JSON (на боевом сервере
+  // отдаётся сжатым, ~28 КБ, но лишний запрос всё равно ни к чему).
+  var SETS={
+    '100':{cases:'data/corpus_100.json', stats:'data/corpus_stats.json'},
+    '660':{cases:'data/corpus_660.json', stats:'data/corpus_stats_660.json'}
+  };
+  var DEFAULT_SET='660';
+  var CUR_SET=DEFAULT_SET;
+  var _setCache={};
+
+  function loadSet(name){
+    if(_setCache[name]) return Promise.resolve(_setCache[name]);
+    var s=SETS[name];
+    return Promise.all([
+      fetch(s.cases).then(function(r){return r.json();}),
+      fetch(s.stats).then(function(r){return r.json();})
+    ]).then(function(arr){ _setCache[name]={cases:arr[0],stats:arr[1]}; return _setCache[name]; });
+  }
+
+  // Старые ссылки вида ?case=case_011 набор не указывают, и определить
+  // его по наличию кейса нельзя: идентификаторы наборов пересекаются
+  // полностью (case_001…case_100 есть в обоих), но это РАЗНЫЕ кейсы.
+  // Например case_011 — «Premium placement in mixed feeds» с конфликтом
+  // сегментов в наборе 100 и «Pre-period covariate readout» в наборе 660.
+  //
+  // Поэтому ссылка на кейс без набора трактуется как ссылка на сотню:
+  // она была создана, когда другого набора не существовало. Открывать
+  // её в 660 значило бы молча подменить кейс.
+  function resolveSet(state){
+    if(state.set&&SETS[state.set]) return state.set;
+    return state.caseId ? '100' : DEFAULT_SET;
+  }
+
+  var _bootState=readUrlState();
+  CUR_SET=resolveSet(_bootState);
+  loadSet(CUR_SET).then(function(d){
+    CASES=d.cases; STATS=d.stats;
+    syncSetControl();
     populateMetrics();
     renderSummary();
-    var state=readUrlState();
+    var state=_bootState;
     _setFilters(state);
     sortCol=state.sortCol; sortAsc=state.sortAsc;
     updateSortVisual();
@@ -537,6 +583,35 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     if(state.autoplay) setTimeout(startAutoplay,200);
   });
 
+  // Переключение набора: догружаем второй файл по требованию и
+  // перерисовываем. Фильтры сбрасывать не нужно — они общие, но
+  // выпадающий список метрик пересобираем: состав может отличаться.
+  function syncSetControl(){
+    var el=document.getElementById('setSwitch');
+    if(!el) return;
+    el.value=CUR_SET;
+    var lbl=document.getElementById('setHint');
+    if(lbl) lbl.textContent=(CUR_SET==='660')?_t('set_hint_660'):_t('set_hint_100');
+  }
+
+  function switchSet(name){
+    if(!SETS[name]||name===CUR_SET) return;
+    loadSet(name).then(function(d){
+      CUR_SET=name; CASES=d.cases; STATS=d.stats;
+      closeDrawer();
+      $metric.length=1;            // оставить «все метрики», остальное пересобрать
+      populateMetrics();
+      renderSummary();
+      syncSetControl();
+      render();
+      syncUrl();
+    });
+  }
+
+  (function(){
+    var el=document.getElementById('setSwitch');
+    if(el) el.addEventListener('change', function(){ switchSet(el.value); });
+  })();
   $search.addEventListener('input', render);
   $decision.addEventListener('change', render);
   $metric.addEventListener('change', render);
@@ -664,7 +739,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
           +flag('R','r',c.long_term_reversal)
         +'</div></td>'
         +'<td><span class="reason-tag">'+esc(reasonLabel(c.reasons[0]||'—'))+'</span></td>'
-        +'<td><a href="policy.html?case='+c.case_id+(LANG==='ru'?'&lang=ru':'')+'" class="explain-link">'+_t('explain_btn')+'</a></td>'
+        +'<td><a href="policy.html?case='+c.case_id+'&set='+CUR_SET+(LANG==='ru'?'&lang=ru':'')+'" class="explain-link">'+_t('explain_btn')+'</a></td>'
       +'</tr>';
     }).join('');
     $tbody.querySelectorAll('tr').forEach(function(tr){
@@ -774,7 +849,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     h+=buildDecisionPanel(c,null);
 
     h+='<section style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">';
-    h+='<a href="policy.html?case='+c.case_id+(LANG==='ru'?'&lang=ru':'')+'" style="font-size:13px;color:var(--accent);text-decoration:none;font-weight:500">'+(_t('explain_link')||'Explain decision \u2192')+'</a>';
+    h+='<a href="policy.html?case='+c.case_id+'&set='+CUR_SET+(LANG==='ru'?'&lang=ru':'')+'" style="font-size:13px;color:var(--accent);text-decoration:none;font-weight:500">'+(_t('explain_link')||'Explain decision \u2192')+'</a>';
     h+='</section>';
 
     h+='<section><h3>Open as Template</h3>';
