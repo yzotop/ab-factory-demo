@@ -40,6 +40,22 @@ def _safe_float(val: str | None) -> float | None:
         return None
 
 
+def _load_trap_labels(corpus_dir: Path) -> dict[str, str]:
+    """Точные метки механизмов от генератора, если корпус их несёт.
+
+    _infer_type ниже знает только пять исходных сценариев и сваливает
+    всё остальное в "other" — на корпусе из 660 это 497 кейсов из 660,
+    то есть фильтр по механизму по нему не построить. Генератор кладёт
+    рядом _trap_labels.json с точным именем механизма на каждый кейс;
+    если файл есть, берём типы оттуда.
+    """
+    p = corpus_dir / "_trap_labels.json"
+    if not p.exists():
+        return {}
+    with open(p, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
 def _infer_type(reasons: list[str]) -> str:
     """Infer scenario type from truth reasons."""
     rs = set(reasons)
@@ -114,6 +130,8 @@ def build_corpus(corpus_dir: Path = CASES_AUTO,
         )
         sys.exit(1)
 
+    trap_labels = _load_trap_labels(corpus_dir)
+
     case_dirs = sorted(
         d for d in corpus_dir.iterdir()
         if d.is_dir() and (d / "contract.json").exists()
@@ -184,7 +202,7 @@ def build_corpus(corpus_dir: Path = CASES_AUTO,
         cases.append({
             "case_id": cid,
             "title": contract.get("title", ""),
-            "type": _infer_type(truth.get("key_reasons", [])),
+            "type": trap_labels.get(cid) or _infer_type(truth.get("key_reasons", [])),
             "metric": contract.get("primary_metric", {}).get("name", ""),
             "uplift_pct": uplift_pct,
             "p_value": p_value,

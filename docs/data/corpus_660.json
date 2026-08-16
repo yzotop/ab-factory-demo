@@ -2,7 +2,7 @@
   {
     "case_id": "case_001",
     "title": "Limited rollout check (v1)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": -0.06,
     "p_value": 0.518,
@@ -25,7 +25,7 @@
   {
     "case_id": "case_002",
     "title": "Pre-period covariate readout (v2)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 1.67,
     "p_value": 0.0623,
@@ -72,7 +72,7 @@
   {
     "case_id": "case_004",
     "title": "Top-performing creative selection (v4)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 1.22,
     "p_value": 0.0496,
@@ -95,7 +95,7 @@
   {
     "case_id": "case_005",
     "title": "Premium cohort uplift readout (v5)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": 0.41,
     "p_value": 0.2195,
@@ -142,7 +142,7 @@
   {
     "case_id": "case_007",
     "title": "Platform-specific layout experiment (v7)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.56,
     "p_value": 0.2024,
@@ -165,7 +165,7 @@
   {
     "case_id": "case_008",
     "title": "Mid-test marketing push readout (v8)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 2.3,
     "p_value": 0.0148,
@@ -188,7 +188,7 @@
   {
     "case_id": "case_009",
     "title": "Baseline-adjusted revenue test (v9)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 0.98,
     "p_value": 0.0556,
@@ -211,7 +211,7 @@
   {
     "case_id": "case_010",
     "title": "Instrumentation upgrade A/B test (v10)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 2.96,
     "p_value": 0.0029,
@@ -234,7 +234,7 @@
   {
     "case_id": "case_011",
     "title": "Pre-period covariate readout (v11)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 1.41,
     "p_value": 0.0866,
@@ -257,7 +257,7 @@
   {
     "case_id": "case_012",
     "title": "Holiday promo layout test (v12)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 3.65,
     "p_value": 0.0048,
@@ -303,7 +303,7 @@
   {
     "case_id": "case_014",
     "title": "Covariate-enriched pilot (v14)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 1.49,
     "p_value": 0.083,
@@ -326,7 +326,7 @@
   {
     "case_id": "case_015",
     "title": "CTR-first layout optimization (v15)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.15,
     "p_value": 0.0117,
@@ -350,7 +350,7 @@
   {
     "case_id": "case_016",
     "title": "Tracking-gap experiment review (v16)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 4.39,
     "p_value": 0.0209,
@@ -397,7 +397,7 @@
   {
     "case_id": "case_018",
     "title": "Marketplace inventory split experiment (v18)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 2.69,
     "p_value": 0.0199,
@@ -420,7 +420,7 @@
   {
     "case_id": "case_019",
     "title": "Impression-normalized click test (v19)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 4.15,
     "p_value": 0.0139,
@@ -443,7 +443,7 @@
   {
     "case_id": "case_020",
     "title": "Platform-specific layout experiment (v20)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 1.11,
     "p_value": 0.1559,
@@ -466,7 +466,7 @@
   {
     "case_id": "case_021",
     "title": "Sequential readout pilot (v21)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 3.33,
     "p_value": 0.009,
@@ -489,7 +489,7 @@
   {
     "case_id": "case_022",
     "title": "Black Friday ad density experiment (v22)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 4.13,
     "p_value": 0.0216,
@@ -512,7 +512,7 @@
   {
     "case_id": "case_023",
     "title": "Cross-device format rollout (v23)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.81,
     "p_value": 0.198,
@@ -535,7 +535,7 @@
   {
     "case_id": "case_024",
     "title": "Impression-normalized click test (v24)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 5.7,
     "p_value": 0.0075,
@@ -558,7 +558,7 @@
   {
     "case_id": "case_025",
     "title": "Fresh creative rotation test (v25)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.45,
     "p_value": 0.0055,
@@ -581,7 +581,7 @@
   {
     "case_id": "case_026",
     "title": "New placement traffic audit (v26)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 3.81,
     "p_value": 0.016,
@@ -628,7 +628,7 @@
   {
     "case_id": "case_028",
     "title": "Sequential readout pilot (v28)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 4.86,
     "p_value": 0.0437,
@@ -722,7 +722,7 @@
   {
     "case_id": "case_032",
     "title": "Limited rollout check (v32)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": 2.75,
     "p_value": 0.62,
@@ -769,7 +769,7 @@
   {
     "case_id": "case_034",
     "title": "Engaged cohort outcome analysis (v34)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 5.0,
     "p_value": 0.0031,
@@ -816,7 +816,7 @@
   {
     "case_id": "case_036",
     "title": "Partial-coverage metrics readout (v36)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 2.66,
     "p_value": 0.0164,
@@ -839,7 +839,7 @@
   {
     "case_id": "case_037",
     "title": "Premium cohort uplift readout (v37)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": 0.09,
     "p_value": 0.1954,
@@ -862,7 +862,7 @@
   {
     "case_id": "case_038",
     "title": "Event-level CTR significance check (v38)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 4.06,
     "p_value": 0.0103,
@@ -933,7 +933,7 @@
   {
     "case_id": "case_041",
     "title": "Mix-shift pricing test (v41)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.63,
     "p_value": 0.0024,
@@ -956,7 +956,7 @@
   {
     "case_id": "case_042",
     "title": "Year-end peak format rollout (v42)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 2.3,
     "p_value": 0.0129,
@@ -979,7 +979,7 @@
   {
     "case_id": "case_043",
     "title": "Assignment pipeline audit test (v43)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 3.44,
     "p_value": 0.0119,
@@ -1025,7 +1025,7 @@
   {
     "case_id": "case_045",
     "title": "Randomization QA experiment (v45)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 2.64,
     "p_value": 0.0043,
@@ -1048,7 +1048,7 @@
   {
     "case_id": "case_046",
     "title": "Variant tournament winner deploy (v46)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 0.85,
     "p_value": 0.0444,
@@ -1094,7 +1094,7 @@
   {
     "case_id": "case_048",
     "title": "CTR-first layout optimization (v48)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.08,
     "p_value": 0.0109,
@@ -1141,7 +1141,7 @@
   {
     "case_id": "case_050",
     "title": "Randomization QA experiment (v50)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 4.07,
     "p_value": 0.015,
@@ -1164,7 +1164,7 @@
   {
     "case_id": "case_051",
     "title": "Fresh creative rotation test (v51)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 2.46,
     "p_value": 0.0066,
@@ -1210,7 +1210,7 @@
   {
     "case_id": "case_053",
     "title": "Aggregate floor adjustment (v53)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.98,
     "p_value": 0.0144,
@@ -1233,7 +1233,7 @@
   {
     "case_id": "case_054",
     "title": "Baseline-adjusted revenue test (v54)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 1.62,
     "p_value": 0.0904,
@@ -1279,7 +1279,7 @@
   {
     "case_id": "case_056",
     "title": "Exploratory metric battery (v56)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": -0.11,
     "p_value": 0.149,
@@ -1302,7 +1302,7 @@
   {
     "case_id": "case_057",
     "title": "Variant tournament winner deploy (v57)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 1.2,
     "p_value": 0.0419,
@@ -1325,7 +1325,7 @@
   {
     "case_id": "case_058",
     "title": "Shared auction pool bid test (v58)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 2.53,
     "p_value": 0.016,
@@ -1372,7 +1372,7 @@
   {
     "case_id": "case_060",
     "title": "SDK v2 rollout experiment (v60)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 4.74,
     "p_value": 0.009,
@@ -1395,7 +1395,7 @@
   {
     "case_id": "case_061",
     "title": "Top-spender revenue readout (v61)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 1.93,
     "p_value": 0.0174,
@@ -1465,7 +1465,7 @@
   {
     "case_id": "case_064",
     "title": "Pooled segment rollout (v64)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 3.0,
     "p_value": 0.0245,
@@ -1512,7 +1512,7 @@
   {
     "case_id": "case_066",
     "title": "Cross-device format rollout (v66)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.62,
     "p_value": 0.1349,
@@ -1558,7 +1558,7 @@
   {
     "case_id": "case_068",
     "title": "Mix-shift pricing test (v68)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.23,
     "p_value": 0.0069,
@@ -1581,7 +1581,7 @@
   {
     "case_id": "case_069",
     "title": "Fresh creative rotation test (v69)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 4.16,
     "p_value": 0.0046,
@@ -1628,7 +1628,7 @@
   {
     "case_id": "case_071",
     "title": "Variant tournament winner deploy (v71)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 1.19,
     "p_value": 0.0436,
@@ -1699,7 +1699,7 @@
   {
     "case_id": "case_074",
     "title": "Step-change ad yield experiment (v74)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 44.8,
     "p_value": 5.9e-05,
@@ -1722,7 +1722,7 @@
   {
     "case_id": "case_075",
     "title": "Pooled segment rollout (v75)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.58,
     "p_value": 0.0235,
@@ -1745,7 +1745,7 @@
   {
     "case_id": "case_076",
     "title": "Blended inventory experiment (v76)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.07,
     "p_value": 0.0287,
@@ -1768,7 +1768,7 @@
   {
     "case_id": "case_077",
     "title": "Variant tournament winner deploy (v77)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 1.37,
     "p_value": 0.0495,
@@ -1791,7 +1791,7 @@
   {
     "case_id": "case_078",
     "title": "Redesigned ad unit rollout (v78)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 2.81,
     "p_value": 0.0031,
@@ -1814,7 +1814,7 @@
   {
     "case_id": "case_079",
     "title": "Whale-sensitive revenue test (v79)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 1.51,
     "p_value": 0.0238,
@@ -1861,7 +1861,7 @@
   {
     "case_id": "case_081",
     "title": "Session-level revenue readout (v81)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 3.28,
     "p_value": 0.0051,
@@ -1908,7 +1908,7 @@
   {
     "case_id": "case_083",
     "title": "Skewed revenue distribution test (v83)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 2.74,
     "p_value": 0.0175,
@@ -1931,7 +1931,7 @@
   {
     "case_id": "case_084",
     "title": "Black Friday ad density experiment (v84)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 3.2,
     "p_value": 0.0119,
@@ -1954,7 +1954,7 @@
   {
     "case_id": "case_085",
     "title": "Mid-week format pilot (v85)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 2.16,
     "p_value": 0.0191,
@@ -1977,7 +1977,7 @@
   {
     "case_id": "case_086",
     "title": "High-engagement segment pilot (v86)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 3.41,
     "p_value": 0.0112,
@@ -2000,7 +2000,7 @@
   {
     "case_id": "case_087",
     "title": "Early-stage pilot test (v87)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": 0.71,
     "p_value": 0.183,
@@ -2023,7 +2023,7 @@
   {
     "case_id": "case_088",
     "title": "Full-funnel metric scan (v88)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.0,
     "p_value": 0.373,
@@ -2046,7 +2046,7 @@
   {
     "case_id": "case_089",
     "title": "Engagement proxy format rollout (v89)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.06,
     "p_value": 0.0125,
@@ -2070,7 +2070,7 @@
   {
     "case_id": "case_090",
     "title": "Whale-sensitive revenue test (v90)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 1.82,
     "p_value": 0.0111,
@@ -2117,7 +2117,7 @@
   {
     "case_id": "case_092",
     "title": "Loyal-user monetization test (v92)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": -0.01,
     "p_value": 0.369,
@@ -2140,7 +2140,7 @@
   {
     "case_id": "case_093",
     "title": "Whale-sensitive revenue test (v93)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 2.64,
     "p_value": 0.0147,
@@ -2187,7 +2187,7 @@
   {
     "case_id": "case_095",
     "title": "Event-level uplift analysis (v95)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 2.33,
     "p_value": 0.0149,
@@ -2210,7 +2210,7 @@
   {
     "case_id": "case_096",
     "title": "Redesigned ad unit rollout (v96)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 4.46,
     "p_value": 0.0194,
@@ -2233,7 +2233,7 @@
   {
     "case_id": "case_097",
     "title": "Multi-metric dashboard test (v97)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.46,
     "p_value": 0.367,
@@ -2256,7 +2256,7 @@
   {
     "case_id": "case_098",
     "title": "Top-performing creative selection (v98)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 0.81,
     "p_value": 0.0472,
@@ -2279,7 +2279,7 @@
   {
     "case_id": "case_099",
     "title": "Concurrent campaign experiment (v99)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 2.67,
     "p_value": 0.0117,
@@ -2326,7 +2326,7 @@
   {
     "case_id": "case_101",
     "title": "Format rollout quality check (v101)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 3.85,
     "p_value": 0.0143,
@@ -2349,7 +2349,7 @@
   {
     "case_id": "case_102",
     "title": "Bucket balance monitoring test (v102)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 4.09,
     "p_value": 0.0084,
@@ -2372,7 +2372,7 @@
   {
     "case_id": "case_103",
     "title": "Activated-user uplift study (v103)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 5.42,
     "p_value": 0.0072,
@@ -2419,7 +2419,7 @@
   {
     "case_id": "case_105",
     "title": "Session-level revenue readout (v105)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 1.71,
     "p_value": 0.0041,
@@ -2442,7 +2442,7 @@
   {
     "case_id": "case_106",
     "title": "Breakthrough monetization rollout (v106)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 36.39,
     "p_value": 3.1e-05,
@@ -2465,7 +2465,7 @@
   {
     "case_id": "case_107",
     "title": "High-engagement segment pilot (v107)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 2.77,
     "p_value": 0.0021,
@@ -2512,7 +2512,7 @@
   {
     "case_id": "case_109",
     "title": "Matched pre-period experiment (v109)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 1.62,
     "p_value": 0.0868,
@@ -2535,7 +2535,7 @@
   {
     "case_id": "case_110",
     "title": "Novel placement debut (v110)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.52,
     "p_value": 0.0185,
@@ -2582,7 +2582,7 @@
   {
     "case_id": "case_112",
     "title": "CTR-optimized layout rollout (v112)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 4.17,
     "p_value": 0.0157,
@@ -2605,7 +2605,7 @@
   {
     "case_id": "case_113",
     "title": "Heavy-user monetization test (v113)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 3.54,
     "p_value": 0.0083,
@@ -2628,7 +2628,7 @@
   {
     "case_id": "case_114",
     "title": "Concurrent campaign experiment (v114)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 2.83,
     "p_value": 0.0124,
@@ -2651,7 +2651,7 @@
   {
     "case_id": "case_115",
     "title": "Friend-referral ad credit test (v115)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.48,
     "p_value": 0.0801,
@@ -2674,7 +2674,7 @@
   {
     "case_id": "case_116",
     "title": "Surface-specific pricing test (v116)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.74,
     "p_value": 0.2237,
@@ -2697,7 +2697,7 @@
   {
     "case_id": "case_117",
     "title": "Sequential readout pilot (v117)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 3.72,
     "p_value": 0.0106,
@@ -2720,7 +2720,7 @@
   {
     "case_id": "case_118",
     "title": "Click surface expansion test (v118)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 4.48,
     "p_value": 0.0145,
@@ -2743,7 +2743,7 @@
   {
     "case_id": "case_119",
     "title": "Bucket balance monitoring test (v119)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 3.36,
     "p_value": 0.0198,
@@ -2766,7 +2766,7 @@
   {
     "case_id": "case_120",
     "title": "Raw event stream A/B readout (v120)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 3.88,
     "p_value": 0.0199,
@@ -2789,7 +2789,7 @@
   {
     "case_id": "case_121",
     "title": "Shared auction pool bid test (v121)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 2.84,
     "p_value": 0.0196,
@@ -2812,7 +2812,7 @@
   {
     "case_id": "case_122",
     "title": "Format rollout quality check (v122)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 3.66,
     "p_value": 0.0157,
@@ -2859,7 +2859,7 @@
   {
     "case_id": "case_124",
     "title": "Premium cohort uplift readout (v124)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": -0.34,
     "p_value": 0.403,
@@ -2882,7 +2882,7 @@
   {
     "case_id": "case_125",
     "title": "High-variance monetization pilot (v125)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 2.41,
     "p_value": 0.01,
@@ -2905,7 +2905,7 @@
   {
     "case_id": "case_126",
     "title": "Multi-variant champion selection (v126)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 0.9,
     "p_value": 0.0477,
@@ -2951,7 +2951,7 @@
   {
     "case_id": "case_128",
     "title": "Engaged cohort outcome analysis (v128)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 3.51,
     "p_value": 0.0125,
@@ -3022,7 +3022,7 @@
   {
     "case_id": "case_131",
     "title": "User-level split integrity check (v131)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 4.38,
     "p_value": 0.0109,
@@ -3045,7 +3045,7 @@
   {
     "case_id": "case_132",
     "title": "Friend-referral ad credit test (v132)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.51,
     "p_value": 0.0935,
@@ -3068,7 +3068,7 @@
   {
     "case_id": "case_133",
     "title": "Pre-period covariate readout (v133)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 0.84,
     "p_value": 0.0895,
@@ -3091,7 +3091,7 @@
   {
     "case_id": "case_134",
     "title": "Mid-test marketing push readout (v134)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 2.3,
     "p_value": 0.0178,
@@ -3114,7 +3114,7 @@
   {
     "case_id": "case_135",
     "title": "Shared auction pool bid test (v135)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 3.08,
     "p_value": 0.0159,
@@ -3137,7 +3137,7 @@
   {
     "case_id": "case_136",
     "title": "CTR ratio readout experiment (v136)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 4.62,
     "p_value": 0.0099,
@@ -3160,7 +3160,7 @@
   {
     "case_id": "case_137",
     "title": "Click surface expansion test (v137)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 5.92,
     "p_value": 0.0037,
@@ -3207,7 +3207,7 @@
   {
     "case_id": "case_139",
     "title": "SDK v2 rollout experiment (v139)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 3.67,
     "p_value": 0.0093,
@@ -3230,7 +3230,7 @@
   {
     "case_id": "case_140",
     "title": "In-flight promo overlap test (v140)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 2.23,
     "p_value": 0.0085,
@@ -3253,7 +3253,7 @@
   {
     "case_id": "case_141",
     "title": "Revenue surge format test (v141)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 36.21,
     "p_value": 7e-06,
@@ -3276,7 +3276,7 @@
   {
     "case_id": "case_142",
     "title": "Mix-shift pricing test (v142)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.17,
     "p_value": 0.0047,
@@ -3299,7 +3299,7 @@
   {
     "case_id": "case_143",
     "title": "Covariate-enriched pilot (v143)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 0.86,
     "p_value": 0.0662,
@@ -3322,7 +3322,7 @@
   {
     "case_id": "case_144",
     "title": "New Year campaign slot test (v144)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 2.97,
     "p_value": 0.0053,
@@ -3345,7 +3345,7 @@
   {
     "case_id": "case_145",
     "title": "Marketplace inventory split experiment (v145)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 4.08,
     "p_value": 0.015,
@@ -3368,7 +3368,7 @@
   {
     "case_id": "case_146",
     "title": "Heavy-user monetization test (v146)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 3.63,
     "p_value": 0.0121,
@@ -3414,7 +3414,7 @@
   {
     "case_id": "case_148",
     "title": "Full-funnel metric scan (v148)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": -0.03,
     "p_value": 0.229,
@@ -3437,7 +3437,7 @@
   {
     "case_id": "case_149",
     "title": "Sequential readout pilot (v149)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 4.33,
     "p_value": 0.0168,
@@ -3484,7 +3484,7 @@
   {
     "case_id": "case_151",
     "title": "Assignment pipeline audit test (v151)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 3.97,
     "p_value": 0.0147,
@@ -3507,7 +3507,7 @@
   {
     "case_id": "case_152",
     "title": "Clicker-only conversion test (v152)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 5.0,
     "p_value": 0.0016,
@@ -3530,7 +3530,7 @@
   {
     "case_id": "case_153",
     "title": "Two-sided ad marketplace rollout (v153)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 3.37,
     "p_value": 0.002,
@@ -3553,7 +3553,7 @@
   {
     "case_id": "case_154",
     "title": "First-time interstitial format (v154)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 4.52,
     "p_value": 0.0039,
@@ -3576,7 +3576,7 @@
   {
     "case_id": "case_155",
     "title": "Retry-heavy client conversion test (v155)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 3.62,
     "p_value": 0.0092,
@@ -3623,7 +3623,7 @@
   {
     "case_id": "case_157",
     "title": "Early-stage pilot test (v157)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": 2.0,
     "p_value": 0.523,
@@ -3646,7 +3646,7 @@
   {
     "case_id": "case_158",
     "title": "Declined-card fallback offer (v158)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.34,
     "p_value": 0.3259,
@@ -3669,7 +3669,7 @@
   {
     "case_id": "case_159",
     "title": "Novel placement debut (v159)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 4.35,
     "p_value": 0.0031,
@@ -3692,7 +3692,7 @@
   {
     "case_id": "case_160",
     "title": "Event-level CTR significance check (v160)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 4.72,
     "p_value": 0.0076,
@@ -3715,7 +3715,7 @@
   {
     "case_id": "case_161",
     "title": "Covariate-enriched pilot (v161)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 1.11,
     "p_value": 0.0887,
@@ -3738,7 +3738,7 @@
   {
     "case_id": "case_162",
     "title": "Shareable referral link promo (v162)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.77,
     "p_value": 0.0594,
@@ -3761,7 +3761,7 @@
   {
     "case_id": "case_163",
     "title": "Whale-sensitive revenue test (v163)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 2.59,
     "p_value": 0.0162,
@@ -3784,7 +3784,7 @@
   {
     "case_id": "case_164",
     "title": "Dropped-events analysis pilot (v164)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 4.18,
     "p_value": 0.0087,
@@ -3807,7 +3807,7 @@
   {
     "case_id": "case_165",
     "title": "Per-event CTR significance test (v165)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 3.23,
     "p_value": 0.0242,
@@ -3854,7 +3854,7 @@
   {
     "case_id": "case_167",
     "title": "Black Friday ad density experiment (v167)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 3.2,
     "p_value": 0.0091,
@@ -3877,7 +3877,7 @@
   {
     "case_id": "case_168",
     "title": "Session-level revenue readout (v168)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 2.94,
     "p_value": 0.0171,
@@ -3900,7 +3900,7 @@
   {
     "case_id": "case_169",
     "title": "Pooled segment rollout (v169)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.95,
     "p_value": 0.0059,
@@ -3923,7 +3923,7 @@
   {
     "case_id": "case_170",
     "title": "First-time interstitial format (v170)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 2.16,
     "p_value": 0.0131,
@@ -3946,7 +3946,7 @@
   {
     "case_id": "case_171",
     "title": "Fresh creative rotation test (v171)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.23,
     "p_value": 0.0118,
@@ -3969,7 +3969,7 @@
   {
     "case_id": "case_172",
     "title": "New placement traffic audit (v172)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 2.34,
     "p_value": 0.0158,
@@ -4016,7 +4016,7 @@
   {
     "case_id": "case_174",
     "title": "Inventory source monitoring test (v174)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 3.81,
     "p_value": 0.0166,
@@ -4063,7 +4063,7 @@
   {
     "case_id": "case_176",
     "title": "Declined-card fallback offer (v176)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.21,
     "p_value": 0.2589,
@@ -4086,7 +4086,7 @@
   {
     "case_id": "case_177",
     "title": "Impression-normalized click test (v177)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 5.33,
     "p_value": 0.0126,
@@ -4109,7 +4109,7 @@
   {
     "case_id": "case_178",
     "title": "Shared auction pool bid test (v178)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 2.68,
     "p_value": 0.0107,
@@ -4156,7 +4156,7 @@
   {
     "case_id": "case_180",
     "title": "Full-funnel metric scan (v180)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": -0.15,
     "p_value": 0.26,
@@ -4179,7 +4179,7 @@
   {
     "case_id": "case_181",
     "title": "Engagement-first format test (v181)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 4.45,
     "p_value": 0.0118,
@@ -4202,7 +4202,7 @@
   {
     "case_id": "case_182",
     "title": "Clicker-only conversion test (v182)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 4.3,
     "p_value": 0.0141,
@@ -4225,7 +4225,7 @@
   {
     "case_id": "case_183",
     "title": "Cross-device format rollout (v183)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 1.1,
     "p_value": 0.2278,
@@ -4248,7 +4248,7 @@
   {
     "case_id": "case_184",
     "title": "Pooled segment rollout (v184)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.5,
     "p_value": 0.0036,
@@ -4295,7 +4295,7 @@
   {
     "case_id": "case_186",
     "title": "New logging schema pilot (v186)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 3.64,
     "p_value": 0.0161,
@@ -4318,7 +4318,7 @@
   {
     "case_id": "case_187",
     "title": "Payment-failure retry banner (v187)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.27,
     "p_value": 0.238,
@@ -4365,7 +4365,7 @@
   {
     "case_id": "case_189",
     "title": "Redesigned ad unit rollout (v189)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 2.65,
     "p_value": 0.005,
@@ -4388,7 +4388,7 @@
   {
     "case_id": "case_190",
     "title": "Session-grain metric experiment (v190)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 3.25,
     "p_value": 0.0117,
@@ -4411,7 +4411,7 @@
   {
     "case_id": "case_191",
     "title": "Blended inventory experiment (v191)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.55,
     "p_value": 0.0246,
@@ -4458,7 +4458,7 @@
   {
     "case_id": "case_193",
     "title": "Holiday promo layout test (v193)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 2.94,
     "p_value": 0.0113,
@@ -4481,7 +4481,7 @@
   {
     "case_id": "case_194",
     "title": "Cart-abandon rescue widget (v194)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.03,
     "p_value": 0.2219,
@@ -4504,7 +4504,7 @@
   {
     "case_id": "case_195",
     "title": "Loyal-user monetization test (v195)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": 0.19,
     "p_value": 0.4489,
@@ -4527,7 +4527,7 @@
   {
     "case_id": "case_196",
     "title": "Event-level uplift analysis (v196)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 2.53,
     "p_value": 0.0238,
@@ -4550,7 +4550,7 @@
   {
     "case_id": "case_197",
     "title": "First-time interstitial format (v197)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 4.82,
     "p_value": 0.0152,
@@ -4573,7 +4573,7 @@
   {
     "case_id": "case_198",
     "title": "Black Friday ad density experiment (v198)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 3.58,
     "p_value": 0.0114,
@@ -4596,7 +4596,7 @@
   {
     "case_id": "case_199",
     "title": "Engagement proxy format rollout (v199)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.57,
     "p_value": 0.0052,
@@ -4666,7 +4666,7 @@
   {
     "case_id": "case_202",
     "title": "SDK v2 rollout experiment (v202)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 4.88,
     "p_value": 0.0084,
@@ -4689,7 +4689,7 @@
   {
     "case_id": "case_203",
     "title": "Format rollout quality check (v203)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 3.92,
     "p_value": 0.005,
@@ -4712,7 +4712,7 @@
   {
     "case_id": "case_204",
     "title": "Two-sided ad marketplace rollout (v204)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 2.66,
     "p_value": 0.0063,
@@ -4758,7 +4758,7 @@
   {
     "case_id": "case_206",
     "title": "Friend-referral ad credit test (v206)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.67,
     "p_value": 0.0859,
@@ -4805,7 +4805,7 @@
   {
     "case_id": "case_208",
     "title": "Step-change ad yield experiment (v208)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 38.77,
     "p_value": 3.8e-05,
@@ -4828,7 +4828,7 @@
   {
     "case_id": "case_209",
     "title": "Event-level uplift analysis (v209)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 2.38,
     "p_value": 0.0073,
@@ -4851,7 +4851,7 @@
   {
     "case_id": "case_210",
     "title": "First-time interstitial format (v210)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.44,
     "p_value": 0.0122,
@@ -4874,7 +4874,7 @@
   {
     "case_id": "case_211",
     "title": "Mix-shift pricing test (v211)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.27,
     "p_value": 0.0128,
@@ -4897,7 +4897,7 @@
   {
     "case_id": "case_212",
     "title": "Variant tournament winner deploy (v212)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 1.06,
     "p_value": 0.0413,
@@ -4920,7 +4920,7 @@
   {
     "case_id": "case_213",
     "title": "Shareable referral link promo (v213)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.76,
     "p_value": 0.0674,
@@ -4943,7 +4943,7 @@
   {
     "case_id": "case_214",
     "title": "Surface-specific pricing test (v214)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.8,
     "p_value": 0.1233,
@@ -4966,7 +4966,7 @@
   {
     "case_id": "case_215",
     "title": "Full-funnel metric scan (v215)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.15,
     "p_value": 0.345,
@@ -4989,7 +4989,7 @@
   {
     "case_id": "case_216",
     "title": "Low-traffic placement test (v216)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": 1.74,
     "p_value": 0.396,
@@ -5012,7 +5012,7 @@
   {
     "case_id": "case_217",
     "title": "New ad format launch (v217)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 2.44,
     "p_value": 0.0186,
@@ -5035,7 +5035,7 @@
   {
     "case_id": "case_218",
     "title": "Checkout error recovery prompt (v218)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.01,
     "p_value": 0.2574,
@@ -5058,7 +5058,7 @@
   {
     "case_id": "case_219",
     "title": "Whale-sensitive revenue test (v219)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 2.51,
     "p_value": 0.0188,
@@ -5081,7 +5081,7 @@
   {
     "case_id": "case_220",
     "title": "Aggregate floor adjustment (v220)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.89,
     "p_value": 0.0177,
@@ -5104,7 +5104,7 @@
   {
     "case_id": "case_221",
     "title": "Partial-coverage metrics readout (v221)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 3.77,
     "p_value": 0.0249,
@@ -5127,7 +5127,7 @@
   {
     "case_id": "case_222",
     "title": "Blended inventory experiment (v222)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.21,
     "p_value": 0.0113,
@@ -5150,7 +5150,7 @@
   {
     "case_id": "case_223",
     "title": "Multi-metric dashboard test (v223)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": -0.0,
     "p_value": 0.226,
@@ -5173,7 +5173,7 @@
   {
     "case_id": "case_224",
     "title": "Raw event stream A/B readout (v224)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 4.0,
     "p_value": 0.0091,
@@ -5220,7 +5220,7 @@
   {
     "case_id": "case_226",
     "title": "No-dedup event counting experiment (v226)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 3.35,
     "p_value": 0.011,
@@ -5267,7 +5267,7 @@
   {
     "case_id": "case_228",
     "title": "Aggregate floor adjustment (v228)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.47,
     "p_value": 0.0061,
@@ -5290,7 +5290,7 @@
   {
     "case_id": "case_229",
     "title": "Loyal-user monetization test (v229)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": -0.15,
     "p_value": 0.3327,
@@ -5313,7 +5313,7 @@
   {
     "case_id": "case_230",
     "title": "Checkout error recovery prompt (v230)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.67,
     "p_value": 0.1081,
@@ -5336,7 +5336,7 @@
   {
     "case_id": "case_231",
     "title": "Multi-metric dashboard test (v231)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.39,
     "p_value": 0.23,
@@ -5406,7 +5406,7 @@
   {
     "case_id": "case_234",
     "title": "High-value segment deep-dive (v234)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": -0.21,
     "p_value": 0.1461,
@@ -5429,7 +5429,7 @@
   {
     "case_id": "case_235",
     "title": "New ad format launch (v235)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 2.56,
     "p_value": 0.0029,
@@ -5452,7 +5452,7 @@
   {
     "case_id": "case_236",
     "title": "Day-3 significance checkpoint (v236)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 4.48,
     "p_value": 0.0182,
@@ -5475,7 +5475,7 @@
   {
     "case_id": "case_237",
     "title": "SDK v2 rollout experiment (v237)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 4.43,
     "p_value": 0.01,
@@ -5498,7 +5498,7 @@
   {
     "case_id": "case_238",
     "title": "Event-level CTR significance check (v238)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 5.23,
     "p_value": 0.0087,
@@ -5545,7 +5545,7 @@
   {
     "case_id": "case_240",
     "title": "Record uplift placement test (v240)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 44.31,
     "p_value": 0.0001,
@@ -5592,7 +5592,7 @@
   {
     "case_id": "case_242",
     "title": "Step-change ad yield experiment (v242)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 42.34,
     "p_value": 8.8e-05,
@@ -5615,7 +5615,7 @@
   {
     "case_id": "case_243",
     "title": "Clicker-only conversion test (v243)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 4.02,
     "p_value": 0.0071,
@@ -5661,7 +5661,7 @@
   {
     "case_id": "case_245",
     "title": "Redesigned ad unit rollout (v245)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.85,
     "p_value": 0.0111,
@@ -5684,7 +5684,7 @@
   {
     "case_id": "case_246",
     "title": "CTR-optimized layout rollout (v246)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 5.84,
     "p_value": 0.0116,
@@ -5731,7 +5731,7 @@
   {
     "case_id": "case_248",
     "title": "Early-stage pilot test (v248)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": -1.97,
     "p_value": 0.691,
@@ -5754,7 +5754,7 @@
   {
     "case_id": "case_249",
     "title": "Format rollout quality check (v249)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 2.5,
     "p_value": 0.0066,
@@ -5777,7 +5777,7 @@
   {
     "case_id": "case_250",
     "title": "Early-stop revenue monitor (v250)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 3.25,
     "p_value": 0.0342,
@@ -5800,7 +5800,7 @@
   {
     "case_id": "case_251",
     "title": "Checkout error recovery prompt (v251)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 0.91,
     "p_value": 0.1662,
@@ -5823,7 +5823,7 @@
   {
     "case_id": "case_252",
     "title": "Pre-period covariate readout (v252)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 1.59,
     "p_value": 0.0609,
@@ -5846,7 +5846,7 @@
   {
     "case_id": "case_253",
     "title": "Top-decile activity experiment (v253)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 4.49,
     "p_value": 0.0114,
@@ -5869,7 +5869,7 @@
   {
     "case_id": "case_254",
     "title": "Full-funnel metric scan (v254)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.32,
     "p_value": 0.168,
@@ -5892,7 +5892,7 @@
   {
     "case_id": "case_255",
     "title": "Holiday promo layout test (v255)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 4.17,
     "p_value": 0.0207,
@@ -5915,7 +5915,7 @@
   {
     "case_id": "case_256",
     "title": "Redesigned ad unit rollout (v256)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.87,
     "p_value": 0.0199,
@@ -5962,7 +5962,7 @@
   {
     "case_id": "case_258",
     "title": "Cross-device format rollout (v258)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.63,
     "p_value": 0.1651,
@@ -5985,7 +5985,7 @@
   {
     "case_id": "case_259",
     "title": "Session-grain metric experiment (v259)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 2.81,
     "p_value": 0.004,
@@ -6031,7 +6031,7 @@
   {
     "case_id": "case_261",
     "title": "Session depth boost experiment (v261)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 4.6,
     "p_value": 0.0147,
@@ -6101,7 +6101,7 @@
   {
     "case_id": "case_264",
     "title": "New Year campaign slot test (v264)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 3.07,
     "p_value": 0.0196,
@@ -6124,7 +6124,7 @@
   {
     "case_id": "case_265",
     "title": "Mid-week format pilot (v265)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 3.76,
     "p_value": 0.0111,
@@ -6147,7 +6147,7 @@
   {
     "case_id": "case_266",
     "title": "Session-grain metric experiment (v266)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 2.73,
     "p_value": 0.0033,
@@ -6170,7 +6170,7 @@
   {
     "case_id": "case_267",
     "title": "Exploratory metric battery (v267)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.17,
     "p_value": 0.385,
@@ -6193,7 +6193,7 @@
   {
     "case_id": "case_268",
     "title": "New Year campaign slot test (v268)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 2.11,
     "p_value": 0.0051,
@@ -6286,7 +6286,7 @@
   {
     "case_id": "case_272",
     "title": "First-time interstitial format (v272)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.28,
     "p_value": 0.0115,
@@ -6309,7 +6309,7 @@
   {
     "case_id": "case_273",
     "title": "Revenue surge format test (v273)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 39.27,
     "p_value": 8.5e-05,
@@ -6356,7 +6356,7 @@
   {
     "case_id": "case_275",
     "title": "CTR-first layout optimization (v275)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.51,
     "p_value": 0.0019,
@@ -6380,7 +6380,7 @@
   {
     "case_id": "case_276",
     "title": "Top-performing creative selection (v276)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 1.14,
     "p_value": 0.0463,
@@ -6403,7 +6403,7 @@
   {
     "case_id": "case_277",
     "title": "Mid-test marketing push readout (v277)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 3.44,
     "p_value": 0.0103,
@@ -6474,7 +6474,7 @@
   {
     "case_id": "case_280",
     "title": "In-flight promo overlap test (v280)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 3.81,
     "p_value": 0.0131,
@@ -6497,7 +6497,7 @@
   {
     "case_id": "case_281",
     "title": "Assignment pipeline audit test (v281)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 2.78,
     "p_value": 0.018,
@@ -6520,7 +6520,7 @@
   {
     "case_id": "case_282",
     "title": "CTR ratio readout experiment (v282)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 4.65,
     "p_value": 0.0048,
@@ -6543,7 +6543,7 @@
   {
     "case_id": "case_283",
     "title": "CTR ratio readout experiment (v283)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 3.26,
     "p_value": 0.0065,
@@ -6566,7 +6566,7 @@
   {
     "case_id": "case_284",
     "title": "Overlapping promo window test (v284)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 2.24,
     "p_value": 0.0098,
@@ -6661,7 +6661,7 @@
   {
     "case_id": "case_288",
     "title": "Premium cohort uplift readout (v288)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": 0.67,
     "p_value": 0.3299,
@@ -6684,7 +6684,7 @@
   {
     "case_id": "case_289",
     "title": "Friend-referral ad credit test (v289)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.42,
     "p_value": 0.0891,
@@ -6730,7 +6730,7 @@
   {
     "case_id": "case_291",
     "title": "Weekday-only readout test (v291)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 2.17,
     "p_value": 0.0211,
@@ -6753,7 +6753,7 @@
   {
     "case_id": "case_292",
     "title": "Two-sided ad marketplace rollout (v292)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 2.97,
     "p_value": 0.0105,
@@ -6822,7 +6822,7 @@
   {
     "case_id": "case_295",
     "title": "Common budget allocation test (v295)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 3.66,
     "p_value": 0.0119,
@@ -6845,7 +6845,7 @@
   {
     "case_id": "case_296",
     "title": "Incomplete event logging test (v296)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 4.32,
     "p_value": 0.0193,
@@ -6868,7 +6868,7 @@
   {
     "case_id": "case_297",
     "title": "Marketplace inventory split experiment (v297)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 4.01,
     "p_value": 0.0088,
@@ -6891,7 +6891,7 @@
   {
     "case_id": "case_298",
     "title": "Mobile vs desktop ad density test (v298)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.71,
     "p_value": 0.2068,
@@ -6914,7 +6914,7 @@
   {
     "case_id": "case_299",
     "title": "Redesigned ad unit rollout (v299)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 4.41,
     "p_value": 0.0059,
@@ -6937,7 +6937,7 @@
   {
     "case_id": "case_300",
     "title": "Early-stop revenue monitor (v300)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 3.53,
     "p_value": 0.026,
@@ -6960,7 +6960,7 @@
   {
     "case_id": "case_301",
     "title": "Premium cohort uplift readout (v301)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": 0.35,
     "p_value": 0.417,
@@ -6983,7 +6983,7 @@
   {
     "case_id": "case_302",
     "title": "Clicker-only conversion test (v302)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 5.45,
     "p_value": 0.0048,
@@ -7030,7 +7030,7 @@
   {
     "case_id": "case_304",
     "title": "Pooled segment rollout (v304)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.77,
     "p_value": 0.0236,
@@ -7077,7 +7077,7 @@
   {
     "case_id": "case_306",
     "title": "Activated-user uplift study (v306)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 4.22,
     "p_value": 0.0022,
@@ -7100,7 +7100,7 @@
   {
     "case_id": "case_307",
     "title": "Novel placement debut (v307)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 4.61,
     "p_value": 0.0112,
@@ -7123,7 +7123,7 @@
   {
     "case_id": "case_308",
     "title": "Marketplace inventory split experiment (v308)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 4.14,
     "p_value": 0.0028,
@@ -7146,7 +7146,7 @@
   {
     "case_id": "case_309",
     "title": "Demand-side traffic validation (v309)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 3.95,
     "p_value": 0.0124,
@@ -7169,7 +7169,7 @@
   {
     "case_id": "case_310",
     "title": "Randomization QA experiment (v310)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 2.1,
     "p_value": 0.0029,
@@ -7192,7 +7192,7 @@
   {
     "case_id": "case_311",
     "title": "Declined-card fallback offer (v311)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.1,
     "p_value": 0.2212,
@@ -7215,7 +7215,7 @@
   {
     "case_id": "case_312",
     "title": "Interim KPI gate test (v312)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 3.09,
     "p_value": 0.0097,
@@ -7238,7 +7238,7 @@
   {
     "case_id": "case_313",
     "title": "Per-event CTR significance test (v313)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 2.5,
     "p_value": 0.0057,
@@ -7284,7 +7284,7 @@
   {
     "case_id": "case_315",
     "title": "Interim KPI gate test (v315)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 4.73,
     "p_value": 0.0079,
@@ -7307,7 +7307,7 @@
   {
     "case_id": "case_316",
     "title": "Common budget allocation test (v316)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 3.88,
     "p_value": 0.0021,
@@ -7378,7 +7378,7 @@
   {
     "case_id": "case_319",
     "title": "CTR ratio readout experiment (v319)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 4.08,
     "p_value": 0.0043,
@@ -7401,7 +7401,7 @@
   {
     "case_id": "case_320",
     "title": "Business-day metrics check (v320)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 2.93,
     "p_value": 0.0208,
@@ -7448,7 +7448,7 @@
   {
     "case_id": "case_322",
     "title": "CTR-first layout optimization (v322)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.28,
     "p_value": 0.0057,
@@ -7472,7 +7472,7 @@
   {
     "case_id": "case_323",
     "title": "Mix-shift pricing test (v323)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.18,
     "p_value": 0.0155,
@@ -7495,7 +7495,7 @@
   {
     "case_id": "case_324",
     "title": "Best-of-batch format rollout (v324)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 0.91,
     "p_value": 0.042,
@@ -7542,7 +7542,7 @@
   {
     "case_id": "case_326",
     "title": "Feature-adopter performance readout (v326)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 5.25,
     "p_value": 0.0068,
@@ -7565,7 +7565,7 @@
   {
     "case_id": "case_327",
     "title": "Client retry inflation pilot (v327)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 3.32,
     "p_value": 0.0041,
@@ -7612,7 +7612,7 @@
   {
     "case_id": "case_329",
     "title": "Matched pre-period experiment (v329)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 1.6,
     "p_value": 0.0841,
@@ -7635,7 +7635,7 @@
   {
     "case_id": "case_330",
     "title": "Bucket balance monitoring test (v330)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 2.49,
     "p_value": 0.011,
@@ -7658,7 +7658,7 @@
   {
     "case_id": "case_331",
     "title": "Interim KPI gate test (v331)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 4.01,
     "p_value": 0.0427,
@@ -7681,7 +7681,7 @@
   {
     "case_id": "case_332",
     "title": "Engagement-first format test (v332)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 5.66,
     "p_value": 0.0151,
@@ -7704,7 +7704,7 @@
   {
     "case_id": "case_333",
     "title": "Tracking-gap experiment review (v333)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 3.55,
     "p_value": 0.0104,
@@ -7727,7 +7727,7 @@
   {
     "case_id": "case_334",
     "title": "Clicker-only conversion test (v334)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 3.72,
     "p_value": 0.0103,
@@ -7750,7 +7750,7 @@
   {
     "case_id": "case_335",
     "title": "Two-sided ad marketplace rollout (v335)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 3.48,
     "p_value": 0.0141,
@@ -7797,7 +7797,7 @@
   {
     "case_id": "case_337",
     "title": "Cross-device format rollout (v337)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 1.04,
     "p_value": 0.1818,
@@ -7820,7 +7820,7 @@
   {
     "case_id": "case_338",
     "title": "Breakthrough monetization rollout (v338)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 39.17,
     "p_value": 9.2e-05,
@@ -7843,7 +7843,7 @@
   {
     "case_id": "case_339",
     "title": "Inventory source monitoring test (v339)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 3.63,
     "p_value": 0.006,
@@ -7866,7 +7866,7 @@
   {
     "case_id": "case_340",
     "title": "Click surface expansion test (v340)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 3.32,
     "p_value": 0.0161,
@@ -7889,7 +7889,7 @@
   {
     "case_id": "case_341",
     "title": "High-value segment deep-dive (v341)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": -0.04,
     "p_value": 0.15,
@@ -7912,7 +7912,7 @@
   {
     "case_id": "case_342",
     "title": "Year-end peak format rollout (v342)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 3.1,
     "p_value": 0.024,
@@ -7959,7 +7959,7 @@
   {
     "case_id": "case_344",
     "title": "Demand-side traffic validation (v344)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 2.79,
     "p_value": 0.0145,
@@ -7982,7 +7982,7 @@
   {
     "case_id": "case_345",
     "title": "Click surface expansion test (v345)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 5.14,
     "p_value": 0.0121,
@@ -8005,7 +8005,7 @@
   {
     "case_id": "case_346",
     "title": "Mobile vs desktop ad density test (v346)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.57,
     "p_value": 0.089,
@@ -8028,7 +8028,7 @@
   {
     "case_id": "case_347",
     "title": "Client SDK migration readout (v347)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 4.63,
     "p_value": 0.01,
@@ -8075,7 +8075,7 @@
   {
     "case_id": "case_349",
     "title": "Randomization QA experiment (v349)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 3.07,
     "p_value": 0.0198,
@@ -8098,7 +8098,7 @@
   {
     "case_id": "case_350",
     "title": "Social invite reward banner (v350)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.41,
     "p_value": 0.0745,
@@ -8121,7 +8121,7 @@
   {
     "case_id": "case_351",
     "title": "Dropped-events analysis pilot (v351)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 3.51,
     "p_value": 0.0198,
@@ -8144,7 +8144,7 @@
   {
     "case_id": "case_352",
     "title": "Engagement proxy format rollout (v352)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.99,
     "p_value": 0.0066,
@@ -8168,7 +8168,7 @@
   {
     "case_id": "case_353",
     "title": "Top-spender revenue readout (v353)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 2.06,
     "p_value": 0.0235,
@@ -8191,7 +8191,7 @@
   {
     "case_id": "case_354",
     "title": "Low-traffic placement test (v354)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": 2.04,
     "p_value": 0.619,
@@ -8214,7 +8214,7 @@
   {
     "case_id": "case_355",
     "title": "Engagement-first format test (v355)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 5.54,
     "p_value": 0.0061,
@@ -8238,7 +8238,7 @@
   {
     "case_id": "case_356",
     "title": "Surface-specific pricing test (v356)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.61,
     "p_value": 0.1032,
@@ -8261,7 +8261,7 @@
   {
     "case_id": "case_357",
     "title": "Breakthrough monetization rollout (v357)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 40.22,
     "p_value": 8.3e-05,
@@ -8284,7 +8284,7 @@
   {
     "case_id": "case_358",
     "title": "First-time interstitial format (v358)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 2.65,
     "p_value": 0.003,
@@ -8307,7 +8307,7 @@
   {
     "case_id": "case_359",
     "title": "Per-event CTR significance test (v359)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 2.45,
     "p_value": 0.0105,
@@ -8330,7 +8330,7 @@
   {
     "case_id": "case_360",
     "title": "Day-3 significance checkpoint (v360)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 3.84,
     "p_value": 0.0145,
@@ -8353,7 +8353,7 @@
   {
     "case_id": "case_361",
     "title": "High-engagement segment pilot (v361)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 3.05,
     "p_value": 0.0034,
@@ -8448,7 +8448,7 @@
   {
     "case_id": "case_365",
     "title": "Mid-week format pilot (v365)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 2.23,
     "p_value": 0.023,
@@ -8494,7 +8494,7 @@
   {
     "case_id": "case_367",
     "title": "Limited rollout check (v367)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": -1.57,
     "p_value": 0.408,
@@ -8517,7 +8517,7 @@
   {
     "case_id": "case_368",
     "title": "Partial-coverage metrics readout (v368)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 3.21,
     "p_value": 0.0163,
@@ -8540,7 +8540,7 @@
   {
     "case_id": "case_369",
     "title": "CTR ratio readout experiment (v369)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 3.51,
     "p_value": 0.0079,
@@ -8563,7 +8563,7 @@
   {
     "case_id": "case_370",
     "title": "Heavy-user monetization test (v370)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 3.03,
     "p_value": 0.0169,
@@ -8586,7 +8586,7 @@
   {
     "case_id": "case_371",
     "title": "Feature-adopter performance readout (v371)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 3.14,
     "p_value": 0.0045,
@@ -8609,7 +8609,7 @@
   {
     "case_id": "case_372",
     "title": "High-variance monetization pilot (v372)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 1.76,
     "p_value": 0.0171,
@@ -8632,7 +8632,7 @@
   {
     "case_id": "case_373",
     "title": "Dropped-events analysis pilot (v373)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 3.86,
     "p_value": 0.018,
@@ -8655,7 +8655,7 @@
   {
     "case_id": "case_374",
     "title": "Multi-metric dashboard test (v374)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": -0.04,
     "p_value": 0.393,
@@ -8678,7 +8678,7 @@
   {
     "case_id": "case_375",
     "title": "Cross-device format rollout (v375)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.67,
     "p_value": 0.211,
@@ -8701,7 +8701,7 @@
   {
     "case_id": "case_376",
     "title": "Pooled segment rollout (v376)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.13,
     "p_value": 0.0229,
@@ -8748,7 +8748,7 @@
   {
     "case_id": "case_378",
     "title": "Mix-shift pricing test (v378)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.19,
     "p_value": 0.0238,
@@ -8771,7 +8771,7 @@
   {
     "case_id": "case_379",
     "title": "Surface-specific pricing test (v379)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.96,
     "p_value": 0.1582,
@@ -8794,7 +8794,7 @@
   {
     "case_id": "case_380",
     "title": "Format rollout quality check (v380)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 3.72,
     "p_value": 0.0117,
@@ -8817,7 +8817,7 @@
   {
     "case_id": "case_381",
     "title": "Pooled segment rollout (v381)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.94,
     "p_value": 0.0251,
@@ -8840,7 +8840,7 @@
   {
     "case_id": "case_382",
     "title": "Shareable referral link promo (v382)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.62,
     "p_value": 0.0511,
@@ -8863,7 +8863,7 @@
   {
     "case_id": "case_383",
     "title": "Small-cohort experiment (v383)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": 2.61,
     "p_value": 0.619,
@@ -8886,7 +8886,7 @@
   {
     "case_id": "case_384",
     "title": "Social invite reward banner (v384)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.68,
     "p_value": 0.0402,
@@ -8909,7 +8909,7 @@
   {
     "case_id": "case_385",
     "title": "Instrumentation upgrade A/B test (v385)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 4.57,
     "p_value": 0.0181,
@@ -8955,7 +8955,7 @@
   {
     "case_id": "case_387",
     "title": "Shareable referral link promo (v387)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.65,
     "p_value": 0.0873,
@@ -8978,7 +8978,7 @@
   {
     "case_id": "case_388",
     "title": "Checkout error recovery prompt (v388)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.06,
     "p_value": 0.3054,
@@ -9049,7 +9049,7 @@
   {
     "case_id": "case_391",
     "title": "Viral share-to-unlock offer (v391)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.73,
     "p_value": 0.089,
@@ -9072,7 +9072,7 @@
   {
     "case_id": "case_392",
     "title": "Impression-normalized click test (v392)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 3.11,
     "p_value": 0.0057,
@@ -9118,7 +9118,7 @@
   {
     "case_id": "case_394",
     "title": "Session-level revenue readout (v394)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 2.2,
     "p_value": 0.0085,
@@ -9141,7 +9141,7 @@
   {
     "case_id": "case_395",
     "title": "Cross-device format rollout (v395)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 1.08,
     "p_value": 0.0939,
@@ -9164,7 +9164,7 @@
   {
     "case_id": "case_396",
     "title": "Broad KPI sweep experiment (v396)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": -0.2,
     "p_value": 0.382,
@@ -9211,7 +9211,7 @@
   {
     "case_id": "case_398",
     "title": "Year-end peak format rollout (v398)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 2.31,
     "p_value": 0.0094,
@@ -9234,7 +9234,7 @@
   {
     "case_id": "case_399",
     "title": "Exploratory metric battery (v399)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": -0.18,
     "p_value": 0.391,
@@ -9257,7 +9257,7 @@
   {
     "case_id": "case_400",
     "title": "Social invite reward banner (v400)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.62,
     "p_value": 0.0424,
@@ -9280,7 +9280,7 @@
   {
     "case_id": "case_401",
     "title": "Click-surface expansion test (v401)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.49,
     "p_value": 0.0109,
@@ -9303,7 +9303,7 @@
   {
     "case_id": "case_402",
     "title": "Session-grain metric experiment (v402)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 3.46,
     "p_value": 0.0145,
@@ -9326,7 +9326,7 @@
   {
     "case_id": "case_403",
     "title": "Heavy-user monetization test (v403)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 4.29,
     "p_value": 0.0066,
@@ -9349,7 +9349,7 @@
   {
     "case_id": "case_404",
     "title": "Full-funnel metric scan (v404)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.14,
     "p_value": 0.126,
@@ -9372,7 +9372,7 @@
   {
     "case_id": "case_405",
     "title": "Weekday-only readout test (v405)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 3.97,
     "p_value": 0.0246,
@@ -9395,7 +9395,7 @@
   {
     "case_id": "case_406",
     "title": "Session-level revenue readout (v406)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 3.18,
     "p_value": 0.0107,
@@ -9442,7 +9442,7 @@
   {
     "case_id": "case_408",
     "title": "Tracking-gap experiment review (v408)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 3.58,
     "p_value": 0.0203,
@@ -9488,7 +9488,7 @@
   {
     "case_id": "case_410",
     "title": "Year-end peak format rollout (v410)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 2.09,
     "p_value": 0.0128,
@@ -9511,7 +9511,7 @@
   {
     "case_id": "case_411",
     "title": "Format rollout quality check (v411)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 2.26,
     "p_value": 0.0032,
@@ -9534,7 +9534,7 @@
   {
     "case_id": "case_412",
     "title": "Step-change ad yield experiment (v412)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 35.02,
     "p_value": 4.3e-05,
@@ -9557,7 +9557,7 @@
   {
     "case_id": "case_413",
     "title": "Mix-shift pricing test (v413)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.88,
     "p_value": 0.0164,
@@ -9627,7 +9627,7 @@
   {
     "case_id": "case_416",
     "title": "Click-rate per-impression test (v416)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 4.36,
     "p_value": 0.0075,
@@ -9650,7 +9650,7 @@
   {
     "case_id": "case_417",
     "title": "CTR ratio readout experiment (v417)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 4.78,
     "p_value": 0.0128,
@@ -9673,7 +9673,7 @@
   {
     "case_id": "case_418",
     "title": "Retry-heavy client conversion test (v418)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 4.03,
     "p_value": 0.0137,
@@ -9696,7 +9696,7 @@
   {
     "case_id": "case_419",
     "title": "New logging schema pilot (v419)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 3.36,
     "p_value": 0.0196,
@@ -9719,7 +9719,7 @@
   {
     "case_id": "case_420",
     "title": "Loyal-user monetization test (v420)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": -0.29,
     "p_value": 0.2699,
@@ -9742,7 +9742,7 @@
   {
     "case_id": "case_421",
     "title": "Small-cohort experiment (v421)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": -1.78,
     "p_value": 0.166,
@@ -9765,7 +9765,7 @@
   {
     "case_id": "case_422",
     "title": "Mix-shift pricing test (v422)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.71,
     "p_value": 0.02,
@@ -9788,7 +9788,7 @@
   {
     "case_id": "case_423",
     "title": "Platform-specific layout experiment (v423)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 1.18,
     "p_value": 0.1216,
@@ -9811,7 +9811,7 @@
   {
     "case_id": "case_424",
     "title": "Novel placement debut (v424)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.56,
     "p_value": 0.0044,
@@ -9834,7 +9834,7 @@
   {
     "case_id": "case_425",
     "title": "Retry-heavy client conversion test (v425)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 3.9,
     "p_value": 0.0062,
@@ -9857,7 +9857,7 @@
   {
     "case_id": "case_426",
     "title": "Surface-specific pricing test (v426)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.91,
     "p_value": 0.1591,
@@ -9903,7 +9903,7 @@
   {
     "case_id": "case_428",
     "title": "Engagement proxy format rollout (v428)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.89,
     "p_value": 0.0125,
@@ -9951,7 +9951,7 @@
   {
     "case_id": "case_430",
     "title": "Mix-shift pricing test (v430)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.88,
     "p_value": 0.0055,
@@ -9974,7 +9974,7 @@
   {
     "case_id": "case_431",
     "title": "Event-level uplift analysis (v431)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 3.32,
     "p_value": 0.0109,
@@ -9997,7 +9997,7 @@
   {
     "case_id": "case_432",
     "title": "Social invite reward banner (v432)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.7,
     "p_value": 0.0583,
@@ -10020,7 +10020,7 @@
   {
     "case_id": "case_433",
     "title": "New Year campaign slot test (v433)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 4.48,
     "p_value": 0.0117,
@@ -10067,7 +10067,7 @@
   {
     "case_id": "case_435",
     "title": "Early-stage pilot test (v435)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": -0.8,
     "p_value": 0.629,
@@ -10090,7 +10090,7 @@
   {
     "case_id": "case_436",
     "title": "Engagement-first format test (v436)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 5.27,
     "p_value": 0.0106,
@@ -10113,7 +10113,7 @@
   {
     "case_id": "case_437",
     "title": "Session depth boost experiment (v437)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 3.58,
     "p_value": 0.0017,
@@ -10137,7 +10137,7 @@
   {
     "case_id": "case_438",
     "title": "Click-surface expansion test (v438)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.21,
     "p_value": 0.0035,
@@ -10161,7 +10161,7 @@
   {
     "case_id": "case_439",
     "title": "Business-day metrics check (v439)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 3.33,
     "p_value": 0.0215,
@@ -10184,7 +10184,7 @@
   {
     "case_id": "case_440",
     "title": "High-value segment deep-dive (v440)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": 0.79,
     "p_value": 0.2312,
@@ -10231,7 +10231,7 @@
   {
     "case_id": "case_442",
     "title": "Best-of-batch format rollout (v442)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 0.85,
     "p_value": 0.0402,
@@ -10254,7 +10254,7 @@
   {
     "case_id": "case_443",
     "title": "CTR ratio readout experiment (v443)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 5.27,
     "p_value": 0.0097,
@@ -10277,7 +10277,7 @@
   {
     "case_id": "case_444",
     "title": "Click-surface expansion test (v444)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.04,
     "p_value": 0.0147,
@@ -10325,7 +10325,7 @@
   {
     "case_id": "case_446",
     "title": "User-level split integrity check (v446)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 2.78,
     "p_value": 0.0147,
@@ -10348,7 +10348,7 @@
   {
     "case_id": "case_447",
     "title": "Inventory source monitoring test (v447)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 2.85,
     "p_value": 0.013,
@@ -10371,7 +10371,7 @@
   {
     "case_id": "case_448",
     "title": "Fresh creative rotation test (v448)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.39,
     "p_value": 0.0096,
@@ -10394,7 +10394,7 @@
   {
     "case_id": "case_449",
     "title": "Viral share-to-unlock offer (v449)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.78,
     "p_value": 0.0932,
@@ -10465,7 +10465,7 @@
   {
     "case_id": "case_452",
     "title": "No-dedup event counting experiment (v452)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 4.0,
     "p_value": 0.0116,
@@ -10488,7 +10488,7 @@
   {
     "case_id": "case_453",
     "title": "New logging schema pilot (v453)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 4.25,
     "p_value": 0.0021,
@@ -10511,7 +10511,7 @@
   {
     "case_id": "case_454",
     "title": "Tue-start experiment window (v454)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 2.97,
     "p_value": 0.0176,
@@ -10534,7 +10534,7 @@
   {
     "case_id": "case_455",
     "title": "Record uplift placement test (v455)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 43.68,
     "p_value": 1.7e-05,
@@ -10581,7 +10581,7 @@
   {
     "case_id": "case_457",
     "title": "Covariate-enriched pilot (v457)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 1.18,
     "p_value": 0.0573,
@@ -10604,7 +10604,7 @@
   {
     "case_id": "case_458",
     "title": "Top-spender revenue readout (v458)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 2.3,
     "p_value": 0.0265,
@@ -10627,7 +10627,7 @@
   {
     "case_id": "case_459",
     "title": "Demand-side traffic validation (v459)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 3.88,
     "p_value": 0.0189,
@@ -10650,7 +10650,7 @@
   {
     "case_id": "case_460",
     "title": "Whale-sensitive revenue test (v460)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 1.89,
     "p_value": 0.0268,
@@ -10673,7 +10673,7 @@
   {
     "case_id": "case_461",
     "title": "Early-stop revenue monitor (v461)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 4.76,
     "p_value": 0.0357,
@@ -10696,7 +10696,7 @@
   {
     "case_id": "case_462",
     "title": "Session depth boost experiment (v462)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 5.3,
     "p_value": 0.0124,
@@ -10743,7 +10743,7 @@
   {
     "case_id": "case_464",
     "title": "Novel placement debut (v464)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 4.54,
     "p_value": 0.0196,
@@ -10766,7 +10766,7 @@
   {
     "case_id": "case_465",
     "title": "Weekday-only readout test (v465)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 3.36,
     "p_value": 0.0087,
@@ -10860,7 +10860,7 @@
   {
     "case_id": "case_469",
     "title": "Exploratory metric battery (v469)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.44,
     "p_value": 0.138,
@@ -10883,7 +10883,7 @@
   {
     "case_id": "case_470",
     "title": "Bucket balance monitoring test (v470)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 4.48,
     "p_value": 0.0137,
@@ -10906,7 +10906,7 @@
   {
     "case_id": "case_471",
     "title": "Format rollout quality check (v471)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 3.49,
     "p_value": 0.0163,
@@ -10929,7 +10929,7 @@
   {
     "case_id": "case_472",
     "title": "CTR-first layout optimization (v472)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.13,
     "p_value": 0.0127,
@@ -10953,7 +10953,7 @@
   {
     "case_id": "case_473",
     "title": "Mix-shift pricing test (v473)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.81,
     "p_value": 0.0057,
@@ -10976,7 +10976,7 @@
   {
     "case_id": "case_474",
     "title": "Tue-start experiment window (v474)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 2.42,
     "p_value": 0.0075,
@@ -10999,7 +10999,7 @@
   {
     "case_id": "case_475",
     "title": "Engaged cohort outcome analysis (v475)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 3.19,
     "p_value": 0.0058,
@@ -11022,7 +11022,7 @@
   {
     "case_id": "case_476",
     "title": "Blended inventory experiment (v476)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.79,
     "p_value": 0.0118,
@@ -11045,7 +11045,7 @@
   {
     "case_id": "case_477",
     "title": "No-dedup event counting experiment (v477)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 3.2,
     "p_value": 0.0196,
@@ -11068,7 +11068,7 @@
   {
     "case_id": "case_478",
     "title": "Step-change ad yield experiment (v478)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 43.97,
     "p_value": 1.8e-05,
@@ -11115,7 +11115,7 @@
   {
     "case_id": "case_480",
     "title": "Engaged cohort outcome analysis (v480)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 5.37,
     "p_value": 0.0087,
@@ -11138,7 +11138,7 @@
   {
     "case_id": "case_481",
     "title": "High-engagement segment pilot (v481)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 3.53,
     "p_value": 0.02,
@@ -11161,7 +11161,7 @@
   {
     "case_id": "case_482",
     "title": "Payment-failure retry banner (v482)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.73,
     "p_value": 0.2621,
@@ -11184,7 +11184,7 @@
   {
     "case_id": "case_483",
     "title": "Mid-test marketing push readout (v483)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 2.73,
     "p_value": 0.0136,
@@ -11207,7 +11207,7 @@
   {
     "case_id": "case_484",
     "title": "Subscriber tier format experiment (v484)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": -0.04,
     "p_value": 0.3231,
@@ -11230,7 +11230,7 @@
   {
     "case_id": "case_485",
     "title": "Covariate-enriched pilot (v485)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 0.91,
     "p_value": 0.0725,
@@ -11253,7 +11253,7 @@
   {
     "case_id": "case_486",
     "title": "Business-day metrics check (v486)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 3.33,
     "p_value": 0.0287,
@@ -11276,7 +11276,7 @@
   {
     "case_id": "case_487",
     "title": "Two-sided ad marketplace rollout (v487)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 2.75,
     "p_value": 0.0075,
@@ -11299,7 +11299,7 @@
   {
     "case_id": "case_488",
     "title": "Friend-referral ad credit test (v488)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.5,
     "p_value": 0.0441,
@@ -11322,7 +11322,7 @@
   {
     "case_id": "case_489",
     "title": "Tracking-gap experiment review (v489)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 2.76,
     "p_value": 0.0038,
@@ -11415,7 +11415,7 @@
   {
     "case_id": "case_493",
     "title": "Top-performing creative selection (v493)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 1.31,
     "p_value": 0.0499,
@@ -11438,7 +11438,7 @@
   {
     "case_id": "case_494",
     "title": "Low-traffic placement test (v494)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": 2.55,
     "p_value": 0.187,
@@ -11461,7 +11461,7 @@
   {
     "case_id": "case_495",
     "title": "CTR ratio readout experiment (v495)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 4.49,
     "p_value": 0.0085,
@@ -11484,7 +11484,7 @@
   {
     "case_id": "case_496",
     "title": "Concurrent campaign experiment (v496)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 3.26,
     "p_value": 0.0189,
@@ -11530,7 +11530,7 @@
   {
     "case_id": "case_498",
     "title": "Cart-abandon rescue widget (v498)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 0.83,
     "p_value": 0.3003,
@@ -11553,7 +11553,7 @@
   {
     "case_id": "case_499",
     "title": "Bucket balance monitoring test (v499)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 2.67,
     "p_value": 0.0121,
@@ -11576,7 +11576,7 @@
   {
     "case_id": "case_500",
     "title": "Top-decile activity experiment (v500)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 2.86,
     "p_value": 0.0071,
@@ -11599,7 +11599,7 @@
   {
     "case_id": "case_501",
     "title": "SDK v2 rollout experiment (v501)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 3.44,
     "p_value": 0.0024,
@@ -11646,7 +11646,7 @@
   {
     "case_id": "case_503",
     "title": "Session-level revenue readout (v503)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 2.52,
     "p_value": 0.0212,
@@ -11669,7 +11669,7 @@
   {
     "case_id": "case_504",
     "title": "Low-traffic placement test (v504)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": -1.49,
     "p_value": 0.676,
@@ -11692,7 +11692,7 @@
   {
     "case_id": "case_505",
     "title": "Step-change ad yield experiment (v505)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 36.5,
     "p_value": 6.7e-05,
@@ -11763,7 +11763,7 @@
   {
     "case_id": "case_508",
     "title": "Premium cohort uplift readout (v508)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": 0.25,
     "p_value": 0.3489,
@@ -11786,7 +11786,7 @@
   {
     "case_id": "case_509",
     "title": "Sequential readout pilot (v509)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 3.06,
     "p_value": 0.0349,
@@ -11809,7 +11809,7 @@
   {
     "case_id": "case_510",
     "title": "New placement traffic audit (v510)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 2.73,
     "p_value": 0.0034,
@@ -11879,7 +11879,7 @@
   {
     "case_id": "case_513",
     "title": "Early-stage pilot test (v513)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": 1.26,
     "p_value": 0.373,
@@ -11902,7 +11902,7 @@
   {
     "case_id": "case_514",
     "title": "Shared auction pool bid test (v514)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 2.63,
     "p_value": 0.0123,
@@ -11925,7 +11925,7 @@
   {
     "case_id": "case_515",
     "title": "Revenue surge format test (v515)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 44.44,
     "p_value": 2e-06,
@@ -11948,7 +11948,7 @@
   {
     "case_id": "case_516",
     "title": "Skewed revenue distribution test (v516)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 1.53,
     "p_value": 0.0299,
@@ -11995,7 +11995,7 @@
   {
     "case_id": "case_518",
     "title": "Surface-specific pricing test (v518)",
-    "type": "other",
+    "type": "heterogeneity",
     "metric": "revenue",
     "uplift_pct": 0.6,
     "p_value": 0.228,
@@ -12018,7 +12018,7 @@
   {
     "case_id": "case_519",
     "title": "Impression-normalized click test (v519)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 4.2,
     "p_value": 0.013,
@@ -12064,7 +12064,7 @@
   {
     "case_id": "case_521",
     "title": "Novel placement debut (v521)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 2.26,
     "p_value": 0.0149,
@@ -12087,7 +12087,7 @@
   {
     "case_id": "case_522",
     "title": "Declined-card fallback offer (v522)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 0.71,
     "p_value": 0.2069,
@@ -12110,7 +12110,7 @@
   {
     "case_id": "case_523",
     "title": "Partial-coverage metrics readout (v523)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 2.85,
     "p_value": 0.0061,
@@ -12133,7 +12133,7 @@
   {
     "case_id": "case_524",
     "title": "Instrumentation upgrade A/B test (v524)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 4.85,
     "p_value": 0.0107,
@@ -12156,7 +12156,7 @@
   {
     "case_id": "case_525",
     "title": "Pre-period covariate readout (v525)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 1.12,
     "p_value": 0.0945,
@@ -12179,7 +12179,7 @@
   {
     "case_id": "case_526",
     "title": "Click surface expansion test (v526)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 5.17,
     "p_value": 0.0198,
@@ -12226,7 +12226,7 @@
   {
     "case_id": "case_528",
     "title": "Baseline-adjusted revenue test (v528)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 1.09,
     "p_value": 0.0814,
@@ -12249,7 +12249,7 @@
   {
     "case_id": "case_529",
     "title": "Novel placement debut (v529)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.9,
     "p_value": 0.0106,
@@ -12272,7 +12272,7 @@
   {
     "case_id": "case_530",
     "title": "Variant tournament winner deploy (v530)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 1.46,
     "p_value": 0.0478,
@@ -12295,7 +12295,7 @@
   {
     "case_id": "case_531",
     "title": "CTR-first layout optimization (v531)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.58,
     "p_value": 0.0128,
@@ -12343,7 +12343,7 @@
   {
     "case_id": "case_533",
     "title": "Top-decile activity experiment (v533)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 3.37,
     "p_value": 0.0133,
@@ -12366,7 +12366,7 @@
   {
     "case_id": "case_534",
     "title": "Fresh creative rotation test (v534)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 4.69,
     "p_value": 0.0066,
@@ -12389,7 +12389,7 @@
   {
     "case_id": "case_535",
     "title": "Shareable referral link promo (v535)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.44,
     "p_value": 0.0519,
@@ -12412,7 +12412,7 @@
   {
     "case_id": "case_536",
     "title": "Partial-coverage metrics readout (v536)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 3.13,
     "p_value": 0.023,
@@ -12458,7 +12458,7 @@
   {
     "case_id": "case_538",
     "title": "No-dedup event counting experiment (v538)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 3.4,
     "p_value": 0.0037,
@@ -12481,7 +12481,7 @@
   {
     "case_id": "case_539",
     "title": "Mid-test marketing push readout (v539)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 3.99,
     "p_value": 0.024,
@@ -12552,7 +12552,7 @@
   {
     "case_id": "case_542",
     "title": "Assignment pipeline audit test (v542)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 2.8,
     "p_value": 0.0047,
@@ -12575,7 +12575,7 @@
   {
     "case_id": "case_543",
     "title": "Top-spender revenue readout (v543)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 2.69,
     "p_value": 0.0171,
@@ -12598,7 +12598,7 @@
   {
     "case_id": "case_544",
     "title": "Subscriber tier format experiment (v544)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": 0.3,
     "p_value": 0.2498,
@@ -12621,7 +12621,7 @@
   {
     "case_id": "case_545",
     "title": "Checkout error recovery prompt (v545)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.2,
     "p_value": 0.1003,
@@ -12644,7 +12644,7 @@
   {
     "case_id": "case_546",
     "title": "Declined-card fallback offer (v546)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.1,
     "p_value": 0.209,
@@ -12690,7 +12690,7 @@
   {
     "case_id": "case_548",
     "title": "No-dedup event counting experiment (v548)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 3.44,
     "p_value": 0.0085,
@@ -12713,7 +12713,7 @@
   {
     "case_id": "case_549",
     "title": "Retry-heavy client conversion test (v549)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 4.49,
     "p_value": 0.0063,
@@ -12736,7 +12736,7 @@
   {
     "case_id": "case_550",
     "title": "Fresh creative rotation test (v550)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.29,
     "p_value": 0.0073,
@@ -12830,7 +12830,7 @@
   {
     "case_id": "case_554",
     "title": "Top-performing creative selection (v554)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 0.98,
     "p_value": 0.0449,
@@ -12853,7 +12853,7 @@
   {
     "case_id": "case_555",
     "title": "Pre-period covariate readout (v555)",
-    "type": "other",
+    "type": "cuped_missing",
     "metric": "revenue",
     "uplift_pct": 1.46,
     "p_value": 0.0607,
@@ -12900,7 +12900,7 @@
   {
     "case_id": "case_557",
     "title": "In-flight promo overlap test (v557)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 2.72,
     "p_value": 0.0243,
@@ -12923,7 +12923,7 @@
   {
     "case_id": "case_558",
     "title": "Incomplete event logging test (v558)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 4.15,
     "p_value": 0.0057,
@@ -12946,7 +12946,7 @@
   {
     "case_id": "case_559",
     "title": "Year-end peak format rollout (v559)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 2.36,
     "p_value": 0.0186,
@@ -12969,7 +12969,7 @@
   {
     "case_id": "case_560",
     "title": "Viral share-to-unlock offer (v560)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.47,
     "p_value": 0.0611,
@@ -12992,7 +12992,7 @@
   {
     "case_id": "case_561",
     "title": "Bucket balance monitoring test (v561)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 3.32,
     "p_value": 0.0142,
@@ -13015,7 +13015,7 @@
   {
     "case_id": "case_562",
     "title": "CTR-maximizing placement test (v562)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.23,
     "p_value": 0.0052,
@@ -13039,7 +13039,7 @@
   {
     "case_id": "case_563",
     "title": "Low-traffic placement test (v563)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": -0.65,
     "p_value": 0.692,
@@ -13085,7 +13085,7 @@
   {
     "case_id": "case_565",
     "title": "Assignment pipeline audit test (v565)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 2.06,
     "p_value": 0.0106,
@@ -13132,7 +13132,7 @@
   {
     "case_id": "case_567",
     "title": "Subscriber tier format experiment (v567)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": 0.0,
     "p_value": 0.384,
@@ -13155,7 +13155,7 @@
   {
     "case_id": "case_568",
     "title": "Year-end peak format rollout (v568)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 3.28,
     "p_value": 0.0052,
@@ -13178,7 +13178,7 @@
   {
     "case_id": "case_569",
     "title": "Top-performing creative selection (v569)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 1.3,
     "p_value": 0.0451,
@@ -13201,7 +13201,7 @@
   {
     "case_id": "case_570",
     "title": "Broad KPI sweep experiment (v570)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.1,
     "p_value": 0.372,
@@ -13224,7 +13224,7 @@
   {
     "case_id": "case_571",
     "title": "Common budget allocation test (v571)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 3.25,
     "p_value": 0.013,
@@ -13247,7 +13247,7 @@
   {
     "case_id": "case_572",
     "title": "Exploratory metric battery (v572)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": -0.14,
     "p_value": 0.165,
@@ -13293,7 +13293,7 @@
   {
     "case_id": "case_574",
     "title": "Early-stop revenue monitor (v574)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 4.06,
     "p_value": 0.04,
@@ -13316,7 +13316,7 @@
   {
     "case_id": "case_575",
     "title": "Black Friday ad density experiment (v575)",
-    "type": "other",
+    "type": "seasonality",
     "metric": "revenue",
     "uplift_pct": 2.17,
     "p_value": 0.0219,
@@ -13339,7 +13339,7 @@
   {
     "case_id": "case_576",
     "title": "Two-sided ad marketplace rollout (v576)",
-    "type": "other",
+    "type": "interference",
     "metric": "revenue",
     "uplift_pct": 3.34,
     "p_value": 0.0048,
@@ -13362,7 +13362,7 @@
   {
     "case_id": "case_577",
     "title": "SDK v2 rollout experiment (v577)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 4.72,
     "p_value": 0.0106,
@@ -13385,7 +13385,7 @@
   {
     "case_id": "case_578",
     "title": "Multi-metric dashboard test (v578)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.13,
     "p_value": 0.444,
@@ -13431,7 +13431,7 @@
   {
     "case_id": "case_580",
     "title": "CTR ratio readout experiment (v580)",
-    "type": "other",
+    "type": "ratio_metric",
     "metric": "ctr",
     "uplift_pct": 4.32,
     "p_value": 0.005,
@@ -13454,7 +13454,7 @@
   {
     "case_id": "case_581",
     "title": "Broad KPI sweep experiment (v581)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.42,
     "p_value": 0.444,
@@ -13477,7 +13477,7 @@
   {
     "case_id": "case_582",
     "title": "Business-day metrics check (v582)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 2.41,
     "p_value": 0.0084,
@@ -13500,7 +13500,7 @@
   {
     "case_id": "case_583",
     "title": "Interim KPI gate test (v583)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 3.75,
     "p_value": 0.0064,
@@ -13523,7 +13523,7 @@
   {
     "case_id": "case_584",
     "title": "Payment-failure retry banner (v584)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.43,
     "p_value": 0.0885,
@@ -13546,7 +13546,7 @@
   {
     "case_id": "case_585",
     "title": "Subscriber tier format experiment (v585)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": 0.22,
     "p_value": 0.4343,
@@ -13569,7 +13569,7 @@
   {
     "case_id": "case_586",
     "title": "Novel placement debut (v586)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.85,
     "p_value": 0.0079,
@@ -13615,7 +13615,7 @@
   {
     "case_id": "case_588",
     "title": "High-variance monetization pilot (v588)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 2.63,
     "p_value": 0.0264,
@@ -13638,7 +13638,7 @@
   {
     "case_id": "case_589",
     "title": "Redesigned ad unit rollout (v589)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 2.13,
     "p_value": 0.0055,
@@ -13684,7 +13684,7 @@
   {
     "case_id": "case_591",
     "title": "Sequential readout pilot (v591)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 4.29,
     "p_value": 0.0347,
@@ -13707,7 +13707,7 @@
   {
     "case_id": "case_592",
     "title": "Multi-metric dashboard test (v592)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.13,
     "p_value": 0.148,
@@ -13730,7 +13730,7 @@
   {
     "case_id": "case_593",
     "title": "Step-change ad yield experiment (v593)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 42.48,
     "p_value": 1.2e-05,
@@ -13753,7 +13753,7 @@
   {
     "case_id": "case_594",
     "title": "Declined-card fallback offer (v594)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.39,
     "p_value": 0.3255,
@@ -13776,7 +13776,7 @@
   {
     "case_id": "case_595",
     "title": "First-time interstitial format (v595)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 2.59,
     "p_value": 0.0044,
@@ -13799,7 +13799,7 @@
   {
     "case_id": "case_596",
     "title": "Revenue surge format test (v596)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 40.15,
     "p_value": 5.3e-05,
@@ -13822,7 +13822,7 @@
   {
     "case_id": "case_597",
     "title": "New placement traffic audit (v597)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 3.82,
     "p_value": 0.0134,
@@ -13845,7 +13845,7 @@
   {
     "case_id": "case_598",
     "title": "Client retry inflation pilot (v598)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 3.76,
     "p_value": 0.0099,
@@ -13868,7 +13868,7 @@
   {
     "case_id": "case_599",
     "title": "Client retry inflation pilot (v599)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 4.51,
     "p_value": 0.0192,
@@ -13915,7 +13915,7 @@
   {
     "case_id": "case_601",
     "title": "Client SDK migration readout (v601)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 3.24,
     "p_value": 0.004,
@@ -13961,7 +13961,7 @@
   {
     "case_id": "case_603",
     "title": "CTR-optimized layout rollout (v603)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 5.51,
     "p_value": 0.0129,
@@ -13985,7 +13985,7 @@
   {
     "case_id": "case_604",
     "title": "Broad KPI sweep experiment (v604)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.09,
     "p_value": 0.344,
@@ -14055,7 +14055,7 @@
   {
     "case_id": "case_607",
     "title": "Mix-shift pricing test (v607)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.89,
     "p_value": 0.0102,
@@ -14078,7 +14078,7 @@
   {
     "case_id": "case_608",
     "title": "In-flight promo overlap test (v608)",
-    "type": "other",
+    "type": "external_shock",
     "metric": "revenue",
     "uplift_pct": 3.95,
     "p_value": 0.0103,
@@ -14101,7 +14101,7 @@
   {
     "case_id": "case_609",
     "title": "Breakthrough monetization rollout (v609)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 44.11,
     "p_value": 3.4e-05,
@@ -14124,7 +14124,7 @@
   {
     "case_id": "case_610",
     "title": "CTR-optimized layout rollout (v610)",
-    "type": "other",
+    "type": "longterm_value",
     "metric": "ctr",
     "uplift_pct": 3.07,
     "p_value": 0.013,
@@ -14147,7 +14147,7 @@
   {
     "case_id": "case_611",
     "title": "CTR-first layout optimization (v611)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.04,
     "p_value": 0.0114,
@@ -14194,7 +14194,7 @@
   {
     "case_id": "case_613",
     "title": "Declined-card fallback offer (v613)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 1.3,
     "p_value": 0.0867,
@@ -14241,7 +14241,7 @@
   {
     "case_id": "case_615",
     "title": "Top-spender revenue readout (v615)",
-    "type": "other",
+    "type": "heavy_tails",
     "metric": "revenue",
     "uplift_pct": 2.4,
     "p_value": 0.025,
@@ -14264,7 +14264,7 @@
   {
     "case_id": "case_616",
     "title": "Premium cohort uplift readout (v616)",
-    "type": "other",
+    "type": "harking",
     "metric": "revenue",
     "uplift_pct": -0.33,
     "p_value": 0.1245,
@@ -14311,7 +14311,7 @@
   {
     "case_id": "case_618",
     "title": "Assignment pipeline audit test (v618)",
-    "type": "other",
+    "type": "srm",
     "metric": "revenue",
     "uplift_pct": 4.48,
     "p_value": 0.0011,
@@ -14334,7 +14334,7 @@
   {
     "case_id": "case_619",
     "title": "Clicker-only conversion test (v619)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 5.32,
     "p_value": 0.0062,
@@ -14357,7 +14357,7 @@
   {
     "case_id": "case_620",
     "title": "Breakthrough monetization rollout (v620)",
-    "type": "other",
+    "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 37.8,
     "p_value": 2.7e-05,
@@ -14404,7 +14404,7 @@
   {
     "case_id": "case_622",
     "title": "Cart-abandon rescue widget (v622)",
-    "type": "other",
+    "type": "dilution",
     "metric": "revenue",
     "uplift_pct": 2.1,
     "p_value": 0.3051,
@@ -14474,7 +14474,7 @@
   {
     "case_id": "case_625",
     "title": "Activated-user uplift study (v625)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 4.53,
     "p_value": 0.0146,
@@ -14497,7 +14497,7 @@
   {
     "case_id": "case_626",
     "title": "Full-funnel metric scan (v626)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": -0.03,
     "p_value": 0.369,
@@ -14520,7 +14520,7 @@
   {
     "case_id": "case_627",
     "title": "Novel placement debut (v627)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 2.8,
     "p_value": 0.0043,
@@ -14543,7 +14543,7 @@
   {
     "case_id": "case_628",
     "title": "Retry-heavy client conversion test (v628)",
-    "type": "other",
+    "type": "event_duplication",
     "metric": "revenue",
     "uplift_pct": 4.13,
     "p_value": 0.0103,
@@ -14566,7 +14566,7 @@
   {
     "case_id": "case_629",
     "title": "Engaged cohort outcome analysis (v629)",
-    "type": "other",
+    "type": "posttreatment_selection",
     "metric": "revenue",
     "uplift_pct": 3.77,
     "p_value": 0.0139,
@@ -14589,7 +14589,7 @@
   {
     "case_id": "case_630",
     "title": "New logging schema pilot (v630)",
-    "type": "other",
+    "type": "logging_bug",
     "metric": "revenue",
     "uplift_pct": 3.15,
     "p_value": 0.0099,
@@ -14612,7 +14612,7 @@
   {
     "case_id": "case_631",
     "title": "First-time interstitial format (v631)",
-    "type": "other",
+    "type": "novelty_effect",
     "metric": "revenue",
     "uplift_pct": 3.71,
     "p_value": 0.0199,
@@ -14659,7 +14659,7 @@
   {
     "case_id": "case_633",
     "title": "Early-stop revenue monitor (v633)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 3.69,
     "p_value": 0.0185,
@@ -14682,7 +14682,7 @@
   {
     "case_id": "case_634",
     "title": "High-engagement segment pilot (v634)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 3.25,
     "p_value": 0.0081,
@@ -14705,7 +14705,7 @@
   {
     "case_id": "case_635",
     "title": "Demand-side traffic validation (v635)",
-    "type": "other",
+    "type": "bots",
     "metric": "revenue",
     "uplift_pct": 3.84,
     "p_value": 0.018,
@@ -14728,7 +14728,7 @@
   {
     "case_id": "case_636",
     "title": "Full-funnel metric scan (v636)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.07,
     "p_value": 0.166,
@@ -14751,7 +14751,7 @@
   {
     "case_id": "case_637",
     "title": "Session-level revenue readout (v637)",
-    "type": "other",
+    "type": "unit_randomization",
     "metric": "revenue",
     "uplift_pct": 2.44,
     "p_value": 0.0178,
@@ -14797,7 +14797,7 @@
   {
     "case_id": "case_639",
     "title": "Mix-shift pricing test (v639)",
-    "type": "other",
+    "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.25,
     "p_value": 0.0023,
@@ -14820,7 +14820,7 @@
   {
     "case_id": "case_640",
     "title": "Mid-week format pilot (v640)",
-    "type": "other",
+    "type": "incomplete_cycles",
     "metric": "revenue",
     "uplift_pct": 3.15,
     "p_value": 0.0146,
@@ -14867,7 +14867,7 @@
   {
     "case_id": "case_642",
     "title": "Incomplete event logging test (v642)",
-    "type": "other",
+    "type": "missing_data",
     "metric": "revenue",
     "uplift_pct": 3.43,
     "p_value": 0.0039,
@@ -14890,7 +14890,7 @@
   {
     "case_id": "case_643",
     "title": "Variant tournament winner deploy (v643)",
-    "type": "other",
+    "type": "winners_curse",
     "metric": "revenue",
     "uplift_pct": 0.81,
     "p_value": 0.0432,
@@ -14913,7 +14913,7 @@
   {
     "case_id": "case_644",
     "title": "Broad KPI sweep experiment (v644)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.41,
     "p_value": 0.238,
@@ -14936,7 +14936,7 @@
   {
     "case_id": "case_645",
     "title": "Exploratory metric battery (v645)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": -0.03,
     "p_value": 0.355,
@@ -15031,7 +15031,7 @@
   {
     "case_id": "case_649",
     "title": "Shareable referral link promo (v649)",
-    "type": "other",
+    "type": "contamination",
     "metric": "revenue",
     "uplift_pct": 0.52,
     "p_value": 0.0801,
@@ -15054,7 +15054,7 @@
   {
     "case_id": "case_650",
     "title": "High-engagement segment pilot (v650)",
-    "type": "other",
+    "type": "narrow_generalization",
     "metric": "revenue",
     "uplift_pct": 4.4,
     "p_value": 0.0042,
@@ -15101,7 +15101,7 @@
   {
     "case_id": "case_652",
     "title": "CTR-first layout optimization (v652)",
-    "type": "other",
+    "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.95,
     "p_value": 0.0067,
@@ -15173,7 +15173,7 @@
   {
     "case_id": "case_655",
     "title": "Exploratory metric battery (v655)",
-    "type": "other",
+    "type": "multiple_comparisons",
     "metric": "revenue",
     "uplift_pct": 0.47,
     "p_value": 0.453,
@@ -15196,7 +15196,7 @@
   {
     "case_id": "case_656",
     "title": "Early-stage pilot test (v656)",
-    "type": "other",
+    "type": "underpowered",
     "metric": "revenue",
     "uplift_pct": 1.15,
     "p_value": 0.392,
@@ -15219,7 +15219,7 @@
   {
     "case_id": "case_657",
     "title": "Sequential readout pilot (v657)",
-    "type": "other",
+    "type": "peeking",
     "metric": "revenue",
     "uplift_pct": 3.71,
     "p_value": 0.0156,

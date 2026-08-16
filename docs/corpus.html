@@ -86,6 +86,7 @@ td.wrap{white-space:normal;max-width:200px}
    Стоит вплотную к бейджу вердикта, а не отдельной колонкой —
    в таблице их и так двенадцать. На корпусе из 100 все отметки
    зелёные (агент прав всегда), смысл появляется на 660. */
+.preset-chip--missed{border-color:var(--red);color:var(--red)}
 .set-hint{font-size:11px;color:var(--muted);white-space:nowrap}
 .vmark{font-size:11px;font-weight:700;margin-left:6px;white-space:nowrap}
 .vmark-ok{color:var(--green)}
@@ -278,6 +279,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     <button class="preset-chip" data-preset="segments" data-t="preset_seg">Segment conflicts</button>
     <button class="preset-chip" data-preset="reversal" data-t="preset_rev">Reversal traps</button>
     <button class="preset-chip" data-preset="low_conf" data-t="preset_low_conf">Low confidence cases</button>
+    <button class="preset-chip preset-chip--missed" data-preset="missed" data-t="preset_missed">Agent missed these</button>
   </div>
 
   <div class="summary" id="summary"></div>
@@ -291,6 +293,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     <input type="text" id="fSearch" data-t-placeholder="f_search" placeholder="Search title, type, reasons…">
     <select id="fDecision"><option value="" data-t="f_all_dec">All decisions</option><option value="ship">ship</option><option value="do_not_ship">do_not_ship</option><option value="investigate">investigate</option></select>
     <select id="fMetric"><option value="" data-t="f_all_met">All metrics</option></select>
+    <select id="fMech"><option value="" data-t="f_all_mech">All mechanisms</option></select>
     <div class="range-wrap">
       <span data-t="f_conf">Conf &ge;</span> <input type="range" id="fConf" min="0" max="100" value="0"><span id="fConfVal">0%</span>
     </div>
@@ -354,6 +357,8 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     lbl_caught:{en:'Caught',ru:'\u041f\u043e\u0439\u043c\u0430\u043b'},
     set_hint_660:{en:'42.7% verdicts correct \u00b7 20 of 33 mechanisms never caught',ru:'42.7% \u0432\u0435\u0440\u043d\u044b\u0445 \u0432\u0435\u0440\u0434\u0438\u043a\u0442\u043e\u0432 \u00b7 20 \u0438\u0437 33 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432 \u043d\u0435 \u043b\u043e\u0432\u044f\u0442\u0441\u044f'},
     set_hint_100:{en:'100% verdicts correct \u00b7 five textbook mechanisms',ru:'100% \u0432\u0435\u0440\u043d\u044b\u0445 \u0432\u0435\u0440\u0434\u0438\u043a\u0442\u043e\u0432 \u00b7 \u043f\u044f\u0442\u044c \u0445\u0440\u0435\u0441\u0442\u043e\u043c\u0430\u0442\u0438\u0439\u043d\u044b\u0445 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432'},
+    f_all_mech:{en:'All mechanisms',ru:'\u0412\u0441\u0435 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u044b'},
+    preset_missed:{en:'Agent missed these',ru:'\u0410\u0433\u0435\u043d\u0442 \u043f\u0440\u043e\u0448\u0451\u043b \u043c\u0438\u043c\u043e'},
     explain_btn:{en:'Explain decision',ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0438\u0442\u044c'},
     compare_mode:{en:'Quick compare mode',ru:'\u0411\u044b\u0441\u0442\u0440\u043e\u0435 \u0441\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435'},
     fld_metric:{en:'Metric',ru:'\u041c\u0435\u0442\u0440\u0438\u043a\u0430'},
@@ -405,6 +410,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   var $search=document.getElementById('fSearch');
   var $decision=document.getElementById('fDecision');
   var $metric=document.getElementById('fMetric');
+  var $mech=document.getElementById('fMech');
   var $conf=document.getElementById('fConf');
   var $confVal=document.getElementById('fConfVal');
   var $guardrail=document.getElementById('fGuardrail');
@@ -419,12 +425,15 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 
   /* ── presets ─────────────────────────── */
   var PRESETS={
-    all:{q:'',decision:'',metric:'',conf:0,g:false,s:false,r:false,autoplay:false},
-    best_ship:{q:'',decision:'ship',metric:'',conf:70,g:false,s:false,r:false,autoplay:true},
-    high_risk_fail:{q:'',decision:'do_not_ship',metric:'',conf:0,g:true,s:false,r:false,autoplay:true},
-    segments:{q:'',decision:'investigate',metric:'',conf:0,g:false,s:true,r:false,autoplay:true},
-    reversal:{q:'',decision:'do_not_ship',metric:'',conf:0,g:false,s:false,r:true,autoplay:true},
-    low_conf:{q:'',decision:'',metric:'',conf:0,g:false,s:false,r:false,autoplay:true}
+    all:{q:'',decision:'',metric:'',mech:'',conf:0,g:false,s:false,r:false,autoplay:false},
+    best_ship:{q:'',mech:'',decision:'ship',metric:'',conf:70,g:false,s:false,r:false,autoplay:true},
+    high_risk_fail:{q:'',mech:'',decision:'do_not_ship',metric:'',conf:0,g:true,s:false,r:false,autoplay:true},
+    segments:{q:'',mech:'',decision:'investigate',metric:'',conf:0,g:false,s:true,r:false,autoplay:true},
+    reversal:{q:'',mech:'',decision:'do_not_ship',metric:'',conf:0,g:false,s:false,r:true,autoplay:true},
+    low_conf:{q:'',mech:'',decision:'',metric:'',conf:0,g:false,s:false,r:false,autoplay:true},
+    // Кейсы, где агент прошёл мимо. Ради этого пресета всё и делалось:
+    // один клик показывает цену слепоты вместо чтения таблицы.
+    missed:{q:'',mech:'',decision:'',metric:'',conf:0,g:false,s:false,r:false,autoplay:false}
   };
   var currentCaseId=null, currentTab='details';
   var compareIds=[];
@@ -432,20 +441,30 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 
   function _setFilters(p){
     $search.value=p.q; $decision.value=p.decision; $metric.value=p.metric;
+    if(typeof p.mech!=='undefined') $mech.value=p.mech;
     $conf.value=p.conf; $confVal.textContent=p.conf+'%';
     $guardrail.checked=p.g; $segment.checked=p.s; $reversal.checked=p.r;
   }
 
   function detectActivePreset(){
-    var cur={q:$search.value,decision:$decision.value,metric:$metric.value,
+    var cur={q:$search.value,decision:$decision.value,metric:$metric.value,mech:$mech.value,
              conf:parseInt($conf.value),g:$guardrail.checked,s:$segment.checked,r:$reversal.checked};
     if(CURRENT_PRESET==='low_conf'&&cur.q===''&&cur.decision===''&&cur.metric===''&&cur.conf===0&&!cur.g&&!cur.s&&!cur.r){
       return 'low_conf';
     }
+    // missed отличается от all только скрытым условием correct===false,
+    // по значениям контролов их не различить — держим по текущему пресету.
+    if(CURRENT_PRESET==='missed'&&cur.q===''&&cur.decision===''&&cur.metric===''&&cur.mech===''&&cur.conf===0&&!cur.g&&!cur.s&&!cur.r){
+      return 'missed';
+    }
     for(var name in PRESETS){
-      if(name==='low_conf') continue;
+      if(name==='low_conf'||name==='missed') continue;
       var p=PRESETS[name];
+      // mech обязателен в сравнении: без него выбор механизма опознавался
+      // как пресет all, и фильтр не попадал в адрес — ссылку на срез
+      // «покажи мне srm» нельзя было отправить.
       if(cur.q===p.q&&cur.decision===p.decision&&cur.metric===p.metric&&
+         cur.mech===(p.mech||'')&&
          cur.conf===p.conf&&cur.g===p.g&&cur.s===p.s&&cur.r===p.r) return name;
     }
     return null;
@@ -476,6 +495,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   function syncUrl(){
     var p=new URLSearchParams();
     var q=$search.value,dec=$decision.value,met=$metric.value;
+    var mech=$mech.value;
     var conf=parseInt($conf.value),g=$guardrail.checked,s=$segment.checked,r=$reversal.checked;
     var preset=detectActivePreset();
     if(preset&&preset!=='all'){
@@ -484,6 +504,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
       if(q) p.set('q',q);
       if(dec) p.set('decision',dec);
       if(met) p.set('metric',met);
+      if(mech) p.set('mech',mech);
       if(conf>0) p.set('conf',String(conf));
       if(g) p.set('g','1');
       if(s) p.set('s','1');
@@ -502,13 +523,14 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
 
   function readUrlState(){
     var p=new URLSearchParams(location.search);
-    var st={q:'',decision:'',metric:'',conf:0,g:false,s:false,r:false,
+    var st={q:'',decision:'',metric:'',mech:'',conf:0,g:false,s:false,r:false,
             sortCol:'case_id',sortAsc:true,caseId:null,tab:'details',autoplay:false,speed:1};
     var pr=p.get('preset');
     if(pr&&PRESETS[pr]){var b=PRESETS[pr];st.q=b.q;st.decision=b.decision;st.metric=b.metric;st.conf=b.conf;st.g=b.g;st.s=b.s;st.r=b.r;}
     if(p.has('q'))st.q=p.get('q');
     if(p.has('decision'))st.decision=p.get('decision');
     if(p.has('metric'))st.metric=p.get('metric');
+    if(p.has('mech'))st.mech=p.get('mech');
     if(p.has('conf'))st.conf=parseInt(p.get('conf'))||0;
     if(p.has('g'))st.g=p.get('g')==='1';
     if(p.has('s'))st.s=p.get('s')==='1';
@@ -568,6 +590,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     CASES=d.cases; STATS=d.stats;
     syncSetControl();
     populateMetrics();
+    populateMechanisms();
     renderSummary();
     var state=_bootState;
     _setFilters(state);
@@ -600,7 +623,9 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
       CUR_SET=name; CASES=d.cases; STATS=d.stats;
       closeDrawer();
       $metric.length=1;            // оставить «все метрики», остальное пересобрать
+      $mech.length=1;
       populateMetrics();
+      populateMechanisms();
       renderSummary();
       syncSetControl();
       render();
@@ -615,6 +640,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   $search.addEventListener('input', render);
   $decision.addEventListener('change', render);
   $metric.addEventListener('change', render);
+  $mech.addEventListener('change', render);
   $conf.addEventListener('input', function(){ $confVal.textContent=$conf.value+'%'; render(); });
   $guardrail.addEventListener('change', render);
   $segment.addEventListener('change', render);
@@ -632,6 +658,29 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
       render();
     });
   });
+
+  // Список механизмов: сортируем по точности агента, слепые наверх —
+  // читатель открывает фильтр и сразу видит, где правило не работает.
+  function populateMechanisms(){
+    var agg={};
+    CASES.forEach(function(c){
+      var k=c.type||'—';
+      if(!agg[k]) agg[k]={n:0,ok:0};
+      agg[k].n++; if(c.correct===true) agg[k].ok++;
+    });
+    var keys=Object.keys(agg).sort(function(a,b){
+      var pa=agg[a].ok/agg[a].n, pb=agg[b].ok/agg[b].n;
+      if(pa!==pb) return pa-pb;
+      return a<b?-1:1;
+    });
+    keys.forEach(function(k){
+      var a=agg[k], pct=Math.round(a.ok/a.n*100);
+      var o=document.createElement('option');
+      o.value=k;
+      o.textContent=k+'  ('+a.n+', '+pct+'%)';
+      $mech.appendChild(o);
+    });
+  }
 
   function populateMetrics(){
     var ms={};
@@ -673,6 +722,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
     var q=$search.value.toLowerCase();
     var d=$decision.value;
     var m=$metric.value;
+    var mech=$mech.value;
     var mc=parseInt($conf.value)/100;
     var wg=$guardrail.checked;
     var ws=$segment.checked;
@@ -681,6 +731,8 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
       c.risk_score=riskScore(c);
       if(d && c.decision!==d) return false;
       if(m && c.metric!==m) return false;
+      if(mech && c.type!==mech) return false;
+      if(CURRENT_PRESET==='missed' && c.correct!==false) return false;
       if(c.confidence!=null && c.confidence<mc) return false;
       if(wg && !c.reasons.some(function(r){return r.indexOf('guardrail')>=0;})) return false;
       if(ws && !c.segment_conflict) return false;
