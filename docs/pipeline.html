@@ -225,6 +225,11 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica N
   .v-decision{font-size:32px}
   .v-meta{gap:20px}
 }
+.lang-toggle{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500}
+.lang-toggle a{color:var(--muted);text-decoration:none;padding:4px 8px;border-radius:5px;transition:color .15s}
+.lang-toggle a:hover{color:var(--accent)}
+.lang-toggle a.active{color:var(--accent);font-weight:600;pointer-events:none}
+.lang-toggle .sep{color:var(--border);user-select:none}
 </style>
 </head>
 <body>
@@ -234,18 +239,19 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica N
   <a href="corpus.html">Corpus</a>
   <a href="pipeline.html" class="active">Pipeline</a>
   <div class="spacer"></div>
+  <span class="lang-toggle"><a href="#" id="lang-en">EN</a><span class="sep">|</span><a href="#" id="lang-ru">RU</a></span>
 </div>
 
 <div class="wrap">
 
   <div class="page-head">
     <h1>Pipeline</h1>
-    <p>Введи данные групп — агенты примут решение в реальном времени</p>
+    <p data-t="pl_sub">Enter both groups — the agents decide in real time</p>
   </div>
 
   <!-- Preset scenarios -->
   <div class="presets">
-    <span class="presets-label">Сценарий:</span>
+    <span class="presets-label" data-t="pl_scenario">Scenario:</span>
     <button class="preset preset-ship" onclick="loadPreset('ship')">✓ Clean uplift</button>
     <button class="preset preset-no" onclick="loadPreset('guardrail')">✗ Guardrail breach</button>
     <button class="preset preset-inv" onclick="loadPreset('conflict')">? Segment conflict</button>
@@ -308,9 +314,9 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica N
     <!-- Options -->
     <div class="opts">
       <div class="opt">
-        <label>Длительность</label>
+        <label data-t="pl_duration">Duration</label>
         <input type="number" id="duration" value="14" min="1">
-        <label>дней</label>
+        <label data-t="pl_days">days</label>
       </div>
       <div class="opt">
         <input type="checkbox" id="reversal" />
@@ -318,13 +324,13 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica N
       </div>
       <div class="opt">
         <input type="checkbox" id="seg_conflict" />
-        <label for="seg_conflict">Конфликт сегментов</label>
+        <label for="seg_conflict" data-t="pl_segconf">Segment conflict</label>
       </div>
     </div>
 
     <button class="run-btn" id="run-btn" onclick="run()">
       <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      Запустить конвейер
+      <span data-t="pl_run">Run the pipeline</span>
     </button>
   </div>
 
@@ -334,7 +340,7 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica N
     <div class="stage" id="s-reader">
       <div class="s-icon">📖</div>
       <div class="s-name">Reader</div>
-      <div class="s-status" id="st-reader">Ожидание</div>
+      <div class="s-status" id="st-reader" data-t="pl_idle">Idle</div>
       <div class="s-out" id="so-reader"></div>
     </div>
     <!-- Conn 1 -->
@@ -345,7 +351,7 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica N
     <div class="stage" id="s-stats">
       <div class="s-icon">📊</div>
       <div class="s-name">Stats</div>
-      <div class="s-status" id="st-stats">Ожидание</div>
+      <div class="s-status" id="st-stats" data-t="pl_idle">Idle</div>
       <div class="s-out" id="so-stats"></div>
     </div>
     <!-- Conn 2 -->
@@ -356,7 +362,7 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica N
     <div class="stage" id="s-decision">
       <div class="s-icon">⚖️</div>
       <div class="s-name">Decision</div>
-      <div class="s-status" id="st-decision">Ожидание</div>
+      <div class="s-status" id="st-decision" data-t="pl_idle">Idle</div>
       <div class="s-out" id="so-decision"></div>
     </div>
     <!-- Conn 3 -->
@@ -367,7 +373,7 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica N
     <div class="stage" id="s-viz">
       <div class="s-icon">📈</div>
       <div class="s-name">Viz</div>
-      <div class="s-status" id="st-viz">Ожидание</div>
+      <div class="s-status" id="st-viz" data-t="pl_idle">Idle</div>
       <div class="s-out" id="so-viz"></div>
     </div>
   </div>
@@ -375,26 +381,26 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica N
   <!-- Detail panels -->
   <div class="panels" id="panels">
     <div class="panel" id="p-reader">
-      <div class="panel-head"><span class="agent-tag">reader</span><span class="panel-title">Факты кейса</span></div>
+      <div class="panel-head"><span class="agent-tag">reader</span><span class="panel-title" data-t="pl_p_reader">Case facts</span></div>
       <div class="panel-body" id="pb-reader"></div>
     </div>
     <div class="panel" id="p-stats">
-      <div class="panel-head"><span class="agent-tag">stats</span><span class="panel-title">Проверки данных</span></div>
+      <div class="panel-head"><span class="agent-tag">stats</span><span class="panel-title" data-t="pl_p_stats">Data checks</span></div>
       <div class="panel-body" id="pb-stats"></div>
     </div>
     <div class="panel" id="p-decision">
-      <div class="panel-head"><span class="agent-tag">decision</span><span class="panel-title">Применение политики</span></div>
+      <div class="panel-head"><span class="agent-tag">decision</span><span class="panel-title" data-t="pl_p_decision">Policy applied</span></div>
       <div class="panel-body" id="pb-decision"></div>
     </div>
     <div class="panel" id="p-viz">
-      <div class="panel-head"><span class="agent-tag">viz</span><span class="panel-title">Сравнение метрик</span></div>
+      <div class="panel-head"><span class="agent-tag">viz</span><span class="panel-title" data-t="pl_p_viz">Metric comparison</span></div>
       <div class="panel-body" id="pb-viz"></div>
     </div>
   </div>
 
   <!-- Verdict -->
   <div class="verdict" id="verdict">
-    <div class="v-eyebrow">Вердикт конвейера</div>
+    <div class="v-eyebrow" data-t="pl_verdict">Pipeline verdict</div>
     <div class="v-decision" id="v-text"></div>
 
     <svg class="gauge-wrap" id="gauge-svg" width="180" height="100" viewBox="0 0 180 100">
@@ -412,6 +418,75 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica N
 </div><!-- /wrap -->
 
 <script>
+
+// Переводы. Разметка на английском, русский в словаре — как на index,
+// corpus и policy. До этого страница была русской намертво: ноль ключей
+// и никакого переключателя, единственная такая на сайте.
+var LANG=new URLSearchParams(location.search).get('lang')==='ru'?'ru':'en';
+var _T={
+  pl_sub:{en:'Enter both groups \u2014 the agents decide in real time',ru:'\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0434\u0430\u043d\u043d\u044b\u0435 \u043e\u0431\u0435\u0438\u0445 \u0433\u0440\u0443\u043f\u043f \u2014 \u0430\u0433\u0435\u043d\u0442\u044b \u043f\u0440\u0438\u043c\u0443\u0442 \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u0432 \u0440\u0435\u0430\u043b\u044c\u043d\u043e\u043c \u0432\u0440\u0435\u043c\u0435\u043d\u0438'},
+  pl_scenario:{en:'Scenario:',ru:'\u0421\u0446\u0435\u043d\u0430\u0440\u0438\u0439:'},
+  pl_duration:{en:'Duration',ru:'\u0414\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c'},
+  pl_days:{en:'days',ru:'\u0434\u043d\u0435\u0439'},
+  pl_segconf:{en:'Segment conflict',ru:'\u041a\u043e\u043d\u0444\u043b\u0438\u043a\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432'},
+  pl_run:{en:'Run the pipeline',ru:'\u0417\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c \u043a\u043e\u043d\u0432\u0435\u0439\u0435\u0440'},
+  pl_idle:{en:'Idle',ru:'\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435'},
+  pl_p_reader:{en:'Case facts',ru:'\u0424\u0430\u043a\u0442\u044b \u043a\u0435\u0439\u0441\u0430'},
+  pl_p_stats:{en:'Data checks',ru:'\u041f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0434\u0430\u043d\u043d\u044b\u0445'},
+  pl_p_decision:{en:'Policy applied',ru:'\u041f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u0435 \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0438'},
+  pl_p_viz:{en:'Metric comparison',ru:'\u0421\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435 \u043c\u0435\u0442\u0440\u0438\u043a'},
+  st_running:{en:'running',ru:'\u0438\u0434\u0451\u0442'},
+  st_finished:{en:'finished',ru:'\u0433\u043e\u0442\u043e\u0432\u043e'},
+  st_starting:{en:'starting\u2026',ru:'\u0437\u0430\u043f\u0443\u0441\u043a\u0430\u044e\u2026'},
+  btn_again:{en:'Run again',ru:'\u0417\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c \u0441\u043d\u043e\u0432\u0430'},
+  f_users:{en:'Users:',ru:'\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439:'},
+  f_duration:{en:'Duration:',ru:'\u0414\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c:'},
+  f_metric:{en:'Metric',ru:'\u041c\u0435\u0442\u0440\u0438\u043a\u0430'},
+  f_control_n:{en:'Control (n)',ru:'\u041a\u043e\u043d\u0442\u0440\u043e\u043b\u044c (n)'},
+  f_test_n:{en:'Test (n)',ru:'\u0422\u0435\u0441\u0442 (n)'},
+  f_nodata:{en:'no data',ru:'\u043d\u0435\u0442 \u0434\u0430\u043d\u043d\u044b\u0445'},
+  f_yes:{en:'Yes',ru:'\u0414\u0430'},
+  f_no:{en:'No',ru:'\u041d\u0435\u0442'},
+  chk_sizes:{en:'Sample sizes > 0',ru:'\u0420\u0430\u0437\u043c\u0435\u0440\u044b \u0432\u044b\u0431\u043e\u0440\u043e\u043a > 0'},
+  chk_rev:{en:'Revenue effect plausible (|\u0394| \u2264 50%)',ru:'Revenue \u044d\u0444\u0444\u0435\u043a\u0442 \u0440\u0430\u0437\u0443\u043c\u043d\u044b\u0439 (|\u0394| \u2264 50%)'},
+  chk_ctr:{en:'CTR effect plausible (|\u0394| \u2264 50%)',ru:'CTR \u044d\u0444\u0444\u0435\u043a\u0442 \u0440\u0430\u0437\u0443\u043c\u043d\u044b\u0439 (|\u0394| \u2264 50%)'},
+  chk_ok:{en:'checks passed',ru:'\u043f\u0440\u043e\u0432\u0435\u0440\u043e\u043a \u041e\u041a'},
+  st_sig:{en:'Significance',ru:'\u0417\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c'},
+  st_sig_yes:{en:'significant (\u03b1=0.05)',ru:'\u0437\u043d\u0430\u0447\u0438\u043c\u043e (\u03b1=0.05)'},
+  st_practical:{en:'Practical threshold',ru:'\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043f\u043e\u0440\u043e\u0433'},
+  st_practical_sig:{en:'\u2014 above threshold',ru:'\u2014 \u0437\u043d\u0430\u0447\u0438\u043c\u043e'},
+  st_thresh:{en:'% \u2264 threshold',ru:'% \u2264 \u043f\u043e\u0440\u043e\u0433\u0430'},
+  st_breached:{en:'\u26a0 BREACHED',ru:'\u26a0 \u041d\u0410\u0420\u0423\u0428\u0415\u041d'},
+  st_segconf_hit:{en:'Opposite effects across segments',ru:'\u0420\u0430\u0437\u043d\u043e\u043d\u0430\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043d\u044b\u0435 \u044d\u0444\u0444\u0435\u043a\u0442\u044b \u0432 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u0430\u0445'},
+  st_segconf_no:{en:'No conflict',ru:'\u041a\u043e\u043d\u0444\u043b\u0438\u043a\u0442\u0430 \u043d\u0435\u0442'},
+  st_rev_hit:{en:'Reversal signal detected',ru:'\u041e\u0431\u043d\u0430\u0440\u0443\u0436\u0435\u043d \u0441\u0438\u0433\u043d\u0430\u043b \u0440\u0435\u0432\u0435\u0440\u0441\u0438\u0438'},
+  st_rev_no:{en:'No signal',ru:'\u0421\u0438\u0433\u043d\u0430\u043b\u0430 \u043d\u0435\u0442'},
+  st_final:{en:'Final',ru:'\u0418\u0442\u043e\u0433'},
+  st_final_ship:{en:'All checks passed \u2014 significant uplift above MDE',ru:'\u0412\u0441\u0435 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u043f\u0440\u043e\u0439\u0434\u0435\u043d\u044b \u2014 \u0437\u043d\u0430\u0447\u0438\u043c\u044b\u0439 uplift \u0432\u044b\u0448\u0435 MDE'},
+  st_final_inv:{en:'Not enough evidence',ru:'\u041d\u0435\u0434\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u043e \u0441\u0432\u0438\u0434\u0435\u0442\u0435\u043b\u044c\u0441\u0442\u0432'},
+  st_final_skip:{en:'Decided at an earlier step',ru:'\u0420\u0435\u0448\u0435\u043d\u0438\u0435 \u043f\u0440\u0438\u043d\u044f\u0442\u043e \u043d\u0430 \u043f\u0440\u0435\u0434\u044b\u0434\u0443\u0449\u0435\u043c \u0448\u0430\u0433\u0435'},
+  conf_factors:{en:'Confidence factors',ru:'\u0424\u0430\u043a\u0442\u043e\u0440\u044b \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u0438'},
+  viz_sub:{en:'4 metrics \u00b7 Control vs Test',ru:'4 \u043c\u0435\u0442\u0440\u0438\u043a\u0438 \u00b7 Control vs Test'},
+  pl_verdict:{en:'Pipeline verdict',ru:'\u0412\u0435\u0440\u0434\u0438\u043a\u0442 \u043a\u043e\u043d\u0432\u0435\u0439\u0435\u0440\u0430'},
+};
+function t(k){var e=_T[k];return e?(e[LANG]||e.en||k):k;}
+
+(function(){
+  document.querySelectorAll('[data-t]').forEach(function(el){
+    var v=t(el.getAttribute('data-t'));
+    if(v) el.innerHTML=v;
+  });
+  var u=new URL(location.href), p=new URLSearchParams(u.search);
+  var isRu=p.get('lang')==='ru';
+  p.delete('lang');
+  var base=u.pathname+(p.toString()?'?'+p.toString():'');
+  p.set('lang','ru');
+  var ruUrl=u.pathname+'?'+p.toString();
+  var e=document.getElementById('lang-en'), r=document.getElementById('lang-ru');
+  if(e){e.href=base;e.classList.toggle('active',!isRu);}
+  if(r){r.href=ruUrl;r.classList.toggle('active',isRu);}
+})();
+
 // ─────────────────────────────────────────────
 // Policy
 // ─────────────────────────────────────────────
@@ -562,9 +637,9 @@ function decide(d) {
   if (!ctr_ok) {
     decision = 'do_not_ship'; reasons = ['guardrail_violation:ctr'];
     if (sig && big) reasons.unshift('primary_uplift');
-    steps.push({ name:'Guardrails', detail:`CTR: ${ctr_dp.toFixed(1)}% ≤ порога ${POL.ctr_guardrail_pct}%`, badge:'VIOLATED', hit:true });
+    steps.push({ name:'Guardrails', detail:`CTR: ${ctr_dp.toFixed(1)}${t('st_thresh')} ${POL.ctr_guardrail_pct}%`, badge:'VIOLATED', hit:true });
   } else {
-    steps.push({ name:'Guardrails', detail:`CTR: ${ctr_dp !== null ? (ctr_dp>=0?'+':'')+ctr_dp.toFixed(2)+'%' : 'нет данных'} — OK`, badge:'PASS', hit:false });
+    steps.push({ name:'Guardrails', detail:`CTR: ${ctr_dp !== null ? (ctr_dp>=0?'+':'')+ctr_dp.toFixed(2)+'%' : t('f_nodata')} — OK`, badge:'PASS', hit:false });
   }
 
   // 2. Long-term reversal
@@ -572,9 +647,9 @@ function decide(d) {
     if (d.reversal) {
       decision = 'do_not_ship'; reasons = ['long_term_reversal'];
       if (!sig) reasons.push('not_significant');
-      steps.push({ name:'Long-term reversal', detail:'Обнаружен сигнал реверсии', badge:'TRIGGERED', hit:true });
+      steps.push({ name:'Long-term reversal', detail:t('st_rev_hit'), badge:'TRIGGERED', hit:true });
     } else {
-      steps.push({ name:'Long-term reversal', detail:'Сигнала нет', badge:'PASS', hit:false });
+      steps.push({ name:'Long-term reversal', detail:t('st_rev_no'), badge:'PASS', hit:false });
     }
   } else {
     steps.push({ name:'Long-term reversal', detail:'—', badge:'SKIP', hit:false, skip:true });
@@ -584,49 +659,49 @@ function decide(d) {
   if (!decision) {
     if (d.seg_conflict) {
       decision = 'investigate'; reasons = ['segment_conflict'];
-      steps.push({ name:'Конфликт сегментов', detail:'Разнонаправленные эффекты в сегментах', badge:'CONFLICT', hit:true });
+      steps.push({ name:t('pl_segconf'), detail:t('st_segconf_hit'), badge:'CONFLICT', hit:true });
     } else {
-      steps.push({ name:'Конфликт сегментов', detail:'Конфликта нет', badge:'PASS', hit:false });
+      steps.push({ name:t('pl_segconf'), detail:t('st_segconf_no'), badge:'PASS', hit:false });
     }
   } else {
-    steps.push({ name:'Конфликт сегментов', detail:'—', badge:'SKIP', hit:false, skip:true });
+    steps.push({ name:t('pl_segconf'), detail:'—', badge:'SKIP', hit:false, skip:true });
   }
 
   // 4. Practical threshold
   if (!decision) {
     if (sig && !big) {
       decision = 'do_not_ship'; reasons = ['practically_small'];
-      steps.push({ name:'Практический порог', detail:`|${uplift.toFixed(2)}%| < ${POL.practical_pct}% (MDE)`, badge:'TOO SMALL', hit:true });
+      steps.push({ name:t('st_practical'), detail:`|${uplift.toFixed(2)}%| < ${POL.practical_pct}% (MDE)`, badge:'TOO SMALL', hit:true });
     } else {
-      steps.push({ name:'Практический порог', detail: uplift !== null ? `|${uplift.toFixed(2)}%| vs ${POL.practical_pct}%` : 'N/A', badge: big ? 'PASS' : '—', hit:false });
+      steps.push({ name:t('st_practical'), detail: uplift !== null ? `|${uplift.toFixed(2)}%| vs ${POL.practical_pct}%` : 'N/A', badge: big ? 'PASS' : '—', hit:false });
     }
   } else {
-    steps.push({ name:'Практический порог', detail:'—', badge:'SKIP', hit:false, skip:true });
+    steps.push({ name:t('st_practical'), detail:'—', badge:'SKIP', hit:false, skip:true });
   }
 
   // 5. Significance
   if (!decision) {
     if (!sig) {
       decision = 'investigate'; reasons = ['not_significant'];
-      steps.push({ name:'Значимость', detail:`p=${d.p_rev} > α=${POL.alpha}`, badge:'NOT SIG', hit:true });
+      steps.push({ name:t('st_sig'), detail:`p=${d.p_rev} > α=${POL.alpha}`, badge:'NOT SIG', hit:true });
     } else {
-      steps.push({ name:'Значимость', detail:`p=${d.p_rev} ≤ α=${POL.alpha} — значимо`, badge:'PASS', hit:false });
+      steps.push({ name:t('st_sig'), detail:`p=${d.p_rev} ≤ α=${POL.alpha} ${t('st_practical_sig')}`, badge:'PASS', hit:false });
     }
   } else {
-    steps.push({ name:'Значимость', detail:`p=${d.p_rev}`, badge:'—', hit:false, skip:true });
+    steps.push({ name:t('st_sig'), detail:`p=${d.p_rev}`, badge:'—', hit:false, skip:true });
   }
 
   // 6. Default
   if (!decision) {
     if (sig && big) {
       decision = 'ship'; reasons = ['primary_uplift'];
-      steps.push({ name:'Итог', detail:'Все проверки пройдены — значимый uplift выше MDE', badge:'SHIP', hit:true });
+      steps.push({ name:t('st_final'), detail:t('st_final_ship'), badge:'SHIP', hit:true });
     } else {
       decision = 'investigate'; reasons = ['insufficient_evidence'];
-      steps.push({ name:'Итог', detail:'Недостаточно свидетельств', badge:'INVESTIGATE', hit:true });
+      steps.push({ name:t('st_final'), detail:t('st_final_inv'), badge:'INVESTIGATE', hit:true });
     }
   } else {
-    steps.push({ name:'Итог', detail:'Решение принято на предыдущем шаге', badge:'SKIP', hit:false, skip:true });
+    steps.push({ name:t('st_final'), detail:t('st_final_skip'), badge:'SKIP', hit:false, skip:true });
   }
 
   // Confidence
@@ -657,13 +732,13 @@ function decide(d) {
 function readerShort(d) {
   const e = fmtPct(d.rev_eff);
   const cls = d.rev_eff >= 0 ? 'eff-pos' : 'eff-neg';
-  return `Пользователей: <strong>${(d.a_n+d.b_n).toLocaleString()}</strong><br>Revenue: <span class="${cls}">${e}</span> &nbsp;p=${d.p_rev}<br>Длительность: <strong>${d.duration} дней</strong>`;
+  return `${t('f_users')} <strong>${(d.a_n+d.b_n).toLocaleString()}</strong><br>Revenue: <span class="${cls}">${e}</span> &nbsp;p=${d.p_rev}<br>${t('f_duration')} <strong>${d.duration} ${t('pl_days')}</strong>`;
 }
 
 function readerFull(d) {
   const rows = [
-    ['Контроль (n)', d.a_n.toLocaleString()],
-    ['Тест (n)', d.b_n.toLocaleString()],
+    [t('f_control_n'), d.a_n.toLocaleString()],
+    [t('f_test_n'), d.b_n.toLocaleString()],
     ['Revenue (A)', d.a_rev.toFixed(3)],
     ['Revenue (B)', d.b_rev.toFixed(3)],
     ['Revenue Δ', `<span class="${d.rev_eff>=0?'eff-pos':'eff-neg'}">${fmtPct(d.rev_eff)}</span>`],
@@ -673,7 +748,7 @@ function readerFull(d) {
     ['CTR Δ', `<span class="${d.ctr_eff>=0?'eff-pos':'eff-neg'}">${fmtPct(d.ctr_eff)}</span>`],
     ['CPM (A→B)', `${d.a_cpm.toFixed(2)} → ${d.b_cpm.toFixed(2)}`],
     ['Fillrate (A→B)', `${d.a_fill.toFixed(3)} → ${d.b_fill.toFixed(3)}`],
-    ['Длительность', `${d.duration} дней`],
+    [t('pl_duration'), `${d.duration} ${t('pl_days')}`],
   ];
   return `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px 20px">
     ${rows.map(([l,v])=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid color-mix(in srgb,var(--border) 50%,transparent)"><span style="color:var(--muted)">${l}</span><span style="font-weight:500">${v}</span></div>`).join('')}
@@ -682,7 +757,7 @@ function readerFull(d) {
 
 function statsShort(checks) {
   const n = checks.filter(c=>c.ok).length;
-  return `<strong>${n}/${checks.length}</strong> проверок ОК`;
+  return `<strong>${n}/${checks.length}</strong> ${t('chk_ok')}`;
 }
 
 function statsFull(checks) {
@@ -696,11 +771,11 @@ function statsFull(checks) {
 
 function buildChecks(d) {
   return [
-    { name:'Размеры выборок > 0', ok: d.a_n>0 && d.b_n>0, detail:`${d.a_n.toLocaleString()} / ${d.b_n.toLocaleString()}` },
+    { name:t('chk_sizes'), ok: d.a_n>0 && d.b_n>0, detail:`${d.a_n.toLocaleString()} / ${d.b_n.toLocaleString()}` },
     { name:'Revenue p-value ∈ [0, 1]', ok: d.p_rev>=0 && d.p_rev<=1, detail:`p = ${d.p_rev}` },
     { name:'CTR p-value ∈ [0, 1]', ok: d.p_ctr>=0 && d.p_ctr<=1, detail:`p = ${d.p_ctr}` },
-    { name:'Revenue эффект разумный (|Δ| ≤ 50%)', ok: d.rev_eff!==null && Math.abs(d.rev_eff)<=0.5, detail: d.rev_eff!==null?fmtPct(d.rev_eff):'N/A' },
-    { name:'CTR эффект разумный (|Δ| ≤ 50%)', ok: d.ctr_eff!==null && Math.abs(d.ctr_eff)<=0.5, detail: d.ctr_eff!==null?fmtPct(d.ctr_eff):'N/A' },
+    { name:t('chk_rev'), ok: d.rev_eff!==null && Math.abs(d.rev_eff)<=0.5, detail: d.rev_eff!==null?fmtPct(d.rev_eff):'N/A' },
+    { name:t('chk_ctr'), ok: d.ctr_eff!==null && Math.abs(d.ctr_eff)<=0.5, detail: d.ctr_eff!==null?fmtPct(d.ctr_eff):'N/A' },
     { name:'Fillrate ∈ [0, 1]', ok: d.a_fill>=0&&d.a_fill<=1&&d.b_fill>=0&&d.b_fill<=1, detail:`${d.a_fill} / ${d.b_fill}` },
   ];
 }
@@ -729,7 +804,7 @@ function decisionFull(r) {
   </div>`;
 }
 
-function vizShort() { return '4 метрики · Control vs Test'; }
+function vizShort() { return t('viz_sub'); }
 
 function vizFull(d) {
   const metrics = [
@@ -752,7 +827,7 @@ function vizFull(d) {
     </tr>`;
   }).join('');
   return `<div style="overflow-x:auto"><table class="viz-tbl">
-    <thead><tr><th>Метрика</th><th>Control</th><th>Test</th><th>Δ relative</th><th>p-value</th></tr></thead>
+    <thead><tr><th>${t('f_metric')}</th><th>Control</th><th>Test</th><th>Δ relative</th><th>p-value</th></tr></thead>
     <tbody>${rows}</tbody>
   </table></div>`;
 }
@@ -766,7 +841,7 @@ function resetPipeline() {
   ['reader','stats','decision','viz'].forEach(a => {
     document.getElementById(`s-${a}`).className = 'stage';
     const st = document.getElementById(`st-${a}`);
-    st.textContent = 'Ожидание'; st.className = 's-status';
+    st.textContent = t('pl_idle'); st.className = 's-status';
     const so = document.getElementById(`so-${a}`);
     so.className = 's-out'; so.innerHTML = '';
     const p = document.getElementById(`p-${a}`);
@@ -782,14 +857,14 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
 function setRunning(agent) {
   document.getElementById(`s-${agent}`).className = 'stage running';
   const st = document.getElementById(`st-${agent}`);
-  st.innerHTML = '<span class="spin"></span> Обработка…';
+  st.innerHTML = '<span class="spin"></span> '+t('st_running');
   st.className = 's-status run';
 }
 
 function setDone(agent, shortHTML, fullHTML) {
   document.getElementById(`s-${agent}`).className = 'stage done';
   const st = document.getElementById(`st-${agent}`);
-  st.innerHTML = '✓ Готово'; st.className = 's-status ok';
+  st.innerHTML = '✓ '+t('st_finished'); st.className = 's-status ok';
   const so = document.getElementById(`so-${agent}`);
   so.innerHTML = shortHTML;
   requestAnimationFrame(() => requestAnimationFrame(() => { so.className = 's-out vis'; }));
@@ -835,8 +910,8 @@ function showVerdict(r, d) {
   document.getElementById('v-meta').innerHTML = `
     <div class="vm"><div class="vm-val" style="color:${upCol}">${upStr}</div><div class="vm-label">Revenue uplift</div></div>
     <div class="vm"><div class="vm-val">${p_rev}</div><div class="vm-label">p-value</div></div>
-    <div class="vm"><div class="vm-val">${sig?'Да':'Нет'}</div><div class="vm-label">Значимо (α=0.05)</div></div>
-    <div class="vm"><div class="vm-val">${ctr_ok?'✓ OK':'⚠ НАРУШЕН'}</div><div class="vm-label">CTR guardrail</div></div>
+    <div class="vm"><div class="vm-val">${sig?t('f_yes'):t('f_no')}</div><div class="vm-label">${t('st_sig_yes')}</div></div>
+    <div class="vm"><div class="vm-val">${ctr_ok?'✓ OK':t('st_breached')}</div><div class="vm-label">CTR guardrail</div></div>
   `;
 
   // reasons
@@ -846,7 +921,7 @@ function showVerdict(r, d) {
   // factors
   if (r.factors.length) {
     document.getElementById('v-factors').innerHTML = `
-      <div class="factors-title">Факторы уверенности</div>
+      <div class="factors-title">${t('conf_factors')}</div>
       ${r.factors.map(f=>`<div class="factor"><span class="f-name">${f.name.replace(/_/g,' ')}</span><span class="f-w ${f.w>0?'f-pos':'f-neg'}">${f.w>0?'+':''}${f.w.toFixed(1)}</span></div>`).join('')}
     `;
   }
@@ -861,7 +936,7 @@ async function run() {
 
   const btn = document.getElementById('run-btn');
   btn.className = 'run-btn busy';
-  btn.innerHTML = `<span class="spin" style="border-color:rgba(255,255,255,.3);border-top-color:#fff"></span> Запускаю…`;
+  btn.innerHTML = `<span class="spin" style="border-color:rgba(255,255,255,.3);border-top-color:#fff"></span> ${t('st_starting')}`;
 
   resetPipeline();
   await wait(150);
@@ -900,7 +975,7 @@ async function run() {
   await wait(200);
 
   btn.className = 'run-btn';
-  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Запустить снова`;
+  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> ${t('btn_again')}`;
   busy = false;
 }
 </script>
