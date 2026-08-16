@@ -150,6 +150,11 @@
   .case-note { border-left: 2px solid var(--border); padding-left: 12px; }
   .case-link { font-size: 13px; color: var(--accent); text-decoration: none; font-weight: 500; }
 
+  .take-legal { font-size: 13px; color: var(--muted); text-align: center; margin-top: 16px; line-height: 1.6; }
+  .take-legal a { color: var(--accent); text-decoration: none; }
+  .why-lead { font-size: 15px; color: var(--muted); max-width: 700px; margin: 0 auto 24px; line-height: 1.65; text-align: left; }
+  .why-lead strong { color: var(--fg); }
+
   /* Сетка механизмов вместо системной диаграммы. Три зоны, и главная —
      «не ловит ни разу» — сделана единым блоком: общая рамка и заливка,
      внутри просто список из двадцати названий без отдельных карточек.
@@ -304,24 +309,6 @@
   </div>
 </div>
 
-<div class="diagram-section">
-  <h2 data-t="flow_title">Decision flow</h2>
-  <p class="diagram-sub" data-t="flow_sub">Case → Signals → Rules → Verdict</p>
-  <div class="cards" style="padding-bottom:0;grid-template-columns:repeat(4,1fr)">
-    <div class="card"><h3 data-t="flow_case_h">Case</h3><p data-t="flow_case_d">Structured experiment contract and metrics.</p></div>
-    <div class="card"><h3 data-t="flow_sig_h">Signals</h3><p data-t="flow_sig_d">Uplift, p-value, guardrails, segments, reversal.</p></div>
-    <div class="card"><h3 data-t="flow_rules_h">Rules</h3><p data-t="flow_rules_d">Stop-rule pipeline checks blockers in fixed order.</p></div>
-    <div class="card"><h3 data-t="flow_v_h">Verdict</h3><p data-t="flow_v_d">ship / do_not_ship / investigate + confidence.</p></div>
-  </div>
-</div>
-
-<div class="cards">
-  <div class="card"><div class="number">4</div><h3 data-t="c_agents">Agents</h3><p data-t="c_agents_d">Reader, Stats, Decision, Viz — each modular and traceable.</p></div>
-  <div class="card"><div class="number">6</div><h3 data-t="c_stoprule">Stop-Rule Engine</h3><p data-t="c_stoprule_d">Deterministic decision pipeline. First triggered rule defines the verdict.</p><div class="stop-flow" data-t="c_stoprule_flow">Guardrails &rarr; Reversal &rarr; Segment &rarr; Significance &rarr; Practical &rarr; Ship</div><p class="stop-caption" data-t="c_stoprule_out">Output: ship / do_not_ship / investigate</p><div class="stop-links"><a href="policy.html" data-t="c_stoprule_lp">Open Policy &rarr;</a><a href="corpus.html" data-t="c_stoprule_lc">Browse Corpus &rarr;</a></div></div>
-  <a href="corpus.html" class="card card-link" id="corpus-card"><div class="number" id="corpus-total">660</div><h3><span data-t="c_corpus">Corpus cases</span> <span class="live-badge" data-t="c_live">Live</span></h3><p data-t="c_corpus_d">Evaluated by the four-agent pipeline.</p></a>
-  <div class="card"><div class="number">100&thinsp;&rarr;&thinsp;42.7%</div><h3 data-t="c_selfcheck">Accuracy, and where it ends</h3><p data-t="c_selfcheck_d">100% on the 100-case set with five mechanisms. <strong>42.7%</strong> on 660 cases with 33 — and 20 of those 33 it never catches once. Same rule, harder corpus.</p></div>
-</div>
-
 <div class="mech-section">
   <h2 data-t="mech_title">Where the rule stops working</h2>
   <p class="diagram-sub" data-t="mech_sub">33 mechanisms in the corpus. Click any to open its cases.</p>
@@ -384,6 +371,25 @@
   </div>
 </div>
 
+<div class="diagram-section">
+  <h2 data-t="flow_title">Why the rule misses</h2>
+  <p class="why-lead" data-t="why_lead">The design is simple, and that is the point. The rule compares numbers against thresholds: significance against alpha, effect against the practical threshold, guardrail against the allowed drop. That catches a trap when the trap reduces to «one number crossed a line». Half the mechanisms in the corpus are not built that way: to see peeking, Simpson&rsquo;s paradox or bot traffic you have to look at <strong>the circumstances of the experiment</strong>, not at the results table. There are no thresholds for that.</p>
+  <p class="diagram-sub" data-t="flow_sub">Case → Signals → Rules → Verdict</p>
+  <div class="cards" style="padding-bottom:0;grid-template-columns:repeat(4,1fr)">
+    <div class="card"><h3 data-t="flow_case_h">Case</h3><p data-t="flow_case_d">Structured experiment contract and metrics.</p></div>
+    <div class="card"><h3 data-t="flow_sig_h">Signals</h3><p data-t="flow_sig_d">Uplift, p-value, guardrails, segments, reversal.</p></div>
+    <div class="card"><h3 data-t="flow_rules_h">Rules</h3><p data-t="flow_rules_d">Stop-rule pipeline checks blockers in fixed order.</p></div>
+    <div class="card"><h3 data-t="flow_v_h">Verdict</h3><p data-t="flow_v_d">ship / do_not_ship / investigate + confidence.</p></div>
+  </div>
+</div>
+
+<div class="cards">
+  <div class="card"><div class="number">4</div><h3 data-t="c_agents">Agents</h3><p data-t="c_agents_d">Reader, Stats, Decision, Viz — each modular and traceable.</p></div>
+  <div class="card"><div class="number">6</div><h3 data-t="c_stoprule">Stop-Rule Engine</h3><p data-t="c_stoprule_d">Deterministic decision pipeline. First triggered rule defines the verdict.</p><div class="stop-flow" data-t="c_stoprule_flow">Guardrails &rarr; Reversal &rarr; Segment &rarr; Significance &rarr; Practical &rarr; Ship</div><p class="stop-caption" data-t="c_stoprule_out">Output: ship / do_not_ship / investigate</p><div class="stop-links"><a href="policy.html" data-t="c_stoprule_lp">Open Policy &rarr;</a><a href="corpus.html" data-t="c_stoprule_lc">Browse Corpus &rarr;</a></div></div>
+  <a href="corpus.html" class="card card-link" id="corpus-card"><div class="number" id="corpus-total">660</div><h3><span data-t="c_corpus">Corpus cases</span> <span class="live-badge" data-t="c_live">Live</span></h3><p data-t="c_corpus_d">Evaluated by the four-agent pipeline.</p></a>
+  <div class="card"><div class="number">100&thinsp;&rarr;&thinsp;42.7%</div><h3 data-t="c_selfcheck">Accuracy, and where it ends</h3><p data-t="c_selfcheck_d">100% on the 100-case set with five mechanisms. <strong>42.7%</strong> on 660 cases with 33 — and 20 of those 33 it never catches once. Same rule, harder corpus.</p></div>
+</div>
+
 <div class="onboard-section">
   <h2 data-t="ob_title">Try it in 30 seconds</h2>
   <p class="onboard-sub" data-t="ob_sub">See how agents turn raw A/B results into a verdict with evidence.</p>
@@ -416,14 +422,15 @@
 </div>
 
 <div class="run-section">
-  <h3 data-t="run_title">Run locally</h3>
-  <p class="run-sub" data-t="run_sub">Reproduce the corpus locally (stdlib-only).</p>
+  <h3 data-t="run_title">Take it</h3>
+  <p class="run-sub" data-t="run_sub">Reproduce the whole corpus locally. Python 3.10+, no pip, no Docker, no API keys.</p>
   <div class="run-code-wrap">
-    <pre class="run-code" id="run-code">./43_generation/ab_factory/run.sh --n 100
-cd 42_workflows/ab_factory && python3 run_case.py --all --root ../../40_ab_factory/vk-style/cases_auto
-cd ../.. && python3 tools/build_corpus_index.py</pre>
+    <pre class="run-code" id="run-code">./43_generation/ab_factory/run.sh --n 660
+cd 42_workflows/ab_factory && python3 run_case.py --all --corpus cases_mvp_v2
+cd ../.. && python3 tools/build_corpus_index.py --corpus cases_mvp_v2</pre>
     <button class="run-copy" id="run-copy" data-t="run_copy">Copy</button>
   </div>
+  <p class="take-legal" data-t="take_legal">Code under <a href="https://github.com/yzotop/ab-factory-demo/blob/main/LICENSE">MIT</a>, corpus and the mechanism catalogue under <a href="https://github.com/yzotop/ab-factory-demo/blob/main/LICENSE-DATA">CC BY 4.0</a> — reuse it, just credit the author. Citation metadata: <a href="https://github.com/yzotop/ab-factory-demo/blob/main/CITATION.cff">CITATION.cff</a>.</p>
 </div>
 
 <footer data-t="footer">AB Factory &middot; interactive decision simulator &middot; static and dependency-free</footer>
@@ -481,8 +488,9 @@ cd ../.. && python3 tools/build_corpus_index.py</pre>
     c_corpus:{ru:'\u041a\u0435\u0439\u0441\u044b \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435'},
     c_live:{ru:'Live'},
     c_corpus_d:{ru:'\u041e\u0446\u0435\u043d\u0435\u043d\u044b 4-\u0430\u0433\u0435\u043d\u0442\u043d\u044b\u043c \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d\u043e\u043c.'},
-    run_title:{ru:'\u0417\u0430\u043f\u0443\u0441\u043a \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e'},
-    run_sub:{ru:'\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u043a\u043e\u0440\u043f\u0443\u0441 \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e (\u0442\u043e\u043b\u044c\u043a\u043e stdlib).'},
+    run_title:{ru:'\u0417\u0430\u0431\u0440\u0430\u0442\u044c \u0441\u0435\u0431\u0435'},
+    run_sub:{ru:'\u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0441\u0442\u0438 \u0432\u0435\u0441\u044c \u043a\u043e\u0440\u043f\u0443\u0441 \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e. Python 3.10+, \u0431\u0435\u0437 pip, \u0431\u0435\u0437 Docker, \u0431\u0435\u0437 API-\u043a\u043b\u044e\u0447\u0435\u0439.'},
+    take_legal:{ru:'\u041a\u043e\u0434 \u043f\u043e\u0434 <a href="https://github.com/yzotop/ab-factory-demo/blob/main/LICENSE">MIT</a>, \u043a\u043e\u0440\u043f\u0443\u0441 \u0438 \u043a\u0430\u0442\u0430\u043b\u043e\u0433 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432 \u043f\u043e\u0434 <a href="https://github.com/yzotop/ab-factory-demo/blob/main/LICENSE-DATA">CC BY 4.0</a> \u2014 \u043f\u043e\u043b\u044c\u0437\u0443\u0439\u0442\u0435\u0441\u044c, \u0443\u043a\u0430\u0436\u0438\u0442\u0435 \u0430\u0432\u0442\u043e\u0440\u0430. \u041c\u0435\u0442\u0430\u0434\u0430\u043d\u043d\u044b\u0435 \u0434\u043b\u044f \u0446\u0438\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f: <a href="https://github.com/yzotop/ab-factory-demo/blob/main/CITATION.cff">CITATION.cff</a>.'},
     run_copy:{ru:'\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c'},
     ob_s3_t:{ru:'\u041f\u043e\u0434\u0441\u0442\u0430\u0432\u044c\u0442\u0435 \u0441\u0432\u043e\u0438 \u0447\u0438\u0441\u043b\u0430'},
     ob_s3_d:{ru:'\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044f \u0438 \u0442\u0435\u0441\u0442\u0430 \u2014 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0438, \u0432\u044b\u0440\u0443\u0447\u043a\u0430, CTR, CPM, fill rate \u2014 \u0438 \u0441\u043c\u043e\u0442\u0440\u0438\u0442\u0435, \u043a\u0430\u043a \u0430\u0433\u0435\u043d\u0442\u044b \u0440\u0435\u0448\u0430\u044e\u0442 \u0432 \u0440\u0435\u0430\u043b\u044c\u043d\u043e\u043c \u0432\u0440\u0435\u043c\u0435\u043d\u0438. \u041f\u044f\u0442\u044c \u0433\u043e\u0442\u043e\u0432\u044b\u0445 \u0441\u0446\u0435\u043d\u0430\u0440\u0438\u0435\u0432 \u0432 \u043a\u043e\u043c\u043f\u043b\u0435\u043a\u0442\u0435.'},
@@ -509,7 +517,8 @@ cd ../.. && python3 tools/build_corpus_index.py</pre>
     ob_s2_t:{ru:'\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0438 \u0441\u0442\u043e\u043f-\u043f\u0440\u0430\u0432\u0438\u043b\u0430'},
     ob_s2_d:{ru:'\u041f\u043e\u0439\u043c\u0438, \u043a\u0430\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u043b\u043e \u0432\u044b\u043a\u0430\u0442\u043a\u0443 \u0438 \u043f\u043e\u0447\u0435\u043c\u0443.'},
     ob_s2_l:{ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0435\u043d\u0438\u0435 \u0432 Policy \u2192'},
-    flow_title:{ru:'\u041f\u043e\u0442\u043e\u043a \u0440\u0435\u0448\u0435\u043d\u0438\u044f'},
+    why_lead:{ru:'\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u043f\u0440\u043e\u0441\u0442\u043e\u0435, \u0438 \u0432 \u044d\u0442\u043e\u043c \u0434\u0435\u043b\u043e. \u041f\u0440\u0430\u0432\u0438\u043b\u043e \u0441\u0440\u0430\u0432\u043d\u0438\u0432\u0430\u0435\u0442 \u0447\u0438\u0441\u043b\u0430 \u0441 \u043f\u043e\u0440\u043e\u0433\u0430\u043c\u0438: \u0437\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c \u0441 alpha, \u044d\u0444\u0444\u0435\u043a\u0442 \u0441 \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u043c \u043f\u043e\u0440\u043e\u0433\u043e\u043c, guardrail \u0441 \u0434\u043e\u043f\u0443\u0441\u0442\u0438\u043c\u044b\u043c \u043f\u0430\u0434\u0435\u043d\u0438\u0435\u043c. \u0422\u0430\u043a\u0430\u044f \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0430 \u043b\u043e\u0432\u0438\u0442 \u043b\u043e\u0432\u0443\u0448\u043a\u0443, \u0435\u0441\u043b\u0438 \u0442\u0430 \u0441\u0432\u043e\u0434\u0438\u0442\u0441\u044f \u043a \u00ab\u043e\u0434\u043d\u043e \u0447\u0438\u0441\u043b\u043e \u0432\u044b\u0448\u043b\u043e \u0437\u0430 \u0433\u0440\u0430\u043d\u0438\u0446\u0443\u00bb. \u041f\u043e\u043b\u043e\u0432\u0438\u043d\u0430 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0430 \u0442\u0430\u043a \u043d\u0435 \u0443\u0441\u0442\u0440\u043e\u0435\u043d\u0430: \u0447\u0442\u043e\u0431\u044b \u0443\u0432\u0438\u0434\u0435\u0442\u044c \u043f\u043e\u0434\u0433\u043b\u044f\u0434\u044b\u0432\u0430\u043d\u0438\u0435, \u043f\u0430\u0440\u0430\u0434\u043e\u043a\u0441 \u0421\u0438\u043c\u043f\u0441\u043e\u043d\u0430 \u0438\u043b\u0438 \u0431\u043e\u0442-\u0442\u0440\u0430\u0444\u0438\u043a, \u043d\u0443\u0436\u043d\u043e \u043f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c <strong>\u043d\u0430 \u043e\u0431\u0441\u0442\u043e\u044f\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u0430 \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u0430</strong>, \u0430 \u043d\u0435 \u043d\u0430 \u0438\u0442\u043e\u0433\u043e\u0432\u0443\u044e \u0442\u0430\u0431\u043b\u0438\u0446\u0443. \u041f\u043e\u0440\u043e\u0433\u043e\u0432 \u0434\u043b\u044f \u044d\u0442\u043e\u0433\u043e \u043d\u0435 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442.'},
+    flow_title:{ru:'\u041f\u043e\u0447\u0435\u043c\u0443 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043f\u0440\u043e\u043c\u0430\u0445\u0438\u0432\u0430\u0435\u0442\u0441\u044f'},
     flow_sub:{ru:'\u041a\u0435\u0439\u0441 \u2192 \u0421\u0438\u0433\u043d\u0430\u043b\u044b \u2192 \u041f\u0440\u0430\u0432\u0438\u043b\u0430 \u2192 \u0412\u0435\u0440\u0434\u0438\u043a\u0442'},
     flow_case_h:{ru:'\u041a\u0435\u0439\u0441'},
     flow_case_d:{ru:'\u0421\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u0430 \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u0430 \u0438 \u043c\u0435\u0442\u0440\u0438\u043a\u0438.'},

@@ -293,8 +293,13 @@ def cleanup_old_runs(keep: int) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="AB Factory workflow runner")
+    parser.add_argument("--corpus", type=str, default=None,
+                        help="Имя корпуса в 40_ab_factory/vk-style/ (например cases_mvp_v2). "
+                             "Короткая форма --root для случая, когда корпус лежит на своём "
+                             "обычном месте — тогда путь в команде не нужен.")
     parser.add_argument("--root", type=str, default=None,
-                        help="Path to factory root (default: 40_ab_factory/vk-style)")
+                        help="Полный путь к корпусу или к корню фабрики "
+                             "(по умолчанию 40_ab_factory/vk-style)")
     parser.add_argument("--case", type=str, default=None,
                         help="Case name or number (e.g. 001 or case_004_segment_conflict)")
     parser.add_argument("--all", action="store_true", help="Run all cases")
@@ -305,7 +310,14 @@ def main() -> None:
     parser.add_argument("--quiet", action="store_true", help="Minimal output")
     args = parser.parse_args()
 
-    root = Path(args.root) if args.root else AI_LAB / "40_ab_factory" / "vk-style"
+    if args.corpus and args.root:
+        parser.error("--corpus и --root вместе не имеют смысла: укажите что-то одно")
+    if args.corpus:
+        root = AI_LAB / "40_ab_factory" / "vk-style" / args.corpus
+    elif args.root:
+        root = Path(args.root)
+    else:
+        root = AI_LAB / "40_ab_factory" / "vk-style"
     if not root.exists():
         print(f"ERROR: factory root not found: {root}", file=sys.stderr)
         sys.exit(1)
