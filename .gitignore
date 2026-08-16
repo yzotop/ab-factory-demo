@@ -37,3 +37,9 @@ tools/export_trainer_cases.py
 
 # secrets — never commit (security.md)
 .env
+
+# Реплеи агентов: строятся tools/build_replays_index.py, но ни одна
+# страница сайта их не читает — в policy.html остались только строки
+# словаря, кода загрузки нет. 812 КБ публиковались впустую. Данные
+# восстанавливаются одной командой, поэтому в репозитории не держим.
+docs/data/replays/
