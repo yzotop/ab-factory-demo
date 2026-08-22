@@ -1,6 +1,6 @@
 {
   "case_id": "case_636",
-  "title": "Full-funnel metric scan (v636)",
+  "title": "Exploratory metric battery (v636)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-03-26",
-    "end_date": "2025-04-16",
+    "start_date": "2025-04-22",
+    "end_date": "2025-05-13",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "8 secondary metrics tested; cpm significant at p=0.029 (expected false positive under multiple comparisons). Primary revenue not significant."
+  "notes": "8 secondary metrics tested; cpm significant at p=0.043 (expected false positive under multiple comparisons). Primary revenue not significant."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_131",
-  "title": "User-level split integrity check (v131)",
+  "title": "Assignment pipeline audit test (v131)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-02-01",
-    "end_date": "2025-02-15",
-    "horizon_days": 14
+    "start_date": "2025-03-23",
+    "end_date": "2025-04-13",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -40,5 +40,5 @@
     ],
     "unit": "user"
   },
-  "notes": "Target randomization 50/50 by user. Observed split: control 205,654 (50.7%) vs test 200,296 (49.3%). SRM chi-square=70.72, p=1.00e-12."
+  "notes": "Target randomization 50/50 by user. Observed split: control 226,809 (50.5%) vs test 221,963 (49.5%). SRM chi-square=52.33, p=1.64e-10."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_146",
-  "title": "Heavy-user monetization test (v146)",
+  "title": "Top-decile activity experiment (v146)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-01",
-    "end_date": "2025-10-22",
-    "horizon_days": 21
+    "start_date": "2025-08-03",
+    "end_date": "2025-08-17",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Tested on power users only (top 12% by activity). Rollout plan is to all users."
+  "notes": "Tested on power users only (top 9% by activity). Rollout plan is to all users."
 }

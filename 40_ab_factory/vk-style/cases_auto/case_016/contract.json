@@ -1,6 +1,6 @@
 {
   "case_id": "case_016",
-  "title": "Scroll-triggered fullscreen ads (v16)",
+  "title": "Aggressive ad pressure increase (v16)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-09",
-    "end_date": "2025-06-16",
+    "start_date": "2025-06-07",
+    "end_date": "2025-06-14",
     "horizon_days": 7
   },
   "primary_metric": {

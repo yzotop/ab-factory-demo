@@ -1,6 +1,6 @@
 {
   "case_id": "case_512",
-  "title": "Prefetch timing shift (v512)",
+  "title": "CSS render path adjustment (v512)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-19",
-    "end_date": "2025-06-16",
-    "horizon_days": 28
+    "start_date": "2025-02-07",
+    "end_date": "2025-02-28",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -31,7 +31,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.007
+    "practical_threshold_relative": 0.01
   },
   "notes": "High-power experiment #512. Large sample makes tiny effects significant."
 }

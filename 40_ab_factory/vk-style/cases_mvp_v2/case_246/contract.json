@@ -1,6 +1,6 @@
 {
   "case_id": "case_246",
-  "title": "CTR-optimized layout rollout (v246)",
+  "title": "Session depth boost experiment (v246)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-21",
-    "end_date": "2025-10-28",
+    "start_date": "2025-01-15",
+    "end_date": "2025-01-22",
     "horizon_days": 7
   },
   "primary_metric": {

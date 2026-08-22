@@ -1,6 +1,6 @@
 {
   "case_id": "case_046",
-  "title": "Variant tournament winner deploy (v46)",
+  "title": "Top-performing creative selection (v46)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-11-11",
-    "end_date": "2025-11-25",
+    "start_date": "2025-09-17",
+    "end_date": "2025-10-01",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Champion variant selected as best of 6 tested formats in the same experiment window. Reported primary effect p=0.044 — borderline significance after winner selection."
+  "notes": "Champion variant selected as best of 5 tested formats in the same experiment window. Reported primary effect p=0.043 — borderline significance after winner selection."
 }

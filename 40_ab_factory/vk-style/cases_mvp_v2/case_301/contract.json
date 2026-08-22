@@ -1,6 +1,6 @@
 {
   "case_id": "case_301",
-  "title": "Premium cohort uplift readout (v301)",
+  "title": "Subscriber tier format experiment (v301)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -12,9 +12,9 @@
     "standard"
   ],
   "time": {
-    "start_date": "2025-02-03",
-    "end_date": "2025-02-17",
-    "horizon_days": 14
+    "start_date": "2025-10-03",
+    "end_date": "2025-10-24",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

@@ -1,6 +1,6 @@
 {
   "case_id": "case_182",
-  "title": "Clicker-only conversion test (v182)",
+  "title": "Feature-adopter performance readout (v182)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-11-28",
-    "end_date": "2025-12-19",
+    "start_date": "2025-11-20",
+    "end_date": "2025-12-11",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Analysis restricted to users who activated / clicked the new surface (post-treatment conditioning; ~28% of assigned users). Not intent-to-treat — selection on a post-randomization outcome."
+  "notes": "Analysis restricted to users who activated / clicked the new surface (post-treatment conditioning; ~29% of assigned users). Not intent-to-treat — selection on a post-randomization outcome."
 }

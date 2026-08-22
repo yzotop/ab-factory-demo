@@ -1,6 +1,6 @@
 {
   "case_id": "case_630",
-  "title": "New logging schema pilot (v630)",
+  "title": "Instrumentation upgrade A/B test (v630)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-07",
-    "end_date": "2025-05-21",
-    "horizon_days": 14
+    "start_date": "2025-02-07",
+    "end_date": "2025-02-28",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

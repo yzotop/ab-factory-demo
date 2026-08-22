@@ -1,6 +1,6 @@
 {
   "case_id": "case_648",
-  "title": "Below-fold ad density boost (v648)",
+  "title": "High-frequency interstitial test (v648)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-12",
-    "end_date": "2025-06-26",
-    "horizon_days": 14
+    "start_date": "2025-04-25",
+    "end_date": "2025-05-02",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.004
+    "practical_threshold_relative": 0.006
   },
   "notes": "Experiment #648. Expected engagement trade-off."
 }

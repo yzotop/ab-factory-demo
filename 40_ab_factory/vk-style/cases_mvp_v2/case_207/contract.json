@@ -1,6 +1,6 @@
 {
   "case_id": "case_207",
-  "title": "Aggressive ad pressure increase (v207)",
+  "title": "Below-fold ad density boost (v207)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-25",
-    "end_date": "2025-05-09",
+    "start_date": "2025-10-18",
+    "end_date": "2025-11-01",
     "horizon_days": 14
   },
   "primary_metric": {

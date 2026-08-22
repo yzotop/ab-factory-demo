@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-21",
-    "end_date": "2025-06-11",
+    "start_date": "2025-06-14",
+    "end_date": "2025-07-05",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Randomization unit: user (50/50 at login). Analysis unit: session (~9 sessions per user on average). Significance from t-test at session level — not clustered by randomization unit."
+  "notes": "Randomization unit: user (50/50 at login). Analysis unit: session (~14 sessions per user on average). Significance from t-test at session level — not clustered by randomization unit."
 }

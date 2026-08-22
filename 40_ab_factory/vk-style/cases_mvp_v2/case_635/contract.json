@@ -1,6 +1,6 @@
 {
   "case_id": "case_635",
-  "title": "Demand-side traffic validation (v635)",
+  "title": "New placement traffic audit (v635)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-01",
-    "end_date": "2025-10-15",
-    "horizon_days": 14
+    "start_date": "2025-06-01",
+    "end_date": "2025-06-22",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

@@ -1,6 +1,6 @@
 {
   "case_id": "case_237",
-  "title": "SDK v2 rollout experiment (v237)",
+  "title": "Instrumentation upgrade A/B test (v237)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-02-25",
-    "end_date": "2025-03-11",
-    "horizon_days": 14
+    "start_date": "2025-07-25",
+    "end_date": "2025-08-15",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

@@ -1,32 +1,32 @@
 {
   "total": 660,
   "decision_counts": {
-    "ship": 362,
-    "investigate": 160,
+    "ship": 361,
+    "investigate": 161,
     "do_not_ship": 138
   },
   "reason_counts": {
-    "primary_uplift": 427,
-    "not_significant": 193,
+    "primary_uplift": 424,
+    "not_significant": 194,
     "guardrail_violation:ctr": 47,
-    "practically_small": 40,
+    "practically_small": 42,
     "segment_conflict": 33,
     "long_term_reversal": 33,
-    "guardrail_violation:revenue": 18
+    "guardrail_violation:revenue": 16
   },
   "metric_counts": {
     "revenue": 610,
     "ctr": 50
   },
   "avg_confidence_by_decision": {
-    "investigate": 0.295,
-    "do_not_ship": 0.2209,
+    "investigate": 0.3048,
+    "do_not_ship": 0.2076,
     "ship": 0.6457
   },
-  "uplift_min": -1.97,
-  "uplift_max": 44.8,
-  "uplift_avg": 3.22,
-  "guardrail_breach_count": 65,
+  "uplift_min": -1.86,
+  "uplift_max": 43.93,
+  "uplift_avg": 3.17,
+  "guardrail_breach_count": 63,
   "segment_conflict_count": 33,
   "reversal_count": 33
 }

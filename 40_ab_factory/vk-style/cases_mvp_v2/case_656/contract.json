@@ -1,6 +1,6 @@
 {
   "case_id": "case_656",
-  "title": "Early-stage pilot test (v656)",
+  "title": "Low-traffic placement test (v656)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-13",
-    "end_date": "2025-06-20",
+    "start_date": "2025-05-15",
+    "end_date": "2025-05-22",
     "horizon_days": 7
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Pilot on small cohort (n≈53,525). Underpowered — cannot conclude."
+  "notes": "Pilot on small cohort (n≈49,575). Underpowered — cannot conclude."
 }

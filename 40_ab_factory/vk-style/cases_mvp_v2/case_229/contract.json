@@ -1,6 +1,6 @@
 {
   "case_id": "case_229",
-  "title": "Loyal-user monetization test (v229)",
+  "title": "Premium cohort uplift readout (v229)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "loyal_subscriber",
+    "premium",
     "standard"
   ],
   "time": {
-    "start_date": "2025-06-21",
-    "end_date": "2025-07-12",
+    "start_date": "2025-05-16",
+    "end_date": "2025-06-06",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -37,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "No pre-registration on file. After the run, the loyal_subscriber segment showed a strong lift (+9%) and is presented as the leading finding — hypothesis was formed post-hoc from the data."
+  "notes": "No pre-registration on file. After the run, the premium segment showed a strong lift (+8%) and is presented as the leading finding — hypothesis was formed post-hoc from the data."
 }

@@ -1,11 +1,11 @@
 {
   "case_id": "case_501",
   "expected_decision": "investigate",
-  "primary_effect_relative": 0.0344,
+  "primary_effect_relative": 0.0413,
   "is_stat_sig": true,
   "guardrails_ok": true,
   "key_reasons": [
     "logging_bug"
   ],
-  "human_rationale": "Test and control use different logging schemas (v2 vs v1) — metric not comparable across arms. Align instrumentation and re-measure. Investigate."
+  "human_rationale": "Test and control use different logging schemas (v3 vs v1) — metric not comparable across arms. Align instrumentation and re-measure. Investigate."
 }

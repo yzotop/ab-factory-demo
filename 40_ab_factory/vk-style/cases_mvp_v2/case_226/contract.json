@@ -1,6 +1,6 @@
 {
   "case_id": "case_226",
-  "title": "No-dedup event counting experiment (v226)",
+  "title": "Client retry inflation pilot (v226)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-26",
-    "end_date": "2025-09-09",
-    "horizon_days": 14
+    "start_date": "2025-05-21",
+    "end_date": "2025-06-11",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

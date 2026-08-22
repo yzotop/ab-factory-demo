@@ -1,12 +1,12 @@
 {
   "case_id": "case_080",
-  "expected_decision": "investigate",
-  "primary_effect_relative": -0.0048,
+  "expected_decision": "do_not_ship",
+  "primary_effect_relative": 0.0011,
   "is_stat_sig": false,
   "guardrails_ok": true,
   "key_reasons": [
-    "segment_conflict",
+    "long_term_reversal",
     "not_significant"
   ],
-  "human_rationale": "Overall -0.5% not sig. mobile +2.7% vs desktop -2.5%."
+  "human_rationale": "Aggregated +0.11% not sig. Weekly trend shows early gain then reversal."
 }

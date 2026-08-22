@@ -1,6 +1,6 @@
 {
   "case_id": "case_322",
-  "title": "CTR-first layout optimization (v322)",
+  "title": "Engagement proxy format rollout (v322)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-23",
-    "end_date": "2025-10-07",
-    "horizon_days": 14
+    "start_date": "2025-08-18",
+    "end_date": "2025-09-08",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "ctr",
@@ -38,5 +38,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Experiment optimizing CTR (engagement proxy). Primary CTR +4% significant. Business guardrails in export: revenue -2.6% (p=0.018), D7 retention test 45.1% vs control 47.0% (−4.0% relative)."
+  "notes": "Experiment optimizing CTR (engagement proxy). Primary CTR +4% significant. Business guardrails in export: revenue -3.2% (p=0.011), D7 retention test 44.8% vs control 46.6% (−3.8% relative)."
 }

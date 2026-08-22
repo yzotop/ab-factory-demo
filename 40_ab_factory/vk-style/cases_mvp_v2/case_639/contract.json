@@ -1,6 +1,6 @@
 {
   "case_id": "case_639",
-  "title": "Mix-shift pricing test (v639)",
+  "title": "Pooled segment rollout (v639)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -12,8 +12,8 @@
     "algorithmic"
   ],
   "time": {
-    "start_date": "2025-11-08",
-    "end_date": "2025-11-22",
+    "start_date": "2025-04-09",
+    "end_date": "2025-04-23",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -37,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Experiment #639. Aggregate uplift masks negative segment effects (mix shift)."
+  "notes": "Experiment #639. Rollout note: in the test arm the new placement went live on editorial first, so that segment accounts for 35% of test traffic against 30% in control. Overall group sizes match the planned 50/50 split."
 }

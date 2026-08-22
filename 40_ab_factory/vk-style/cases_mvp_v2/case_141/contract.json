@@ -1,6 +1,6 @@
 {
   "case_id": "case_141",
-  "title": "Revenue surge format test (v141)",
+  "title": "Record uplift placement test (v141)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-04",
-    "end_date": "2025-08-18",
+    "start_date": "2025-01-03",
+    "end_date": "2025-01-17",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Standard 14-day revenue readout. Primary shows large significant uplift (+36%); no product change beyond the tested variant was deployed during the window."
+  "notes": "Standard 14-day revenue readout. Primary shows large significant uplift (+37%); no product change beyond the tested variant was deployed during the window."
 }

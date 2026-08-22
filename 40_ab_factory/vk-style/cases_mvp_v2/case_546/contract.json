@@ -1,6 +1,6 @@
 {
   "case_id": "case_546",
-  "title": "Declined-card fallback offer (v546)",
+  "title": "Checkout error recovery prompt (v546)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-11-15",
-    "end_date": "2025-11-29",
+    "start_date": "2025-04-17",
+    "end_date": "2025-05-01",
     "horizon_days": 14
   },
   "primary_metric": {

@@ -1,6 +1,6 @@
 {
   "case_id": "case_189",
-  "title": "Redesigned ad unit rollout (v189)",
+  "title": "Novel placement debut (v189)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-21",
-    "end_date": "2025-09-28",
+    "start_date": "2025-08-18",
+    "end_date": "2025-08-25",
     "horizon_days": 7
   },
   "primary_metric": {

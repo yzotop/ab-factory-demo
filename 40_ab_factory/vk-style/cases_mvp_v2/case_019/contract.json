@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-15",
-    "end_date": "2025-04-29",
+    "start_date": "2025-08-11",
+    "end_date": "2025-08-25",
     "horizon_days": 14
   },
   "primary_metric": {

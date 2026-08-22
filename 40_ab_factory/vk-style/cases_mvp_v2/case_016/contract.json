@@ -1,6 +1,6 @@
 {
   "case_id": "case_016",
-  "title": "Tracking-gap experiment review (v16)",
+  "title": "Dropped-events analysis pilot (v16)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-14",
-    "end_date": "2025-07-05",
-    "horizon_days": 21
+    "start_date": "2025-11-15",
+    "end_date": "2025-11-29",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",

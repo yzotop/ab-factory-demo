@@ -1,6 +1,6 @@
 {
   "case_id": "case_095",
-  "title": "Event-level uplift analysis (v95)",
+  "title": "Session-level revenue readout (v95)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-07",
-    "end_date": "2025-06-28",
+    "start_date": "2025-04-07",
+    "end_date": "2025-04-28",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Randomization unit: user (50/50 at login). Analysis unit: event (~11 events per user on average). Significance from t-test at event level — not clustered by randomization unit."
+  "notes": "Randomization unit: user (50/50 at login). Analysis unit: event (~14 events per user on average). Significance from t-test at event level — not clustered by randomization unit."
 }

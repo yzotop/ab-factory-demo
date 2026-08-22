@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-22",
-    "end_date": "2025-07-06",
-    "horizon_days": 14
+    "start_date": "2025-09-23",
+    "end_date": "2025-10-14",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Standard 14-day revenue readout. Primary shows large significant uplift (+45%); no product change beyond the tested variant was deployed during the window."
+  "notes": "Standard 21-day revenue readout. Primary shows large significant uplift (+36%); no product change beyond the tested variant was deployed during the window."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_457",
-  "title": "Covariate-enriched pilot (v457)",
+  "title": "Matched pre-period experiment (v457)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-12",
-    "end_date": "2025-05-03",
+    "start_date": "2025-03-19",
+    "end_date": "2025-04-09",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Pre-period covariate data available (14-day baseline revenue per user, ρ≈0.57 with in-period outcome) but CUPED variance reduction not applied — analysis uses raw delta only. Point estimate +1.2%, p=0.0573."
+  "notes": "Pre-period covariate data available (14-day baseline revenue per user, ρ≈0.66 with in-period outcome) but CUPED variance reduction not applied — analysis uses raw delta only. Point estimate +1.5%, p=0.0759."
 }

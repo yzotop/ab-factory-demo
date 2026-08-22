@@ -1,7 +1,7 @@
 {
   "case_id": "case_629",
   "expected_decision": "do_not_ship",
-  "primary_effect_relative": 0.0377,
+  "primary_effect_relative": 0.0387,
   "is_stat_sig": true,
   "guardrails_ok": true,
   "key_reasons": [

@@ -1,6 +1,6 @@
 {
   "case_id": "case_561",
-  "title": "Bucket balance monitoring test (v561)",
+  "title": "Randomization QA experiment (v561)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-06",
-    "end_date": "2025-09-27",
+    "start_date": "2025-06-07",
+    "end_date": "2025-06-28",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -40,5 +40,5 @@
     ],
     "unit": "user"
   },
-  "notes": "Target randomization 50/50 by user. Observed split: control 318,302 (50.6%) vs test 310,755 (49.4%). SRM chi-square=90.54, p=1.00e-12."
+  "notes": "Target randomization 50/50 by user. Observed split: control 323,361 (51.4%) vs test 305,503 (48.6%). SRM chi-square=507.12, p=1.00e-12."
 }

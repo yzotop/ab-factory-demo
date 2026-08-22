@@ -1,6 +1,6 @@
 {
   "case_id": "case_606",
-  "title": "Lazy-load trigger offset tweak (v606)",
+  "title": "Request batching micro-optimization (v606)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-03-15",
-    "end_date": "2025-04-05",
-    "horizon_days": 21
+    "start_date": "2025-07-07",
+    "end_date": "2025-08-04",
+    "horizon_days": 28
   },
   "primary_metric": {
     "name": "revenue",

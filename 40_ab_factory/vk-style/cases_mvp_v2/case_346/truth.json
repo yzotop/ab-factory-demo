@@ -1,7 +1,7 @@
 {
   "case_id": "case_346",
   "expected_decision": "investigate",
-  "primary_effect_relative": 0.0057,
+  "primary_effect_relative": 0.0092,
   "is_stat_sig": false,
   "guardrails_ok": true,
   "key_reasons": [

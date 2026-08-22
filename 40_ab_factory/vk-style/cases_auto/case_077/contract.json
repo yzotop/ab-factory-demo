@@ -1,6 +1,6 @@
 {
   "case_id": "case_077",
-  "title": "Native ad format rollout (v77)",
+  "title": "Ad slot refresh rate increase (v77)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-15",
-    "end_date": "2025-05-22",
+    "start_date": "2025-11-11",
+    "end_date": "2025-11-18",
     "horizon_days": 7
   },
   "primary_metric": {

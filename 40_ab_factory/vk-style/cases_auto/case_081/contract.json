@@ -1,6 +1,6 @@
 {
   "case_id": "case_081",
-  "title": "Ad container padding change (v81)",
+  "title": "Request batching micro-optimization (v81)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-11",
-    "end_date": "2025-02-01",
+    "start_date": "2025-03-02",
+    "end_date": "2025-03-23",
     "horizon_days": 21
   },
   "primary_metric": {

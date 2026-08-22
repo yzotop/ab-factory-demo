@@ -1,6 +1,6 @@
 {
   "case_id": "case_454",
-  "title": "Tue-start experiment window (v454)",
+  "title": "Mid-week format pilot (v454)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2024-05-14",
-    "end_date": "2024-05-18",
+    "start_date": "2024-09-24",
+    "end_date": "2024-09-28",
     "horizon_days": 5
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Test ran 2024-05-14 to 2024-05-18 (Tue–Sat, 5 days). Weekend not included in the readout window."
+  "notes": "Test ran 2024-09-24 to 2024-09-28 (Tue–Sat, 5 days). Weekend not included in the readout window."
 }

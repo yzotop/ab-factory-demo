@@ -1,6 +1,6 @@
 {
   "case_id": "case_108",
-  "title": "Segment-specific pricing experiment (v108)",
+  "title": "Cross-platform ad density test (v108)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "editorial",
-    "algorithmic"
+    "feed",
+    "article"
   ],
   "time": {
-    "start_date": "2025-10-23",
-    "end_date": "2025-11-06",
+    "start_date": "2025-06-03",
+    "end_date": "2025-06-17",
     "horizon_days": 14
   },
   "primary_metric": {

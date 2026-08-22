@@ -1,6 +1,6 @@
 {
   "case_id": "case_140",
-  "title": "In-flight promo overlap test (v140)",
+  "title": "Concurrent campaign experiment (v140)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-27",
-    "end_date": "2025-05-11",
+    "start_date": "2025-03-08",
+    "end_date": "2025-03-22",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "14-day experiment (2025-04-27 to 2025-05-11). A major marketing promo launched on day 4 of the test."
+  "notes": "14-day experiment (2025-03-08 to 2025-03-22). A major marketing promo launched on day 5 of the test."
 }

@@ -1,11 +1,11 @@
 {
   "case_id": "case_503",
   "expected_decision": "investigate",
-  "primary_effect_relative": 0.0252,
+  "primary_effect_relative": 0.0321,
   "is_stat_sig": true,
   "guardrails_ok": true,
   "key_reasons": [
     "unit_randomization"
   ],
-  "human_rationale": "Randomized by user but tested at session level — pseudoreplication understates variance, significance unreliable. Re-test at randomization unit or use cluster-robust SE. Investigate."
+  "human_rationale": "Randomized by user but tested at event level — pseudoreplication understates variance, significance unreliable. Re-test at randomization unit or use cluster-robust SE. Investigate."
 }

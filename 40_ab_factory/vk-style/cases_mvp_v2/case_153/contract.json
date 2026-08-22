@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-14",
-    "end_date": "2025-01-28",
-    "horizon_days": 14
+    "start_date": "2025-01-26",
+    "end_date": "2025-02-16",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Two-sided marketplace experiment: control and test draw from shared marketplace inventory / common auction budget (not isolated arms). Pre-period control baseline revenue $3,924,254; in-experiment control $3,766,498 (-4.0% vs baseline) — control cannibalized as test captures shared demand."
+  "notes": "Two-sided marketplace experiment: control and test draw from shared marketplace inventory / common auction budget (not isolated arms). Pre-period control baseline revenue $3,195,416; in-experiment control $3,106,583 (-2.8% vs baseline) — control cannibalized as test captures shared demand."
 }

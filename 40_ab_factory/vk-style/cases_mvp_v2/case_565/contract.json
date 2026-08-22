@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-04",
-    "end_date": "2025-09-18",
-    "horizon_days": 14
+    "start_date": "2025-05-09",
+    "end_date": "2025-05-30",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -40,5 +40,5 @@
     ],
     "unit": "user"
   },
-  "notes": "Target randomization 50/50 by user. Observed split: control 256,596 (50.6%) vs test 250,512 (49.4%). SRM chi-square=72.99, p=1.00e-12."
+  "notes": "Target randomization 50/50 by user. Observed split: control 286,165 (51.3%) vs test 271,337 (48.7%). SRM chi-square=394.38, p=1.00e-12."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_354",
-  "title": "Low-traffic placement test (v354)",
+  "title": "Small-cohort experiment (v354)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-21",
-    "end_date": "2025-05-28",
+    "start_date": "2025-07-26",
+    "end_date": "2025-08-02",
     "horizon_days": 7
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Pilot on small cohort (n≈54,912). Underpowered — cannot conclude."
+  "notes": "Pilot on small cohort (n≈29,564). Underpowered — cannot conclude."
 }

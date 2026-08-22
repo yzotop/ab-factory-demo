@@ -1,6 +1,6 @@
 {
   "case_id": "case_031",
-  "title": "Demand-side budget frontloading check (v31)",
+  "title": "Advertiser supply adjustment test (v31)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-07-15",
-    "end_date": "2025-08-12",
+    "start_date": "2025-02-22",
+    "end_date": "2025-03-22",
     "horizon_days": 28
   },
   "primary_metric": {

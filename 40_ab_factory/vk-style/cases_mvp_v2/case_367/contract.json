@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-22",
-    "end_date": "2025-10-29",
+    "start_date": "2025-11-04",
+    "end_date": "2025-11-11",
     "horizon_days": 7
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Pilot on small cohort (n≈50,026). Underpowered — cannot conclude."
+  "notes": "Pilot on small cohort (n≈48,429). Underpowered — cannot conclude."
 }

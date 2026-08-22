@@ -1,6 +1,6 @@
 {
   "case_id": "case_509",
-  "title": "Sequential readout pilot (v509)",
+  "title": "Early-stop revenue monitor (v509)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-27",
-    "end_date": "2025-04-30",
+    "start_date": "2025-06-27",
+    "end_date": "2025-06-30",
     "horizon_days": 3,
     "planned_horizon_days": 14
   },
@@ -34,5 +34,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Planned 14-day experiment; stopped on day 3 when revenue first reached p<0.035. No sequential alpha correction applied (no O'Brien-Fleming / alpha-spending)."
+  "notes": "Planned 14-day experiment; stopped on day 3 when revenue first reached p<0.017. No sequential alpha correction applied (no O'Brien-Fleming / alpha-spending)."
 }

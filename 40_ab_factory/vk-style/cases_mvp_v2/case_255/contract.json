@@ -1,6 +1,6 @@
 {
   "case_id": "case_255",
-  "title": "Holiday promo layout test (v255)",
+  "title": "Black Friday ad density experiment (v255)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2024-11-21",
-    "end_date": "2024-11-29",
+    "start_date": "2025-11-23",
+    "end_date": "2025-12-01",
     "horizon_days": 8
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Test ran 2024-11-21 to 2024-11-29 during major promo week (Black Friday / Cyber Monday). Elevated baseline traffic and promo-driven demand — atypical vs normal operating periods."
+  "notes": "Test ran 2025-11-23 to 2025-12-01 during major promo week (Black Friday / Cyber Monday). Elevated baseline traffic and promo-driven demand — atypical vs normal operating periods."
 }

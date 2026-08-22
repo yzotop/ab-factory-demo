@@ -1,6 +1,6 @@
 {
   "case_id": "case_441",
-  "title": "Segment-specific pricing experiment (v441)",
+  "title": "Fullscreen format cross-surface test (v441)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "editorial",
-    "algorithmic"
+    "feed",
+    "article"
   ],
   "time": {
-    "start_date": "2025-06-06",
-    "end_date": "2025-06-20",
+    "start_date": "2025-11-27",
+    "end_date": "2025-12-11",
     "horizon_days": 14
   },
   "primary_metric": {

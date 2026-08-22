@@ -1,6 +1,6 @@
 {
   "case_id": "case_083",
-  "title": "Skewed revenue distribution test (v83)",
+  "title": "High-variance monetization pilot (v83)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-15",
-    "end_date": "2025-05-06",
-    "horizon_days": 21
+    "start_date": "2025-01-25",
+    "end_date": "2025-02-08",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Per-user revenue highly skewed: mean $13 vs max $1080 (top 0.7% spenders). Aggregate +2.7% significant (p=0.0175) but effect driven by a few extreme users — t-test on means unreliable."
+  "notes": "Per-user revenue highly skewed: mean $10 vs max $1078 (top 0.5% spenders). Aggregate +2.8% significant (p=0.0216) but effect driven by a few extreme users — t-test on means unreliable."
 }

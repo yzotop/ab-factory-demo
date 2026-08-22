@@ -1,6 +1,6 @@
 {
   "case_id": "case_026",
-  "title": "New placement traffic audit (v26)",
+  "title": "Inventory source monitoring test (v26)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-24",
-    "end_date": "2025-11-14",
+    "start_date": "2025-09-17",
+    "end_date": "2025-10-08",
     "horizon_days": 21
   },
   "primary_metric": {

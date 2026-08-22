@@ -1,6 +1,6 @@
 {
   "case_id": "case_284",
-  "title": "Overlapping promo window test (v284)",
+  "title": "Mid-test marketing push readout (v284)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-05",
-    "end_date": "2025-10-15",
+    "start_date": "2025-09-25",
+    "end_date": "2025-10-05",
     "horizon_days": 10
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "10-day experiment (2025-10-05 to 2025-10-15). A major marketing promo launched on day 6 of the test."
+  "notes": "10-day experiment (2025-09-25 to 2025-10-05). A major marketing promo launched on day 6 of the test."
 }

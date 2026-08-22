@@ -1,6 +1,6 @@
 {
   "case_id": "case_653",
-  "title": "Cross-platform ad density test (v653)",
+  "title": "Fullscreen format cross-surface test (v653)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -12,8 +12,8 @@
     "article"
   ],
   "time": {
-    "start_date": "2025-11-03",
-    "end_date": "2025-11-17",
+    "start_date": "2025-08-08",
+    "end_date": "2025-08-22",
     "horizon_days": 14
   },
   "primary_metric": {

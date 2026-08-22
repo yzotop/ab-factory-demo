@@ -1,6 +1,6 @@
 {
   "case_id": "case_055",
-  "title": "CPM floor auto-adjustment (v55)",
+  "title": "Native ad format rollout (v55)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,14 +8,14 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-23",
-    "end_date": "2025-02-06",
-    "horizon_days": 14
+    "start_date": "2025-07-21",
+    "end_date": "2025-07-28",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.012
+    "mde_relative": 0.014
   },
   "guardrails": [
     {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.011
+    "practical_threshold_relative": 0.012
   },
   "notes": "Standard experiment #55. Clean uplift expected."
 }

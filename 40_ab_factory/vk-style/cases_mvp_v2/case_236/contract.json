@@ -1,6 +1,6 @@
 {
   "case_id": "case_236",
-  "title": "Day-3 significance checkpoint (v236)",
+  "title": "Interim KPI gate test (v236)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-23",
-    "end_date": "2025-08-26",
+    "start_date": "2025-02-06",
+    "end_date": "2025-02-09",
     "horizon_days": 3,
     "planned_horizon_days": 14
   },
@@ -34,5 +34,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Planned 14-day experiment; stopped on day 3 when revenue first reached p<0.018. No sequential alpha correction applied (no O'Brien-Fleming / alpha-spending)."
+  "notes": "Planned 14-day experiment; stopped on day 3 when revenue first reached p<0.027. No sequential alpha correction applied (no O'Brien-Fleming / alpha-spending)."
 }

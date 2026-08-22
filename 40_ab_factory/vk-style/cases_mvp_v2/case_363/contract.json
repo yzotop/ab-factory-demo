@@ -1,6 +1,6 @@
 {
   "case_id": "case_363",
-  "title": "Segment-specific pricing experiment (v363)",
+  "title": "Cross-platform ad density test (v363)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "editorial",
-    "algorithmic"
+    "mobile",
+    "desktop"
   ],
   "time": {
-    "start_date": "2025-06-19",
-    "end_date": "2025-07-03",
+    "start_date": "2025-05-22",
+    "end_date": "2025-06-05",
     "horizon_days": 14
   },
   "primary_metric": {

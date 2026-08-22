@@ -1,6 +1,6 @@
 {
   "case_id": "case_444",
-  "title": "Click-surface expansion test (v444)",
+  "title": "CTR-maximizing placement test (v444)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-11",
-    "end_date": "2025-05-25",
-    "horizon_days": 14
+    "start_date": "2025-02-26",
+    "end_date": "2025-03-19",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "ctr",
@@ -38,5 +38,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Experiment optimizing CTR (engagement proxy). Primary CTR +5% significant. Business guardrails in export: revenue -2.4% (p=0.0108), D7 retention test 46.2% vs control 47.4% (−2.5% relative)."
+  "notes": "Experiment optimizing CTR (engagement proxy). Primary CTR +6% significant. Business guardrails in export: revenue -2.2% (p=0.017), D7 retention test 43.8% vs control 45.5% (−3.8% relative)."
 }

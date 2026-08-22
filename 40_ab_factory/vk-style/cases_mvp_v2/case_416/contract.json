@@ -1,6 +1,6 @@
 {
   "case_id": "case_416",
-  "title": "Click-rate per-impression test (v416)",
+  "title": "CTR ratio readout experiment (v416)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

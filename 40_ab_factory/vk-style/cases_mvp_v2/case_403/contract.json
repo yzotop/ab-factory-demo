@@ -1,6 +1,6 @@
 {
   "case_id": "case_403",
-  "title": "Heavy-user monetization test (v403)",
+  "title": "Top-decile activity experiment (v403)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-07-04",
-    "end_date": "2025-07-25",
+    "start_date": "2025-10-05",
+    "end_date": "2025-10-26",
     "horizon_days": 21
   },
   "primary_metric": {

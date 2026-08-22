@@ -1,6 +1,6 @@
 {
   "case_id": "case_220",
-  "title": "Aggregate floor adjustment (v220)",
+  "title": "Mix-shift pricing test (v220)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -12,8 +12,8 @@
     "article"
   ],
   "time": {
-    "start_date": "2025-10-07",
-    "end_date": "2025-10-21",
+    "start_date": "2025-04-27",
+    "end_date": "2025-05-11",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -37,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Experiment #220. Aggregate uplift masks negative segment effects (mix shift)."
+  "notes": "Experiment #220. Rollout note: in the test arm the new placement went live on feed first, so that segment accounts for 37% of test traffic against 32% in control. Overall group sizes match the planned 50/50 split."
 }

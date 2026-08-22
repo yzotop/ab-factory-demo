@@ -8,5 +8,5 @@
     "multiple_comparisons",
     "not_significant"
   ],
-  "human_rationale": "Primary not sig. One of 8 secondary metrics sig at p=0.04 — expected false positive under multiple comparisons."
+  "human_rationale": "Primary not sig. One of 8 secondary metrics sig at p=0.041 — expected false positive under multiple comparisons."
 }

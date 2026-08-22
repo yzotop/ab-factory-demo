@@ -1,11 +1,11 @@
 {
   "case_id": "case_075",
   "expected_decision": "do_not_ship",
-  "primary_effect_relative": 0.0258,
+  "primary_effect_relative": 0.0163,
   "is_stat_sig": true,
   "guardrails_ok": true,
   "key_reasons": [
     "simpson_paradox"
   ],
-  "human_rationale": "Aggregate +2.6% sig, but both segments negative (-3.0%, -3.4%) — Simpson's paradox from mix shift."
+  "human_rationale": "Aggregate +1.6% sig, but both segments negative (-3.5%, -2.1%). The editorial share rose 39% -> 44% between arms, and that segment earns 2.6x more per user — Simpson's paradox from mix shift."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_057",
-  "title": "Variant tournament winner deploy (v57)",
+  "title": "Best-of-batch format rollout (v57)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-07-01",
-    "end_date": "2025-07-22",
+    "start_date": "2025-01-11",
+    "end_date": "2025-02-01",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Champion variant selected as best of 4 tested formats in the same experiment window. Reported primary effect p=0.042 — borderline significance after winner selection."
+  "notes": "Champion variant selected as best of 7 tested formats in the same experiment window. Reported primary effect p=0.048 — borderline significance after winner selection."
 }

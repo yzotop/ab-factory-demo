@@ -1,6 +1,6 @@
 {
   "case_id": "case_265",
-  "title": "Mid-week format pilot (v265)",
+  "title": "Business-day metrics check (v265)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-07",
-    "end_date": "2025-10-11",
+    "start_date": "2025-03-25",
+    "end_date": "2025-03-29",
     "horizon_days": 5
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Test ran 2025-10-07 to 2025-10-11 (Tue–Sat, 5 days). Weekend not included in the readout window."
+  "notes": "Test ran 2025-03-25 to 2025-03-29 (Tue–Sat, 5 days). Weekend not included in the readout window."
 }

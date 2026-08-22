@@ -1,6 +1,6 @@
 {
   "case_id": "case_082",
-  "title": "Auto-play video ad insertion (v82)",
+  "title": "Scroll-triggered fullscreen ads (v82)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-11-25",
-    "end_date": "2025-12-02",
-    "horizon_days": 7
+    "start_date": "2025-06-13",
+    "end_date": "2025-06-27",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",

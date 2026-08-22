@@ -1,6 +1,6 @@
 {
   "case_id": "case_499",
-  "title": "Bucket balance monitoring test (v499)",
+  "title": "User-level split integrity check (v499)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-11-09",
-    "end_date": "2025-11-23",
-    "horizon_days": 14
+    "start_date": "2025-03-17",
+    "end_date": "2025-04-07",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -40,5 +40,5 @@
     ],
     "unit": "user"
   },
-  "notes": "Target randomization 50/50 by user. Observed split: control 320,465 (50.7%) vs test 311,367 (49.3%). SRM chi-square=131.01, p=1.00e-12."
+  "notes": "Target randomization 50/50 by user. Observed split: control 325,490 (51.3%) vs test 309,118 (48.7%). SRM chi-square=422.37, p=1.00e-12."
 }

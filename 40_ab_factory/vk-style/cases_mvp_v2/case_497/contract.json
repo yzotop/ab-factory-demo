@@ -1,6 +1,6 @@
 {
   "case_id": "case_497",
-  "title": "Ad container padding change (v497)",
+  "title": "CSS render path adjustment (v497)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-05",
-    "end_date": "2025-05-26",
+    "start_date": "2025-01-02",
+    "end_date": "2025-01-23",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -31,7 +31,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.009
+    "practical_threshold_relative": 0.005
   },
   "notes": "High-power experiment #497. Large sample makes tiny effects significant."
 }

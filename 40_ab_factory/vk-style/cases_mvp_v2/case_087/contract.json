@@ -1,6 +1,6 @@
 {
   "case_id": "case_087",
-  "title": "Early-stage pilot test (v87)",
+  "title": "Small-cohort experiment (v87)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-07-12",
-    "end_date": "2025-07-19",
+    "start_date": "2025-05-28",
+    "end_date": "2025-06-04",
     "horizon_days": 7
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Pilot on small cohort (n≈24,178). Underpowered — cannot conclude."
+  "notes": "Pilot on small cohort (n≈29,460). Underpowered — cannot conclude."
 }

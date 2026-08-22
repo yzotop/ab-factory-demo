@@ -1,11 +1,11 @@
 {
   "case_id": "case_350",
   "expected_decision": "investigate",
-  "primary_effect_relative": 0.0041,
+  "primary_effect_relative": 0.007,
   "is_stat_sig": false,
   "guardrails_ok": true,
   "key_reasons": [
     "contamination"
   ],
-  "human_rationale": "Shareable feature — control likely partially exposed (contamination), diluting the contrast. Small/null effect (+0.4%, p=0.0745) may be understated, not real. Assess leakage; cluster-randomize. Investigate."
+  "human_rationale": "Shareable feature — control likely partially exposed (contamination), diluting the contrast. Small/null effect (+0.7%, p=0.0735) may be understated, not real. Assess leakage; cluster-randomize. Investigate."
 }

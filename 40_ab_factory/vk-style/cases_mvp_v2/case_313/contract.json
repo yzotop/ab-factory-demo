@@ -1,6 +1,6 @@
 {
   "case_id": "case_313",
-  "title": "Per-event CTR significance test (v313)",
+  "title": "Session-grain metric experiment (v313)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-02-26",
-    "end_date": "2025-03-12",
+    "start_date": "2025-04-03",
+    "end_date": "2025-04-17",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Randomization unit: user (50/50 at login). Analysis unit: event (~12 events per user on average). Significance from t-test at event level — not clustered by randomization unit."
+  "notes": "Randomization unit: user (50/50 at login). Analysis unit: session (~15 sessions per user on average). Significance from t-test at session level — not clustered by randomization unit."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_038",
-  "title": "Event-level CTR significance check (v38)",
+  "title": "CTR ratio readout experiment (v38)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-11-04",
-    "end_date": "2025-11-25",
+    "start_date": "2025-10-22",
+    "end_date": "2025-11-12",
     "horizon_days": 21
   },
   "primary_metric": {

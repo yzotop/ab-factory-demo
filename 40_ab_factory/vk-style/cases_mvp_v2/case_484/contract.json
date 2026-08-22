@@ -1,6 +1,6 @@
 {
   "case_id": "case_484",
-  "title": "Subscriber tier format experiment (v484)",
+  "title": "Premium cohort uplift readout (v484)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "premium",
+    "loyal_subscriber",
     "standard"
   ],
   "time": {
-    "start_date": "2025-10-28",
-    "end_date": "2025-11-18",
+    "start_date": "2025-02-18",
+    "end_date": "2025-03-11",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -37,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "No pre-registration on file. After the run, the premium segment showed a strong lift (+9%) and is presented as the leading finding — hypothesis was formed post-hoc from the data."
+  "notes": "No pre-registration on file. After the run, the loyal_subscriber segment showed a strong lift (+8%) and is presented as the leading finding — hypothesis was formed post-hoc from the data."
 }

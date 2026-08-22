@@ -1,6 +1,6 @@
 {
   "case_id": "case_645",
-  "title": "Exploratory metric battery (v645)",
+  "title": "Broad KPI sweep experiment (v645)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-24",
-    "end_date": "2025-10-08",
+    "start_date": "2025-09-10",
+    "end_date": "2025-09-24",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "8 secondary metrics tested; cpm significant at p=0.048 (expected false positive under multiple comparisons). Primary revenue not significant."
+  "notes": "8 secondary metrics tested; cpm significant at p=0.036 (expected false positive under multiple comparisons). Primary revenue not significant."
 }

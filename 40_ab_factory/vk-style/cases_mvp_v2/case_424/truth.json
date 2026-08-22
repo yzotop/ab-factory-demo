@@ -1,11 +1,11 @@
 {
   "case_id": "case_424",
   "expected_decision": "do_not_ship",
-  "primary_effect_relative": 0.0356,
+  "primary_effect_relative": 0.0327,
   "is_stat_sig": true,
   "guardrails_ok": true,
   "key_reasons": [
     "novelty_effect"
   ],
-  "human_rationale": "Revenue +3.6% significant, but 7-day window likely captures novelty. No long-horizon data to confirm it sustains."
+  "human_rationale": "Revenue +3.3% significant, but 7-day window likely captures novelty. No long-horizon data to confirm it sustains."
 }

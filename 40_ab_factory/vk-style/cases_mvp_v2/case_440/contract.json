@@ -1,6 +1,6 @@
 {
   "case_id": "case_440",
-  "title": "High-value segment deep-dive (v440)",
+  "title": "Subscriber tier format experiment (v440)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "premium",
+    "high_value",
     "standard"
   ],
   "time": {
-    "start_date": "2025-02-01",
-    "end_date": "2025-02-22",
+    "start_date": "2025-06-12",
+    "end_date": "2025-07-03",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -37,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "No pre-registration on file. After the run, the premium segment showed a strong lift (+8%) and is presented as the leading finding — hypothesis was formed post-hoc from the data."
+  "notes": "No pre-registration on file. After the run, the high_value segment showed a strong lift (+10%) and is presented as the leading finding — hypothesis was formed post-hoc from the data."
 }

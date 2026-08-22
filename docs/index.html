@@ -35,7 +35,7 @@
   .hero .subtitle strong { color: var(--fg); font-weight: 600; }
   .hero .subtitle .sub-lead { display: block; margin-bottom: 14px; }
   .hero .subtitle .sub-close { display: block; margin-top: 14px; }
-  /* Фраза про соломенное чучело: без неё цифра 42.7% читается как
+  /* Фраза про соломенное чучело: без неё цифра 42.6% читается как
      «взяли плохой алгоритм», и весь смысл теряется. Уже, чем подзаголовок,
      и мельче — это уточнение к утверждению, а не второй заголовок. */
   .not-strawman { font-size: 15px; color: var(--muted); max-width: 620px; margin: -16px auto 40px; line-height: 1.6; }
@@ -244,7 +244,7 @@
   <p class="subtitle" data-t="subtitle">
     <span class="sub-lead"><strong>A/B decisions are a solved problem — until they aren't.</strong></span>
     A deterministic rule gets <strong>100%</strong> of verdicts right on 100 cases built from
-    five textbook mechanisms. On 660 cases built from 33, it gets <strong>42.7%</strong> —
+    five textbook mechanisms. On 660 cases built from 33, it gets <strong>42.6%</strong> —
     and 20 of those mechanisms it never catches once.
     <span class="sub-close">The corpus that breaks it — and the tools to see exactly where.</span>
   </p>
@@ -340,10 +340,10 @@
 
   <div class="cost">
     <div class="cost-lines">
-      <div class="cost-l1" data-t="cost_l1">The rule allowed rollout 362 times.</div>
+      <div class="cost-l1" data-t="cost_l1">The rule allowed rollout 361 times.</div>
       <div class="cost-l2" data-t="cost_l2">Correct: 10.</div>
     </div>
-    <p class="cost-note" data-t="cost_note">The other 352 are 263 cases that needed investigation and 89 that must not ship.</p>
+    <p class="cost-note" data-t="cost_note">The other 351 are 260 cases that needed investigation and 91 that must not ship.</p>
   </div>
 
   <div class="bars">
@@ -360,14 +360,15 @@
       <div class="bar-label"><span data-t="bar_660">660 cases &middot; 33 mechanisms</span></div>
       <div class="bar">
         <span class="seg seg-a" style="width:1.5%" title="ship, correct 10"></span>
-        <span class="seg seg-err" style="width:53.3%" title="ship, wrong 352"></span>
-        <span class="seg seg-b" style="width:20.3%" title="investigate, correct 134"></span>
+        <span class="seg seg-err" style="width:53.2%" title="ship, wrong 351"></span>
+        <span class="seg seg-b" style="width:20.5%" title="investigate, correct 135"></span>
         <span class="seg seg-err" style="width:3.9%" title="investigate, wrong 26"></span>
-        <span class="seg seg-c" style="width:20.9%" title="do not ship 138, none wrong"></span>
+        <span class="seg seg-c" style="width:20.6%" title="do not ship, correct 136"></span>
+        <span class="seg seg-err" style="width:0.3%" title="do not ship, wrong 2"></span>
       </div>
-      <div class="bar-legend"><span>ship 362</span><span>investigate 160</span><span>do not ship 138</span></div>
+      <div class="bar-legend"><span>ship 361</span><span>investigate 161</span><span>do not ship 138</span></div>
     </div>
-    <p class="bars-note" data-t="bars_note">Red marks where the rule was wrong. Refusals are always right &mdash; the error sits in the permissions.</p>
+    <p class="bars-note" data-t="bars_note">Red marks where the rule was wrong. Refusals are almost never wrong &mdash; 2 of 138. The error sits in the permissions.</p>
   </div>
 </div>
 
@@ -387,7 +388,7 @@
   <div class="card"><div class="number">4</div><h3 data-t="c_agents">Agents</h3><p data-t="c_agents_d">Reader, Stats, Decision, Viz — each modular and traceable.</p></div>
   <div class="card"><div class="number">6</div><h3 data-t="c_stoprule">Stop-Rule Engine</h3><p data-t="c_stoprule_d">Deterministic decision pipeline. First triggered rule defines the verdict.</p><div class="stop-flow" data-t="c_stoprule_flow">Guardrails &rarr; Reversal &rarr; Segment &rarr; Significance &rarr; Practical &rarr; Ship</div><p class="stop-caption" data-t="c_stoprule_out">Output: ship / do_not_ship / investigate</p><div class="stop-links"><a href="policy.html" data-t="c_stoprule_lp">Open Policy &rarr;</a><a href="corpus.html" data-t="c_stoprule_lc">Browse Corpus &rarr;</a></div></div>
   <a href="corpus.html" class="card card-link" id="corpus-card"><div class="number" id="corpus-total">660</div><h3><span data-t="c_corpus">Corpus cases</span> <span class="live-badge" data-t="c_live">Live</span></h3><p data-t="c_corpus_d">Evaluated by the four-agent pipeline.</p></a>
-  <div class="card"><div class="number">100&thinsp;&rarr;&thinsp;42.7%</div><h3 data-t="c_selfcheck">Accuracy, and where it ends</h3><p data-t="c_selfcheck_d">100% on the 100-case set with five mechanisms. <strong>42.7%</strong> on 660 cases with 33 — and 20 of those 33 it never catches once. Same rule, harder corpus.</p></div>
+  <div class="card"><div class="number">100&thinsp;&rarr;&thinsp;42.6%</div><h3 data-t="c_selfcheck">Accuracy, and where it ends</h3><p data-t="c_selfcheck_d">100% on the 100-case set with five mechanisms. <strong>42.6%</strong> on 660 cases with 33 — and 20 of those 33 it never catches once. Same rule, harder corpus.</p></div>
 </div>
 
 <div class="onboard-section">
@@ -441,18 +442,18 @@ cd ../.. && python3 tools/build_corpus_index.py --corpus cases_mvp_v2</pre>
   var LANG=params.get('lang')==='ru'?'ru':'en';
   var T={
     title:{ru:'AB Factory'},
-    subtitle:{ru:'<span class="sub-lead"><strong>\u0420\u0435\u0448\u0435\u043d\u0438\u044f \u043f\u043e A/B \u043a\u0430\u0436\u0443\u0442\u0441\u044f \u0440\u0435\u0448\u0451\u043d\u043d\u043e\u0439 \u0437\u0430\u0434\u0430\u0447\u0435\u0439 \u2014 \u043f\u043e\u043a\u0430 \u043d\u0435 \u043f\u0435\u0440\u0435\u0441\u0442\u0430\u044e\u0442.</strong></span>\u0414\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043f\u0440\u0430\u0432\u043e \u0432 <strong>100%</strong> \u0441\u043b\u0443\u0447\u0430\u0435\u0432 \u043d\u0430 100 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 \u043f\u044f\u0442\u044c\u044e \u0445\u0440\u0435\u0441\u0442\u043e\u043c\u0430\u0442\u0438\u0439\u043d\u044b\u043c\u0438 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430\u043c\u0438. \u041d\u0430 660 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c\u044e \u0442\u0440\u0435\u043c\u044f \u2014 \u0432 <strong>42.7%</strong>, \u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432 \u043e\u043d\u043e \u043d\u0435 \u043b\u043e\u0432\u0438\u0442 \u043d\u0438 \u0440\u0430\u0437\u0443.<span class="sub-close">\u041a\u043e\u0440\u043f\u0443\u0441, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u0435\u0433\u043e \u043b\u043e\u043c\u0430\u0435\u0442, \u0438 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b, \u0447\u0442\u043e\u0431\u044b \u0443\u0432\u0438\u0434\u0435\u0442\u044c, \u0433\u0434\u0435 \u0438\u043c\u0435\u043d\u043d\u043e.</span>'},
+    subtitle:{ru:'<span class="sub-lead"><strong>\u0420\u0435\u0448\u0435\u043d\u0438\u044f \u043f\u043e A/B \u043a\u0430\u0436\u0443\u0442\u0441\u044f \u0440\u0435\u0448\u0451\u043d\u043d\u043e\u0439 \u0437\u0430\u0434\u0430\u0447\u0435\u0439 \u2014 \u043f\u043e\u043a\u0430 \u043d\u0435 \u043f\u0435\u0440\u0435\u0441\u0442\u0430\u044e\u0442.</strong></span>\u0414\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043f\u0440\u0430\u0432\u043e \u0432 <strong>100%</strong> \u0441\u043b\u0443\u0447\u0430\u0435\u0432 \u043d\u0430 100 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 \u043f\u044f\u0442\u044c\u044e \u0445\u0440\u0435\u0441\u0442\u043e\u043c\u0430\u0442\u0438\u0439\u043d\u044b\u043c\u0438 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430\u043c\u0438. \u041d\u0430 660 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c\u044e \u0442\u0440\u0435\u043c\u044f \u2014 \u0432 <strong>42.6%</strong>, \u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432 \u043e\u043d\u043e \u043d\u0435 \u043b\u043e\u0432\u0438\u0442 \u043d\u0438 \u0440\u0430\u0437\u0443.<span class="sub-close">\u041a\u043e\u0440\u043f\u0443\u0441, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u0435\u0433\u043e \u043b\u043e\u043c\u0430\u0435\u0442, \u0438 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b, \u0447\u0442\u043e\u0431\u044b \u0443\u0432\u0438\u0434\u0435\u0442\u044c, \u0433\u0434\u0435 \u0438\u043c\u0435\u043d\u043d\u043e.</span>'},
     mech_title:{ru:'\u0413\u0434\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043f\u0435\u0440\u0435\u0441\u0442\u0430\u0451\u0442 \u0440\u0430\u0431\u043e\u0442\u0430\u0442\u044c'},
     mech_sub:{ru:'33 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430 \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435. \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u043b\u044e\u0431\u043e\u0439, \u0447\u0442\u043e\u0431\u044b \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0435\u0433\u043e \u043a\u0435\u0439\u0441\u044b.'},
     mech_never:{ru:'\u043d\u0435 \u043b\u043e\u0432\u0438\u0442 \u043d\u0438 \u0440\u0430\u0437\u0443 \u00b7 361 \u043a\u0435\u0439\u0441'},
     mech_partial:{ru:'\u043b\u043e\u0432\u0438\u0442 \u0447\u0430\u0441\u0442\u0438\u0447\u043d\u043e \u00b7 50 \u043a\u0435\u0439\u0441\u043e\u0432'},
     mech_always:{ru:'\u043b\u043e\u0432\u0438\u0442 \u0432\u0441\u0435\u0433\u0434\u0430 \u00b7 249 \u043a\u0435\u0439\u0441\u043e\u0432'},
-    cost_l1:{ru:'\u041f\u0440\u0430\u0432\u0438\u043b\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0438\u043b\u043e \u0432\u044b\u043a\u0430\u0442\u043a\u0443 362 \u0440\u0430\u0437\u0430.'},
+    cost_l1:{ru:'\u041f\u0440\u0430\u0432\u0438\u043b\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0438\u043b\u043e \u0432\u044b\u043a\u0430\u0442\u043a\u0443 361 \u0440\u0430\u0437.'},
     cost_l2:{ru:'\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e \u2014 10.'},
-    cost_note:{ru:'\u041e\u0441\u0442\u0430\u043b\u044c\u043d\u044b\u0435 352 \u2014 \u044d\u0442\u043e 263 \u0441\u043b\u0443\u0447\u0430\u044f, \u0433\u0434\u0435 \u043d\u0443\u0436\u043d\u043e \u0431\u044b\u043b\u043e \u0440\u0430\u0437\u0431\u0438\u0440\u0430\u0442\u044c\u0441\u044f, \u0438 89, \u0433\u0434\u0435 \u043a\u0430\u0442\u0438\u0442\u044c \u0431\u044b\u043b\u043e \u043d\u0435\u043b\u044c\u0437\u044f.'},
+    cost_note:{ru:'\u041e\u0441\u0442\u0430\u043b\u044c\u043d\u044b\u0435 351 \u2014 \u044d\u0442\u043e 260 \u0441\u043b\u0443\u0447\u0430\u0435\u0432, \u0433\u0434\u0435 \u043d\u0443\u0436\u043d\u043e \u0431\u044b\u043b\u043e \u0440\u0430\u0437\u0431\u0438\u0440\u0430\u0442\u044c\u0441\u044f, \u0438 91, \u0433\u0434\u0435 \u043a\u0430\u0442\u0438\u0442\u044c \u0431\u044b\u043b\u043e \u043d\u0435\u043b\u044c\u0437\u044f.'},
     bar_100:{ru:'100 \u043a\u0435\u0439\u0441\u043e\u0432 \u00b7 5 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432'},
     bar_660:{ru:'660 \u043a\u0435\u0439\u0441\u043e\u0432 \u00b7 33 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430'},
-    bars_note:{ru:'\u041a\u0440\u0430\u0441\u043d\u043e\u0435 \u2014 \u0442\u0430\u043c, \u0433\u0434\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043e\u0448\u0438\u0431\u043b\u043e\u0441\u044c. \u041e\u0442\u043a\u0430\u0437 \u043d\u0430\u0434\u0451\u0436\u0435\u043d \u0432\u0441\u0435\u0433\u0434\u0430, \u043e\u0448\u0438\u0431\u043a\u0430 \u0441\u0438\u0434\u0438\u0442 \u0432 \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f\u0445.'},
+    bars_note:{ru:'\u041a\u0440\u0430\u0441\u043d\u043e\u0435 \u2014 \u0442\u0430\u043c, \u0433\u0434\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043e\u0448\u0438\u0431\u043b\u043e\u0441\u044c. \u041e\u0442\u043a\u0430\u0437\u044b\u0432\u0430\u0435\u0442\u0441\u044f \u043e\u043d\u043e \u043f\u043e\u0447\u0442\u0438 \u0431\u0435\u0437 \u043e\u0448\u0438\u0431\u043e\u043a \u2014 2 \u0438\u0437 138. \u041e\u0448\u0438\u0431\u043a\u0430 \u0441\u0438\u0434\u0438\u0442 \u0432 \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f\u0445.'},
     strawman:{ru:'<strong>\u042d\u0442\u043e \u043d\u0435 \u0441\u043e\u043b\u043e\u043c\u0435\u043d\u043d\u043e\u0435 \u0447\u0443\u0447\u0435\u043b\u043e.</strong> \u041f\u0440\u0430\u0432\u0438\u043b\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442 \u0440\u043e\u0432\u043d\u043e \u0442\u043e, \u0447\u0442\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u043a: \u0437\u043d\u0430\u0447\u0438\u043c \u043b\u0438 \u044d\u0444\u0444\u0435\u043a\u0442, \u043f\u0440\u0435\u0432\u044b\u0448\u0430\u0435\u0442 \u043b\u0438 \u043e\u043d \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043f\u043e\u0440\u043e\u0433, \u043d\u0435 \u043f\u0440\u043e\u0441\u0435\u043b\u0438 \u043b\u0438 guardrails, \u043d\u0435\u0442 \u043b\u0438 \u043a\u043e\u043d\u0444\u043b\u0438\u043a\u0442\u0430 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432. \u0412 \u0442\u0430\u043a\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435. \u0418\u043c\u0435\u043d\u043d\u043e \u0442\u0430\u043a \u0443\u0441\u0442\u0440\u043e\u0435\u043d\u044b \u0447\u0435\u043a-\u043b\u0438\u0441\u0442\u044b \u043f\u0440\u0438\u043d\u044f\u0442\u0438\u044f \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2014 \u0438 \u0432 \u044d\u0442\u043e\u043c \u043d\u0435\u0442 \u043d\u0438\u0447\u0435\u0433\u043e \u043d\u0430\u0438\u0432\u043d\u043e\u0433\u043e.'},
     fc_title:{ru:'\u041e\u0434\u0438\u043d \u043a\u0435\u0439\u0441 \u0446\u0435\u043b\u0438\u043a\u043e\u043c'},
     fc_sub:{ru:'\u041d\u0430\u0441\u0442\u043e\u044f\u0449\u0438\u0439 \u043a\u0435\u0439\u0441 \u0438\u0437 \u043a\u043e\u0440\u043f\u0443\u0441\u0430. \u0412\u0441\u0451, \u0447\u0442\u043e \u0432\u0438\u0434\u0435\u043b\u043e \u043f\u0440\u0430\u0432\u0438\u043b\u043e, \u2014 \u043d\u0438\u0436\u0435.'},
@@ -499,7 +500,7 @@ cd ../.. && python3 tools/build_corpus_index.py --corpus cases_mvp_v2</pre>
     ob_s4_d:{ru:'\u041f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0430\u0439\u0442\u0435\u0441\u044c \u043c\u0435\u0436\u0434\u0443 Balanced, Conservative, Growth \u0438 Safety-first \u0438\u043b\u0438 \u0434\u0432\u0438\u0433\u0430\u0439\u0442\u0435 \u043f\u043e\u0440\u043e\u0433\u0438 \u0440\u0443\u043a\u0430\u043c\u0438. \u0422\u043e\u0442 \u0436\u0435 \u043a\u0435\u0439\u0441 \u043c\u0435\u043d\u044f\u0435\u0442 \u0432\u0435\u0440\u0434\u0438\u043a\u0442: \u044d\u0442\u0430\u043b\u043e\u043d \u0437\u0434\u0435\u0441\u044c \u2014 \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0430, \u0430 \u043d\u0435 \u0444\u0430\u043a\u0442.'},
     ob_s4_l:{ru:'\u041f\u043e\u0434\u0432\u0438\u0433\u0430\u0442\u044c \u043f\u043e\u0440\u043e\u0433\u0438 \u2192'},
     c_selfcheck:{ru:'\u0422\u043e\u0447\u043d\u043e\u0441\u0442\u044c \u0438 \u0435\u0451 \u0433\u0440\u0430\u043d\u0438\u0446\u0430'},
-    c_selfcheck_d:{ru:'100% \u043d\u0430 \u043d\u0430\u0431\u043e\u0440\u0435 \u0438\u0437 100 \u043a\u0435\u0439\u0441\u043e\u0432 \u0441 \u043f\u044f\u0442\u044c\u044e \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430\u043c\u0438. <strong>42.7%</strong> \u043d\u0430 660 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 33 \u2014 \u0438 20 \u0438\u0437 \u044d\u0442\u0438\u0445 33 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043d\u0435 \u043b\u043e\u0432\u0438\u0442 \u043d\u0438 \u0440\u0430\u0437\u0443. \u0422\u043e \u0436\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e, \u0431\u043e\u043b\u0435\u0435 \u0442\u0440\u0443\u0434\u043d\u044b\u0439 \u043a\u043e\u0440\u043f\u0443\u0441.'},
+    c_selfcheck_d:{ru:'100% \u043d\u0430 \u043d\u0430\u0431\u043e\u0440\u0435 \u0438\u0437 100 \u043a\u0435\u0439\u0441\u043e\u0432 \u0441 \u043f\u044f\u0442\u044c\u044e \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430\u043c\u0438. <strong>42.6%</strong> \u043d\u0430 660 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 33 \u2014 \u0438 20 \u0438\u0437 \u044d\u0442\u0438\u0445 33 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043d\u0435 \u043b\u043e\u0432\u0438\u0442 \u043d\u0438 \u0440\u0430\u0437\u0443. \u0422\u043e \u0436\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e, \u0431\u043e\u043b\u0435\u0435 \u0442\u0440\u0443\u0434\u043d\u044b\u0439 \u043a\u043e\u0440\u043f\u0443\u0441.'},
     dia_title:{ru:'\u0421\u0445\u0435\u043c\u0430 \u0441\u0438\u0441\u0442\u0435\u043c\u044b \u0430\u0433\u0435\u043d\u0442\u043e\u0432'},
     dia_sub:{ru:'\u041e\u0442 \u0441\u044b\u0440\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445 \u043a\u0435\u0439\u0441\u0430 \u0434\u043e \u0438\u043d\u0442\u0435\u0440\u0430\u043a\u0442\u0438\u0432\u043d\u043e\u0433\u043e UI.'},
     dia_inputs:{ru:'\u0412\u0445\u043e\u0434\u043d\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435'},

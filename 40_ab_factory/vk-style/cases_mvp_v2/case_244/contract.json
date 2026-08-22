@@ -1,6 +1,6 @@
 {
   "case_id": "case_244",
-  "title": "CSS render path adjustment (v244)",
+  "title": "Request batching micro-optimization (v244)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-20",
-    "end_date": "2025-10-18",
+    "start_date": "2025-03-25",
+    "end_date": "2025-04-22",
     "horizon_days": 28
   },
   "primary_metric": {
@@ -31,7 +31,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.008
+    "practical_threshold_relative": 0.009
   },
   "notes": "High-power experiment #244. Large sample makes tiny effects significant."
 }

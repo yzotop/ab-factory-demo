@@ -1,6 +1,6 @@
 {
   "case_id": "case_588",
-  "title": "High-variance monetization pilot (v588)",
+  "title": "Whale-sensitive revenue test (v588)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-11-06",
-    "end_date": "2025-11-20",
-    "horizon_days": 14
+    "start_date": "2025-06-23",
+    "end_date": "2025-07-14",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Per-user revenue highly skewed: mean $12 vs max $1274 (top 0.5% spenders). Aggregate +2.6% significant (p=0.0264) but effect driven by a few extreme users — t-test on means unreliable."
+  "notes": "Per-user revenue highly skewed: mean $11 vs max $1051 (top 0.6% spenders). Aggregate +2.4% significant (p=0.0293) but effect driven by a few extreme users — t-test on means unreliable."
 }

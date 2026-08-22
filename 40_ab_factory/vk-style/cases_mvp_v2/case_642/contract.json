@@ -1,6 +1,6 @@
 {
   "case_id": "case_642",
-  "title": "Incomplete event logging test (v642)",
+  "title": "Partial-coverage metrics readout (v642)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-17",
-    "end_date": "2025-05-08",
+    "start_date": "2025-11-03",
+    "end_date": "2025-11-24",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "~18% of test-arm events missing metric values (tracking gap), excluded from analysis."
+  "notes": "~17% of test-arm events missing metric values (tracking gap), excluded from analysis."
 }

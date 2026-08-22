@@ -1,6 +1,6 @@
 {
   "case_id": "case_302",
-  "title": "Clicker-only conversion test (v302)",
+  "title": "Feature-adopter performance readout (v302)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-03",
-    "end_date": "2025-08-24",
-    "horizon_days": 21
+    "start_date": "2025-01-04",
+    "end_date": "2025-01-18",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",

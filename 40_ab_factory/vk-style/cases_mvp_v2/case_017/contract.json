@@ -1,6 +1,6 @@
 {
   "case_id": "case_017",
-  "title": "Auto-play video ad insertion (v17)",
+  "title": "Aggressive ad pressure increase (v17)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-14",
-    "end_date": "2025-08-21",
+    "start_date": "2025-08-04",
+    "end_date": "2025-08-11",
     "horizon_days": 7
   },
   "primary_metric": {

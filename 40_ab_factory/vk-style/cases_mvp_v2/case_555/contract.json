@@ -1,6 +1,6 @@
 {
   "case_id": "case_555",
-  "title": "Pre-period covariate readout (v555)",
+  "title": "Matched pre-period experiment (v555)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-03-14",
-    "end_date": "2025-03-28",
+    "start_date": "2025-04-27",
+    "end_date": "2025-05-11",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Pre-period covariate data available (14-day baseline revenue per user, ρ≈0.7 with in-period outcome) but CUPED variance reduction not applied — analysis uses raw delta only. Point estimate +1.5%, p=0.0607."
+  "notes": "Pre-period covariate data available (14-day baseline revenue per user, ρ≈0.66 with in-period outcome) but CUPED variance reduction not applied — analysis uses raw delta only. Point estimate +1.4%, p=0.0739."
 }

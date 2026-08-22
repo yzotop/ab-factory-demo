@@ -1,11 +1,11 @@
 {
   "case_id": "case_410",
   "expected_decision": "investigate",
-  "primary_effect_relative": 0.0209,
+  "primary_effect_relative": 0.0245,
   "is_stat_sig": true,
   "guardrails_ok": true,
   "key_reasons": [
     "seasonality"
   ],
-  "human_rationale": "Effect +2.1% measured during holiday peak (Dec–Jan) — may not generalize to normal periods. Flag and replicate off-peak. Investigate."
+  "human_rationale": "Effect +2.5% measured during holiday peak (Dec–Jan) — may not generalize to normal periods. Flag and replicate off-peak. Investigate."
 }

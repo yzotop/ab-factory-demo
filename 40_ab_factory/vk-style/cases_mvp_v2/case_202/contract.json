@@ -1,6 +1,6 @@
 {
   "case_id": "case_202",
-  "title": "SDK v2 rollout experiment (v202)",
+  "title": "Client SDK migration readout (v202)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-04",
-    "end_date": "2025-05-18",
+    "start_date": "2025-06-24",
+    "end_date": "2025-07-08",
     "horizon_days": 14
   },
   "primary_metric": {

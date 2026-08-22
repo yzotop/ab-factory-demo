@@ -1,6 +1,6 @@
 {
   "case_id": "case_277",
-  "title": "Mid-test marketing push readout (v277)",
+  "title": "In-flight promo overlap test (v277)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-18",
-    "end_date": "2025-09-28",
-    "horizon_days": 10
+    "start_date": "2025-10-04",
+    "end_date": "2025-10-18",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "10-day experiment (2025-09-18 to 2025-09-28). A major marketing promo launched on day 4 of the test."
+  "notes": "14-day experiment (2025-10-04 to 2025-10-18). A major marketing promo launched on day 5 of the test."
 }

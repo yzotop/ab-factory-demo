@@ -1,6 +1,6 @@
 {
   "case_id": "case_280",
-  "title": "In-flight promo overlap test (v280)",
+  "title": "Overlapping promo window test (v280)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-22",
-    "end_date": "2025-10-02",
-    "horizon_days": 10
+    "start_date": "2025-07-13",
+    "end_date": "2025-07-27",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "10-day experiment (2025-09-22 to 2025-10-02). A major marketing promo launched on day 4 of the test."
+  "notes": "14-day experiment (2025-07-13 to 2025-07-27). A major marketing promo launched on day 4 of the test."
 }

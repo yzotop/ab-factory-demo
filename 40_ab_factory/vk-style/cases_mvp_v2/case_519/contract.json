@@ -1,6 +1,6 @@
 {
   "case_id": "case_519",
-  "title": "Impression-normalized click test (v519)",
+  "title": "Click-rate per-impression test (v519)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-12",
-    "end_date": "2025-02-02",
-    "horizon_days": 21
+    "start_date": "2025-10-01",
+    "end_date": "2025-10-15",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "ctr",

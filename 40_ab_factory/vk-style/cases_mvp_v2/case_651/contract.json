@@ -1,6 +1,6 @@
 {
   "case_id": "case_651",
-  "title": "Premium placement in mixed feeds (v651)",
+  "title": "Segment-specific pricing experiment (v651)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -12,8 +12,8 @@
     "article"
   ],
   "time": {
-    "start_date": "2025-07-20",
-    "end_date": "2025-08-03",
+    "start_date": "2025-05-27",
+    "end_date": "2025-06-10",
     "horizon_days": 14
   },
   "primary_metric": {

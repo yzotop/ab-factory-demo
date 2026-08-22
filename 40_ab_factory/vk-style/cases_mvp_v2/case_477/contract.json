@@ -1,6 +1,6 @@
 {
   "case_id": "case_477",
-  "title": "No-dedup event counting experiment (v477)",
+  "title": "Raw event stream A/B readout (v477)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-09",
-    "end_date": "2025-04-23",
-    "horizon_days": 14
+    "start_date": "2025-02-16",
+    "end_date": "2025-03-09",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

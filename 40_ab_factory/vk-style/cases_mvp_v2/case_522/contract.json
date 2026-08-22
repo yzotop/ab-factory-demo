@@ -1,6 +1,6 @@
 {
   "case_id": "case_522",
-  "title": "Declined-card fallback offer (v522)",
+  "title": "Checkout error recovery prompt (v522)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-02-09",
-    "end_date": "2025-03-02",
+    "start_date": "2025-09-09",
+    "end_date": "2025-09-30",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Feature triggers only for users hitting the checkout error path (~5% of assigned users). Analysis is intent-to-treat over the full randomized population — non-triggered users contribute zeros and dilute the measured effect."
+  "notes": "Feature triggers only for users hitting the checkout error path (~6% of assigned users). Analysis is intent-to-treat over the full randomized population — non-triggered users contribute zeros and dilute the measured effect."
 }

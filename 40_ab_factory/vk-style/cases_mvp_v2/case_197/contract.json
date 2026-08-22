@@ -1,6 +1,6 @@
 {
   "case_id": "case_197",
-  "title": "First-time interstitial format (v197)",
+  "title": "New ad format launch (v197)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-11-27",
-    "end_date": "2025-12-04",
+    "start_date": "2025-02-01",
+    "end_date": "2025-02-08",
     "horizon_days": 7
   },
   "primary_metric": {

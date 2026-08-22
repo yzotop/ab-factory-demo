@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "feed",
-    "article"
+    "mobile",
+    "desktop"
   ],
   "time": {
-    "start_date": "2025-10-28",
-    "end_date": "2025-11-11",
+    "start_date": "2025-05-16",
+    "end_date": "2025-05-30",
     "horizon_days": 14
   },
   "primary_metric": {

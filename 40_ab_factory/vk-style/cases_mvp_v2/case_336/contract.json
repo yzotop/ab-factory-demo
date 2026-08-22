@@ -1,6 +1,6 @@
 {
   "case_id": "case_336",
-  "title": "Scroll-triggered fullscreen ads (v336)",
+  "title": "Below-fold ad density boost (v336)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-02-12",
-    "end_date": "2025-02-19",
+    "start_date": "2025-03-10",
+    "end_date": "2025-03-17",
     "horizon_days": 7
   },
   "primary_metric": {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.007
+    "practical_threshold_relative": 0.005
   },
   "notes": "Experiment #336. Expected engagement trade-off."
 }

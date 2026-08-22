@@ -1,6 +1,6 @@
 {
   "case_id": "case_554",
-  "title": "Top-performing creative selection (v554)",
+  "title": "Best-of-batch format rollout (v554)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-24",
-    "end_date": "2025-09-14",
-    "horizon_days": 21
+    "start_date": "2025-02-19",
+    "end_date": "2025-03-05",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Champion variant selected as best of 7 tested formats in the same experiment window. Reported primary effect p=0.045 — borderline significance after winner selection."
+  "notes": "Champion variant selected as best of 3 tested formats in the same experiment window. Reported primary effect p=0.048 — borderline significance after winner selection."
 }

@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-01",
-    "end_date": "2025-01-15",
-    "horizon_days": 14
+    "start_date": "2025-03-08",
+    "end_date": "2025-03-29",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "ctr",
@@ -38,5 +38,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Experiment optimizing CTR (engagement proxy). Primary CTR +6% significant. Business guardrails in export: revenue -2.6% (p=0.0198), D7 retention test 43.3% vs control 44.7% (−3.1% relative)."
+  "notes": "Experiment optimizing CTR (engagement proxy). Primary CTR +5% significant. Business guardrails in export: revenue -2.5% (p=0.0091), D7 retention test 42.8% vs control 44.3% (−3.3% relative)."
 }

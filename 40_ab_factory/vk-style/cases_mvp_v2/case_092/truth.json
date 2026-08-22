@@ -1,11 +1,11 @@
 {
   "case_id": "case_092",
   "expected_decision": "investigate",
-  "primary_effect_relative": -0.0001,
+  "primary_effect_relative": -0.0044,
   "is_stat_sig": false,
   "guardrails_ok": true,
   "key_reasons": [
     "harking"
   ],
-  "human_rationale": "Hypothesis formed after seeing the data (HARKing) and presented as a priori. The high_value segment was chosen post-hoc — significance not valid without correction/replication. Confirm on fresh data. Investigate."
+  "human_rationale": "Hypothesis formed after seeing the data (HARKing) and presented as a priori. The loyal_subscriber segment was chosen post-hoc — significance not valid without correction/replication. Confirm on fresh data. Investigate."
 }

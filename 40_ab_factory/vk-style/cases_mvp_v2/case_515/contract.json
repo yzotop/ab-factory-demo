@@ -1,6 +1,6 @@
 {
   "case_id": "case_515",
-  "title": "Revenue surge format test (v515)",
+  "title": "Breakthrough monetization rollout (v515)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-11",
-    "end_date": "2025-01-25",
+    "start_date": "2025-02-23",
+    "end_date": "2025-03-09",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Standard 14-day revenue readout. Primary shows large significant uplift (+44%); no product change beyond the tested variant was deployed during the window."
+  "notes": "Standard 14-day revenue readout. Primary shows large significant uplift (+40%); no product change beyond the tested variant was deployed during the window."
 }

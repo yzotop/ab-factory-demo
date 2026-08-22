@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-28",
-    "end_date": "2025-02-18",
-    "horizon_days": 21
+    "start_date": "2025-01-16",
+    "end_date": "2025-01-30",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Analysis restricted to users who activated / clicked the new surface (post-treatment conditioning; ~27% of assigned users). Not intent-to-treat — selection on a post-randomization outcome."
+  "notes": "Analysis restricted to users who activated / clicked the new surface (post-treatment conditioning; ~28% of assigned users). Not intent-to-treat — selection on a post-randomization outcome."
 }

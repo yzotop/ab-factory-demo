@@ -1,6 +1,6 @@
 {
   "case_id": "case_412",
-  "title": "Step-change ad yield experiment (v412)",
+  "title": "Revenue surge format test (v412)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-11-18",
-    "end_date": "2025-12-09",
+    "start_date": "2025-08-17",
+    "end_date": "2025-09-07",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Standard 21-day revenue readout. Primary shows large significant uplift (+35%); no product change beyond the tested variant was deployed during the window."
+  "notes": "Standard 21-day revenue readout. Primary shows large significant uplift (+39%); no product change beyond the tested variant was deployed during the window."
 }

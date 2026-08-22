@@ -1,6 +1,6 @@
 {
   "case_id": "case_629",
-  "title": "Engaged cohort outcome analysis (v629)",
+  "title": "Activated-user uplift study (v629)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-03",
-    "end_date": "2025-08-17",
-    "horizon_days": 14
+    "start_date": "2025-06-11",
+    "end_date": "2025-07-02",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Analysis restricted to users who activated / clicked the new surface (post-treatment conditioning; ~28% of assigned users). Not intent-to-treat — selection on a post-randomization outcome."
+  "notes": "Analysis restricted to users who activated / clicked the new surface (post-treatment conditioning; ~21% of assigned users). Not intent-to-treat — selection on a post-randomization outcome."
 }

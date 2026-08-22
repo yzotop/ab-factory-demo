@@ -1,6 +1,6 @@
 {
   "case_id": "case_077",
-  "title": "Variant tournament winner deploy (v77)",
+  "title": "Multi-variant champion selection (v77)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-04",
-    "end_date": "2025-05-25",
-    "horizon_days": 21
+    "start_date": "2025-05-13",
+    "end_date": "2025-05-27",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",

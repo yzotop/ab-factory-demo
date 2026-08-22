@@ -1,6 +1,6 @@
 {
   "case_id": "case_118",
-  "title": "Click surface expansion test (v118)",
+  "title": "Session depth boost experiment (v118)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-07-22",
-    "end_date": "2025-07-29",
+    "start_date": "2025-02-26",
+    "end_date": "2025-03-05",
     "horizon_days": 7
   },
   "primary_metric": {

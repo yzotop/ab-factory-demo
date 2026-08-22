@@ -1,6 +1,6 @@
 {
   "case_id": "case_625",
-  "title": "Activated-user uplift study (v625)",
+  "title": "Feature-adopter performance readout (v625)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-12",
-    "end_date": "2025-01-26",
-    "horizon_days": 14
+    "start_date": "2025-01-03",
+    "end_date": "2025-01-24",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

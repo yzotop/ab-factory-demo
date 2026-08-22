@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-26",
-    "end_date": "2025-02-09",
-    "horizon_days": 14
+    "start_date": "2025-01-15",
+    "end_date": "2025-01-25",
+    "horizon_days": 10
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "14-day experiment (2025-01-26 to 2025-02-09). A major marketing promo launched on day 3 of the test."
+  "notes": "10-day experiment (2025-01-15 to 2025-01-25). A major marketing promo launched on day 5 of the test."
 }

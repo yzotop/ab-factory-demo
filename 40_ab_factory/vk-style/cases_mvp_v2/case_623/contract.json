@@ -1,6 +1,6 @@
 {
   "case_id": "case_623",
-  "title": "Premium placement in mixed feeds (v623)",
+  "title": "Cross-platform ad density test (v623)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -12,8 +12,8 @@
     "article"
   ],
   "time": {
-    "start_date": "2025-01-28",
-    "end_date": "2025-02-11",
+    "start_date": "2025-09-25",
+    "end_date": "2025-10-09",
     "horizon_days": 14
   },
   "primary_metric": {

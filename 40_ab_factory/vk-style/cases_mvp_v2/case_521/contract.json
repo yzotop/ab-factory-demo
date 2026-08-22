@@ -1,6 +1,6 @@
 {
   "case_id": "case_521",
-  "title": "Novel placement debut (v521)",
+  "title": "First-time interstitial format (v521)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-04",
-    "end_date": "2025-08-11",
+    "start_date": "2025-07-15",
+    "end_date": "2025-07-22",
     "horizon_days": 7
   },
   "primary_metric": {

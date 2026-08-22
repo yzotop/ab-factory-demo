@@ -1,6 +1,6 @@
 {
   "case_id": "case_003",
-  "title": "Aggressive ad pressure increase (v3)",
+  "title": "Below-fold ad density boost (v3)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-02",
-    "end_date": "2025-09-16",
-    "horizon_days": 14
+    "start_date": "2025-04-21",
+    "end_date": "2025-04-28",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.003
+    "practical_threshold_relative": 0.004
   },
   "notes": "Experiment #3. Expected engagement trade-off."
 }

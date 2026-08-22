@@ -1,6 +1,6 @@
 {
   "case_id": "case_650",
-  "title": "High-engagement segment pilot (v650)",
+  "title": "Heavy-user monetization test (v650)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-13",
-    "end_date": "2025-04-27",
-    "horizon_days": 14
+    "start_date": "2025-06-15",
+    "end_date": "2025-07-06",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

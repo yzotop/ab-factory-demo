@@ -1,6 +1,6 @@
 {
   "case_id": "case_219",
-  "title": "Whale-sensitive revenue test (v219)",
+  "title": "Skewed revenue distribution test (v219)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-03-03",
-    "end_date": "2025-03-24",
-    "horizon_days": 21
+    "start_date": "2025-04-05",
+    "end_date": "2025-04-19",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Per-user revenue highly skewed: mean $13 vs max $1119 (top 0.6% spenders). Aggregate +2.5% significant (p=0.0188) but effect driven by a few extreme users — t-test on means unreliable."
+  "notes": "Per-user revenue highly skewed: mean $12 vs max $1455 (top 0.8% spenders). Aggregate +2.1% significant (p=0.0102) but effect driven by a few extreme users — t-test on means unreliable."
 }

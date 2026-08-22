@@ -1,6 +1,6 @@
 {
   "case_id": "case_041",
-  "title": "High-frequency interstitial test (v41)",
+  "title": "Aggressive ad pressure increase (v41)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-18",
-    "end_date": "2025-05-25",
+    "start_date": "2025-07-28",
+    "end_date": "2025-08-04",
     "horizon_days": 7
   },
   "primary_metric": {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.008
+    "practical_threshold_relative": 0.005
   },
   "notes": "Experiment #41. Expected engagement trade-off."
 }

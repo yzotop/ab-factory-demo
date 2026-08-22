@@ -1,6 +1,6 @@
 {
   "case_id": "case_080",
-  "title": "Pricing floor long-run test (v80)",
+  "title": "Advertiser supply adjustment test (v80)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-03-14",
-    "end_date": "2025-04-11",
+    "start_date": "2025-02-22",
+    "end_date": "2025-03-22",
     "horizon_days": 28
   },
   "primary_metric": {

@@ -1,11 +1,11 @@
 {
   "case_id": "case_543",
   "expected_decision": "investigate",
-  "primary_effect_relative": 0.0269,
+  "primary_effect_relative": 0.0173,
   "is_stat_sig": true,
   "guardrails_ok": true,
   "key_reasons": [
     "heavy_tails"
   ],
-  "human_rationale": "Revenue effect driven by a few extreme spenders (top 0.8%) — mean distorted by heavy tail, t-test unreliable. Use robust methods / winsorize and re-check. Investigate."
+  "human_rationale": "Revenue effect driven by a few extreme spenders (top 0.5%) — mean distorted by heavy tail, t-test unreliable. Use robust methods / winsorize and re-check. Investigate."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_283",
-  "title": "CTR ratio readout experiment (v283)",
+  "title": "Impression-normalized click test (v283)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-02-13",
-    "end_date": "2025-02-27",
-    "horizon_days": 14
+    "start_date": "2025-02-05",
+    "end_date": "2025-02-26",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "ctr",

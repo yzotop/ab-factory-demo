@@ -1,6 +1,6 @@
 {
   "case_id": "case_526",
-  "title": "Click surface expansion test (v526)",
+  "title": "Engagement-first format test (v526)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-17",
-    "end_date": "2025-05-24",
+    "start_date": "2025-08-04",
+    "end_date": "2025-08-11",
     "horizon_days": 7
   },
   "primary_metric": {

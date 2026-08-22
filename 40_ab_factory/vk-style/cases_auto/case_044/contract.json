@@ -1,6 +1,6 @@
 {
   "case_id": "case_044",
-  "title": "High-frequency interstitial test (v44)",
+  "title": "Below-fold ad density boost (v44)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-19",
-    "end_date": "2025-05-03",
+    "start_date": "2025-10-19",
+    "end_date": "2025-11-02",
     "horizon_days": 14
   },
   "primary_metric": {

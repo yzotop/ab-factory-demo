@@ -1,6 +1,6 @@
 {
   "case_id": "case_502",
-  "title": "Aggressive ad pressure increase (v502)",
+  "title": "Auto-play video ad insertion (v502)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-24",
-    "end_date": "2025-10-08",
+    "start_date": "2025-10-11",
+    "end_date": "2025-10-25",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.007
+    "practical_threshold_relative": 0.008
   },
   "notes": "Experiment #502. Expected engagement trade-off."
 }

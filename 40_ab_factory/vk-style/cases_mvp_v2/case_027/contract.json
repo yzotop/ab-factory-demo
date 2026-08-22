@@ -1,6 +1,6 @@
 {
   "case_id": "case_027",
-  "title": "Aggressive ad pressure increase (v27)",
+  "title": "Scroll-triggered fullscreen ads (v27)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-26",
-    "end_date": "2025-06-09",
-    "horizon_days": 14
+    "start_date": "2025-09-12",
+    "end_date": "2025-09-19",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.005
+    "practical_threshold_relative": 0.006
   },
   "notes": "Experiment #27. Expected engagement trade-off."
 }

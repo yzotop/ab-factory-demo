@@ -1,6 +1,6 @@
 {
   "case_id": "case_422",
-  "title": "Mix-shift pricing test (v422)",
+  "title": "Blended inventory experiment (v422)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "mobile",
-    "desktop"
+    "editorial",
+    "algorithmic"
   ],
   "time": {
-    "start_date": "2025-01-27",
-    "end_date": "2025-02-10",
+    "start_date": "2025-07-15",
+    "end_date": "2025-07-29",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -37,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Experiment #422. Aggregate uplift masks negative segment effects (mix shift)."
+  "notes": "Experiment #422. Rollout note: in the test arm the new placement went live on editorial first, so that segment accounts for 34% of test traffic against 29% in control. Overall group sizes match the planned 50/50 split."
 }

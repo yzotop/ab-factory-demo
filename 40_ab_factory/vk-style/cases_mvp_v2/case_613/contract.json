@@ -1,6 +1,6 @@
 {
   "case_id": "case_613",
-  "title": "Declined-card fallback offer (v613)",
+  "title": "Cart-abandon rescue widget (v613)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -9,8 +9,8 @@
   ],
   "time": {
     "start_date": "2025-06-25",
-    "end_date": "2025-07-09",
-    "horizon_days": 14
+    "end_date": "2025-07-16",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Feature triggers only for users hitting the checkout error path (~7% of assigned users). Analysis is intent-to-treat over the full randomized population — non-triggered users contribute zeros and dilute the measured effect."
+  "notes": "Feature triggers only for users hitting the checkout error path (~9% of assigned users). Analysis is intent-to-treat over the full randomized population — non-triggered users contribute zeros and dilute the measured effect."
 }

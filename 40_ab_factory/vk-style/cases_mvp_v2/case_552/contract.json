@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-10",
-    "end_date": "2025-11-07",
-    "horizon_days": 28
+    "start_date": "2025-10-20",
+    "end_date": "2025-11-10",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

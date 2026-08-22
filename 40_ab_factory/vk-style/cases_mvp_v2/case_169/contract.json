@@ -1,6 +1,6 @@
 {
   "case_id": "case_169",
-  "title": "Pooled segment rollout (v169)",
+  "title": "Aggregate floor adjustment (v169)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -12,8 +12,8 @@
     "desktop"
   ],
   "time": {
-    "start_date": "2025-11-12",
-    "end_date": "2025-11-26",
+    "start_date": "2025-02-12",
+    "end_date": "2025-02-26",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -37,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Experiment #169. Aggregate uplift masks negative segment effects (mix shift)."
+  "notes": "Experiment #169. Rollout note: in the test arm the new placement went live on mobile first, so that segment accounts for 41% of test traffic against 35% in control. Overall group sizes match the planned 50/50 split."
 }

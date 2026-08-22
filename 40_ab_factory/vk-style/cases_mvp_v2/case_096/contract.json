@@ -1,6 +1,6 @@
 {
   "case_id": "case_096",
-  "title": "Redesigned ad unit rollout (v96)",
+  "title": "First-time interstitial format (v96)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-25",
-    "end_date": "2025-06-01",
+    "start_date": "2025-02-10",
+    "end_date": "2025-02-17",
     "horizon_days": 7
   },
   "primary_metric": {

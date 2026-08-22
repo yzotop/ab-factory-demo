@@ -1,6 +1,6 @@
 {
   "case_id": "case_289",
-  "title": "Friend-referral ad credit test (v289)",
+  "title": "Shareable referral link promo (v289)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-03-28",
-    "end_date": "2025-04-18",
+    "start_date": "2025-02-01",
+    "end_date": "2025-02-22",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Feature is socially shareable — users can forward referral links / shared account access to friends. Estimated ~14% of control users may receive partial exposure via leakage (contamination), diluting the contrast."
+  "notes": "Feature is socially shareable — users can forward referral links / shared account access to friends. Estimated ~11% of control users may receive partial exposure via leakage (contamination), diluting the contrast."
 }

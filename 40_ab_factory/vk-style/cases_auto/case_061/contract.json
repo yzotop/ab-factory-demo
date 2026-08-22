@@ -1,6 +1,6 @@
 {
   "case_id": "case_061",
-  "title": "New banner placement test (v61)",
+  "title": "RTB timeout reduction (v61)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,14 +8,14 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-02-24",
-    "end_date": "2025-03-10",
-    "horizon_days": 14
+    "start_date": "2025-07-14",
+    "end_date": "2025-07-21",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.013
+    "mde_relative": 0.011
   },
   "guardrails": [
     {

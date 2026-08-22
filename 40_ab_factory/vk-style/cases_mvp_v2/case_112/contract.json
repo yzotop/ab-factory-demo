@@ -1,6 +1,6 @@
 {
   "case_id": "case_112",
-  "title": "CTR-optimized layout rollout (v112)",
+  "title": "Engagement-first format test (v112)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-12",
-    "end_date": "2025-08-19",
+    "start_date": "2025-06-01",
+    "end_date": "2025-06-08",
     "horizon_days": 7
   },
   "primary_metric": {

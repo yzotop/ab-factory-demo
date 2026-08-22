@@ -1,6 +1,6 @@
 {
   "case_id": "case_602",
-  "title": "Lazy-load trigger offset tweak (v602)",
+  "title": "CSS render path adjustment (v602)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-24",
-    "end_date": "2025-05-08",
-    "horizon_days": 14
+    "start_date": "2025-10-24",
+    "end_date": "2025-11-14",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

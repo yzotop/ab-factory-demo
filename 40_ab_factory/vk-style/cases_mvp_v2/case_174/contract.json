@@ -1,6 +1,6 @@
 {
   "case_id": "case_174",
-  "title": "Inventory source monitoring test (v174)",
+  "title": "Demand-side traffic validation (v174)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-12",
-    "end_date": "2025-08-26",
-    "horizon_days": 14
+    "start_date": "2025-10-22",
+    "end_date": "2025-11-12",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

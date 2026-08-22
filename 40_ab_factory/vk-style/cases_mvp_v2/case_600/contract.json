@@ -1,6 +1,6 @@
 {
   "case_id": "case_600",
-  "title": "Segment-specific pricing experiment (v600)",
+  "title": "Cross-platform ad density test (v600)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "feed",
-    "article"
+    "mobile",
+    "desktop"
   ],
   "time": {
-    "start_date": "2025-05-16",
-    "end_date": "2025-05-30",
+    "start_date": "2025-05-24",
+    "end_date": "2025-06-07",
     "horizon_days": 14
   },
   "primary_metric": {

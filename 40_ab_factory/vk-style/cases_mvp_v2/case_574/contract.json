@@ -1,6 +1,6 @@
 {
   "case_id": "case_574",
-  "title": "Early-stop revenue monitor (v574)",
+  "title": "Interim KPI gate test (v574)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-14",
-    "end_date": "2025-08-17",
+    "start_date": "2025-09-24",
+    "end_date": "2025-09-27",
     "horizon_days": 3,
     "planned_horizon_days": 14
   },

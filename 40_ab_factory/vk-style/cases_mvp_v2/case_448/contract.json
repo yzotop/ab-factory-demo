@@ -1,6 +1,6 @@
 {
   "case_id": "case_448",
-  "title": "Fresh creative rotation test (v448)",
+  "title": "First-time interstitial format (v448)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-13",
-    "end_date": "2025-05-20",
+    "start_date": "2025-11-27",
+    "end_date": "2025-12-04",
     "horizon_days": 7
   },
   "primary_metric": {

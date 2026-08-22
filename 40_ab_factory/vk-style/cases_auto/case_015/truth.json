@@ -1,12 +1,12 @@
 {
   "case_id": "case_015",
-  "expected_decision": "investigate",
-  "primary_effect_relative": 0.0096,
+  "expected_decision": "do_not_ship",
+  "primary_effect_relative": 0.0073,
   "is_stat_sig": false,
   "guardrails_ok": true,
   "key_reasons": [
-    "segment_conflict",
+    "long_term_reversal",
     "not_significant"
   ],
-  "human_rationale": "Overall +1.0% not sig. editorial +4.6% vs algorithmic -2.1%."
+  "human_rationale": "Aggregated +0.73% not sig. Weekly trend shows early gain then reversal."
 }

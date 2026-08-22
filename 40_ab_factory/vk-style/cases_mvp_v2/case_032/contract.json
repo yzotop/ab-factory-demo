@@ -1,6 +1,6 @@
 {
   "case_id": "case_032",
-  "title": "Limited rollout check (v32)",
+  "title": "Small-cohort experiment (v32)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-15",
-    "end_date": "2025-04-22",
+    "start_date": "2025-04-11",
+    "end_date": "2025-04-18",
     "horizon_days": 7
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Pilot on small cohort (n≈49,143). Underpowered — cannot conclude."
+  "notes": "Pilot on small cohort (n≈29,670). Underpowered — cannot conclude."
 }

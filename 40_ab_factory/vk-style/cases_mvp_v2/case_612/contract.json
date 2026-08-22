@@ -1,6 +1,6 @@
 {
   "case_id": "case_612",
-  "title": "Request batching micro-optimization (v612)",
+  "title": "Ad container padding change (v612)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-07",
-    "end_date": "2025-08-21",
-    "horizon_days": 14
+    "start_date": "2025-05-02",
+    "end_date": "2025-05-23",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -31,7 +31,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.006
+    "practical_threshold_relative": 0.009
   },
   "notes": "High-power experiment #612. Large sample makes tiny effects significant."
 }

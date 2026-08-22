@@ -1,12 +1,12 @@
 {
   "case_id": "case_065",
   "expected_decision": "investigate",
-  "primary_effect_relative": -0.0031,
+  "primary_effect_relative": 0.0012,
   "is_stat_sig": false,
   "guardrails_ok": true,
   "key_reasons": [
     "segment_conflict",
     "not_significant"
   ],
-  "human_rationale": "Overall -0.3% not sig. mobile +1.7% vs desktop -2.1%."
+  "human_rationale": "Overall +0.1% not sig. mobile +3.7% vs desktop -3.0%."
 }

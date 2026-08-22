@@ -1,6 +1,6 @@
 {
   "case_id": "case_187",
-  "title": "Payment-failure retry banner (v187)",
+  "title": "Cart-abandon rescue widget (v187)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-01",
-    "end_date": "2025-08-15",
-    "horizon_days": 14
+    "start_date": "2025-01-11",
+    "end_date": "2025-02-01",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

@@ -1,12 +1,12 @@
 {
   "case_id": "case_374",
   "expected_decision": "do_not_ship",
-  "primary_effect_relative": -0.0004,
+  "primary_effect_relative": -0.0001,
   "is_stat_sig": false,
   "guardrails_ok": true,
   "key_reasons": [
     "multiple_comparisons",
     "not_significant"
   ],
-  "human_rationale": "Primary not sig. One of 8 secondary metrics sig at p=0.024 — expected false positive under multiple comparisons."
+  "human_rationale": "Primary not sig. One of 8 secondary metrics sig at p=0.043 — expected false positive under multiple comparisons."
 }

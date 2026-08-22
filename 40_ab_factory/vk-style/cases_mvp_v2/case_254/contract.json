@@ -1,6 +1,6 @@
 {
   "case_id": "case_254",
-  "title": "Full-funnel metric scan (v254)",
+  "title": "Multi-metric dashboard test (v254)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-20",
-    "end_date": "2025-07-04",
-    "horizon_days": 14
+    "start_date": "2025-09-04",
+    "end_date": "2025-09-25",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "8 secondary metrics tested; fillrate significant at p=0.038 (expected false positive under multiple comparisons). Primary revenue not significant."
+  "notes": "8 secondary metrics tested; shows significant at p=0.031 (expected false positive under multiple comparisons). Primary revenue not significant."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_055",
-  "title": "Request batching micro-optimization (v55)",
+  "title": "Prefetch timing shift (v55)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-03-05",
-    "end_date": "2025-03-19",
-    "horizon_days": 14
+    "start_date": "2025-09-17",
+    "end_date": "2025-10-15",
+    "horizon_days": 28
   },
   "primary_metric": {
     "name": "revenue",
@@ -31,7 +31,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.006
+    "practical_threshold_relative": 0.008
   },
   "notes": "High-power experiment #55. Large sample makes tiny effects significant."
 }

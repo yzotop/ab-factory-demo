@@ -1,6 +1,6 @@
 {
   "case_id": "case_345",
-  "title": "Click surface expansion test (v345)",
+  "title": "Engagement-first format test (v345)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-25",
-    "end_date": "2025-06-15",
-    "horizon_days": 21
+    "start_date": "2025-01-28",
+    "end_date": "2025-02-11",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "ctr",
@@ -38,5 +38,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Primary readout is short-term CTR (engagement proxy). Cohort panel: D7 retention test 44.2% vs control 45.8% (−3.4% relative, breaches 2% guardrail)."
+  "notes": "Primary readout is short-term CTR (engagement proxy). Cohort panel: D7 retention test 42.4% vs control 44.9% (−5.5% relative, breaches 2% guardrail)."
 }

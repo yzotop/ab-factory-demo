@@ -1,6 +1,6 @@
 {
   "case_id": "case_353",
-  "title": "Top-spender revenue readout (v353)",
+  "title": "Skewed revenue distribution test (v353)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-26",
-    "end_date": "2025-10-17",
+    "start_date": "2025-08-27",
+    "end_date": "2025-09-17",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Per-user revenue highly skewed: mean $11 vs max $1495 (top 0.7% spenders). Aggregate +2.1% significant (p=0.0235) but effect driven by a few extreme users — t-test on means unreliable."
+  "notes": "Per-user revenue highly skewed: mean $10 vs max $1146 (top 0.7% spenders). Aggregate +1.7% significant (p=0.0278) but effect driven by a few extreme users — t-test on means unreliable."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_073",
-  "title": "Prefetch timing shift (v73)",
+  "title": "Request batching micro-optimization (v73)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-02-21",
-    "end_date": "2025-03-21",
+    "start_date": "2025-11-23",
+    "end_date": "2025-12-21",
     "horizon_days": 28
   },
   "primary_metric": {

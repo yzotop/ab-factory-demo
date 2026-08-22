@@ -1,6 +1,6 @@
 {
   "case_id": "case_279",
-  "title": "Pricing floor long-run test (v279)",
+  "title": "Demand-side budget frontloading check (v279)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-26",
-    "end_date": "2025-07-24",
+    "start_date": "2025-05-02",
+    "end_date": "2025-05-30",
     "horizon_days": 28
   },
   "primary_metric": {

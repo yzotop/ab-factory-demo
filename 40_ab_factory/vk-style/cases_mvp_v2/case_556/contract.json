@@ -1,6 +1,6 @@
 {
   "case_id": "case_556",
-  "title": "Advertiser supply adjustment test (v556)",
+  "title": "Floor raise 28-day holdout (v556)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-06",
-    "end_date": "2025-10-04",
+    "start_date": "2025-02-04",
+    "end_date": "2025-03-04",
     "horizon_days": 28
   },
   "primary_metric": {

@@ -1,11 +1,11 @@
 {
   "case_id": "case_352",
   "expected_decision": "do_not_ship",
-  "primary_effect_relative": 0.0599,
+  "primary_effect_relative": 0.0581,
   "is_stat_sig": true,
   "guardrails_ok": false,
   "key_reasons": [
     "bad_oec"
   ],
-  "human_rationale": "Proxy (CTR) +6% but business guardrails down — revenue -3.1%, retention −2.7%. Optimizing the wrong metric. Clickbait pattern. Do not ship."
+  "human_rationale": "Proxy (CTR) +6% but business guardrails down — revenue -3.2%, retention −2.8%. Optimizing the wrong metric. Clickbait pattern. Do not ship."
 }

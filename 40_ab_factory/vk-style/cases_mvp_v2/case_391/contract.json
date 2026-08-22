@@ -1,6 +1,6 @@
 {
   "case_id": "case_391",
-  "title": "Viral share-to-unlock offer (v391)",
+  "title": "Social invite reward banner (v391)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-12",
-    "end_date": "2025-06-26",
+    "start_date": "2025-03-12",
+    "end_date": "2025-03-26",
     "horizon_days": 14
   },
   "primary_metric": {

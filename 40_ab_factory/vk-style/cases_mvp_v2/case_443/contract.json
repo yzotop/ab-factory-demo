@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-08",
-    "end_date": "2025-05-29",
-    "horizon_days": 21
+    "start_date": "2025-02-14",
+    "end_date": "2025-02-28",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "ctr",

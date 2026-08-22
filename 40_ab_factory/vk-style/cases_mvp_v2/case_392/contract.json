@@ -1,6 +1,6 @@
 {
   "case_id": "case_392",
-  "title": "Impression-normalized click test (v392)",
+  "title": "Event-level CTR significance check (v392)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-10",
-    "end_date": "2025-04-24",
-    "horizon_days": 14
+    "start_date": "2025-11-13",
+    "end_date": "2025-12-04",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "ctr",

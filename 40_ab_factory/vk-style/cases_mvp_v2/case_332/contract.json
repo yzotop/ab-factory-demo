@@ -1,6 +1,6 @@
 {
   "case_id": "case_332",
-  "title": "Engagement-first format test (v332)",
+  "title": "Session depth boost experiment (v332)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-24",
-    "end_date": "2025-05-01",
+    "start_date": "2025-08-04",
+    "end_date": "2025-08-11",
     "horizon_days": 7
   },
   "primary_metric": {

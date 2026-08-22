@@ -1,6 +1,6 @@
 {
   "case_id": "case_011",
-  "title": "Pre-period covariate readout (v11)",
+  "title": "Baseline-adjusted revenue test (v11)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-04",
-    "end_date": "2025-04-25",
-    "horizon_days": 21
+    "start_date": "2025-03-18",
+    "end_date": "2025-04-01",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Pre-period covariate data available (14-day baseline revenue per user, ρ≈0.64 with in-period outcome) but CUPED variance reduction not applied — analysis uses raw delta only. Point estimate +1.4%, p=0.0866."
+  "notes": "Pre-period covariate data available (14-day baseline revenue per user, ρ≈0.56 with in-period outcome) but CUPED variance reduction not applied — analysis uses raw delta only. Point estimate +1.0%, p=0.0713."
 }

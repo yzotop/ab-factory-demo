@@ -1,6 +1,6 @@
 {
   "case_id": "case_583",
-  "title": "Interim KPI gate test (v583)",
+  "title": "Sequential readout pilot (v583)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-02-01",
-    "end_date": "2025-02-04",
+    "start_date": "2025-01-16",
+    "end_date": "2025-01-19",
     "horizon_days": 3,
     "planned_horizon_days": 14
   },

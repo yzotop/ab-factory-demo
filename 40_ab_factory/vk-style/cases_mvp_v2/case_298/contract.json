@@ -1,6 +1,6 @@
 {
   "case_id": "case_298",
-  "title": "Mobile vs desktop ad density test (v298)",
+  "title": "Platform-specific layout experiment (v298)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,13 +8,13 @@
     "test"
   ],
   "segments": [
-    "mobile",
-    "desktop"
+    "desktop",
+    "mobile"
   ],
   "time": {
-    "start_date": "2025-08-13",
-    "end_date": "2025-09-03",
-    "horizon_days": 21
+    "start_date": "2025-02-15",
+    "end_date": "2025-03-01",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -37,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Overall effect modest (+0.7%). Segment readout: mobile +6.6% vs desktop +1.1% — team recommends rolling out on mobile only. No formal interaction test; no multiplicity correction across segments."
+  "notes": "Overall effect modest (+1.1%). Segment readout: desktop +5.6% vs mobile -0.1% — team recommends rolling out on desktop only. No formal interaction test; no multiplicity correction across segments."
 }

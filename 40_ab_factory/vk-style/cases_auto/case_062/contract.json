@@ -1,6 +1,6 @@
 {
   "case_id": "case_062",
-  "title": "Waterfall priority reorder (v62)",
+  "title": "Inventory fill rate improvement (v62)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-03-22",
-    "end_date": "2025-04-05",
+    "start_date": "2025-11-04",
+    "end_date": "2025-11-18",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.008
+    "practical_threshold_relative": 0.016
   },
   "notes": "Standard experiment #62. Clean uplift expected."
 }

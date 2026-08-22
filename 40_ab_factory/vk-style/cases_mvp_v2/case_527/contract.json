@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "editorial",
-    "algorithmic"
+    "feed",
+    "article"
   ],
   "time": {
-    "start_date": "2025-04-12",
-    "end_date": "2025-04-26",
+    "start_date": "2025-11-04",
+    "end_date": "2025-11-18",
     "horizon_days": 14
   },
   "primary_metric": {

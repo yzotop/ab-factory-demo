@@ -1,6 +1,6 @@
 {
   "case_id": "case_466",
-  "title": "Premium placement in mixed feeds (v466)",
+  "title": "Segment-specific pricing experiment (v466)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -12,8 +12,8 @@
     "desktop"
   ],
   "time": {
-    "start_date": "2025-08-10",
-    "end_date": "2025-08-24",
+    "start_date": "2025-04-24",
+    "end_date": "2025-05-08",
     "horizon_days": 14
   },
   "primary_metric": {

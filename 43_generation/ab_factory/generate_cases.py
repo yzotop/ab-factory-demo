@@ -220,7 +220,9 @@ TITLES_WINNERS_CURSE = [
     "Top-performing creative selection",
 ]
 HARKING_SEGMENTS = ["premium", "high_value", "loyal_subscriber"]
-HETEROGENEITY_SEGMENTS = ["mobile", "desktop"]
+# Порядок значим: первым идёт сегмент с ростом. Он обязан быть меньшинством
+# по выручке — средневзвешенное не может лежать вне сегментных значений.
+HETEROGENEITY_SEGMENTS = ["desktop", "mobile"]
 TITLES_CUPED = [
     "Pre-period covariate readout",
     "Baseline-adjusted revenue test",
@@ -287,26 +289,170 @@ def _round(v: float, decimals: int = 6) -> float:
     return round(v, decimals)
 
 
-def _build_base_metrics() -> dict[str, float]:
+def _metrics(n_users, revenue, shows, fillrate, ctr) -> dict:
+    """Собрать строку метрик. cpm выводится ПОСЛЕДНИМ из уже округлённой
+    выручки, поэтому определение revenue == shows * cpm / 1000 выполняется
+    точно, а не приблизительно."""
+    revenue = _round(revenue, 2)
+    shows = int(shows)
     return {
-        "n_users": random.randint(200_000, 800_000),
-        "revenue": random.randint(1_000_000, 5_000_000),
-        "cpm": round(random.uniform(50, 300), 2),
-        "fillrate": round(random.uniform(0.60, 0.95), 3),
-        "ctr": round(random.uniform(0.03, 0.08), 4),
-        "shows": random.randint(8_000_000, 30_000_000),
+        "n_users": int(n_users),
+        "revenue": revenue,
+        "cpm": _round(revenue * 1000 / shows, 2),
+        "fillrate": fillrate,
+        "ctr": ctr,
+        "shows": shows,
     }
 
 
-def _apply_effect(base: dict, revenue_eff: float, ctr_eff: float) -> dict:
-    test = dict(base)
-    test["n_users"] = base["n_users"] + random.randint(-2000, 2000)
-    test["revenue"] = _round(base["revenue"] * (1 + revenue_eff))
-    test["cpm"] = _round(base["cpm"] * (1 + revenue_eff), 2)
-    test["fillrate"] = _round(base["fillrate"] * (1 + random.uniform(-0.005, 0.005)), 3)
-    test["ctr"] = _round(base["ctr"] * (1 + ctr_eff), 4)
-    test["shows"] = base["shows"] + random.randint(-50000, 50000)
-    return test
+def _aggregate(parts: list[dict]) -> dict:
+    """Строка all как сумма сегментов. Складываются уже округлённые числа,
+    поэтому сегменты дают итог до копейки, а не до допуска."""
+    n = sum(p["n_users"] for p in parts)
+    revenue = _round(sum(p["revenue"] for p in parts), 2)
+    shows = sum(p["shows"] for p in parts)
+    return {
+        "n_users": n,
+        "revenue": revenue,
+        "cpm": _round(revenue * 1000 / shows, 2),
+        "fillrate": _round(sum(p["fillrate"] * p["n_users"] for p in parts) / n, 3),
+        "ctr": _round(sum(p["ctr"] * p["n_users"] for p in parts) / n, 4),
+        "shows": shows,
+    }
+
+
+def _build_base_metrics() -> dict[str, float]:
+    """Метрики контрольной группы.
+
+    Первичны shows и cpm, выручка выводится из них. Раньше все три
+    разыгрывались независимо, и определение CPM не выполнялось
+    в 629 кейсах из 660.
+    """
+    shows = random.randint(8_000_000, 30_000_000)
+    cpm = round(random.uniform(50, 300), 2)
+    return _metrics(
+        n_users=random.randint(200_000, 800_000),
+        revenue=shows * cpm / 1000,
+        shows=shows,
+        fillrate=round(random.uniform(0.60, 0.95), 3),
+        ctr=round(random.uniform(0.03, 0.08), 4),
+    )
+
+
+def _apply_effect(base: dict, revenue_eff: float, ctr_eff: float,
+                  n_users: int | None = None) -> dict:
+    """Тестовая группа для кейсов без разбивки по сегментам.
+
+    revenue_eff — эффект на выручку НА ПОЛЬЗОВАТЕЛЯ: единица рандомизации
+    пользователь, значит праймари-метрика это ARPU. Раньше множитель
+    применялся к суммарной выручке, а n_users при этом независимо дрожал
+    на +-2000, и заявленный эффект расходился с фактическим в 100 кейсах.
+
+    n_users — размер тест-арма, когда его задаёт сам механизм: в srm сплит
+    перекошен намеренно. Раньше srm присваивал test["n_users"] уже ПОСЛЕ
+    расчёта выручки, и заявленный эффект расходился с фактическим во всех
+    18 кейсах механизма.
+
+    Порядок вывода: n_users -> shows -> revenue -> cpm.
+    """
+    if n_users is None:
+        n_users = base["n_users"] + random.randint(-2000, 2000)
+    scale = n_users / base["n_users"]
+    return _metrics(
+        n_users=n_users,
+        revenue=base["revenue"] * scale * (1 + revenue_eff),
+        shows=round(base["shows"] * scale * random.uniform(0.995, 1.005)),
+        fillrate=_round(base["fillrate"] * (1 + random.uniform(-0.005, 0.005)), 3),
+        ctr=_round(base["ctr"] * (1 + ctr_eff), 4),
+    )
+
+
+def _solve_weight(overall_eff: float, eff1: float, eff2: float) -> float | None:
+    """Доля ВЫРУЧКИ первого сегмента, при которой средневзвешенное сегментных
+    эффектов равно общему.
+
+    Решать надо именно вес: эффекты сегментов задают механизм и потому
+    неприкосновенны, а вес не задаёт ничего и раньше брался с потолка.
+    Отсюда же следует, что общий эффект обязан лежать МЕЖДУ сегментными, —
+    спецификация heterogeneity этому не удовлетворяла и была невыполнима.
+
+    None — решения в разумных границах нет, вызывающий перерозыгрывает.
+    """
+    if abs(eff1 - eff2) < 1e-9:
+        return None
+    w = (overall_eff - eff2) / (eff1 - eff2)
+    return w if 0.03 <= w <= 0.92 else None
+
+
+def _user_share(weight: float, rpu_ratio: float) -> float:
+    """Доля ПОЛЬЗОВАТЕЛЕЙ первого сегмента при заданной доле выручки и
+    заданном отношении выручки на пользователя между сегментами."""
+    q = (weight / (1 - weight)) / rpu_ratio
+    return q / (1 + q)
+
+
+def _segmented_metrics(base: dict, specs: list[dict],
+                       ctr_eff: float) -> tuple[dict, dict, list[dict]]:
+    """Построить сегменты, а агрегат получить их сложением.
+
+    Раньше было наоборот: агрегат разыгрывался сам по себе через
+    _apply_effect, сегменты резались из base одинаковыми долями в обеих
+    группах. Ни сумма сегментов не давала строку all, ни общий эффект
+    не был средневзвешенным сегментных.
+
+    specs — по словарю на сегмент:
+        name      имя сегмента
+        u_c, u_t  доли пользователей в контроле и в тесте, каждая сумма = 1.
+                  Разные доли и есть сдвиг микса; в корректно рандомизованном
+                  тесте они совпадают, и тогда парадокса Симпсона быть не может.
+        rpu_rel   выручка на пользователя, ненормированная: значимо только
+                  отношение между сегментами
+        rev_eff   эффект внутри сегмента, на пользователя
+    """
+    n_control = base["n_users"]
+    n_test = n_control + random.randint(-2000, 2000)
+    rpu_all = base["revenue"] / n_control
+    shows_per_user = base["shows"] / n_control
+    norm = sum(s["u_c"] * s["rpu_rel"] for s in specs)
+
+    segs = []
+    for s in specs:
+        rpu = rpu_all * s["rpu_rel"] / norm
+        n_c = int(round(n_control * s["u_c"]))
+        n_t = int(round(n_test * s["u_t"]))
+        ctr_c = _round(base["ctr"] * random.uniform(0.90, 1.10), 4)
+        fill_c = _round(base["fillrate"] * random.uniform(0.97, 1.03), 3)
+        segs.append({
+            "name": s["name"],
+            "rev_eff": s["rev_eff"],
+            "control": _metrics(
+                n_c, rpu * n_c,
+                round(shows_per_user * n_c * random.uniform(0.98, 1.02)),
+                fill_c, ctr_c),
+            "test": _metrics(
+                n_t, rpu * (1 + s["rev_eff"]) * n_t,
+                round(shows_per_user * n_t * random.uniform(0.98, 1.02)),
+                _round(fill_c * (1 + random.uniform(-0.005, 0.005)), 3),
+                _round(ctr_c * (1 + ctr_eff), 4)),
+        })
+
+    return (_aggregate([s["control"] for s in segs]),
+            _aggregate([s["test"] for s in segs]),
+            segs)
+
+
+def _actual_effects(control: dict, test: dict) -> tuple[float, float]:
+    """Эффекты, фактически лежащие в агрегате.
+
+    В CSV и в truth.json пишем именно их, а не то, что задумывалось:
+    иначе сводная строка снова разъедется с сегментами. Для механизмов
+    без сдвига микса это то же число с точностью до округления;
+    для simpson_paradox общий эффект и не может быть ничем иным.
+    """
+    rpu_c = control["revenue"] / control["n_users"]
+    rpu_t = test["revenue"] / test["n_users"]
+    return (round(rpu_t / rpu_c - 1, 4),
+            round(test["ctr"] / control["ctr"] - 1, 4))
 
 
 def _csv_rows(
@@ -509,43 +655,34 @@ def gen_segment_conflict(case_id: str, idx: int) -> tuple[dict, dict, str]:
     end = start + timedelta(days=horizon)
     segments = random.choice(SEGMENTS_POOL)
 
-    overall_eff = round(random.uniform(-0.005, 0.01), 4)
+    # Эффекты сегментов — сам механизм: значимые и разного знака. Свободен
+    # только вес, его и решаем, чтобы агрегат был их средневзвешенным.
+    for _ in range(200):
+        overall_eff = round(random.uniform(-0.005, 0.01), 4)
+        seg1_eff = round(random.uniform(0.015, 0.05), 4)
+        seg2_eff = round(random.uniform(-0.05, -0.01), 4)
+        weight = _solve_weight(overall_eff, seg1_eff, seg2_eff)
+        if weight is not None:
+            break
     overall_pval = round(random.uniform(0.10, 0.50), 3)
-    seg1_eff = round(random.uniform(0.015, 0.05), 4)
     seg1_pval = round(random.uniform(0.001, 0.04), 4)
-    seg2_eff = round(random.uniform(-0.05, -0.01), 4)
     seg2_pval = round(random.uniform(0.001, 0.04), 4)
     ctr_eff = round(random.uniform(-0.015, 0.005), 4)
     ctr_pval = round(random.uniform(0.10, 0.80), 3)
 
     base = _build_base_metrics()
-    test_all = _apply_effect(base, overall_eff, ctr_eff)
-
-    frac1 = round(random.uniform(0.45, 0.65), 2)
-    frac2 = round(1.0 - frac1, 2)
-
-    def _split(m: dict, frac: float) -> dict:
-        return {
-            "n_users": int(m["n_users"] * frac),
-            "revenue": _round(m["revenue"] * frac),
-            "cpm": m["cpm"],
-            "fillrate": m["fillrate"],
-            "ctr": m["ctr"],
-            "shows": int(m["shows"] * frac),
-        }
-
-    seg_data = []
-    for seg, frac, s_eff, s_pval in [
-        (segments[0], frac1, seg1_eff, seg1_pval),
-        (segments[1], frac2, seg2_eff, seg2_pval),
-    ]:
-        sc = _split(base, frac)
-        st = _apply_effect(sc, s_eff, ctr_eff)
-        seg_data.append({
-            "control": sc, "test": st,
-            "rev_eff": s_eff, "rev_pval": s_pval,
-            "ctr_eff": ctr_eff, "ctr_pval": ctr_pval,
-        })
+    # Сегменты сопоставимы по деньгам на пользователя: ни один не премиальный.
+    rpu_ratio = random.uniform(0.85, 1.20)
+    share = _user_share(weight, rpu_ratio)
+    base, test_all, segs = _segmented_metrics(base, [
+        {"name": segments[0], "u_c": share, "u_t": share,
+         "rpu_rel": rpu_ratio, "rev_eff": seg1_eff},
+        {"name": segments[1], "u_c": 1 - share, "u_t": 1 - share,
+         "rpu_rel": 1.0, "rev_eff": seg2_eff},
+    ], ctr_eff)
+    overall_eff, ctr_eff = _actual_effects(base, test_all)
+    seg_data = [dict(s, rev_pval=p, ctr_eff=ctr_eff, ctr_pval=ctr_pval)
+                for s, p in zip(segs, (seg1_pval, seg2_pval))]
 
     contract = {
         "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
@@ -675,43 +812,39 @@ def gen_simpson_paradox(case_id: str, idx: int) -> tuple[dict, dict, str]:
     end = start + timedelta(days=horizon)
     segments = random.choice(SEGMENTS_POOL)
 
-    overall_eff = round(random.uniform(0.015, 0.03), 4)
+    # Парадокс Симпсона существует только при сдвиге микса: если доли
+    # сегментов в группах одинаковы, агрегат обязан лежать между сегментными
+    # эффектами и положительным при двух отрицательных быть не может.
+    # Поэтому свободный параметр здесь не вес, а доля сегмента в ТЕСТЕ,
+    # и решается она из целевого агрегата.
+    for _ in range(200):
+        share_c = random.uniform(0.25, 0.40)      # доля богатого сегмента в контроле
+        rpu_ratio = random.uniform(2.2, 3.5)      # во сколько раз он доходнее
+        seg1_eff = round(random.uniform(-0.045, -0.030), 4)
+        seg2_eff = round(random.uniform(-0.035, -0.020), 4)
+        target = random.uniform(0.015, 0.030)     # каким должен выйти агрегат
+        denom = rpu_ratio * (1 + seg1_eff) - (1 + seg2_eff)
+        share_t = ((share_c * rpu_ratio + 1 - share_c) * (1 + target)
+                   - (1 + seg2_eff)) / denom
+        if 0.04 <= share_t - share_c <= 0.10 and 0.0 < share_t < 1.0:
+            break
     overall_pval = round(random.uniform(0.001, 0.03), 4)
-    seg1_eff = round(random.uniform(-0.04, -0.015), 4)
     seg1_pval = round(random.uniform(0.001, 0.04), 4)
-    seg2_eff = round(random.uniform(-0.04, -0.015), 4)
     seg2_pval = round(random.uniform(0.001, 0.04), 4)
     ctr_eff = round(random.uniform(-0.01, 0.01), 4)
     ctr_pval = round(random.uniform(0.10, 0.80), 3)
 
     base = _build_base_metrics()
-    test_all = _apply_effect(base, overall_eff, ctr_eff)
-
-    frac1 = round(random.uniform(0.45, 0.65), 2)
-    frac2 = round(1.0 - frac1, 2)
-
-    def _split(m: dict, frac: float) -> dict:
-        return {
-            "n_users": int(m["n_users"] * frac),
-            "revenue": _round(m["revenue"] * frac),
-            "cpm": m["cpm"],
-            "fillrate": m["fillrate"],
-            "ctr": m["ctr"],
-            "shows": int(m["shows"] * frac),
-        }
-
-    seg_data = []
-    for seg, frac, s_eff, s_pval in [
-        (segments[0], frac1, seg1_eff, seg1_pval),
-        (segments[1], frac2, seg2_eff, seg2_pval),
-    ]:
-        sc = _split(base, frac)
-        st = _apply_effect(sc, s_eff, ctr_eff)
-        seg_data.append({
-            "control": sc, "test": st,
-            "rev_eff": s_eff, "rev_pval": s_pval,
-            "ctr_eff": ctr_eff, "ctr_pval": ctr_pval,
-        })
+    base, test_all, segs = _segmented_metrics(base, [
+        {"name": segments[0], "u_c": share_c, "u_t": share_t,
+         "rpu_rel": rpu_ratio, "rev_eff": seg1_eff},
+        {"name": segments[1], "u_c": 1 - share_c, "u_t": 1 - share_t,
+         "rpu_rel": 1.0, "rev_eff": seg2_eff},
+    ], ctr_eff)
+    # Общий эффект не задаётся, а вычисляется: он и есть результат сдвига.
+    overall_eff, ctr_eff = _actual_effects(base, test_all)
+    seg_data = [dict(s, rev_pval=p, ctr_eff=ctr_eff, ctr_pval=ctr_pval)
+                for s, p in zip(segs, (seg1_pval, seg2_pval))]
 
     contract = {
         "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
@@ -727,7 +860,12 @@ def gen_simpson_paradox(case_id: str, idx: int) -> tuple[dict, dict, str]:
             "rule": "ship_if_primary_sig_and_guardrails_ok",
             "practical_threshold_relative": 0.005,
         },
-        "notes": f"Experiment #{idx}. Aggregate uplift masks negative segment effects (mix shift).",
+        "notes": (
+            f"Experiment #{idx}. Rollout note: in the test arm the new placement "
+            f"went live on {segments[0]} first, so that segment accounts for "
+            f"{share_t:.0%} of test traffic against {share_c:.0%} in control. "
+            f"Overall group sizes match the planned 50/50 split."
+        ),
     }
 
     truth = {
@@ -735,8 +873,10 @@ def gen_simpson_paradox(case_id: str, idx: int) -> tuple[dict, dict, str]:
         "primary_effect_relative": overall_eff, "is_stat_sig": True,
         "guardrails_ok": True, "key_reasons": ["simpson_paradox"],
         "human_rationale": (
-            f"Aggregate +{overall_eff:.1%} sig, but both segments negative "
-            f"({seg1_eff:+.1%}, {seg2_eff:+.1%}) — Simpson's paradox from mix shift."
+            f"Aggregate {overall_eff:+.1%} sig, but both segments negative "
+            f"({seg1_eff:+.1%}, {seg2_eff:+.1%}). The {segments[0]} share rose "
+            f"{share_c:.0%} -> {share_t:.0%} between arms, and that segment earns "
+            f"{rpu_ratio:.1f}x more per user — Simpson's paradox from mix shift."
         ),
     }
 
@@ -862,9 +1002,10 @@ def gen_srm(case_id: str, idx: int) -> tuple[dict, dict, str]:
     ctr_pval = round(random.uniform(0.01, 0.04), 4)
 
     base = _build_base_metrics()
+    # Выручка в базе выведена из shows и cpm и от n_users не зависит,
+    # поэтому подменить размер контрольной арм-группы здесь безопасно.
     base["n_users"] = n_control
-    test = _apply_effect(base, rev_eff, ctr_eff)
-    test["n_users"] = n_test
+    test = _apply_effect(base, rev_eff, ctr_eff, n_users=n_test)
 
     contract = {
         "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
@@ -1515,17 +1656,6 @@ def gen_bots(case_id: str, idx: int) -> tuple[dict, dict, str]:
     return contract, truth, data
 
 
-def _split_metrics(m: dict, frac: float) -> dict:
-    return {
-        "n_users": int(m["n_users"] * frac),
-        "revenue": _round(m["revenue"] * frac),
-        "cpm": m["cpm"],
-        "fillrate": m["fillrate"],
-        "ctr": m["ctr"],
-        "shows": int(m["shows"] * frac),
-    }
-
-
 def gen_harking(case_id: str, idx: int) -> tuple[dict, dict, str]:
     title = random.choice(TITLES_HARKING) + f" (v{idx})"
     start = _rand_date()
@@ -1534,32 +1664,36 @@ def gen_harking(case_id: str, idx: int) -> tuple[dict, dict, str]:
     focus_seg = random.choice(HARKING_SEGMENTS)
     other_seg = "standard"
 
-    overall_eff = round(random.uniform(-0.005, 0.008), 4)
+    # Агрегат почти нулевой при +9% в premium возможен только если premium
+    # весит немного, а остальной трафик тянет вниз. Прежний розыгрыш давал
+    # premium 35-45% пользователей, и вес выходил отрицательным в половине
+    # случаев — то есть решения не существовало.
+    for _ in range(200):
+        overall_eff = round(random.uniform(-0.005, 0.008), 4)
+        focus_eff = round(random.uniform(0.08, 0.10), 4)
+        other_eff = round(overall_eff - random.uniform(0.004, 0.012), 4)
+        weight = _solve_weight(overall_eff, focus_eff, other_eff)
+        if weight is not None:
+            break
     overall_pval = round(random.uniform(0.12, 0.45), 4)
-    focus_eff = round(random.uniform(0.08, 0.10), 4)
     focus_pval = round(random.uniform(0.001, 0.02), 4)
-    other_eff = round(random.uniform(-0.01, 0.01), 4)
     other_pval = round(random.uniform(0.25, 0.70), 4)
     ctr_eff = round(random.uniform(-0.005, 0.01), 4)
     ctr_pval = round(random.uniform(0.20, 0.60), 4)
 
     base = _build_base_metrics()
-    test_all = _apply_effect(base, overall_eff, ctr_eff)
-    frac_focus = round(random.uniform(0.35, 0.45), 2)
-    frac_other = round(1.0 - frac_focus, 2)
-
-    seg_data = []
-    for seg, frac, s_eff, s_pval in [
-        (focus_seg, frac_focus, focus_eff, focus_pval),
-        (other_seg, frac_other, other_eff, other_pval),
-    ]:
-        sc = _split_metrics(base, frac)
-        st = _apply_effect(sc, s_eff, ctr_eff)
-        seg_data.append({
-            "control": sc, "test": st,
-            "rev_eff": s_eff, "rev_pval": s_pval,
-            "ctr_eff": ctr_eff, "ctr_pval": ctr_pval,
-        })
+    # Premium платит больше — пользователей у него меньше, чем доля выручки.
+    rpu_ratio = random.uniform(1.8, 3.0)
+    share = _user_share(weight, rpu_ratio)
+    base, test_all, segs = _segmented_metrics(base, [
+        {"name": focus_seg, "u_c": share, "u_t": share,
+         "rpu_rel": rpu_ratio, "rev_eff": focus_eff},
+        {"name": other_seg, "u_c": 1 - share, "u_t": 1 - share,
+         "rpu_rel": 1.0, "rev_eff": other_eff},
+    ], ctr_eff)
+    overall_eff, ctr_eff = _actual_effects(base, test_all)
+    seg_data = [dict(s, rev_pval=p, ctr_eff=ctr_eff, ctr_pval=ctr_pval)
+                for s, p in zip(segs, (focus_pval, other_pval))]
 
     contract = {
         "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
@@ -1605,32 +1739,35 @@ def gen_heterogeneity(case_id: str, idx: int) -> tuple[dict, dict, str]:
     end = start + timedelta(days=horizon)
     segments = HETEROGENEITY_SEGMENTS
 
-    overall_eff = round(random.uniform(0.005, 0.012), 4)
+    # Прежняя спецификация была невыполнима: общий +0.6% при mobile +6.2%
+    # и desktop +1.3% требует, чтобы средневзвешенное лежало ниже обоих
+    # слагаемых. Теперь растёт desktop — меньшинство трафика с более высоким
+    # ARPU, — а mobile стоит чуть ниже агрегата и тянет его к нулю.
+    for _ in range(200):
+        overall_eff = round(random.uniform(0.005, 0.012), 4)
+        lift_eff = round(random.uniform(0.055, 0.07), 4)
+        flat_eff = round(overall_eff - random.uniform(0.004, 0.014), 4)
+        weight = _solve_weight(overall_eff, lift_eff, flat_eff)
+        if weight is not None:
+            break
     overall_pval = round(random.uniform(0.08, 0.25), 4)
-    mobile_eff = round(random.uniform(0.055, 0.07), 4)
-    mobile_pval = round(random.uniform(0.01, 0.04), 4)
-    desktop_eff = round(random.uniform(0.008, 0.015), 4)
-    desktop_pval = round(random.uniform(0.30, 0.65), 4)
+    lift_pval = round(random.uniform(0.01, 0.04), 4)
+    flat_pval = round(random.uniform(0.30, 0.65), 4)
     ctr_eff = round(random.uniform(-0.005, 0.01), 4)
     ctr_pval = round(random.uniform(0.20, 0.55), 4)
 
     base = _build_base_metrics()
-    test_all = _apply_effect(base, overall_eff, ctr_eff)
-    frac_mobile = round(random.uniform(0.55, 0.65), 2)
-    frac_desktop = round(1.0 - frac_mobile, 2)
-
-    seg_data = []
-    for seg, frac, s_eff, s_pval in [
-        (segments[0], frac_mobile, mobile_eff, mobile_pval),
-        (segments[1], frac_desktop, desktop_eff, desktop_pval),
-    ]:
-        sc = _split_metrics(base, frac)
-        st = _apply_effect(sc, s_eff, ctr_eff)
-        seg_data.append({
-            "control": sc, "test": st,
-            "rev_eff": s_eff, "rev_pval": s_pval,
-            "ctr_eff": ctr_eff, "ctr_pval": ctr_pval,
-        })
+    rpu_ratio = random.uniform(1.3, 2.2)
+    share = _user_share(weight, rpu_ratio)
+    base, test_all, segs = _segmented_metrics(base, [
+        {"name": segments[0], "u_c": share, "u_t": share,
+         "rpu_rel": rpu_ratio, "rev_eff": lift_eff},
+        {"name": segments[1], "u_c": 1 - share, "u_t": 1 - share,
+         "rpu_rel": 1.0, "rev_eff": flat_eff},
+    ], ctr_eff)
+    overall_eff, ctr_eff = _actual_effects(base, test_all)
+    seg_data = [dict(s, rev_pval=p, ctr_eff=ctr_eff, ctr_pval=ctr_pval)
+                for s, p in zip(segs, (lift_pval, flat_pval))]
 
     contract = {
         "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
@@ -1648,7 +1785,7 @@ def gen_heterogeneity(case_id: str, idx: int) -> tuple[dict, dict, str]:
         },
         "notes": (
             f"Overall effect modest ({overall_eff:+.1%}). Segment readout: "
-            f"{segments[0]} {mobile_eff:+.1%} vs {segments[1]} {desktop_eff:+.1%} — "
+            f"{segments[0]} {lift_eff:+.1%} vs {segments[1]} {flat_eff:+.1%} — "
             f"team recommends rolling out on {segments[0]} only. No formal interaction "
             f"test; no multiplicity correction across segments."
         ),
@@ -2211,6 +2348,21 @@ GENERATORS = [
 ]
 
 
+# Состав учебного корпуса cases_auto. Раньше нигде не был записан: корпус
+# лежал в репозитории, а команды, которой его собрали, не существовало —
+# README при этом обещал воспроизводимость. Числа сняты с опубликованного
+# корпуса, порядок совпадает с GENERATORS.
+PROFILES: dict[str, list[tuple[str, int]]] = {
+    "auto": [
+        ("clean_uplift", 30),   # пишет key_reasons ["primary_uplift"]
+        ("guardrail_breach", 20),
+        ("practically_small", 20),
+        ("long_term_reversal", 15),
+        ("segment_conflict", 15),
+    ],
+}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate synthetic A/B cases")
     parser.add_argument("--n", type=int, default=300, help="Number of cases (default 300)")
@@ -2218,13 +2370,23 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=42, help="Random seed (default 42)")
     parser.add_argument("--types", nargs="+", default=None,
                         help="Generate only these trap labels (even split across --n)")
+    parser.add_argument("--profile", choices=sorted(PROFILES), default=None,
+                        help="Named mechanism mix; 'auto' reproduces cases_auto")
     args = parser.parse_args()
+    if args.profile and args.types:
+        parser.error("--profile and --types are mutually exclusive")
 
     random.seed(args.seed)
     out_dir = Path(args.out) if args.out else DEFAULT_OUT
 
     schedule: list[tuple[str, callable]] = []
-    if args.types:
+    if args.profile:
+        by_label = {label: fn for _, label, fn in GENERATORS}
+        for label, count in PROFILES[args.profile]:
+            for _ in range(count):
+                schedule.append((label, by_label[label]))
+        random.shuffle(schedule)
+    elif args.types:
         wanted = set(args.types)
         selected = [(label, gen_fn) for _, label, gen_fn in GENERATORS if label in wanted]
         missing = wanted - {label for label, _ in selected}
@@ -2253,6 +2415,7 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     type_counts: dict[str, int] = {}
+    trap_labels: dict[str, str] = {}
     for i, (label, gen_fn) in enumerate(schedule):
         num = i + 1
         case_id = f"case_{num:03d}"
@@ -2271,14 +2434,26 @@ def main() -> None:
             f.write(data)
 
         type_counts[label] = type_counts.get(label, 0) + 1
+        trap_labels[case_id] = label
 
-    print(f"Generated {args.n} cases → {out_dir}")
+    # Точная метка механизма на каждый кейс. build_corpus_index умеет выводить
+    # тип из truth-причин, но различает только пять исходных сценариев и
+    # сваливает остальные 497 кейсов в "other" — фильтр по механизму на сайте
+    # по нему не построить. Раньше файл собирался разовым скриптом и терялся
+    # при любой пересборке корпуса; теперь его пишет генератор.
+    with open(out_dir / "_trap_labels.json", "w", encoding="utf-8", newline="\n") as f:
+        json.dump(trap_labels, f, ensure_ascii=False, indent=2)
+        f.write("\n")
+
+    # По расписанию, а не по --n: с --profile их число задаёт профиль,
+    # и обход по args.n падал на несуществующем кейсе.
+    print(f"Generated {len(schedule)} cases → {out_dir}")
     print()
     for label, count in sorted(type_counts.items()):
         print(f"  {label:<22} {count:>4}")
     print()
     decisions = {"ship": 0, "do_not_ship": 0, "investigate": 0}
-    for i in range(args.n):
+    for i in range(len(schedule)):
         case_dir = out_dir / f"case_{i+1:03d}"
         with open(case_dir / "truth.json", "r", encoding="utf-8") as f:
             d = json.load(f)["expected_decision"]

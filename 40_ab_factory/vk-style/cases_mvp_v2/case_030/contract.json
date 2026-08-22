@@ -1,6 +1,6 @@
 {
   "case_id": "case_030",
-  "title": "Floor raise 28-day holdout (v30)",
+  "title": "Demand-side budget frontloading check (v30)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-08",
-    "end_date": "2025-11-05",
+    "start_date": "2025-08-15",
+    "end_date": "2025-09-12",
     "horizon_days": 28
   },
   "primary_metric": {

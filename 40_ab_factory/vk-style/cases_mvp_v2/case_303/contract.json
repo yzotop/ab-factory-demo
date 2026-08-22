@@ -1,6 +1,6 @@
 {
   "case_id": "case_303",
-  "title": "Pricing floor long-run test (v303)",
+  "title": "Floor raise 28-day holdout (v303)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-02-19",
-    "end_date": "2025-03-19",
+    "start_date": "2025-04-04",
+    "end_date": "2025-05-02",
     "horizon_days": 28
   },
   "primary_metric": {

@@ -1,11 +1,11 @@
 {
   "case_id": "case_244",
   "expected_decision": "do_not_ship",
-  "primary_effect_relative": 0.0013,
+  "primary_effect_relative": 0.0018,
   "is_stat_sig": true,
   "guardrails_ok": true,
   "key_reasons": [
     "practically_small"
   ],
-  "human_rationale": "Revenue +0.13%, significant but below practical threshold 0.8%."
+  "human_rationale": "Revenue +0.18%, significant but below practical threshold 0.9%."
 }

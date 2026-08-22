@@ -1,6 +1,6 @@
 {
   "case_id": "case_155",
-  "title": "Retry-heavy client conversion test (v155)",
+  "title": "Raw event stream A/B readout (v155)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-28",
-    "end_date": "2025-09-11",
+    "start_date": "2025-05-12",
+    "end_date": "2025-05-26",
     "horizon_days": 14
   },
   "primary_metric": {

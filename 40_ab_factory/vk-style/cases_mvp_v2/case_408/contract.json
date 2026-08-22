@@ -1,6 +1,6 @@
 {
   "case_id": "case_408",
-  "title": "Tracking-gap experiment review (v408)",
+  "title": "Incomplete event logging test (v408)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-07-18",
-    "end_date": "2025-08-08",
+    "start_date": "2025-11-06",
+    "end_date": "2025-11-27",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "~19% of test-arm events missing metric values (tracking gap), excluded from analysis."
+  "notes": "~20% of test-arm events missing metric values (tracking gap), excluded from analysis."
 }

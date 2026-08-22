@@ -1,11 +1,11 @@
 {
   "case_id": "case_446",
   "expected_decision": "investigate",
-  "primary_effect_relative": 0.0278,
+  "primary_effect_relative": 0.0433,
   "is_stat_sig": true,
   "guardrails_ok": true,
   "key_reasons": [
     "srm"
   ],
-  "human_rationale": "Split declared 50/50 but observed 51.2%/48.8% differs significantly (SRM p=1.00e-12). Comparison invalid until cause found — investigate the randomization before any ship/no-ship decision. The feature itself is not judged here; the measurement is broken."
+  "human_rationale": "Split declared 50/50 but observed 51.3%/48.7% differs significantly (SRM p=1.00e-12). Comparison invalid until cause found — investigate the randomization before any ship/no-ship decision. The feature itself is not judged here; the measurement is broken."
 }

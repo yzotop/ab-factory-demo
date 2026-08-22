@@ -1,6 +1,6 @@
 {
   "case_id": "case_051",
-  "title": "Fresh creative rotation test (v51)",
+  "title": "Novel placement debut (v51)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-05",
-    "end_date": "2025-04-12",
+    "start_date": "2025-07-06",
+    "end_date": "2025-07-13",
     "horizon_days": 7
   },
   "primary_metric": {

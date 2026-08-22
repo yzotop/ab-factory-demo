@@ -12,8 +12,8 @@
     "article"
   ],
   "time": {
-    "start_date": "2025-03-15",
-    "end_date": "2025-03-29",
+    "start_date": "2025-03-04",
+    "end_date": "2025-03-18",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -37,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Experiment #68. Aggregate uplift masks negative segment effects (mix shift)."
+  "notes": "Experiment #68. Rollout note: in the test arm the new placement went live on feed first, so that segment accounts for 40% of test traffic against 34% in control. Overall group sizes match the planned 50/50 split."
 }

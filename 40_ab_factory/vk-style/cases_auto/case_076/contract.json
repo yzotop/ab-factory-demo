@@ -1,16 +1,20 @@
 {
   "case_id": "case_076",
-  "title": "Advertiser supply adjustment test (v76)",
+  "title": "Premium placement in mixed feeds (v76)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
     "control",
     "test"
   ],
+  "segments": [
+    "feed",
+    "article"
+  ],
   "time": {
-    "start_date": "2025-03-27",
-    "end_date": "2025-04-24",
-    "horizon_days": 28
+    "start_date": "2025-10-05",
+    "end_date": "2025-10-19",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -22,11 +26,6 @@
       "name": "ctr",
       "direction": "up",
       "max_drop_relative": 0.03
-    },
-    {
-      "name": "fillrate",
-      "direction": "up",
-      "max_drop_relative": 0.05
     }
   ],
   "stats": {
@@ -38,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "28-day holdout #76. Week-over-week analysis reveals trend reversal after week 2."
+  "notes": "Experiment #76. Cross-segment test."
 }

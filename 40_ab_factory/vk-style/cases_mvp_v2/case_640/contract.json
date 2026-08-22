@@ -1,6 +1,6 @@
 {
   "case_id": "case_640",
-  "title": "Mid-week format pilot (v640)",
+  "title": "Weekday-only readout test (v640)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2024-08-13",
-    "end_date": "2024-08-17",
+    "start_date": "2024-05-28",
+    "end_date": "2024-06-01",
     "horizon_days": 5
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Test ran 2024-08-13 to 2024-08-17 (Tue–Sat, 5 days). Weekend not included in the readout window."
+  "notes": "Test ran 2024-05-28 to 2024-06-01 (Tue–Sat, 5 days). Weekend not included in the readout window."
 }

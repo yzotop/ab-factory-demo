@@ -1,6 +1,6 @@
 {
   "case_id": "case_086",
-  "title": "High-engagement segment pilot (v86)",
+  "title": "Top-decile activity experiment (v86)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-02-17",
-    "end_date": "2025-03-10",
+    "start_date": "2025-11-22",
+    "end_date": "2025-12-13",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Tested on power users only (top 11% by activity). Rollout plan is to all users."
+  "notes": "Tested on power users only (top 10% by activity). Rollout plan is to all users."
 }

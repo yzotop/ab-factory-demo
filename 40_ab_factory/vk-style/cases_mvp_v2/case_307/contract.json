@@ -1,6 +1,6 @@
 {
   "case_id": "case_307",
-  "title": "Novel placement debut (v307)",
+  "title": "New ad format launch (v307)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-22",
-    "end_date": "2025-08-29",
+    "start_date": "2025-01-16",
+    "end_date": "2025-01-23",
     "horizon_days": 7
   },
   "primary_metric": {

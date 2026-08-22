@@ -1,6 +1,6 @@
 {
   "case_id": "case_340",
-  "title": "Click surface expansion test (v340)",
+  "title": "Engagement-first format test (v340)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-07",
-    "end_date": "2025-01-14",
+    "start_date": "2025-08-19",
+    "end_date": "2025-08-26",
     "horizon_days": 7
   },
   "primary_metric": {

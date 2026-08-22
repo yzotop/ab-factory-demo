@@ -1,6 +1,6 @@
 {
   "case_id": "case_199",
-  "title": "Engagement proxy format rollout (v199)",
+  "title": "Click-surface expansion test (v199)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-04",
-    "end_date": "2025-09-25",
-    "horizon_days": 21
+    "start_date": "2025-08-12",
+    "end_date": "2025-08-26",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "ctr",
@@ -38,5 +38,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Experiment optimizing CTR (engagement proxy). Primary CTR +6% significant. Business guardrails in export: revenue -3.4% (p=0.0203), D7 retention test 44.0% vs control 45.6% (−3.4% relative)."
+  "notes": "Experiment optimizing CTR (engagement proxy). Primary CTR +4% significant. Business guardrails in export: revenue -3.4% (p=0.0124), D7 retention test 43.7% vs control 44.8% (−2.6% relative)."
 }

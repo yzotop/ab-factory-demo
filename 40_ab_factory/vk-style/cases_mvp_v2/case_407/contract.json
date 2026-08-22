@@ -1,6 +1,6 @@
 {
   "case_id": "case_407",
-  "title": "Premium placement in mixed feeds (v407)",
+  "title": "Fullscreen format cross-surface test (v407)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "feed",
-    "article"
+    "editorial",
+    "algorithmic"
   ],
   "time": {
-    "start_date": "2025-09-09",
-    "end_date": "2025-09-23",
+    "start_date": "2025-09-04",
+    "end_date": "2025-09-18",
     "horizon_days": 14
   },
   "primary_metric": {

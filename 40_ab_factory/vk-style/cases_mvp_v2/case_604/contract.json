@@ -1,6 +1,6 @@
 {
   "case_id": "case_604",
-  "title": "Broad KPI sweep experiment (v604)",
+  "title": "Multi-metric dashboard test (v604)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-14",
-    "end_date": "2025-01-28",
-    "horizon_days": 14
+    "start_date": "2025-01-05",
+    "end_date": "2025-01-26",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "8 secondary metrics tested; shows significant at p=0.028 (expected false positive under multiple comparisons). Primary revenue not significant."
+  "notes": "8 secondary metrics tested; cpm significant at p=0.036 (expected false positive under multiple comparisons). Primary revenue not significant."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_508",
-  "title": "Premium cohort uplift readout (v508)",
+  "title": "High-value segment deep-dive (v508)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "loyal_subscriber",
+    "premium",
     "standard"
   ],
   "time": {
-    "start_date": "2025-10-23",
-    "end_date": "2025-11-13",
+    "start_date": "2025-06-22",
+    "end_date": "2025-07-13",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -37,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "No pre-registration on file. After the run, the loyal_subscriber segment showed a strong lift (+10%) and is presented as the leading finding — hypothesis was formed post-hoc from the data."
+  "notes": "No pre-registration on file. After the run, the premium segment showed a strong lift (+9%) and is presented as the leading finding — hypothesis was formed post-hoc from the data."
 }

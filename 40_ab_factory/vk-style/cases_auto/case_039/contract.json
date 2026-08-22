@@ -1,16 +1,20 @@
 {
   "case_id": "case_039",
-  "title": "Demand-side budget frontloading check (v39)",
+  "title": "Cross-platform ad density test (v39)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
     "control",
     "test"
   ],
+  "segments": [
+    "mobile",
+    "desktop"
+  ],
   "time": {
-    "start_date": "2025-10-14",
-    "end_date": "2025-11-11",
-    "horizon_days": 28
+    "start_date": "2025-02-15",
+    "end_date": "2025-03-01",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -22,11 +26,6 @@
       "name": "ctr",
       "direction": "up",
       "max_drop_relative": 0.03
-    },
-    {
-      "name": "fillrate",
-      "direction": "up",
-      "max_drop_relative": 0.05
     }
   ],
   "stats": {
@@ -38,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "28-day holdout #39. Week-over-week analysis reveals trend reversal after week 2."
+  "notes": "Experiment #39. Cross-segment test."
 }

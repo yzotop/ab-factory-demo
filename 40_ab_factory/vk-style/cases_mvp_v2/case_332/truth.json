@@ -1,11 +1,11 @@
 {
   "case_id": "case_332",
   "expected_decision": "do_not_ship",
-  "primary_effect_relative": 0.0566,
+  "primary_effect_relative": 0.0415,
   "is_stat_sig": true,
   "guardrails_ok": null,
   "key_reasons": [
     "longterm_value"
   ],
-  "human_rationale": "CTR +5.7% on a 7-day window, but no retention/LTV data to judge long-term value — shipping on a proxy alone is unsafe. Do not ship."
+  "human_rationale": "CTR +4.2% on a 7-day window, but no retention/LTV data to judge long-term value — shipping on a proxy alone is unsafe. Do not ship."
 }

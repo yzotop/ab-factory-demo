@@ -1,6 +1,6 @@
 {
   "case_id": "case_069",
-  "title": "Fresh creative rotation test (v69)",
+  "title": "Redesigned ad unit rollout (v69)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-19",
-    "end_date": "2025-06-26",
+    "start_date": "2025-11-01",
+    "end_date": "2025-11-08",
     "horizon_days": 7
   },
   "primary_metric": {

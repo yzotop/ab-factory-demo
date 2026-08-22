@@ -1,6 +1,6 @@
 {
   "case_id": "case_230",
-  "title": "Checkout error recovery prompt (v230)",
+  "title": "Cart-abandon rescue widget (v230)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-25",
-    "end_date": "2025-02-15",
-    "horizon_days": 21
+    "start_date": "2025-11-05",
+    "end_date": "2025-11-19",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Feature triggers only for users hitting the checkout error path (~8% of assigned users). Analysis is intent-to-treat over the full randomized population — non-triggered users contribute zeros and dilute the measured effect."
+  "notes": "Feature triggers only for users hitting the checkout error path (~6% of assigned users). Analysis is intent-to-treat over the full randomized population — non-triggered users contribute zeros and dilute the measured effect."
 }

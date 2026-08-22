@@ -1,6 +1,6 @@
 {
   "case_id": "case_151",
-  "title": "Assignment pipeline audit test (v151)",
+  "title": "Bucket balance monitoring test (v151)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-07",
-    "end_date": "2025-05-21",
-    "horizon_days": 14
+    "start_date": "2025-10-08",
+    "end_date": "2025-10-29",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -40,5 +40,5 @@
     ],
     "unit": "user"
   },
-  "notes": "Target randomization 50/50 by user. Observed split: control 221,473 (50.8%) vs test 214,070 (49.2%). SRM chi-square=125.83, p=1.00e-12."
+  "notes": "Target randomization 50/50 by user. Observed split: control 281,570 (50.6%) vs test 275,114 (49.4%). SRM chi-square=74.87, p=1.00e-12."
 }

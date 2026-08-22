@@ -1,6 +1,6 @@
 {
   "case_id": "case_610",
-  "title": "CTR-optimized layout rollout (v610)",
+  "title": "Click surface expansion test (v610)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-10",
-    "end_date": "2025-05-17",
+    "start_date": "2025-03-21",
+    "end_date": "2025-03-28",
     "horizon_days": 7
   },
   "primary_metric": {

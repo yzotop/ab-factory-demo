@@ -12,8 +12,8 @@
     "algorithmic"
   ],
   "time": {
-    "start_date": "2025-08-09",
-    "end_date": "2025-08-23",
+    "start_date": "2025-10-21",
+    "end_date": "2025-11-04",
     "horizon_days": 14
   },
   "primary_metric": {

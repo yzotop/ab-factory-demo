@@ -1,6 +1,6 @@
 {
   "case_id": "case_415",
-  "title": "Lazy-load trigger offset tweak (v415)",
+  "title": "Prefetch timing shift (v415)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-07-11",
-    "end_date": "2025-08-08",
-    "horizon_days": 28
+    "start_date": "2025-01-12",
+    "end_date": "2025-01-26",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -31,7 +31,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.005
+    "practical_threshold_relative": 0.008
   },
   "notes": "High-power experiment #415. Large sample makes tiny effects significant."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_586",
-  "title": "Novel placement debut (v586)",
+  "title": "New ad format launch (v586)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-07-02",
-    "end_date": "2025-07-09",
+    "start_date": "2025-08-18",
+    "end_date": "2025-08-25",
     "horizon_days": 7
   },
   "primary_metric": {

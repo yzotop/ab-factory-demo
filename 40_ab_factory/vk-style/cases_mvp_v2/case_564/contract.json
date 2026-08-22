@@ -1,6 +1,6 @@
 {
   "case_id": "case_564",
-  "title": "Bid floor optimization (v564)",
+  "title": "RTB timeout reduction (v564)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,14 +8,14 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-17",
-    "end_date": "2025-04-24",
+    "start_date": "2025-05-03",
+    "end_date": "2025-05-10",
     "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.016
+    "mde_relative": 0.018
   },
   "guardrails": [
     {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.009
+    "practical_threshold_relative": 0.01
   },
   "notes": "Standard experiment #564. Clean uplift expected."
 }

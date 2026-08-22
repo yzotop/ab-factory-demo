@@ -1,6 +1,6 @@
 {
   "case_id": "case_183",
-  "title": "Cross-device format rollout (v183)",
+  "title": "Platform-specific layout experiment (v183)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "mobile",
-    "desktop"
+    "desktop",
+    "mobile"
   ],
   "time": {
-    "start_date": "2025-11-06",
-    "end_date": "2025-11-27",
+    "start_date": "2025-09-28",
+    "end_date": "2025-10-19",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -37,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Overall effect modest (+1.1%). Segment readout: mobile +5.6% vs desktop +1.0% — team recommends rolling out on mobile only. No formal interaction test; no multiplicity correction across segments."
+  "notes": "Overall effect modest (+1.0%). Segment readout: desktop +6.9% vs mobile -0.0% — team recommends rolling out on desktop only. No formal interaction test; no multiplicity correction across segments."
 }

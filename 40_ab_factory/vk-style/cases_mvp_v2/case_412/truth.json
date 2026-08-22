@@ -1,11 +1,11 @@
 {
   "case_id": "case_412",
   "expected_decision": "investigate",
-  "primary_effect_relative": 0.3502,
+  "primary_effect_relative": 0.3926,
   "is_stat_sig": true,
   "guardrails_ok": true,
   "key_reasons": [
     "twyman"
   ],
-  "human_rationale": "Effect implausibly large (+35%) — Twyman's law: likely a tracking/logging bug or data artifact, not a real lift. Verify instrumentation before trusting. Investigate, do not ship on its face."
+  "human_rationale": "Effect implausibly large (+39%) — Twyman's law: likely a tracking/logging bug or data artifact, not a real lift. Verify instrumentation before trusting. Investigate, do not ship on its face."
 }

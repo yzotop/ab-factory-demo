@@ -1,6 +1,6 @@
 {
   "case_id": "case_196",
-  "title": "Event-level uplift analysis (v196)",
+  "title": "Session-grain metric experiment (v196)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-01-10",
-    "end_date": "2025-01-24",
-    "horizon_days": 14
+    "start_date": "2025-06-05",
+    "end_date": "2025-06-26",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Randomization unit: user (50/50 at login). Analysis unit: event (~13 events per user on average). Significance from t-test at event level — not clustered by randomization unit."
+  "notes": "Randomization unit: user (50/50 at login). Analysis unit: event (~10 events per user on average). Significance from t-test at event level — not clustered by randomization unit."
 }

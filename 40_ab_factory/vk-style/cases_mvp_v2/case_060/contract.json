@@ -1,6 +1,6 @@
 {
   "case_id": "case_060",
-  "title": "SDK v2 rollout experiment (v60)",
+  "title": "New logging schema pilot (v60)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-14",
-    "end_date": "2025-07-05",
+    "start_date": "2025-11-12",
+    "end_date": "2025-12-03",
     "horizon_days": 21
   },
   "primary_metric": {

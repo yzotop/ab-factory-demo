@@ -1,6 +1,6 @@
 {
   "case_id": "case_045",
-  "title": "Randomization QA experiment (v45)",
+  "title": "Assignment pipeline audit test (v45)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-11-27",
-    "end_date": "2025-12-11",
+    "start_date": "2025-08-26",
+    "end_date": "2025-09-09",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -40,5 +40,5 @@
     ],
     "unit": "user"
   },
-  "notes": "Target randomization 50/50 by user. Observed split: control 265,079 (50.6%) vs test 258,793 (49.4%). SRM chi-square=75.43, p=1.00e-12."
+  "notes": "Target randomization 50/50 by user. Observed split: control 290,597 (51.1%) vs test 277,975 (48.9%). SRM chi-square=280.20, p=1.00e-12."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_551",
-  "title": "Cross-platform ad density test (v551)",
+  "title": "Premium placement in mixed feeds (v551)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,12 +8,12 @@
     "test"
   ],
   "segments": [
-    "editorial",
-    "algorithmic"
+    "mobile",
+    "desktop"
   ],
   "time": {
-    "start_date": "2025-09-14",
-    "end_date": "2025-09-28",
+    "start_date": "2025-06-23",
+    "end_date": "2025-07-07",
     "horizon_days": 14
   },
   "primary_metric": {

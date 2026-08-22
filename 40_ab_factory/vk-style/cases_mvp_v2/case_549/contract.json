@@ -1,6 +1,6 @@
 {
   "case_id": "case_549",
-  "title": "Retry-heavy client conversion test (v549)",
+  "title": "Client retry inflation pilot (v549)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-03-15",
-    "end_date": "2025-03-29",
-    "horizon_days": 14
+    "start_date": "2025-11-04",
+    "end_date": "2025-11-25",
+    "horizon_days": 21
   },
   "primary_metric": {
     "name": "revenue",

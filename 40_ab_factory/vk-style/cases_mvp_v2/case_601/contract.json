@@ -1,6 +1,6 @@
 {
   "case_id": "case_601",
-  "title": "Client SDK migration readout (v601)",
+  "title": "Instrumentation upgrade A/B test (v601)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-17",
-    "end_date": "2025-08-31",
+    "start_date": "2025-04-07",
+    "end_date": "2025-04-21",
     "horizon_days": 14
   },
   "primary_metric": {

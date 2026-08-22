@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-07-01",
-    "end_date": "2025-07-22",
+    "start_date": "2025-03-25",
+    "end_date": "2025-04-15",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -40,5 +40,5 @@
     ],
     "unit": "user"
   },
-  "notes": "Target randomization 50/50 by user. Observed split: control 226,406 (51.4%) vs test 214,416 (48.6%). SRM chi-square=326.12, p=1.00e-12."
+  "notes": "Target randomization 50/50 by user. Observed split: control 329,663 (51.2%) vs test 313,582 (48.8%). SRM chi-square=402.02, p=1.00e-12."
 }

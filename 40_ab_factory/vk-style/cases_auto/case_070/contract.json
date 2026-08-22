@@ -1,6 +1,6 @@
 {
   "case_id": "case_070",
-  "title": "Bid floor optimization (v70)",
+  "title": "Inventory fill rate improvement (v70)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,14 +8,14 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-26",
-    "end_date": "2025-09-02",
+    "start_date": "2025-11-11",
+    "end_date": "2025-11-18",
     "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.014
+    "mde_relative": 0.006
   },
   "guardrails": [
     {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.008
+    "practical_threshold_relative": 0.004
   },
   "notes": "Standard experiment #70. Clean uplift expected."
 }

@@ -1,6 +1,6 @@
 {
   "case_id": "case_136",
-  "title": "CTR ratio readout experiment (v136)",
+  "title": "Click-rate per-impression test (v136)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-07-01",
-    "end_date": "2025-07-15",
+    "start_date": "2025-11-15",
+    "end_date": "2025-11-29",
     "horizon_days": 14
   },
   "primary_metric": {

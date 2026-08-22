@@ -1,6 +1,6 @@
 {
   "case_id": "case_145",
-  "title": "Marketplace inventory split experiment (v145)",
+  "title": "Shared auction pool bid test (v145)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-11-08",
-    "end_date": "2025-11-29",
+    "start_date": "2025-01-02",
+    "end_date": "2025-01-23",
     "horizon_days": 21
   },
   "primary_metric": {
@@ -33,5 +33,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Two-sided marketplace experiment: control and test draw from shared marketplace inventory / common auction budget (not isolated arms). Pre-period control baseline revenue $2,488,158; in-experiment control $2,392,861 (-3.8% vs baseline) — control cannibalized as test captures shared demand."
+  "notes": "Two-sided marketplace experiment: control and test draw from shared marketplace inventory / common auction budget (not isolated arms). Pre-period control baseline revenue $3,690,168; in-experiment control $3,557,321 (-3.6% vs baseline) — control cannibalized as test captures shared demand."
 }

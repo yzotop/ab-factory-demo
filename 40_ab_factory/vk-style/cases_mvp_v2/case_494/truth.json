@@ -1,12 +1,12 @@
 {
   "case_id": "case_494",
   "expected_decision": "investigate",
-  "primary_effect_relative": 0.0255,
+  "primary_effect_relative": 0.0287,
   "is_stat_sig": false,
   "guardrails_ok": true,
   "key_reasons": [
     "underpowered",
     "not_significant"
   ],
-  "human_rationale": "Point estimate +2.5% but n too small, p=0.187. Wide CI — need more data, cannot decide."
+  "human_rationale": "Point estimate +2.9% but n too small, p=0.437. Wide CI — need more data, cannot decide."
 }
