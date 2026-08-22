@@ -1,6 +1,6 @@
 {
   "case_id": "case_070",
-  "title": "Native ad format rollout (v70)",
+  "title": "Lazy-load offset tuning (v70)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-12",
-    "end_date": "2025-06-26",
-    "horizon_days": 14
+    "start_date": "2025-09-20",
+    "end_date": "2025-09-27",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",

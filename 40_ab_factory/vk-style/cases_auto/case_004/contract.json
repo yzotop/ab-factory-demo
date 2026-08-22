@@ -1,6 +1,6 @@
 {
   "case_id": "case_004",
-  "title": "Native ad format rollout (v4)",
+  "title": "Lazy-load offset tuning (v4)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,14 +8,14 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-04",
-    "end_date": "2025-09-18",
-    "horizon_days": 14
+    "start_date": "2025-03-17",
+    "end_date": "2025-03-24",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.013
+    "mde_relative": 0.009
   },
   "guardrails": [
     {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.005
+    "practical_threshold_relative": 0.006
   },
   "notes": "Standard experiment #4. Clean uplift expected."
 }

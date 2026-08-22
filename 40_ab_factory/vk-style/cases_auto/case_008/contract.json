@@ -1,6 +1,6 @@
 {
   "case_id": "case_008",
-  "title": "Segment-specific pricing experiment (v8)",
+  "title": "Fullscreen format cross-surface test (v8)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -12,8 +12,8 @@
     "article"
   ],
   "time": {
-    "start_date": "2025-07-14",
-    "end_date": "2025-07-28",
+    "start_date": "2025-11-14",
+    "end_date": "2025-11-28",
     "horizon_days": 14
   },
   "primary_metric": {

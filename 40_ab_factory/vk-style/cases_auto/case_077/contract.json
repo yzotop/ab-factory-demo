@@ -1,6 +1,6 @@
 {
   "case_id": "case_077",
-  "title": "Inventory fill rate improvement (v77)",
+  "title": "Lazy-load offset tuning (v77)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,14 +8,14 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-13",
-    "end_date": "2025-04-20",
-    "horizon_days": 7
+    "start_date": "2025-06-08",
+    "end_date": "2025-06-22",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.008
+    "mde_relative": 0.011
   },
   "guardrails": [
     {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.004
+    "practical_threshold_relative": 0.003
   },
   "notes": "Standard experiment #77. Clean uplift expected."
 }

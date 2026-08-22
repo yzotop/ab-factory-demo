@@ -1,6 +1,6 @@
 {
   "case_id": "case_049",
-  "title": "CPM floor auto-adjustment (v49)",
+  "title": "Ad load latency budget cut (v49)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

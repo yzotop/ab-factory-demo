@@ -68,6 +68,9 @@ METRICS = ["revenue", "cpm", "fillrate", "ctr", "shows"]
 # здесь стояли названия реальных продуктов, что привязывало синтетический
 # корпус к конкретной компании.
 SEGMENTS_POOL = [["editorial", "algorithmic"], ["feed", "article"], ["mobile", "desktop"]]
+# Двадцать названий, а не восемь: тренажёр показывает заголовок кейса,
+# и на серии из 40 чистых выкаток восьми хватало бы лишь на пять повторов
+# каждого, различимых только суффиксом (vN).
 TITLES_SHIP = [
     "Bid floor optimization",
     "Ad slot refresh rate increase",
@@ -77,6 +80,18 @@ TITLES_SHIP = [
     "Inventory fill rate improvement",
     "New banner placement test",
     "RTB timeout reduction",
+    "Header bidding partner addition",
+    "Ad load latency budget cut",
+    "Viewability threshold tuning",
+    "Deal ID priority adjustment",
+    "Sticky footer unit rollout",
+    "In-feed ad density rebalance",
+    "Creative size mix expansion",
+    "Auction reserve price update",
+    "Lazy-load offset tuning",
+    "Prebid adapter consolidation",
+    "Video pre-roll length trim",
+    "Passback chain shortening",
 ]
 TITLES_GUARDRAIL = [
     "Aggressive ad pressure increase",
@@ -2372,6 +2387,10 @@ def main() -> None:
                         help="Generate only these trap labels (even split across --n)")
     parser.add_argument("--profile", choices=sorted(PROFILES), default=None,
                         help="Named mechanism mix; 'auto' reproduces cases_auto")
+    parser.add_argument("--start", type=int, default=1,
+                        help="Первый номер кейса (по умолчанию 1). Позволяет "
+                             "дописать кейсы в существующий корпус, не столкнувшись "
+                             "номерами: общий runs/ различает прогоны по case_id.")
     args = parser.parse_args()
     if args.profile and args.types:
         parser.error("--profile and --types are mutually exclusive")
@@ -2417,7 +2436,7 @@ def main() -> None:
     type_counts: dict[str, int] = {}
     trap_labels: dict[str, str] = {}
     for i, (label, gen_fn) in enumerate(schedule):
-        num = i + 1
+        num = args.start + i
         case_id = f"case_{num:03d}"
         case_dir = out_dir / f"case_{num:03d}"
         case_dir.mkdir(parents=True, exist_ok=True)
@@ -2441,7 +2460,17 @@ def main() -> None:
     # сваливает остальные 497 кейсов в "other" — фильтр по механизму на сайте
     # по нему не построить. Раньше файл собирался разовым скриптом и терялся
     # при любой пересборке корпуса; теперь его пишет генератор.
-    with open(out_dir / "_trap_labels.json", "w", encoding="utf-8", newline="\n") as f:
+    #
+    # При дописывании (--start > 1) метки СЛИВАЮТСЯ с уже лежащими: иначе
+    # запуск на 40 кейсов стёр бы метки предыдущих 660 и фильтр по механизму
+    # схлопнулся бы до шести категорий, как это уже однажды случилось.
+    labels_path = out_dir / "_trap_labels.json"
+    if args.start > 1 and labels_path.exists():
+        with open(labels_path, "r", encoding="utf-8") as f:
+            merged = json.load(f)
+        merged.update(trap_labels)
+        trap_labels = dict(sorted(merged.items()))
+    with open(labels_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(trap_labels, f, ensure_ascii=False, indent=2)
         f.write("\n")
 
@@ -2454,7 +2483,7 @@ def main() -> None:
     print()
     decisions = {"ship": 0, "do_not_ship": 0, "investigate": 0}
     for i in range(len(schedule)):
-        case_dir = out_dir / f"case_{i+1:03d}"
+        case_dir = out_dir / f"case_{args.start + i:03d}"
         with open(case_dir / "truth.json", "r", encoding="utf-8") as f:
             d = json.load(f)["expected_decision"]
         decisions[d] = decisions.get(d, 0) + 1

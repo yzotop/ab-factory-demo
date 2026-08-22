@@ -1,0 +1,11 @@
+{
+  "case_id": "case_662",
+  "expected_decision": "ship",
+  "primary_effect_relative": 0.0246,
+  "is_stat_sig": true,
+  "guardrails_ok": true,
+  "key_reasons": [
+    "primary_uplift"
+  ],
+  "human_rationale": "Revenue +2.5%, p=0.0154, above practical threshold. Guardrails OK."
+}

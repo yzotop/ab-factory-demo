@@ -1,6 +1,6 @@
 {
   "case_id": "case_092",
-  "title": "RTB timeout reduction (v92)",
+  "title": "Auction reserve price update (v92)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

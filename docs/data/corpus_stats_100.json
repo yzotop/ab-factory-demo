@@ -17,13 +17,13 @@
     "revenue": 100
   },
   "avg_confidence_by_decision": {
-    "do_not_ship": 0.191,
+    "do_not_ship": 0.2073,
     "ship": 0.6457,
-    "investigate": 0.136
+    "investigate": 0.1212
   },
-  "uplift_min": -0.49,
+  "uplift_min": -0.39,
   "uplift_max": 4.98,
-  "uplift_avg": 1.37,
+  "uplift_avg": 1.38,
   "guardrail_breach_count": 20,
   "segment_conflict_count": 15,
   "reversal_count": 15

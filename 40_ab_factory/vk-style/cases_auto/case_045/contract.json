@@ -1,6 +1,6 @@
 {
   "case_id": "case_045",
-  "title": "Inventory fill rate improvement (v45)",
+  "title": "Viewability threshold tuning (v45)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

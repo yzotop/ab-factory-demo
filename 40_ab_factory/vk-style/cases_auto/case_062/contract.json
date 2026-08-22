@@ -1,6 +1,6 @@
 {
   "case_id": "case_062",
-  "title": "Bid floor optimization (v62)",
+  "title": "Passback chain shortening (v62)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -9,13 +9,13 @@
   ],
   "time": {
     "start_date": "2025-10-22",
-    "end_date": "2025-11-05",
-    "horizon_days": 14
+    "end_date": "2025-10-29",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.008
+    "mde_relative": 0.019
   },
   "guardrails": [
     {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.006
+    "practical_threshold_relative": 0.015
   },
   "notes": "Standard experiment #62. Clean uplift expected."
 }

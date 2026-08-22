@@ -1,6 +1,6 @@
 {
   "case_id": "case_093",
-  "title": "Ad slot refresh rate increase (v93)",
+  "title": "Waterfall priority reorder (v93)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

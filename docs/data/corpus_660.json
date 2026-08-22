@@ -1535,7 +1535,7 @@
   },
   {
     "case_id": "case_067",
-    "title": "RTB timeout reduction (v67)",
+    "title": "Auction reserve price update (v67)",
     "type": "clean_uplift",
     "metric": "revenue",
     "uplift_pct": 3.94,
@@ -9095,11 +9095,11 @@
   },
   {
     "case_id": "case_393",
-    "title": "CPM floor auto-adjustment (v393)",
+    "title": "Prebid adapter consolidation (v393)",
     "type": "clean_uplift",
     "metric": "revenue",
-    "uplift_pct": 4.93,
-    "p_value": 0.0286,
+    "uplift_pct": 4.56,
+    "p_value": 0.0379,
     "decision": "ship",
     "expected_decision": "ship",
     "correct": true,
@@ -9107,22 +9107,22 @@
     "reasons": [
       "primary_uplift"
     ],
-    "guardrail_ctr_delta": -0.91,
+    "guardrail_ctr_delta": 0.54,
     "segment_conflict": false,
     "long_term_reversal": false,
-    "control_mean": 3.730465,
-    "test_mean": 3.914377,
+    "control_mean": 5.104214,
+    "test_mean": 5.336966,
     "segments_present": false,
-    "duration_days": 14,
+    "duration_days": 7,
     "policy_version": "1.0.0"
   },
   {
     "case_id": "case_394",
-    "title": "Session-level revenue readout (v394)",
+    "title": "Per-event CTR significance test (v394)",
     "type": "unit_randomization",
     "metric": "revenue",
-    "uplift_pct": 2.85,
-    "p_value": 0.0115,
+    "uplift_pct": 3.3,
+    "p_value": 0.0175,
     "decision": "ship",
     "expected_decision": "investigate",
     "correct": false,
@@ -9130,13 +9130,13 @@
     "reasons": [
       "primary_uplift"
     ],
-    "guardrail_ctr_delta": 2.34,
+    "guardrail_ctr_delta": 1.6199999999999999,
     "segment_conflict": false,
     "long_term_reversal": false,
-    "control_mean": 6.511209,
-    "test_mean": 6.696779,
+    "control_mean": 13.894384,
+    "test_mean": 14.352898,
     "segments_present": false,
-    "duration_days": 14,
+    "duration_days": 21,
     "policy_version": "1.0.0"
   },
   {
@@ -11393,7 +11393,7 @@
   },
   {
     "case_id": "case_492",
-    "title": "Inventory fill rate improvement (v492)",
+    "title": "Deal ID priority adjustment (v492)",
     "type": "clean_uplift",
     "metric": "revenue",
     "uplift_pct": 2.67,
@@ -12042,7 +12042,7 @@
   },
   {
     "case_id": "case_520",
-    "title": "Waterfall priority reorder (v520)",
+    "title": "New banner placement test (v520)",
     "type": "clean_uplift",
     "metric": "revenue",
     "uplift_pct": 3.1,
@@ -12436,7 +12436,7 @@
   },
   {
     "case_id": "case_537",
-    "title": "Bid floor optimization (v537)",
+    "title": "Video pre-roll length trim (v537)",
     "type": "clean_uplift",
     "metric": "revenue",
     "uplift_pct": 3.27,
@@ -13062,11 +13062,11 @@
   },
   {
     "case_id": "case_564",
-    "title": "RTB timeout reduction (v564)",
+    "title": "Passback chain shortening (v564)",
     "type": "clean_uplift",
     "metric": "revenue",
-    "uplift_pct": 2.36,
-    "p_value": 0.0226,
+    "uplift_pct": 3.47,
+    "p_value": 0.0129,
     "decision": "ship",
     "expected_decision": "ship",
     "correct": true,
@@ -13074,11 +13074,11 @@
     "reasons": [
       "primary_uplift"
     ],
-    "guardrail_ctr_delta": -1.51,
+    "guardrail_ctr_delta": 0.21,
     "segment_conflict": false,
     "long_term_reversal": false,
     "control_mean": 1.685593,
-    "test_mean": 1.725373,
+    "test_mean": 1.744083,
     "segments_present": false,
     "duration_days": 7,
     "policy_version": "1.0.0"
@@ -13592,7 +13592,7 @@
   },
   {
     "case_id": "case_587",
-    "title": "Waterfall priority reorder (v587)",
+    "title": "RTB timeout reduction (v587)",
     "type": "clean_uplift",
     "metric": "revenue",
     "uplift_pct": 2.43,
@@ -14449,7 +14449,7 @@
   },
   {
     "case_id": "case_624",
-    "title": "RTB timeout reduction (v624)",
+    "title": "Creative size mix expansion (v624)",
     "type": "clean_uplift",
     "metric": "revenue",
     "uplift_pct": 3.13,
@@ -14772,7 +14772,7 @@
   },
   {
     "case_id": "case_638",
-    "title": "New banner placement test (v638)",
+    "title": "Sticky footer unit rollout (v638)",
     "type": "clean_uplift",
     "metric": "revenue",
     "uplift_pct": 2.98,
@@ -15287,11 +15287,11 @@
   },
   {
     "case_id": "case_660",
-    "title": "Inventory fill rate improvement (v660)",
+    "title": "Passback chain shortening (v660)",
     "type": "clean_uplift",
     "metric": "revenue",
-    "uplift_pct": 2.95,
-    "p_value": 0.011,
+    "uplift_pct": 4.2,
+    "p_value": 0.015,
     "decision": "ship",
     "expected_decision": "ship",
     "correct": true,
@@ -15299,13 +15299,13 @@
     "reasons": [
       "primary_uplift"
     ],
-    "guardrail_ctr_delta": -1.55,
+    "guardrail_ctr_delta": -0.98,
     "segment_conflict": false,
     "long_term_reversal": false,
-    "control_mean": 1.866574,
-    "test_mean": 1.921638,
+    "control_mean": 2.106815,
+    "test_mean": 2.195301,
     "segments_present": false,
-    "duration_days": 7,
+    "duration_days": 14,
     "policy_version": "1.0.0"
   }
 ]

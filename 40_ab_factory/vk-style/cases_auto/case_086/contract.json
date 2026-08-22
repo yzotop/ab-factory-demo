@@ -1,6 +1,6 @@
 {
   "case_id": "case_086",
-  "title": "Native ad format rollout (v86)",
+  "title": "Inventory fill rate improvement (v86)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,14 +8,14 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-17",
-    "end_date": "2025-06-24",
-    "horizon_days": 7
+    "start_date": "2025-11-06",
+    "end_date": "2025-11-20",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.02
+    "mde_relative": 0.008
   },
   "guardrails": [
     {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.016
+    "practical_threshold_relative": 0.007
   },
   "notes": "Standard experiment #86. Clean uplift expected."
 }

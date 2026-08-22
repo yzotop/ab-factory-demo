@@ -1,6 +1,6 @@
 {
   "case_id": "case_564",
-  "title": "RTB timeout reduction (v564)",
+  "title": "Passback chain shortening (v564)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,14 +8,14 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-05-03",
-    "end_date": "2025-05-10",
+    "start_date": "2025-08-09",
+    "end_date": "2025-08-16",
     "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.018
+    "mde_relative": 0.019
   },
   "guardrails": [
     {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.01
+    "practical_threshold_relative": 0.016
   },
   "notes": "Standard experiment #564. Clean uplift expected."
 }

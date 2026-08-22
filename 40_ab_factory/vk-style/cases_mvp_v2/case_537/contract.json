@@ -1,6 +1,6 @@
 {
   "case_id": "case_537",
-  "title": "Bid floor optimization (v537)",
+  "title": "Video pre-roll length trim (v537)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-08-28",
-    "end_date": "2025-09-04",
+    "start_date": "2025-01-16",
+    "end_date": "2025-01-23",
     "horizon_days": 7
   },
   "primary_metric": {

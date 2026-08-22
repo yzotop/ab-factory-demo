@@ -1,6 +1,6 @@
 {
   "case_id": "case_587",
-  "title": "Waterfall priority reorder (v587)",
+  "title": "RTB timeout reduction (v587)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
