@@ -1,0 +1,102 @@
+{
+  "_comment": "Тексты тренажёра. Названия механизмов в интерфейс не выводятся — только в поле term мелким шрифтом в конце разбора. Подстановки в фигурных скобках заполняет каркас из contract.json и data.csv.",
+  "question": {
+    "ru": "Какое решение вы примете?",
+    "en": "What would you decide?"
+  },
+  "answers": {
+    "ship":        { "ru": "Катить",      "en": "Ship" },
+    "investigate": { "ru": "Разобраться", "en": "Investigate" },
+    "do_not_ship": { "ru": "Не катить",   "en": "Don't ship" }
+  },
+  "mechanisms": {
+    "clean_uplift": {
+      "expected": "ship",
+      "why": {
+        "ru": "Придраться не к чему: рост больше порога, о котором договорились заранее, и защитные метрики на месте.",
+        "en": "Nothing to object to: the lift clears the threshold agreed in advance, and the guardrails held."
+      },
+      "look_at": {
+        "ru": "Сравните Δ праймари-метрики с практическим порогом — здесь {primary_delta} против {threshold}. Потом пройдите по защитным метрикам и убедитесь, что ни одна не просела глубже своего предела.",
+        "en": "Compare the primary Δ with the practical threshold — {primary_delta} against {threshold}. Then walk the guardrail rows and check none fell past its limit."
+      },
+      "note": {
+        "ru": "«Катить» — единственный ответ, который опознаётся по отсутствию признака. Поэтому пройтись надо по всем строкам.",
+        "en": "\"Ship\" is the only answer you recognise by the absence of a sign. So you have to check every row."
+      },
+      "term": { "ru": "чистая выкатка", "en": "clean uplift" }
+    },
+    "guardrail_breach": {
+      "expected": "do_not_ship",
+      "why": {
+        "ru": "Выручка выросла, но клики просели глубже предела, назначенного заранее.",
+        "en": "Revenue went up, but clicks fell past the limit set in advance."
+      },
+      "look_at": {
+        "ru": "Два числа: Δ у CTR и разрешённая просадка из условий эксперимента. Здесь {ctr_delta} против допустимых {ctr_limit}. Предел назначен до эксперимента именно для того, чтобы хороший рост выручки не перевесил его задним числом.",
+        "en": "Two numbers: the CTR Δ and the allowed drop from the experiment terms. Here {ctr_delta} against a permitted {ctr_limit}. The limit was set beforehand precisely so a good revenue lift could not outweigh it after the fact."
+      },
+      "term": { "ru": "пробитый guardrail", "en": "guardrail breach" }
+    },
+    "practically_small": {
+      "expected": "do_not_ship",
+      "why": {
+        "ru": "Рост настоящий, но он меньше того минимума, ради которого затевали эксперимент.",
+        "en": "The lift is real, but smaller than the minimum the experiment was run for."
+      },
+      "look_at": {
+        "ru": "Δ праймари-метрики и практический порог рядом: {primary_delta} против {threshold}. Низкое p-value здесь говорит только о том, что рост не померещился, — но не о том, что он стоит выкатки. Это разные вопросы, и порог отвечает на второй.",
+        "en": "The primary Δ and the practical threshold side by side: {primary_delta} against {threshold}. A low p-value here only says the lift is not imaginary — not that it is worth shipping. Those are different questions, and the threshold answers the second."
+      },
+      "term": { "ru": "практическая значимость против статистической", "en": "practical vs statistical significance" }
+    },
+    "bad_oec": {
+      "expected": "do_not_ship",
+      "why": {
+        "ru": "Кликов стало больше, а денег — меньше.",
+        "en": "Clicks went up, money went down."
+      },
+      "look_at": {
+        "ru": "Обратите внимание, какая метрика здесь праймари: CTR, а выручка стоит в защитных. Сравните две строки — CTR {ctr_delta}, выручка {revenue_delta} при допустимой просадке {revenue_limit}. Метрика, по которой объявляют успех, выбирается до эксперимента, и выбрать её можно неудачно.",
+        "en": "Notice which metric is primary here: CTR, with revenue sitting among the guardrails. Compare the two rows — CTR {ctr_delta}, revenue {revenue_delta} against a permitted {revenue_limit}. The metric you declare success by is chosen before the experiment, and it can be chosen badly."
+      },
+      "term": { "ru": "неудачная праймари-метрика, оптимизация прокси", "en": "bad OEC, proxy-metric optimisation" }
+    },
+    "twyman": {
+      "expected": "investigate",
+      "why": {
+        "ru": "Такого не бывает: одна перестановка рекламного блока не поднимает выручку в полтора раза.",
+        "en": "This does not happen: moving one ad block does not lift revenue by half."
+      },
+      "look_at": {
+        "ru": "Только на размер Δ: {primary_delta}. Сравните с любым другим кейсом — там единицы процентов. Слишком хороший результат чаще означает сломанное измерение, чем сломанный рынок, поэтому ответ здесь не «не катить», а «разобраться»: сначала проверить счётчики.",
+        "en": "Just the size of the Δ: {primary_delta}. Compare it with any other case — those run to a few percent. A result this good more often means broken measurement than a broken market, which is why the answer is not \"don't ship\" but \"investigate\": check the instrumentation first."
+      },
+      "term": { "ru": "закон Тваймана", "en": "Twyman's law" }
+    },
+    "segment_conflict": {
+      "expected": "investigate",
+      "why": {
+        "ru": "Незначимый общий результат — это не «эффекта нет», а плюс и минус, погасившие друг друга: на одних выросло, на других упало.",
+        "en": "A non-significant overall result is not \"no effect\" — it is a plus and a minus cancelling out: some users gained, others lost."
+      },
+      "look_at": {
+        "ru": "Не останавливайтесь на строке «всего». Спуститесь к сегментам и посмотрите на знаки: {seg1_name} {seg1_delta}, {seg2_name} {seg2_delta} — и оба p ниже {alpha}. Под незначимым итогом спрятаны две разные истории, поэтому верный ответ — разобраться, а не «эффекта нет, идём дальше».",
+        "en": "Do not stop at the \"all\" row. Go down to the segments and look at the signs: {seg1_name} {seg1_delta}, {seg2_name} {seg2_delta} — and both p below {alpha}. Two different stories hide under that non-significant total, which is why the answer is to investigate, not \"no effect, move on\"."
+      },
+      "term": { "ru": "конфликт сегментов", "en": "segment conflict" }
+    },
+    "simpson_paradox": {
+      "expected": "do_not_ship",
+      "why": {
+        "ru": "Каждой группе пользователей стало хуже, а общий итог вырос только потому, что в тесте оказалось больше той группы, которая и так приносила больше денег.",
+        "en": "Every group of users got worse; the total rose only because the test arm ended up with more of the group that already earned more."
+      },
+      "look_at": {
+        "ru": "Сначала знаки: у строки «всего» Δ равна {primary_delta}, а у обоих сегментов — {seg1_delta} и {seg2_delta}. При одинаковом составе групп так не бывает, поэтому смотрите дальше — на доли пользователей: {seg1_name} занимает {seg1_share_control} в контроле против {seg1_share_test} в тесте. Рост создал сдвиг состава, а не фича.",
+        "en": "Signs first: the \"all\" row shows {primary_delta}, while both segments show {seg1_delta} and {seg2_delta}. That cannot happen when the arms have the same mix, so look further — at the user shares: {seg1_name} is {seg1_share_control} of control against {seg1_share_test} of test. The lift came from the shift in mix, not from the feature."
+      },
+      "term": { "ru": "парадокс Симпсона", "en": "Simpson's paradox" }
+    }
+  }
+}

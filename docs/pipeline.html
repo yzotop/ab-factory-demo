@@ -27,6 +27,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue"
 .top-bar a:hover{color:var(--fg)}
 .top-bar a.active{color:var(--accent)}
 .top-bar .spacer{flex:1}
+@media(max-width:600px){
+  .top-bar{height:auto;flex-wrap:wrap;gap:10px 14px;padding:10px 16px}
+  .top-bar .spacer{display:none}
+}
 
 /* ── Layout ── */
 .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 120px}
@@ -237,6 +241,7 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica N
 <div class="top-bar">
   <a href="index.html" class="brand">AB Factory</a>
   <a href="corpus.html">Corpus</a>
+  <a href="trainer.html" data-t="nav_trainer">Trainer</a>
   <a href="pipeline.html" class="active">Pipeline</a>
   <div class="spacer"></div>
   <span class="lang-toggle"><a href="#" id="lang-en">EN</a><span class="sep">|</span><a href="#" id="lang-ru">RU</a></span>

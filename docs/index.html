@@ -65,6 +65,10 @@
   .top-bar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .15s}
   .top-bar a:hover{color:var(--accent)}
   .top-bar .spacer{flex:1}
+@media(max-width:600px){
+  .top-bar{height:auto;flex-wrap:wrap;gap:10px 14px;padding:10px 16px}
+  .top-bar .spacer{display:none}
+}
   .lang-toggle{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500}
   .lang-toggle a{color:var(--muted);text-decoration:none;padding:4px 8px;border-radius:5px;transition:color .15s}
   .lang-toggle a:hover{color:var(--accent)}
@@ -234,6 +238,7 @@
 <div class="top-bar">
   <a href="corpus.html" data-t="nav_corpus">Corpus</a>
   <a href="policy.html" data-t="nav_engine">Model</a>
+  <a href="trainer.html" data-t="nav_trainer">Trainer</a>
   <a href="pipeline.html">Pipeline</a>
   <span class="spacer"></span>
   <span class="lang-toggle"><a href="#" id="lang-en">EN</a><span class="sep">|</span><a href="#" id="lang-ru">RU</a></span>

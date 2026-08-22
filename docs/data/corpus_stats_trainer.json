@@ -1,0 +1,21 @@
+{
+  "total": 40,
+  "decision_counts": {
+    "ship": 40
+  },
+  "reason_counts": {
+    "primary_uplift": 40
+  },
+  "metric_counts": {
+    "revenue": 40
+  },
+  "avg_confidence_by_decision": {
+    "ship": 0.6457
+  },
+  "uplift_min": 1.21,
+  "uplift_max": 4.99,
+  "uplift_avg": 3.3,
+  "guardrail_breach_count": 0,
+  "segment_conflict_count": 0,
+  "reversal_count": 0
+}

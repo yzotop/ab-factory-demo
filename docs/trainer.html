@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trainer — AB Factory</title>
+<style>
+:root {
+  --bg:#fafafa; --fg:#1d1d1f; --muted:#6e6e73;
+  --accent:#0071e3; --accent-hover:#0077ed;
+  --card-bg:#fff; --border:#d2d2d7; --hover-bg:#f0f0f5;
+  --green:#34c759; --red:#ff3b30; --orange:#ff9500;
+  --radius:12px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#000; --fg:#f5f5f7; --muted:#86868b;
+  --accent:#2997ff; --accent-hover:#40a9ff;
+  --card-bg:#1c1c1e; --border:#38383a; --hover-bg:#2c2c2e;
+  --green:#30d158; --red:#ff453a; --orange:#ffa00a;
+}}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;background:var(--bg);color:var(--fg);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+.top-bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:48px;gap:24px}
+.top-bar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .15s}
+.top-bar a:hover,.top-bar a.active{color:var(--accent)}
+.top-bar .spacer{flex:1}
+@media(max-width:600px){
+  .top-bar{height:auto;flex-wrap:wrap;gap:10px 14px;padding:10px 16px}
+  .top-bar .spacer{display:none}
+}
+.lang-toggle a{font-size:13px}
+.lang-toggle a.active{color:var(--accent)}
+.lang-toggle .sep{color:var(--border);margin:0 6px;font-size:13px}
+
+.wrap{max-width:720px;margin:0 auto;padding:40px 24px 80px}
+h1{font-size:28px;font-weight:700;margin-bottom:8px}
+.sub{font-size:15px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+
+.progress{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.progress-track{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);width:0;transition:width .3s}
+.progress-n{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.case-head{display:flex;align-items:baseline;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.case-id{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--muted)}
+.case-title{font-size:16px;font-weight:600}
+
+.tbl-wrap{overflow-x:auto;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:right;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--border);white-space:nowrap}
+th:first-child{text-align:left}
+td{padding:7px 8px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+td:first-child{text-align:left}
+tr:last-child td{border-bottom:0}
+.row-seg td:first-child{padding-left:22px}
+.seg-share{display:block;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.row-primary td{font-weight:600}
+.pos{color:var(--green)}
+.neg{color:var(--red)}
+
+.facts{list-style:none;margin:0 0 20px}
+.facts li{font-size:13px;color:var(--muted);padding:3px 0 3px 16px;position:relative}
+.facts li::before{content:"·";position:absolute;left:4px}
+
+.q{font-size:19px;font-weight:600;text-align:center;margin:4px 0 16px}
+.choices{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.choice{padding:10px 20px;border:1px solid var(--border);border-radius:20px;background:var(--card-bg);color:var(--fg);font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;font-family:inherit}
+.choice:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.choice:disabled{cursor:default;opacity:.5}
+.choice.picked{opacity:1}
+.choice.right{border-color:var(--green);color:var(--green);opacity:1}
+.choice.wrong{border-color:var(--red);color:var(--red);opacity:1}
+
+.answer{margin-top:22px;padding-top:20px;border-top:1px solid var(--border)}
+.verdict{font-size:17px;font-weight:600;margin-bottom:14px}
+.verdict.right{color:var(--green)}
+.verdict.wrong{color:var(--red)}
+.answer h4{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600;margin:16px 0 6px}
+.answer p{font-size:14px;line-height:1.65}
+.look{border-left:2px solid var(--accent);padding-left:14px}
+.note{background:var(--hover-bg);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--muted);line-height:1.6}
+.rule-said{font-size:13px;color:var(--muted);margin-top:14px}
+.term{font-size:11px;color:var(--muted);margin-top:18px;opacity:.7}
+.next{display:block;margin:22px auto 0;padding:11px 28px;border:0;border-radius:20px;background:var(--accent);color:#fff;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit}
+.next:hover{background:var(--accent-hover)}
+
+.score{text-align:center}
+.score-n{font-size:56px;font-weight:700;line-height:1.1}
+.score-l{font-size:15px;color:var(--muted);margin-bottom:24px}
+.breakdown{text-align:left;margin:0 auto;max-width:460px}
+.bd-row{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:14px}
+.bd-row:last-child{border-bottom:0}
+.bd-name{flex:1}
+.bd-score{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}
+.loading{text-align:center;color:var(--muted);padding:60px 0;font-size:14px}
+
+/* Узкий экран. Колонка Δ — та, по которой принимают решение, и уводить её
+   за край нельзя: пользователь может не догадаться прокрутить. Ужимаем
+   отступы и кегль, сокращаем размеры групп до тысяч, а на случай, если
+   всё равно не помещается, у обёртки есть заметная граница прокрутки. */
+@media(max-width:600px){
+  .wrap{padding:28px 14px 60px}
+  .card{padding:16px}
+  table{font-size:12px}
+  th,td{padding:5px 4px}
+  /* Слово «пользователей» съедает ширину, которой не хватает колонке Δ.
+     Проценты и без него читаются однозначно: рядом стоит строка «Пользователи». */
+  .seg-unit{display:none}
+  h1{font-size:24px}
+}
+.tbl-wrap{position:relative}
+/* Затухание у правого края, если таблица шире экрана: сплошная граница
+   читалась как элемент оформления и вдобавок перекрывала колонку Δ. */
+.tbl-wrap.scrollable::after{content:"";position:absolute;top:0;right:0;bottom:0;width:28px;
+  pointer-events:none;background:linear-gradient(to right,transparent,var(--card-bg))}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="index.html" data-t="nav_home">Home</a>
+  <a href="policy.html" data-t="nav_engine">Decision Engine</a>
+  <a href="corpus.html" data-t="nav_corpus">Corpus Explorer</a>
+  <a href="trainer.html" class="active" data-t="nav_trainer">Trainer</a>
+  <a href="pipeline.html">Pipeline</a>
+  <span class="spacer"></span>
+  <span class="lang-toggle"><a href="#" id="lang-en">EN</a><span class="sep">|</span><a href="#" id="lang-ru">RU</a></span>
+</div>
+
+<div class="wrap">
+  <h1 data-t="t_title">Read the table, make the call</h1>
+  <p class="sub" data-t="t_sub">Fifteen experiments, one at a time. Every one of them can be decided from the numbers in front of you — no statistics required. After each answer you get the one thing that mattered and where to have looked for it.</p>
+  <div id="app"><div class="loading" data-t="t_loading">Loading cases…</div></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var DICT = {
+    nav_home:{ru:'Главная'}, nav_engine:{ru:'Модель решений'},
+    nav_corpus:{ru:'Корпус кейсов'}, nav_trainer:{ru:'Тренажёр'},
+    t_title:{ru:'Прочитайте таблицу и примите решение'},
+    t_sub:{ru:'Пятнадцать экспериментов, по одному за раз. Каждый решается по числам, которые перед вами, — статистика не нужна. После ответа вы увидите, что здесь было главным и куда стоило смотреть.'},
+    t_loading:{ru:'Загружаем кейсы…'},
+    t_users:{ru:'Пользователи'}, t_rpu:{ru:'Выручка на юзера'}, t_ctr:{ru:'CTR'},
+    t_of_users:{ru:'пользователей'},
+    th_metric:{ru:'Метрика'}, th_control:{ru:'Контроль'}, th_test:{ru:'Тест'},
+    th_delta:{ru:'Δ'}, th_p:{ru:'p'},
+    f_horizon:{ru:'{d} дней, сплит по пользователю'},
+    f_primary:{ru:'Праймари-метрика: {m}, α = {a}'},
+    f_threshold:{ru:'Практический порог: {t}'},
+    f_guardrail:{ru:'Защитная метрика: {n} не должна упасть глубже {v}'},
+    t_right:{ru:'Верно'}, t_wrong:{ru:'Не так'},
+    t_expected:{ru:'здесь нужно было «{d}»'},
+    h_why:{ru:'Что здесь произошло'}, h_look:{ru:'Куда стоило смотреть'},
+    t_rule:{ru:'Детерминированное правило на этом кейсе ответило: {d}. '},
+    t_rule_ok:{ru:'Тоже верно.'}, t_rule_bad:{ru:'Оно ошиблось.'},
+    t_next:{ru:'Дальше'}, t_finish:{ru:'Итог'},
+    t_term:{ru:'Как это называется: {t}'},
+    s_title:{ru:'{n} из {m}'},
+    s_sub_hi:{ru:'Сильно. Вы читаете таблицу лучше, чем детерминированное правило.'},
+    s_sub_mid:{ru:'Неплохо. Слабые места видно ниже — начните с них.'},
+    s_sub_lo:{ru:'Есть куда расти. Ниже видно, какие ситуации проскакивают мимо.'},
+    s_break:{ru:'По типам ситуаций'},
+    s_again:{ru:'Ещё пятнадцать'},
+    s_rule:{ru:'Правило на тех же кейсах: {n} из {m}.'}
+  };
+
+  var LANG = (new URLSearchParams(location.search).get('lang') === 'ru') ? 'ru' : 'en';
+  function _t(k){ var e=DICT[k]; return (e && e[LANG]) || null; }
+  function fmt(s, vals){ return s.replace(/\{(\w+)\}/g, function(_,k){ return vals[k]!==undefined?vals[k]:'{'+k+'}'; }); }
+
+  (function _langLinks(){
+    var u=new URL(location.href), p=new URLSearchParams(u.search);
+    p.delete('lang'); var base=u.pathname+(p.toString()?'?'+p.toString():'');
+    p.set('lang','ru'); var ruUrl=u.pathname+'?'+p.toString();
+    var e=document.getElementById('lang-en'), r=document.getElementById('lang-ru');
+    e.href=base; e.classList.toggle('active', LANG!=='ru');
+    r.href=ruUrl; r.classList.toggle('active', LANG==='ru');
+  })();
+
+  (function _applyI18n(){
+    if(LANG!=='ru') return;
+    document.documentElement.lang='ru';
+    document.querySelectorAll('[data-t]').forEach(function(el){
+      var v=_t(el.getAttribute('data-t')); if(v) el.innerHTML=v;
+    });
+    document.querySelectorAll('.top-bar a[href]:not([href^="http"])').forEach(function(a){
+      if(a.href.indexOf('lang=')<0){
+        var u=new URL(a.href, location.href);
+        u.searchParams.set('lang','ru'); a.href=u.pathname+u.search;
+      }
+    });
+  })();
+
+  var SESSION_LEN = 15;
+  var DECISIONS = ['ship','investigate','do_not_ship'];
+  var POOL=null, TEXTS=null, QUEUE=[], AT=0, RESULTS=[];
+  var $app=document.getElementById('app');
+
+  function shuffle(a){
+    for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+
+  // Пул перекошен: 125 do_not_ship против 50 ship, потому что «катить»
+  // в корпусе даёт единственный механизм. Балансируем выдачу, а не пул:
+  // поровну на каждый ответ, внутри ответа — поровну по механизмам,
+  // иначе guardrail_breach занял бы треть всех отказов.
+  function drawSession(){
+    var byDec={}, out=[];
+    DECISIONS.forEach(function(d){ byDec[d]=[]; });
+    POOL.cases.forEach(function(c){ if(byDec[c.expected]) byDec[c.expected].push(c); });
+    var per=Math.floor(SESSION_LEN/DECISIONS.length);
+    var extra=SESSION_LEN-per*DECISIONS.length;
+    DECISIONS.forEach(function(d,i){
+      var want=per+(i<extra?1:0);
+      var byMech={};
+      shuffle(byDec[d].slice()).forEach(function(c){
+        (byMech[c.mechanism]=byMech[c.mechanism]||[]).push(c);
+      });
+      var mechs=shuffle(Object.keys(byMech));
+      var k=0;
+      while(out.filter(function(c){return c.expected===d;}).length<want && mechs.length){
+        var m=mechs[k%mechs.length];
+        if(byMech[m].length) out.push(byMech[m].pop());
+        else { mechs.splice(k%mechs.length,1); continue; }
+        k++;
+      }
+    });
+    return shuffle(out);
+  }
+
+  function pct(v,digits){
+    if(v===null||v===undefined) return '—';
+    return (v*100).toFixed(digits===undefined?2:digits)+'%';
+  }
+  function signed(v){
+    if(v===null||v===undefined) return {txt:'—',cls:''};
+    return {txt:(v>=0?'+':'')+(v*100).toFixed(2)+'%', cls:v>=0?'pos':'neg'};
+  }
+  function num(v){
+    // На узком экране полное число съедает ширину, которой не хватает
+    // колонке Δ. Точный размер группы для решения не нужен — нужен порядок.
+    if(window.innerWidth<=600 && v>=10000)
+      return Math.round(v/1000).toLocaleString(LANG==='ru'?'ru-RU':'en-US')+(LANG==='ru'?' тыс.':'K');
+    return v.toLocaleString(LANG==='ru'?'ru-RU':'en-US');
+  }
+  function pval(v){
+    if(v===null||v===undefined) return '—';
+    return v<0.0001 ? v.toExponential(1) : String(Number(v.toFixed(4)));
+  }
+  function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+
+  function label(key,fallback){ return _t(key)||fallback; }
+  function decisionLabel(d){
+    var a=TEXTS.answers[d]; return a?(a[LANG]||a.en):d;
+  }
+
+  function renderTable(c){
+    var h='<div class="tbl-wrap"><table><thead><tr>'
+      +'<th>'+label('th_metric','Metric')+'</th>'
+      +'<th>'+label('th_control','Control')+'</th>'
+      +'<th>'+label('th_test','Test')+'</th>'
+      +'<th>'+label('th_delta','Δ')+'</th>'
+      +'<th>'+label('th_p','p')+'</th></tr></thead><tbody>';
+    c.table.forEach(function(r){
+      var isAll=r.segment==='all', d=signed(r.rev_delta);
+      if(isAll){
+        h+='<tr><td>'+label('t_users','Users')+'</td>'
+          +'<td>'+num(r.n_control)+'</td><td>'+num(r.n_test)+'</td><td>—</td><td>—</td></tr>';
+        h+='<tr class="'+(c.primary!=='ctr'?'row-primary':'')+'">'
+          +'<td>'+label('t_rpu','Revenue per user')+'</td>'
+          +'<td>'+r.rpu_control.toFixed(3)+'</td><td>'+r.rpu_test.toFixed(3)+'</td>'
+          +'<td class="'+d.cls+'">'+d.txt+'</td><td>'+pval(r.rev_p)+'</td></tr>';
+        var cd=signed(r.ctr_delta);
+        h+='<tr class="'+(c.primary==='ctr'?'row-primary':'')+'"><td>'+label('t_ctr','CTR')+'</td>'
+          +'<td>'+pct(r.ctr_control)+'</td><td>'+pct(r.ctr_test)+'</td>'
+          +'<td class="'+cd.cls+'">'+cd.txt+'</td><td>'+pval(r.ctr_p)+'</td></tr>';
+        return;
+      }
+      // Сегмент — одна строка: выручка на пользователя плюс доля трафика
+      // подписью. Доли важнее абсолютных размеров: именно их сдвиг между
+      // группами и создаёт мнимый рост в агрегате.
+      h+='<tr class="row-seg"><td>'+esc(r.segment)
+        +'<span class="seg-share">'+pct(r.share_control,1)+' → '+pct(r.share_test,1)
+        +'<span class="seg-unit"> '+label('t_of_users','of users')+'</span></span></td>'
+        +'<td>'+r.rpu_control.toFixed(3)+'</td><td>'+r.rpu_test.toFixed(3)+'</td>'
+        +'<td class="'+d.cls+'">'+d.txt+'</td><td>'+pval(r.rev_p)+'</td></tr>';
+    });
+    return h+'</tbody></table></div>';
+  }
+
+  function renderFacts(c){
+    var h='<ul class="facts">';
+    h+='<li>'+fmt(label('f_horizon','{d} days, split by user'),{d:c.horizon_days})+'</li>';
+    h+='<li>'+fmt(label('f_primary','Primary metric: {m}, α = {a}'),{m:c.primary,a:c.alpha})+'</li>';
+    h+='<li>'+fmt(label('f_threshold','Practical threshold: {t}'),{t:c.vars.threshold})+'</li>';
+    // Только те guardrail, под которыми в данных есть колонка. Иначе
+    // пользователь пойдёт искать строку, которой в таблице нет.
+    c.guardrails.forEach(function(g){
+      h+='<li>'+fmt(label('f_guardrail','Guardrail: {n} must not drop more than {v}'),
+                    {n:g.name, v:(g.max_drop*100).toFixed(0)+'%'})+'</li>';
+    });
+    return h+'</ul>';
+  }
+
+  function renderCase(){
+    var c=QUEUE[AT];
+    var h='<div class="progress"><div class="progress-track"><div class="progress-fill" style="width:'
+      +(AT/SESSION_LEN*100)+'%"></div></div><span class="progress-n">'+(AT+1)+' / '+SESSION_LEN+'</span></div>';
+    h+='<div class="card"><div class="case-head"><span class="case-id">'+c.case_id+'</span>'
+      +'<span class="case-title">'+esc(c.title)+'</span></div>';
+    h+=renderTable(c)+renderFacts(c);
+    h+='<p class="q">'+(TEXTS.question[LANG]||TEXTS.question.en)+'</p><div class="choices">';
+    DECISIONS.forEach(function(d){
+      h+='<button class="choice" data-d="'+d+'">'+esc(decisionLabel(d))+'</button>';
+    });
+    h+='</div><div id="reveal"></div></div>';
+    $app.innerHTML=h;
+    $app.querySelectorAll('.choice').forEach(function(b){
+      b.addEventListener('click',function(){ answer(b.getAttribute('data-d')); });
+    });
+    var tw=$app.querySelector('.tbl-wrap');
+    if(tw) tw.classList.toggle('scrollable', tw.scrollWidth>tw.clientWidth+1);
+  }
+
+  function answer(picked){
+    var c=QUEUE[AT], spec=TEXTS.mechanisms[c.mechanism], ok=(picked===c.expected);
+    RESULTS.push({mechanism:c.mechanism, ok:ok, rule_ok:c.rule_decision===c.expected});
+    $app.querySelectorAll('.choice').forEach(function(b){
+      b.disabled=true;
+      var d=b.getAttribute('data-d');
+      if(d===c.expected) b.classList.add('right');
+      else if(d===picked) b.classList.add('wrong');
+    });
+    var pick=function(o){ return o?(o[LANG]||o.en):''; };
+    var h='<div class="answer"><div class="verdict '+(ok?'right':'wrong')+'">'
+      +(ok?label('t_right','Correct'):label('t_wrong','Not quite'));
+    if(!ok) h+=' — '+fmt(label('t_expected','the answer is {d}'),{d:decisionLabel(c.expected)});
+    h+='</div>';
+    h+='<h4>'+label('h_why','What happened here')+'</h4><p>'+pick(spec.why)+'</p>';
+    h+='<h4>'+label('h_look','Where to have looked')+'</h4><p class="look">'
+      +fmt(pick(spec.look_at), c.vars)+'</p>';
+    if(spec.note) h+='<div class="note" style="margin-top:16px">'+pick(spec.note)+'</div>';
+    if(c.rule_decision){
+      var ruleOk=c.rule_decision===c.expected;
+      h+='<p class="rule-said">'+fmt(label('t_rule','The deterministic rule answered {d}. '),
+            {d:decisionLabel(c.rule_decision)})
+        +(ruleOk?label('t_rule_ok','It was right too.'):label('t_rule_bad','It got this one wrong.'))+'</p>';
+    }
+    h+='<p class="term">'+fmt(label('t_term','Name for this: {t}'),{t:pick(spec.term)})+'</p>';
+    h+='<button class="next">'+(AT+1<SESSION_LEN?label('t_next','Next'):label('t_finish','Results'))+'</button>';
+    h+='</div>';
+    document.getElementById('reveal').innerHTML=h;
+    $app.querySelector('.next').addEventListener('click',function(){
+      AT++;
+      if(AT<SESSION_LEN) renderCase(); else renderScore();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  }
+
+  function renderScore(){
+    var n=RESULTS.filter(function(r){return r.ok;}).length;
+    var ruleN=RESULTS.filter(function(r){return r.rule_ok;}).length;
+    var share=n/SESSION_LEN;
+    var sub = share>=0.8 ? label('s_sub_hi','Strong. You read the table better than the deterministic rule.')
+            : share>=0.5 ? label('s_sub_mid','Decent. The weak spots are below — start there.')
+            : label('s_sub_lo','Room to grow. Below is which situations slipped past.');
+    var byMech={};
+    RESULTS.forEach(function(r){
+      var m=byMech[r.mechanism]=byMech[r.mechanism]||{n:0,ok:0};
+      m.n++; if(r.ok) m.ok++;
+    });
+    var h='<div class="card score"><div class="score-n">'
+      +fmt(label('s_title','{n} of {m}'),{n:n,m:SESSION_LEN})+'</div>'
+      +'<p class="score-l">'+sub+'</p>';
+    h+='<h4 style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:8px">'
+      +label('s_break','By situation type')+'</h4><div class="breakdown">';
+    Object.keys(byMech).sort().forEach(function(m){
+      var spec=TEXTS.mechanisms[m], v=byMech[m];
+      var term=spec.term[LANG]||spec.term.en;
+      h+='<div class="bd-row"><span class="bd-name">'+esc(term)+'</span>'
+        +'<span class="bd-score">'+v.ok+' / '+v.n+'</span></div>';
+    });
+    h+='</div><p class="rule-said">'+fmt(label('s_rule','The rule on the same cases: {n} of {m}.'),
+          {n:ruleN,m:SESSION_LEN})+'</p>';
+    h+='<button class="next">'+label('s_again','Another fifteen')+'</button></div>';
+    $app.innerHTML=h;
+    $app.querySelector('.next').addEventListener('click',start);
+  }
+
+  function start(){
+    QUEUE=drawSession(); AT=0; RESULTS=[];
+    renderCase();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  Promise.all([
+    fetch('data/trainer_pool.json').then(function(r){return r.json();}),
+    fetch('data/trainer_texts.json').then(function(r){return r.json();})
+  ]).then(function(res){
+    POOL=res[0]; TEXTS=res[1];
+    start();
+  }).catch(function(e){
+    $app.innerHTML='<div class="loading">'+(LANG==='ru'?'Не удалось загрузить кейсы.':'Could not load the cases.')+'</div>';
+    console.error(e);
+  });
+})();
+</script>
+</body>
+</html>

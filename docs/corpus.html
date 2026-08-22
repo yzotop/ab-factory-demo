@@ -25,6 +25,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue"
 .top-bar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .15s}
 .top-bar a:hover,.top-bar a.active{color:var(--accent)}
 .top-bar .spacer{flex:1}
+@media(max-width:600px){
+  .top-bar{height:auto;flex-wrap:wrap;gap:10px 14px;padding:10px 16px}
+  .top-bar .spacer{display:none}
+}
 .lang-toggle{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500}
 .lang-toggle a{color:var(--muted);text-decoration:none;padding:4px 8px;border-radius:5px;transition:color .15s}
 .lang-toggle a:hover{color:var(--accent)}
@@ -254,6 +258,7 @@ footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);bor
   <a href="index.html" data-t="nav_home">Home</a>
   <a href="policy.html" data-t="nav_engine">Decision Engine</a>
   <a href="corpus.html" class="active" data-t="nav_corpus">Corpus Explorer</a>
+  <a href="trainer.html" data-t="nav_trainer">Trainer</a>
   <a href="pipeline.html">Pipeline</a>
   <span class="spacer"></span>
   <span class="lang-toggle"><a href="#" id="lang-en">EN</a><span class="sep">|</span><a href="#" id="lang-ru">RU</a></span>
