@@ -1,20 +1,16 @@
 {
   "case_id": "case_097",
-  "title": "Premium placement in mixed feeds (v97)",
+  "title": "Demand-side budget frontloading check (v97)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
     "control",
     "test"
   ],
-  "segments": [
-    "feed",
-    "article"
-  ],
   "time": {
     "start_date": "2025-01-19",
-    "end_date": "2025-02-02",
-    "horizon_days": 14
+    "end_date": "2025-02-16",
+    "horizon_days": 28
   },
   "primary_metric": {
     "name": "revenue",
@@ -26,6 +22,11 @@
       "name": "ctr",
       "direction": "up",
       "max_drop_relative": 0.03
+    },
+    {
+      "name": "fillrate",
+      "direction": "up",
+      "max_drop_relative": 0.05
     }
   ],
   "stats": {
@@ -37,5 +38,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Experiment #97. Cross-segment test."
+  "notes": "28-day holdout #97. Week-over-week analysis reveals trend reversal after week 2."
 }

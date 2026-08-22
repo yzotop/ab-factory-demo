@@ -1,6 +1,6 @@
 {
   "case_id": "case_095",
-  "title": "High-frequency interstitial test (v95)",
+  "title": "Auto-play video ad insertion (v95)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-17",
-    "end_date": "2025-10-31",
+    "start_date": "2025-03-11",
+    "end_date": "2025-03-25",
     "horizon_days": 14
   },
   "primary_metric": {

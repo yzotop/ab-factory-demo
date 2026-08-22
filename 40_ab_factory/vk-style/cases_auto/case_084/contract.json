@@ -1,20 +1,16 @@
 {
   "case_id": "case_084",
-  "title": "Cross-platform ad density test (v84)",
+  "title": "Pricing floor long-run test (v84)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
     "control",
     "test"
   ],
-  "segments": [
-    "feed",
-    "article"
-  ],
   "time": {
-    "start_date": "2025-10-23",
-    "end_date": "2025-11-06",
-    "horizon_days": 14
+    "start_date": "2025-01-24",
+    "end_date": "2025-02-21",
+    "horizon_days": 28
   },
   "primary_metric": {
     "name": "revenue",
@@ -26,6 +22,11 @@
       "name": "ctr",
       "direction": "up",
       "max_drop_relative": 0.03
+    },
+    {
+      "name": "fillrate",
+      "direction": "up",
+      "max_drop_relative": 0.05
     }
   ],
   "stats": {
@@ -37,5 +38,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Experiment #84. Cross-segment test."
+  "notes": "28-day holdout #84. Week-over-week analysis reveals trend reversal after week 2."
 }

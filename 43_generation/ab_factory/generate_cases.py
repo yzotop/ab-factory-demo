@@ -2357,8 +2357,8 @@ PROFILES: dict[str, list[tuple[str, int]]] = {
         ("clean_uplift", 30),   # пишет key_reasons ["primary_uplift"]
         ("guardrail_breach", 20),
         ("practically_small", 20),
-        ("long_term_reversal", 15),
         ("segment_conflict", 15),
+        ("long_term_reversal", 15),
     ],
 }
 

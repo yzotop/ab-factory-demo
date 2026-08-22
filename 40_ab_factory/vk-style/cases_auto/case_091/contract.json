@@ -1,20 +1,16 @@
 {
   "case_id": "case_091",
-  "title": "Segment-specific pricing experiment (v91)",
+  "title": "Advertiser supply adjustment test (v91)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
     "control",
     "test"
   ],
-  "segments": [
-    "feed",
-    "article"
-  ],
   "time": {
-    "start_date": "2025-11-10",
-    "end_date": "2025-11-24",
-    "horizon_days": 14
+    "start_date": "2025-04-05",
+    "end_date": "2025-05-03",
+    "horizon_days": 28
   },
   "primary_metric": {
     "name": "revenue",
@@ -26,6 +22,11 @@
       "name": "ctr",
       "direction": "up",
       "max_drop_relative": 0.03
+    },
+    {
+      "name": "fillrate",
+      "direction": "up",
+      "max_drop_relative": 0.05
     }
   ],
   "stats": {
@@ -37,5 +38,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "Experiment #91. Cross-segment test."
+  "notes": "28-day holdout #91. Week-over-week analysis reveals trend reversal after week 2."
 }

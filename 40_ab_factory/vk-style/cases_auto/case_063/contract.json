@@ -1,6 +1,6 @@
 {
   "case_id": "case_063",
-  "title": "Inventory fill rate improvement (v63)",
+  "title": "New banner placement test (v63)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,14 +8,14 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-02-25",
-    "end_date": "2025-03-11",
+    "start_date": "2025-07-15",
+    "end_date": "2025-07-29",
     "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.008
+    "mde_relative": 0.011
   },
   "guardrails": [
     {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.005
+    "practical_threshold_relative": 0.008
   },
   "notes": "Standard experiment #63. Clean uplift expected."
 }

@@ -1,16 +1,20 @@
 {
   "case_id": "case_025",
-  "title": "Advertiser supply adjustment test (v25)",
+  "title": "Cross-platform ad density test (v25)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
     "control",
     "test"
   ],
+  "segments": [
+    "feed",
+    "article"
+  ],
   "time": {
-    "start_date": "2025-07-02",
-    "end_date": "2025-07-30",
-    "horizon_days": 28
+    "start_date": "2025-03-28",
+    "end_date": "2025-04-11",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -22,11 +26,6 @@
       "name": "ctr",
       "direction": "up",
       "max_drop_relative": 0.03
-    },
-    {
-      "name": "fillrate",
-      "direction": "up",
-      "max_drop_relative": 0.05
     }
   ],
   "stats": {
@@ -38,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "28-day holdout #25. Week-over-week analysis reveals trend reversal after week 2."
+  "notes": "Experiment #25. Cross-segment test."
 }

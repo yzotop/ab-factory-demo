@@ -1,16 +1,20 @@
 {
   "case_id": "case_088",
-  "title": "Pricing floor long-run test (v88)",
+  "title": "Fullscreen format cross-surface test (v88)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
     "control",
     "test"
   ],
+  "segments": [
+    "feed",
+    "article"
+  ],
   "time": {
-    "start_date": "2025-08-15",
-    "end_date": "2025-09-12",
-    "horizon_days": 28
+    "start_date": "2025-09-05",
+    "end_date": "2025-09-19",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
@@ -22,11 +26,6 @@
       "name": "ctr",
       "direction": "up",
       "max_drop_relative": 0.03
-    },
-    {
-      "name": "fillrate",
-      "direction": "up",
-      "max_drop_relative": 0.05
     }
   ],
   "stats": {
@@ -38,5 +37,5 @@
     "rule": "ship_if_primary_sig_and_guardrails_ok",
     "practical_threshold_relative": 0.005
   },
-  "notes": "28-day holdout #88. Week-over-week analysis reveals trend reversal after week 2."
+  "notes": "Experiment #88. Cross-segment test."
 }

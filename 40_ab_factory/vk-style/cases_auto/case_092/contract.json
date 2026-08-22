@@ -1,6 +1,6 @@
 {
   "case_id": "case_092",
-  "title": "New banner placement test (v92)",
+  "title": "RTB timeout reduction (v92)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,14 +8,14 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-14",
-    "end_date": "2025-10-21",
-    "horizon_days": 7
+    "start_date": "2025-09-15",
+    "end_date": "2025-09-29",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.017
+    "mde_relative": 0.012
   },
   "guardrails": [
     {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.015
+    "practical_threshold_relative": 0.004
   },
   "notes": "Standard experiment #92. Clean uplift expected."
 }

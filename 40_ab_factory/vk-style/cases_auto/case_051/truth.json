@@ -1,12 +1,12 @@
 {
   "case_id": "case_051",
-  "expected_decision": "investigate",
-  "primary_effect_relative": -0.0017,
+  "expected_decision": "do_not_ship",
+  "primary_effect_relative": 0.0075,
   "is_stat_sig": false,
   "guardrails_ok": true,
   "key_reasons": [
-    "segment_conflict",
+    "long_term_reversal",
     "not_significant"
   ],
-  "human_rationale": "Overall -0.2% not sig. feed +2.2% vs article -4.0%."
+  "human_rationale": "Aggregated +0.75% not sig. Weekly trend shows early gain then reversal."
 }

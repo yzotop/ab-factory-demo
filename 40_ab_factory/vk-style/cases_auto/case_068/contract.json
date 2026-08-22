@@ -1,6 +1,6 @@
 {
   "case_id": "case_068",
-  "title": "Auto-play video ad insertion (v68)",
+  "title": "Scroll-triggered fullscreen ads (v68)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-07-23",
-    "end_date": "2025-08-06",
-    "horizon_days": 14
+    "start_date": "2025-08-02",
+    "end_date": "2025-08-09",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.008
+    "practical_threshold_relative": 0.003
   },
   "notes": "Experiment #68. Expected engagement trade-off."
 }

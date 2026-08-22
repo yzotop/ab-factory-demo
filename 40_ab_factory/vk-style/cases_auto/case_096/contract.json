@@ -1,6 +1,6 @@
 {
   "case_id": "case_096",
-  "title": "Below-fold ad density boost (v96)",
+  "title": "Scroll-triggered fullscreen ads (v96)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-11",
-    "end_date": "2025-10-25",
-    "horizon_days": 14
+    "start_date": "2025-10-10",
+    "end_date": "2025-10-17",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",

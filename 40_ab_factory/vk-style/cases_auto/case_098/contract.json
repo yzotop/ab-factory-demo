@@ -1,6 +1,6 @@
 {
   "case_id": "case_098",
-  "title": "New banner placement test (v98)",
+  "title": "Bid floor optimization (v98)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-06",
-    "end_date": "2025-06-20",
-    "horizon_days": 14
+    "start_date": "2025-03-17",
+    "end_date": "2025-03-24",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.005
+    "practical_threshold_relative": 0.007
   },
   "notes": "Standard experiment #98. Clean uplift expected."
 }

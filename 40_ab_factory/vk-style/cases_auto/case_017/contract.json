@@ -8,9 +8,9 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-06-26",
-    "end_date": "2025-07-10",
-    "horizon_days": 14
+    "start_date": "2025-06-14",
+    "end_date": "2025-06-21",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.007
+    "practical_threshold_relative": 0.004
   },
   "notes": "Experiment #17. Expected engagement trade-off."
 }

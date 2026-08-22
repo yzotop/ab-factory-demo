@@ -10,20 +10,20 @@
     "not_significant": 30,
     "guardrail_violation:ctr": 20,
     "practically_small": 20,
-    "segment_conflict": 15,
-    "long_term_reversal": 15
+    "long_term_reversal": 15,
+    "segment_conflict": 15
   },
   "metric_counts": {
     "revenue": 100
   },
   "avg_confidence_by_decision": {
-    "do_not_ship": 0.2042,
-    "investigate": 0.1212,
-    "ship": 0.6457
+    "do_not_ship": 0.191,
+    "ship": 0.6457,
+    "investigate": 0.136
   },
-  "uplift_min": -0.43,
-  "uplift_max": 4.99,
-  "uplift_avg": 1.48,
+  "uplift_min": -0.49,
+  "uplift_max": 4.98,
+  "uplift_avg": 1.37,
   "guardrail_breach_count": 20,
   "segment_conflict_count": 15,
   "reversal_count": 15

@@ -1,6 +1,6 @@
 {
   "case_id": "case_073",
-  "title": "Request batching micro-optimization (v73)",
+  "title": "Lazy-load trigger offset tweak (v73)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-11-23",
-    "end_date": "2025-12-21",
+    "start_date": "2025-09-25",
+    "end_date": "2025-10-23",
     "horizon_days": 28
   },
   "primary_metric": {
@@ -31,7 +31,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.007
+    "practical_threshold_relative": 0.009
   },
   "notes": "High-power experiment #73. Large sample makes tiny effects significant."
 }

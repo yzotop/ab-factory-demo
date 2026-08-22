@@ -1,6 +1,6 @@
 {
   "case_id": "case_047",
-  "title": "CSS render path adjustment (v47)",
+  "title": "Request batching micro-optimization (v47)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-09-02",
-    "end_date": "2025-09-30",
+    "start_date": "2025-08-09",
+    "end_date": "2025-09-06",
     "horizon_days": 28
   },
   "primary_metric": {

@@ -8,14 +8,14 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-04-23",
-    "end_date": "2025-05-07",
-    "horizon_days": 14
+    "start_date": "2025-05-23",
+    "end_date": "2025-05-30",
+    "horizon_days": 7
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.012
+    "mde_relative": 0.016
   },
   "guardrails": [
     {

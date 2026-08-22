@@ -1,6 +1,6 @@
 {
   "case_id": "case_021",
-  "title": "High-frequency interstitial test (v21)",
+  "title": "Scroll-triggered fullscreen ads (v21)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,8 +8,8 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-07-26",
-    "end_date": "2025-08-09",
+    "start_date": "2025-10-27",
+    "end_date": "2025-11-10",
     "horizon_days": 14
   },
   "primary_metric": {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.008
+    "practical_threshold_relative": 0.005
   },
   "notes": "Experiment #21. Expected engagement trade-off."
 }

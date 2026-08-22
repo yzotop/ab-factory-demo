@@ -1,6 +1,6 @@
 {
   "case_id": "case_093",
-  "title": "Waterfall priority reorder (v93)",
+  "title": "Ad slot refresh rate increase (v93)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
@@ -8,14 +8,14 @@
     "test"
   ],
   "time": {
-    "start_date": "2025-10-12",
-    "end_date": "2025-10-19",
-    "horizon_days": 7
+    "start_date": "2025-07-05",
+    "end_date": "2025-07-19",
+    "horizon_days": 14
   },
   "primary_metric": {
     "name": "revenue",
     "direction": "up",
-    "mde_relative": 0.009
+    "mde_relative": 0.01
   },
   "guardrails": [
     {
@@ -36,7 +36,7 @@
   },
   "decision_framework": {
     "rule": "ship_if_primary_sig_and_guardrails_ok",
-    "practical_threshold_relative": 0.006
+    "practical_threshold_relative": 0.005
   },
   "notes": "Standard experiment #93. Clean uplift expected."
 }
