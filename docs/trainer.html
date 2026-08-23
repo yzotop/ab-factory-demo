@@ -41,6 +41,11 @@ h1{font-size:28px;font-weight:700;margin-bottom:8px}
 .progress-track{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
 .progress-fill{height:100%;background:var(--accent);width:0;transition:width .3s}
 .progress-n{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+/* Выход из середины. Без него бросивший на третьем кейсе не получал ничего,
+   хотя три разбора уже прочитал. */
+.finish{background:none;border:0;padding:2px 0;font:inherit;font-size:12px;color:var(--muted);
+  cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.finish:hover{color:var(--accent)}
 
 .card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
 .case-head{display:flex;align-items:baseline;gap:10px;margin-bottom:18px;flex-wrap:wrap}
@@ -186,7 +191,7 @@ tr:last-child td{border-bottom:0}
     t_right:{ru:'Верно'}, t_wrong:{ru:'Не так'},
     t_expected:{ru:'здесь нужно было «{d}»'},
     h_why:{ru:'Что здесь произошло'}, h_look:{ru:'Куда стоило смотреть'},
-    t_next:{ru:'Дальше'}, t_finish:{ru:'Итог'},
+    t_next:{ru:'Дальше'}, t_finish:{ru:'Итог'}, t_stop:{ru:'Закончить'},
     t_term:{ru:'Как это называется: {t}'},
     s_title:{ru:'{n} из {m}'},
     s_sub_hi:{ru:'Сильно. Таблицу вы читаете уверенно.'},
@@ -230,9 +235,34 @@ tr:last-child td{border-bottom:0}
   // Семь, а не пятнадцать: пройти до конца важнее, чем пройти много.
   // В конце предлагается ещё семь.
   var SESSION_LEN = 7;
+  // Сессия переживает перезагрузку. Ключ с версией: если состав пула или
+  // длина сессии изменятся, старое состояние молча не подхватится.
+  var STORE_KEY = 'ab-trainer-session-v1';
   var DECISIONS = ['ship','investigate','do_not_ship'];
-  var POOL=null, TEXTS=null, QUEUE=[], AT=0, RESULTS=[];
+  var POOL=null, TEXTS=null, QUEUE=[], AT=0, RESULTS=[], PICKED=null;
   var $app=document.getElementById('app');
+
+  function saveState(){
+    try{
+      sessionStorage.setItem(STORE_KEY, JSON.stringify({
+        len:SESSION_LEN, at:AT, picked:PICKED,
+        ids:QUEUE.map(function(c){return c.case_id;}), results:RESULTS
+      }));
+    }catch(e){}
+  }
+  function clearState(){ try{ sessionStorage.removeItem(STORE_KEY); }catch(e){} }
+  function loadState(){
+    try{
+      var raw=sessionStorage.getItem(STORE_KEY); if(!raw) return false;
+      var s=JSON.parse(raw);
+      if(!s || s.len!==SESSION_LEN || !s.ids || s.ids.length!==SESSION_LEN) return false;
+      var byId={}; POOL.cases.forEach(function(c){ byId[c.case_id]=c; });
+      var q=s.ids.map(function(id){ return byId[id]; });
+      if(q.some(function(c){ return !c; })) return false;   // пул изменился
+      QUEUE=q; AT=s.at||0; RESULTS=s.results||[]; PICKED=s.picked||null;
+      return AT<SESSION_LEN;
+    }catch(e){ return false; }
+  }
 
   function shuffle(a){
     for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
@@ -348,7 +378,8 @@ tr:last-child td{border-bottom:0}
   function renderCase(){
     var c=QUEUE[AT];
     var h='<div class="progress"><div class="progress-track"><div class="progress-fill" style="width:'
-      +(AT/SESSION_LEN*100)+'%"></div></div><span class="progress-n">'+(AT+1)+' / '+SESSION_LEN+'</span></div>';
+      +(AT/SESSION_LEN*100)+'%"></div></div><span class="progress-n">'+(AT+1)+' / '+SESSION_LEN+'</span>'
+      +(RESULTS.length?'<button class="finish">'+label('t_stop','Finish')+'</button>':'')+'</div>';
     h+='<div class="card"><div class="case-head"><span class="case-id">'+c.case_id+'</span>'
       +'<span class="case-title">'+esc(c.title)+'</span></div>';
     h+=renderTable(c)+renderFacts(c);
@@ -363,6 +394,8 @@ tr:last-child td{border-bottom:0}
     });
     var tw=$app.querySelector('.tbl-wrap');
     if(tw) tw.classList.toggle('scrollable', tw.scrollWidth>tw.clientWidth+1);
+    var fin=$app.querySelector('.finish');
+    if(fin) fin.addEventListener('click',function(){ clearState(); renderScore(); window.scrollTo(0,0); });
   }
 
   // Свернуть интро и подтянуть таблицу под шапку, чтобы разбор и числа,
@@ -410,9 +443,14 @@ tr:last-child td{border-bottom:0}
     });
   }
 
-  function answer(picked){
+  // replay=true — восстановление после перезагрузки: разбор надо отрисовать
+  // заново, но в результаты этот ответ уже записан.
+  function answer(picked, replay){
     var c=QUEUE[AT], spec=TEXTS.mechanisms[c.mechanism], ok=(picked===c.expected);
-    RESULTS.push({mechanism:c.mechanism, ok:ok, rule_ok:c.rule_decision===c.expected});
+    if(!replay){
+      RESULTS.push({mechanism:c.mechanism, ok:ok, rule_ok:c.rule_decision===c.expected});
+      PICKED=picked; saveState();
+    }
     $app.querySelectorAll('.choice').forEach(function(b){
       b.disabled=true;
       var d=b.getAttribute('data-d');
@@ -442,8 +480,9 @@ tr:last-child td{border-bottom:0}
     applyHighlight(spec);
     focusOnTable();
     $app.querySelector('.next').addEventListener('click',function(){
-      AT++;
-      if(AT<SESSION_LEN) renderCase(); else renderScore();
+      AT++; PICKED=null;
+      if(AT<SESSION_LEN){ saveState(); renderCase(); }
+      else { clearState(); renderScore(); }
       window.scrollTo(0,0);
     });
   }
@@ -455,7 +494,10 @@ tr:last-child td{border-bottom:0}
     // правило справляется. Считаем только кейсы, где оно ошиблось.
     var ruleWrong=RESULTS.filter(function(r){return !r.rule_ok;}).length;
     var caught=RESULTS.filter(function(r){return !r.rule_ok && r.ok;}).length;
-    var share=n/SESSION_LEN;
+    // Знаменатель — сколько кейсов реально пройдено. При выходе из середины
+    // делить на длину сессии значило бы засчитать непройденное как ошибки.
+    var done=RESULTS.length||1;
+    var share=n/done;
     var sub = share>=0.8 ? label('s_sub_hi','Strong. You read the table with confidence.')
             : share>=0.5 ? label('s_sub_mid','Decent. The weak spots are below — start there.')
             : label('s_sub_lo','Room to grow. Below is which situations slipped past.');
@@ -465,7 +507,7 @@ tr:last-child td{border-bottom:0}
       m.n++; if(r.ok) m.ok++;
     });
     var h='<div class="card score"><div class="score-n">'
-      +fmt(label('s_title','{n} of {m}'),{n:n,m:SESSION_LEN})+'</div>'
+      +fmt(label('s_title','{n} of {m}'),{n:n,m:RESULTS.length})+'</div>'
       +'<p class="score-l">'+sub+'</p>';
     h+='<h4 style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:8px">'
       +label('s_break','By situation type')+'</h4><div class="breakdown">';
@@ -477,7 +519,7 @@ tr:last-child td{border-bottom:0}
     });
     h+='</div><p class="rule-said">'
       +fmt(label('s_rule','The rule got {m} of the {t} wrong. Of those, you answered {n} correctly.'),
-           {m:ruleWrong, n:caught, t:SESSION_LEN})+'</p>';
+           {m:ruleWrong, n:caught, t:RESULTS.length})+'</p>';
     // Вторая фраза — только если было что засчитать. При нуле она была бы
     // похвалой ни за что.
     if(caught>0) h+='<p class="rule-said">'
@@ -493,7 +535,9 @@ tr:last-child td{border-bottom:0}
   }
 
   function start(){
-    QUEUE=drawSession(); AT=0; RESULTS=[];
+    clearState();
+    QUEUE=drawSession(); AT=0; RESULTS=[]; PICKED=null;
+    saveState();
     renderCase();
     window.scrollTo(0,0);
   }
@@ -503,7 +547,12 @@ tr:last-child td{border-bottom:0}
     fetch('data/trainer_texts.json').then(function(r){return r.json();})
   ]).then(function(res){
     POOL=res[0]; TEXTS=res[1];
-    start();
+    if(loadState()){
+      renderCase();
+      if(PICKED) answer(PICKED, true);   // вернуть разбор, ответ уже засчитан
+    } else {
+      start();
+    }
   }).catch(function(e){
     $app.innerHTML='<div class="loading">'+(LANG==='ru'?'Не удалось загрузить кейсы.':'Could not load the cases.')+'</div>';
     console.error(e);
