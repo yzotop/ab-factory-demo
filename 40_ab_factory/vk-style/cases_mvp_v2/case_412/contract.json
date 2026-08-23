@@ -1,6 +1,6 @@
 {
   "case_id": "case_412",
-  "title": "Ad yield experiment (v412)",
+  "title": "Waterfall priority reorder (v412)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

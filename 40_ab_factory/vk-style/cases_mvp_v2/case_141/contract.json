@@ -1,6 +1,6 @@
 {
   "case_id": "case_141",
-  "title": "Yield optimization test (v141)",
+  "title": "Inventory fill rate improvement (v141)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

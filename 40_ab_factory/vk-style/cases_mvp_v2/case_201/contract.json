@@ -1,6 +1,6 @@
 {
   "case_id": "case_201",
-  "title": "Request batching micro-optimization (v201)",
+  "title": "RTB timeout reduction (v201)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

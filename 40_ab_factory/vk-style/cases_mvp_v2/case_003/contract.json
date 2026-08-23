@@ -1,6 +1,6 @@
 {
   "case_id": "case_003",
-  "title": "Below-fold ad density boost (v3)",
+  "title": "Video pre-roll length trim (v3)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

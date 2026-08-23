@@ -94,24 +94,24 @@ TITLES_SHIP = [
     "Passback chain shortening",
 ]
 TITLES_GUARDRAIL = [
-    "Aggressive ad pressure increase",
-    "High-frequency interstitial test",
-    "Below-fold ad density boost",
-    "Scroll-triggered fullscreen ads",
-    "Auto-play video ad insertion",
+    "In-feed ad density rebalance",
+    "Sticky footer unit rollout",
+    "Video pre-roll length trim",
+    "Ad slot refresh rate increase",
+    "Native ad format rollout",
 ]
 TITLES_SMALL = [
-    "Lazy-load trigger offset tweak",
-    "Ad container padding change",
-    "Request batching micro-optimization",
-    "CSS render path adjustment",
-    "Prefetch timing shift",
+    "Lazy-load offset tuning",
+    "Ad load latency budget cut",
+    "RTB timeout reduction",
+    "Prebid adapter consolidation",
+    "Viewability threshold tuning",
 ]
 TITLES_SEGMENT = [
-    "Fullscreen format cross-surface test",
-    "Premium placement in mixed feeds",
-    "Segment-specific pricing experiment",
-    "Cross-platform ad density test",
+    "New banner placement test",
+    "Creative size mix expansion",
+    "Waterfall priority reorder",
+    "In-feed ad density rebalance",
 ]
 TITLES_REVERSAL = [
     "Pricing floor long-run test",
@@ -127,10 +127,10 @@ TITLES_NOVELTY = [
     "Novel placement debut",
 ]
 TITLES_SIMPSON = [
-    "Staged placement rollout",
-    "New pricing tier test",
-    "Ad unit refresh",
-    "Placement redesign test",
+    "Bid floor optimization",
+    "Deal ID priority adjustment",
+    "Header bidding partner addition",
+    "New banner placement test",
 ]
 TITLES_MULTCOMP = [
     "Multi-metric dashboard test",
@@ -181,10 +181,10 @@ TITLES_POSTTREATMENT = [
     "Feature-adopter performance readout",
 ]
 TITLES_TWYMAN = [
-    "Ad yield experiment",
-    "Monetization format update",
-    "Placement format test",
-    "Yield optimization test",
+    "Waterfall priority reorder",
+    "Auction reserve price update",
+    "Passback chain shortening",
+    "Inventory fill rate improvement",
 ]
 TITLES_DILUTION = [
     "Checkout error recovery prompt",
@@ -251,10 +251,10 @@ TITLES_HEAVY_TAILS = [
     "Skewed revenue distribution test",
 ]
 TITLES_BAD_OEC = [
-    "Layout optimization test",
-    "Click surface expansion test",
-    "Tap target redesign",
-    "Feed interaction update",
+    "Creative size mix expansion",
+    "Sticky footer unit rollout",
+    "Native ad format rollout",
+    "Bid floor optimization",
 ]
 TITLES_INCOMPLETE_CYCLES = [
     "Mid-week format pilot",

@@ -1,6 +1,6 @@
 {
   "case_id": "case_100",
-  "title": "Aggressive ad pressure increase (v100)",
+  "title": "In-feed ad density rebalance (v100)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

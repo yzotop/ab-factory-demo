@@ -1,6 +1,6 @@
 {
   "case_id": "case_030",
-  "title": "High-frequency interstitial test (v30)",
+  "title": "Sticky footer unit rollout (v30)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

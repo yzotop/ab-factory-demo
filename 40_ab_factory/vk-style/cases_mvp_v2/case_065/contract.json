@@ -1,6 +1,6 @@
 {
   "case_id": "case_065",
-  "title": "Segment-specific pricing experiment (v65)",
+  "title": "Waterfall priority reorder (v65)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

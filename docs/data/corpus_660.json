@@ -47,7 +47,7 @@
   },
   {
     "case_id": "case_003",
-    "title": "Below-fold ad density boost (v3)",
+    "title": "Video pre-roll length trim (v3)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.52,
@@ -117,7 +117,7 @@
   },
   {
     "case_id": "case_006",
-    "title": "Premium placement in mixed feeds (v6)",
+    "title": "Creative size mix expansion (v6)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": -0.13,
@@ -279,7 +279,7 @@
   },
   {
     "case_id": "case_013",
-    "title": "Request batching micro-optimization (v13)",
+    "title": "RTB timeout reduction (v13)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.4,
@@ -325,7 +325,7 @@
   },
   {
     "case_id": "case_015",
-    "title": "Feed interaction update (v15)",
+    "title": "Bid floor optimization (v15)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.63,
@@ -372,7 +372,7 @@
   },
   {
     "case_id": "case_017",
-    "title": "Aggressive ad pressure increase (v17)",
+    "title": "In-feed ad density rebalance (v17)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.9,
@@ -603,7 +603,7 @@
   },
   {
     "case_id": "case_027",
-    "title": "Scroll-triggered fullscreen ads (v27)",
+    "title": "Ad slot refresh rate increase (v27)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.54,
@@ -650,7 +650,7 @@
   },
   {
     "case_id": "case_029",
-    "title": "Prefetch timing shift (v29)",
+    "title": "Viewability threshold tuning (v29)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.57,
@@ -744,7 +744,7 @@
   },
   {
     "case_id": "case_033",
-    "title": "High-frequency interstitial test (v33)",
+    "title": "Sticky footer unit rollout (v33)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.18,
@@ -791,7 +791,7 @@
   },
   {
     "case_id": "case_035",
-    "title": "Auto-play video ad insertion (v35)",
+    "title": "Native ad format rollout (v35)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.8,
@@ -884,7 +884,7 @@
   },
   {
     "case_id": "case_039",
-    "title": "Fullscreen format cross-surface test (v39)",
+    "title": "New banner placement test (v39)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.13,
@@ -932,7 +932,7 @@
   },
   {
     "case_id": "case_041",
-    "title": "New pricing tier test (v41)",
+    "title": "Deal ID priority adjustment (v41)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.53,
@@ -1001,7 +1001,7 @@
   },
   {
     "case_id": "case_044",
-    "title": "CSS render path adjustment (v44)",
+    "title": "Prebid adapter consolidation (v44)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.31,
@@ -1070,7 +1070,7 @@
   },
   {
     "case_id": "case_047",
-    "title": "Prefetch timing shift (v47)",
+    "title": "Viewability threshold tuning (v47)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.18,
@@ -1093,7 +1093,7 @@
   },
   {
     "case_id": "case_048",
-    "title": "Layout optimization test (v48)",
+    "title": "Creative size mix expansion (v48)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.02,
@@ -1117,7 +1117,7 @@
   },
   {
     "case_id": "case_049",
-    "title": "Auto-play video ad insertion (v49)",
+    "title": "Native ad format rollout (v49)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.73,
@@ -1187,7 +1187,7 @@
   },
   {
     "case_id": "case_052",
-    "title": "Lazy-load trigger offset tweak (v52)",
+    "title": "Lazy-load offset tuning (v52)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.22,
@@ -1210,7 +1210,7 @@
   },
   {
     "case_id": "case_053",
-    "title": "New pricing tier test (v53)",
+    "title": "Deal ID priority adjustment (v53)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.93,
@@ -1256,7 +1256,7 @@
   },
   {
     "case_id": "case_055",
-    "title": "Prefetch timing shift (v55)",
+    "title": "Viewability threshold tuning (v55)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.33,
@@ -1348,7 +1348,7 @@
   },
   {
     "case_id": "case_059",
-    "title": "Segment-specific pricing experiment (v59)",
+    "title": "Waterfall priority reorder (v59)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": -0.01,
@@ -1418,7 +1418,7 @@
   },
   {
     "case_id": "case_062",
-    "title": "Cross-platform ad density test (v62)",
+    "title": "In-feed ad density rebalance (v62)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.95,
@@ -1442,7 +1442,7 @@
   },
   {
     "case_id": "case_063",
-    "title": "CSS render path adjustment (v63)",
+    "title": "Prebid adapter consolidation (v63)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.15,
@@ -1465,7 +1465,7 @@
   },
   {
     "case_id": "case_064",
-    "title": "Staged placement rollout (v64)",
+    "title": "Bid floor optimization (v64)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.91,
@@ -1488,7 +1488,7 @@
   },
   {
     "case_id": "case_065",
-    "title": "Segment-specific pricing experiment (v65)",
+    "title": "Waterfall priority reorder (v65)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.12,
@@ -1558,7 +1558,7 @@
   },
   {
     "case_id": "case_068",
-    "title": "Staged placement rollout (v68)",
+    "title": "Bid floor optimization (v68)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.57,
@@ -1675,7 +1675,7 @@
   },
   {
     "case_id": "case_073",
-    "title": "Below-fold ad density boost (v73)",
+    "title": "Video pre-roll length trim (v73)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.77,
@@ -1699,7 +1699,7 @@
   },
   {
     "case_id": "case_074",
-    "title": "Placement format test (v74)",
+    "title": "Passback chain shortening (v74)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 36.37,
@@ -1722,7 +1722,7 @@
   },
   {
     "case_id": "case_075",
-    "title": "New pricing tier test (v75)",
+    "title": "Deal ID priority adjustment (v75)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.63,
@@ -1745,7 +1745,7 @@
   },
   {
     "case_id": "case_076",
-    "title": "Ad unit refresh (v76)",
+    "title": "Header bidding partner addition (v76)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.91,
@@ -1884,7 +1884,7 @@
   },
   {
     "case_id": "case_082",
-    "title": "Scroll-triggered fullscreen ads (v82)",
+    "title": "Ad slot refresh rate increase (v82)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.71,
@@ -2046,7 +2046,7 @@
   },
   {
     "case_id": "case_089",
-    "title": "Layout optimization test (v89)",
+    "title": "Creative size mix expansion (v89)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.49,
@@ -2092,7 +2092,7 @@
   },
   {
     "case_id": "case_091",
-    "title": "Scroll-triggered fullscreen ads (v91)",
+    "title": "Ad slot refresh rate increase (v91)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.37,
@@ -2301,7 +2301,7 @@
   },
   {
     "case_id": "case_100",
-    "title": "Aggressive ad pressure increase (v100)",
+    "title": "In-feed ad density rebalance (v100)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.51,
@@ -2394,7 +2394,7 @@
   },
   {
     "case_id": "case_104",
-    "title": "High-frequency interstitial test (v104)",
+    "title": "Sticky footer unit rollout (v104)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.63,
@@ -2441,7 +2441,7 @@
   },
   {
     "case_id": "case_106",
-    "title": "Yield optimization test (v106)",
+    "title": "Inventory fill rate improvement (v106)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 36.06,
@@ -2487,7 +2487,7 @@
   },
   {
     "case_id": "case_108",
-    "title": "Cross-platform ad density test (v108)",
+    "title": "In-feed ad density rebalance (v108)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": -0.43,
@@ -2557,7 +2557,7 @@
   },
   {
     "case_id": "case_111",
-    "title": "High-frequency interstitial test (v111)",
+    "title": "Sticky footer unit rollout (v111)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.11,
@@ -2834,7 +2834,7 @@
   },
   {
     "case_id": "case_123",
-    "title": "Premium placement in mixed feeds (v123)",
+    "title": "Creative size mix expansion (v123)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.63,
@@ -2927,7 +2927,7 @@
   },
   {
     "case_id": "case_127",
-    "title": "Request batching micro-optimization (v127)",
+    "title": "RTB timeout reduction (v127)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.71,
@@ -2973,7 +2973,7 @@
   },
   {
     "case_id": "case_129",
-    "title": "Premium placement in mixed feeds (v129)",
+    "title": "Creative size mix expansion (v129)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.33,
@@ -2997,7 +2997,7 @@
   },
   {
     "case_id": "case_130",
-    "title": "Segment-specific pricing experiment (v130)",
+    "title": "Waterfall priority reorder (v130)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.61,
@@ -3183,7 +3183,7 @@
   },
   {
     "case_id": "case_138",
-    "title": "Prefetch timing shift (v138)",
+    "title": "Viewability threshold tuning (v138)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.37,
@@ -3252,7 +3252,7 @@
   },
   {
     "case_id": "case_141",
-    "title": "Yield optimization test (v141)",
+    "title": "Inventory fill rate improvement (v141)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 37.33,
@@ -3275,7 +3275,7 @@
   },
   {
     "case_id": "case_142",
-    "title": "Staged placement rollout (v142)",
+    "title": "Bid floor optimization (v142)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.94,
@@ -3390,7 +3390,7 @@
   },
   {
     "case_id": "case_147",
-    "title": "CSS render path adjustment (v147)",
+    "title": "Prebid adapter consolidation (v147)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.46,
@@ -3598,7 +3598,7 @@
   },
   {
     "case_id": "case_156",
-    "title": "Cross-platform ad density test (v156)",
+    "title": "In-feed ad density rebalance (v156)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": -0.22,
@@ -3899,7 +3899,7 @@
   },
   {
     "case_id": "case_169",
-    "title": "New pricing tier test (v169)",
+    "title": "Deal ID priority adjustment (v169)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.3,
@@ -3991,7 +3991,7 @@
   },
   {
     "case_id": "case_173",
-    "title": "Fullscreen format cross-surface test (v173)",
+    "title": "New banner placement test (v173)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.5,
@@ -4247,7 +4247,7 @@
   },
   {
     "case_id": "case_184",
-    "title": "Staged placement rollout (v184)",
+    "title": "Bid floor optimization (v184)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.68,
@@ -4410,7 +4410,7 @@
   },
   {
     "case_id": "case_191",
-    "title": "Staged placement rollout (v191)",
+    "title": "Bid floor optimization (v191)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.47,
@@ -4433,7 +4433,7 @@
   },
   {
     "case_id": "case_192",
-    "title": "Aggressive ad pressure increase (v192)",
+    "title": "In-feed ad density rebalance (v192)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.59,
@@ -4595,7 +4595,7 @@
   },
   {
     "case_id": "case_199",
-    "title": "Click surface expansion test (v199)",
+    "title": "Sticky footer unit rollout (v199)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.44,
@@ -4619,7 +4619,7 @@
   },
   {
     "case_id": "case_200",
-    "title": "Prefetch timing shift (v200)",
+    "title": "Viewability threshold tuning (v200)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.28,
@@ -4642,7 +4642,7 @@
   },
   {
     "case_id": "case_201",
-    "title": "Request batching micro-optimization (v201)",
+    "title": "RTB timeout reduction (v201)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.1,
@@ -4734,7 +4734,7 @@
   },
   {
     "case_id": "case_205",
-    "title": "Prefetch timing shift (v205)",
+    "title": "Viewability threshold tuning (v205)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.21,
@@ -4780,7 +4780,7 @@
   },
   {
     "case_id": "case_207",
-    "title": "Below-fold ad density boost (v207)",
+    "title": "Video pre-roll length trim (v207)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.37,
@@ -4804,7 +4804,7 @@
   },
   {
     "case_id": "case_208",
-    "title": "Placement format test (v208)",
+    "title": "Passback chain shortening (v208)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 40.65,
@@ -4873,7 +4873,7 @@
   },
   {
     "case_id": "case_211",
-    "title": "Staged placement rollout (v211)",
+    "title": "Bid floor optimization (v211)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.93,
@@ -5080,7 +5080,7 @@
   },
   {
     "case_id": "case_220",
-    "title": "Staged placement rollout (v220)",
+    "title": "Bid floor optimization (v220)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.04,
@@ -5126,7 +5126,7 @@
   },
   {
     "case_id": "case_222",
-    "title": "Placement redesign test (v222)",
+    "title": "New banner placement test (v222)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.62,
@@ -5195,7 +5195,7 @@
   },
   {
     "case_id": "case_225",
-    "title": "Segment-specific pricing experiment (v225)",
+    "title": "Waterfall priority reorder (v225)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": -0.49,
@@ -5242,7 +5242,7 @@
   },
   {
     "case_id": "case_227",
-    "title": "Auto-play video ad insertion (v227)",
+    "title": "Native ad format rollout (v227)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.42,
@@ -5266,7 +5266,7 @@
   },
   {
     "case_id": "case_228",
-    "title": "Staged placement rollout (v228)",
+    "title": "Bid floor optimization (v228)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.79,
@@ -5358,7 +5358,7 @@
   },
   {
     "case_id": "case_232",
-    "title": "Request batching micro-optimization (v232)",
+    "title": "RTB timeout reduction (v232)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.54,
@@ -5381,7 +5381,7 @@
   },
   {
     "case_id": "case_233",
-    "title": "Auto-play video ad insertion (v233)",
+    "title": "Native ad format rollout (v233)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.51,
@@ -5544,7 +5544,7 @@
   },
   {
     "case_id": "case_240",
-    "title": "Yield optimization test (v240)",
+    "title": "Inventory fill rate improvement (v240)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 40.95,
@@ -5567,7 +5567,7 @@
   },
   {
     "case_id": "case_241",
-    "title": "Premium placement in mixed feeds (v241)",
+    "title": "Creative size mix expansion (v241)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.89,
@@ -5591,7 +5591,7 @@
   },
   {
     "case_id": "case_242",
-    "title": "Monetization format update (v242)",
+    "title": "Auction reserve price update (v242)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 39.88,
@@ -5637,7 +5637,7 @@
   },
   {
     "case_id": "case_244",
-    "title": "Request batching micro-optimization (v244)",
+    "title": "RTB timeout reduction (v244)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.18,
@@ -5706,7 +5706,7 @@
   },
   {
     "case_id": "case_247",
-    "title": "Fullscreen format cross-surface test (v247)",
+    "title": "New banner placement test (v247)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.3,
@@ -5937,7 +5937,7 @@
   },
   {
     "case_id": "case_257",
-    "title": "Aggressive ad pressure increase (v257)",
+    "title": "In-feed ad density rebalance (v257)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.19,
@@ -6007,7 +6007,7 @@
   },
   {
     "case_id": "case_260",
-    "title": "Request batching micro-optimization (v260)",
+    "title": "RTB timeout reduction (v260)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.44,
@@ -6054,7 +6054,7 @@
   },
   {
     "case_id": "case_262",
-    "title": "Below-fold ad density boost (v262)",
+    "title": "Video pre-roll length trim (v262)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.37,
@@ -6078,7 +6078,7 @@
   },
   {
     "case_id": "case_263",
-    "title": "Ad container padding change (v263)",
+    "title": "Ad load latency budget cut (v263)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.5,
@@ -6216,7 +6216,7 @@
   },
   {
     "case_id": "case_269",
-    "title": "Lazy-load trigger offset tweak (v269)",
+    "title": "Lazy-load offset tuning (v269)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.11,
@@ -6263,7 +6263,7 @@
   },
   {
     "case_id": "case_271",
-    "title": "Prefetch timing shift (v271)",
+    "title": "Viewability threshold tuning (v271)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.24,
@@ -6309,7 +6309,7 @@
   },
   {
     "case_id": "case_273",
-    "title": "Ad yield experiment (v273)",
+    "title": "Waterfall priority reorder (v273)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 35.93,
@@ -6332,7 +6332,7 @@
   },
   {
     "case_id": "case_274",
-    "title": "Below-fold ad density boost (v274)",
+    "title": "Video pre-roll length trim (v274)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.54,
@@ -6356,7 +6356,7 @@
   },
   {
     "case_id": "case_275",
-    "title": "Layout optimization test (v275)",
+    "title": "Creative size mix expansion (v275)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.58,
@@ -6426,7 +6426,7 @@
   },
   {
     "case_id": "case_278",
-    "title": "Auto-play video ad insertion (v278)",
+    "title": "Native ad format rollout (v278)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.3,
@@ -6589,7 +6589,7 @@
   },
   {
     "case_id": "case_285",
-    "title": "Segment-specific pricing experiment (v285)",
+    "title": "Waterfall priority reorder (v285)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.37,
@@ -6707,7 +6707,7 @@
   },
   {
     "case_id": "case_290",
-    "title": "Lazy-load trigger offset tweak (v290)",
+    "title": "Lazy-load offset tuning (v290)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.36,
@@ -6776,7 +6776,7 @@
   },
   {
     "case_id": "case_293",
-    "title": "Lazy-load trigger offset tweak (v293)",
+    "title": "Lazy-load offset tuning (v293)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.23,
@@ -6799,7 +6799,7 @@
   },
   {
     "case_id": "case_294",
-    "title": "CSS render path adjustment (v294)",
+    "title": "Prebid adapter consolidation (v294)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.39,
@@ -7030,7 +7030,7 @@
   },
   {
     "case_id": "case_304",
-    "title": "Placement redesign test (v304)",
+    "title": "New banner placement test (v304)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.69,
@@ -7261,7 +7261,7 @@
   },
   {
     "case_id": "case_314",
-    "title": "Request batching micro-optimization (v314)",
+    "title": "RTB timeout reduction (v314)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.25,
@@ -7330,7 +7330,7 @@
   },
   {
     "case_id": "case_317",
-    "title": "Auto-play video ad insertion (v317)",
+    "title": "Native ad format rollout (v317)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.55,
@@ -7354,7 +7354,7 @@
   },
   {
     "case_id": "case_318",
-    "title": "High-frequency interstitial test (v318)",
+    "title": "Sticky footer unit rollout (v318)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.52,
@@ -7448,7 +7448,7 @@
   },
   {
     "case_id": "case_322",
-    "title": "Tap target redesign (v322)",
+    "title": "Native ad format rollout (v322)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.45,
@@ -7472,7 +7472,7 @@
   },
   {
     "case_id": "case_323",
-    "title": "Ad unit refresh (v323)",
+    "title": "Header bidding partner addition (v323)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.44,
@@ -7773,7 +7773,7 @@
   },
   {
     "case_id": "case_336",
-    "title": "Below-fold ad density boost (v336)",
+    "title": "Video pre-roll length trim (v336)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.47,
@@ -7820,7 +7820,7 @@
   },
   {
     "case_id": "case_338",
-    "title": "Placement format test (v338)",
+    "title": "Passback chain shortening (v338)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 35.28,
@@ -7935,7 +7935,7 @@
   },
   {
     "case_id": "case_343",
-    "title": "Cross-platform ad density test (v343)",
+    "title": "In-feed ad density rebalance (v343)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.71,
@@ -8052,7 +8052,7 @@
   },
   {
     "case_id": "case_348",
-    "title": "Aggressive ad pressure increase (v348)",
+    "title": "In-feed ad density rebalance (v348)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.69,
@@ -8145,7 +8145,7 @@
   },
   {
     "case_id": "case_352",
-    "title": "Click surface expansion test (v352)",
+    "title": "Sticky footer unit rollout (v352)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.81,
@@ -8261,7 +8261,7 @@
   },
   {
     "case_id": "case_357",
-    "title": "Placement format test (v357)",
+    "title": "Passback chain shortening (v357)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 43.93,
@@ -8376,7 +8376,7 @@
   },
   {
     "case_id": "case_362",
-    "title": "Aggressive ad pressure increase (v362)",
+    "title": "In-feed ad density rebalance (v362)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.33,
@@ -8400,7 +8400,7 @@
   },
   {
     "case_id": "case_363",
-    "title": "Cross-platform ad density test (v363)",
+    "title": "In-feed ad density rebalance (v363)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": -0.3,
@@ -8471,7 +8471,7 @@
   },
   {
     "case_id": "case_366",
-    "title": "CSS render path adjustment (v366)",
+    "title": "Prebid adapter consolidation (v366)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.31,
@@ -8701,7 +8701,7 @@
   },
   {
     "case_id": "case_376",
-    "title": "New pricing tier test (v376)",
+    "title": "Deal ID priority adjustment (v376)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.71,
@@ -8724,7 +8724,7 @@
   },
   {
     "case_id": "case_377",
-    "title": "Aggressive ad pressure increase (v377)",
+    "title": "In-feed ad density rebalance (v377)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.54,
@@ -8748,7 +8748,7 @@
   },
   {
     "case_id": "case_378",
-    "title": "Ad unit refresh (v378)",
+    "title": "Header bidding partner addition (v378)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.02,
@@ -8817,7 +8817,7 @@
   },
   {
     "case_id": "case_381",
-    "title": "Staged placement rollout (v381)",
+    "title": "Bid floor optimization (v381)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.21,
@@ -8932,7 +8932,7 @@
   },
   {
     "case_id": "case_386",
-    "title": "Request batching micro-optimization (v386)",
+    "title": "RTB timeout reduction (v386)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.15,
@@ -9001,7 +9001,7 @@
   },
   {
     "case_id": "case_389",
-    "title": "Scroll-triggered fullscreen ads (v389)",
+    "title": "Ad slot refresh rate increase (v389)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.87,
@@ -9025,7 +9025,7 @@
   },
   {
     "case_id": "case_390",
-    "title": "Aggressive ad pressure increase (v390)",
+    "title": "In-feed ad density rebalance (v390)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.19,
@@ -9187,7 +9187,7 @@
   },
   {
     "case_id": "case_397",
-    "title": "High-frequency interstitial test (v397)",
+    "title": "Sticky footer unit rollout (v397)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.22,
@@ -9280,7 +9280,7 @@
   },
   {
     "case_id": "case_401",
-    "title": "Layout optimization test (v401)",
+    "title": "Creative size mix expansion (v401)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.57,
@@ -9419,7 +9419,7 @@
   },
   {
     "case_id": "case_407",
-    "title": "Fullscreen format cross-surface test (v407)",
+    "title": "New banner placement test (v407)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": -0.06,
@@ -9466,7 +9466,7 @@
   },
   {
     "case_id": "case_409",
-    "title": "Prefetch timing shift (v409)",
+    "title": "Viewability threshold tuning (v409)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.16,
@@ -9535,7 +9535,7 @@
   },
   {
     "case_id": "case_412",
-    "title": "Ad yield experiment (v412)",
+    "title": "Waterfall priority reorder (v412)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 39.26,
@@ -9558,7 +9558,7 @@
   },
   {
     "case_id": "case_413",
-    "title": "Ad unit refresh (v413)",
+    "title": "Header bidding partner addition (v413)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.95,
@@ -9581,7 +9581,7 @@
   },
   {
     "case_id": "case_414",
-    "title": "High-frequency interstitial test (v414)",
+    "title": "Sticky footer unit rollout (v414)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.93,
@@ -9605,7 +9605,7 @@
   },
   {
     "case_id": "case_415",
-    "title": "Prefetch timing shift (v415)",
+    "title": "Viewability threshold tuning (v415)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.18,
@@ -9766,7 +9766,7 @@
   },
   {
     "case_id": "case_422",
-    "title": "Ad unit refresh (v422)",
+    "title": "Header bidding partner addition (v422)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.54,
@@ -9881,7 +9881,7 @@
   },
   {
     "case_id": "case_427",
-    "title": "Request batching micro-optimization (v427)",
+    "title": "RTB timeout reduction (v427)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.36,
@@ -9904,7 +9904,7 @@
   },
   {
     "case_id": "case_428",
-    "title": "Tap target redesign (v428)",
+    "title": "Native ad format rollout (v428)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.3,
@@ -9928,7 +9928,7 @@
   },
   {
     "case_id": "case_429",
-    "title": "Segment-specific pricing experiment (v429)",
+    "title": "Waterfall priority reorder (v429)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.0,
@@ -9952,7 +9952,7 @@
   },
   {
     "case_id": "case_430",
-    "title": "Staged placement rollout (v430)",
+    "title": "Bid floor optimization (v430)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.87,
@@ -10138,7 +10138,7 @@
   },
   {
     "case_id": "case_438",
-    "title": "Click surface expansion test (v438)",
+    "title": "Sticky footer unit rollout (v438)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.88,
@@ -10208,7 +10208,7 @@
   },
   {
     "case_id": "case_441",
-    "title": "Fullscreen format cross-surface test (v441)",
+    "title": "New banner placement test (v441)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": -0.48,
@@ -10278,7 +10278,7 @@
   },
   {
     "case_id": "case_444",
-    "title": "Feed interaction update (v444)",
+    "title": "Bid floor optimization (v444)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.74,
@@ -10418,7 +10418,7 @@
   },
   {
     "case_id": "case_450",
-    "title": "Below-fold ad density boost (v450)",
+    "title": "Video pre-roll length trim (v450)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.01,
@@ -10442,7 +10442,7 @@
   },
   {
     "case_id": "case_451",
-    "title": "High-frequency interstitial test (v451)",
+    "title": "Sticky footer unit rollout (v451)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.6,
@@ -10535,7 +10535,7 @@
   },
   {
     "case_id": "case_455",
-    "title": "Yield optimization test (v455)",
+    "title": "Inventory fill rate improvement (v455)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 42.54,
@@ -10558,7 +10558,7 @@
   },
   {
     "case_id": "case_456",
-    "title": "High-frequency interstitial test (v456)",
+    "title": "Sticky footer unit rollout (v456)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.67,
@@ -10720,7 +10720,7 @@
   },
   {
     "case_id": "case_463",
-    "title": "Auto-play video ad insertion (v463)",
+    "title": "Native ad format rollout (v463)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.36,
@@ -10790,7 +10790,7 @@
   },
   {
     "case_id": "case_466",
-    "title": "Segment-specific pricing experiment (v466)",
+    "title": "Waterfall priority reorder (v466)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.93,
@@ -10838,7 +10838,7 @@
   },
   {
     "case_id": "case_468",
-    "title": "Lazy-load trigger offset tweak (v468)",
+    "title": "Lazy-load offset tuning (v468)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.25,
@@ -10930,7 +10930,7 @@
   },
   {
     "case_id": "case_472",
-    "title": "Tap target redesign (v472)",
+    "title": "Native ad format rollout (v472)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.87,
@@ -10954,7 +10954,7 @@
   },
   {
     "case_id": "case_473",
-    "title": "New pricing tier test (v473)",
+    "title": "Deal ID priority adjustment (v473)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.39,
@@ -11023,7 +11023,7 @@
   },
   {
     "case_id": "case_476",
-    "title": "Staged placement rollout (v476)",
+    "title": "Bid floor optimization (v476)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.73,
@@ -11069,7 +11069,7 @@
   },
   {
     "case_id": "case_478",
-    "title": "Yield optimization test (v478)",
+    "title": "Inventory fill rate improvement (v478)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 36.66,
@@ -11092,7 +11092,7 @@
   },
   {
     "case_id": "case_479",
-    "title": "Cross-platform ad density test (v479)",
+    "title": "In-feed ad density rebalance (v479)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.29,
@@ -11370,7 +11370,7 @@
   },
   {
     "case_id": "case_491",
-    "title": "Ad container padding change (v491)",
+    "title": "Ad load latency budget cut (v491)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.38,
@@ -11508,7 +11508,7 @@
   },
   {
     "case_id": "case_497",
-    "title": "CSS render path adjustment (v497)",
+    "title": "Prebid adapter consolidation (v497)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.19,
@@ -11623,7 +11623,7 @@
   },
   {
     "case_id": "case_502",
-    "title": "Auto-play video ad insertion (v502)",
+    "title": "Native ad format rollout (v502)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 0.98,
@@ -11693,7 +11693,7 @@
   },
   {
     "case_id": "case_505",
-    "title": "Ad yield experiment (v505)",
+    "title": "Waterfall priority reorder (v505)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 35.62,
@@ -11716,7 +11716,7 @@
   },
   {
     "case_id": "case_506",
-    "title": "High-frequency interstitial test (v506)",
+    "title": "Sticky footer unit rollout (v506)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 0.98,
@@ -11740,7 +11740,7 @@
   },
   {
     "case_id": "case_507",
-    "title": "High-frequency interstitial test (v507)",
+    "title": "Sticky footer unit rollout (v507)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.85,
@@ -11857,7 +11857,7 @@
   },
   {
     "case_id": "case_512",
-    "title": "CSS render path adjustment (v512)",
+    "title": "Prebid adapter consolidation (v512)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.38,
@@ -11926,7 +11926,7 @@
   },
   {
     "case_id": "case_515",
-    "title": "Monetization format update (v515)",
+    "title": "Auction reserve price update (v515)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 40.04,
@@ -11972,7 +11972,7 @@
   },
   {
     "case_id": "case_517",
-    "title": "Below-fold ad density boost (v517)",
+    "title": "Video pre-roll length trim (v517)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 0.98,
@@ -12203,7 +12203,7 @@
   },
   {
     "case_id": "case_527",
-    "title": "Cross-platform ad density test (v527)",
+    "title": "In-feed ad density rebalance (v527)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.91,
@@ -12296,7 +12296,7 @@
   },
   {
     "case_id": "case_531",
-    "title": "Layout optimization test (v531)",
+    "title": "Creative size mix expansion (v531)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.77,
@@ -12320,7 +12320,7 @@
   },
   {
     "case_id": "case_532",
-    "title": "Aggressive ad pressure increase (v532)",
+    "title": "In-feed ad density rebalance (v532)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.21,
@@ -12505,7 +12505,7 @@
   },
   {
     "case_id": "case_540",
-    "title": "Cross-platform ad density test (v540)",
+    "title": "In-feed ad density rebalance (v540)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.87,
@@ -12529,7 +12529,7 @@
   },
   {
     "case_id": "case_541",
-    "title": "Scroll-triggered fullscreen ads (v541)",
+    "title": "Ad slot refresh rate increase (v541)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 0.83,
@@ -12668,7 +12668,7 @@
   },
   {
     "case_id": "case_547",
-    "title": "Lazy-load trigger offset tweak (v547)",
+    "title": "Lazy-load offset tuning (v547)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.17,
@@ -12760,7 +12760,7 @@
   },
   {
     "case_id": "case_551",
-    "title": "Premium placement in mixed feeds (v551)",
+    "title": "Creative size mix expansion (v551)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.09,
@@ -12784,7 +12784,7 @@
   },
   {
     "case_id": "case_552",
-    "title": "Request batching micro-optimization (v552)",
+    "title": "RTB timeout reduction (v552)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.11,
@@ -12807,7 +12807,7 @@
   },
   {
     "case_id": "case_553",
-    "title": "Fullscreen format cross-surface test (v553)",
+    "title": "New banner placement test (v553)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.63,
@@ -13016,7 +13016,7 @@
   },
   {
     "case_id": "case_562",
-    "title": "Feed interaction update (v562)",
+    "title": "Bid floor optimization (v562)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.63,
@@ -13270,7 +13270,7 @@
   },
   {
     "case_id": "case_573",
-    "title": "Prefetch timing shift (v573)",
+    "title": "Viewability threshold tuning (v573)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.4,
@@ -13408,7 +13408,7 @@
   },
   {
     "case_id": "case_579",
-    "title": "Request batching micro-optimization (v579)",
+    "title": "RTB timeout reduction (v579)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.52,
@@ -13661,7 +13661,7 @@
   },
   {
     "case_id": "case_590",
-    "title": "Ad container padding change (v590)",
+    "title": "Ad load latency budget cut (v590)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.49,
@@ -13730,7 +13730,7 @@
   },
   {
     "case_id": "case_593",
-    "title": "Monetization format update (v593)",
+    "title": "Auction reserve price update (v593)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 35.77,
@@ -13799,7 +13799,7 @@
   },
   {
     "case_id": "case_596",
-    "title": "Yield optimization test (v596)",
+    "title": "Inventory fill rate improvement (v596)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 38.32,
@@ -13891,7 +13891,7 @@
   },
   {
     "case_id": "case_600",
-    "title": "Cross-platform ad density test (v600)",
+    "title": "In-feed ad density rebalance (v600)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": -0.09,
@@ -13938,7 +13938,7 @@
   },
   {
     "case_id": "case_602",
-    "title": "CSS render path adjustment (v602)",
+    "title": "Prebid adapter consolidation (v602)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.48,
@@ -14007,7 +14007,7 @@
   },
   {
     "case_id": "case_605",
-    "title": "High-frequency interstitial test (v605)",
+    "title": "Sticky footer unit rollout (v605)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.36,
@@ -14031,7 +14031,7 @@
   },
   {
     "case_id": "case_606",
-    "title": "Request batching micro-optimization (v606)",
+    "title": "RTB timeout reduction (v606)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.7,
@@ -14054,7 +14054,7 @@
   },
   {
     "case_id": "case_607",
-    "title": "Ad unit refresh (v607)",
+    "title": "Header bidding partner addition (v607)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.99,
@@ -14100,7 +14100,7 @@
   },
   {
     "case_id": "case_609",
-    "title": "Placement format test (v609)",
+    "title": "Passback chain shortening (v609)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 39.16,
@@ -14146,7 +14146,7 @@
   },
   {
     "case_id": "case_611",
-    "title": "Layout optimization test (v611)",
+    "title": "Creative size mix expansion (v611)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.37,
@@ -14169,7 +14169,7 @@
   },
   {
     "case_id": "case_612",
-    "title": "Ad container padding change (v612)",
+    "title": "Ad load latency budget cut (v612)",
     "type": "practically_small",
     "metric": "revenue",
     "uplift_pct": 0.22,
@@ -14285,7 +14285,7 @@
   },
   {
     "case_id": "case_617",
-    "title": "Auto-play video ad insertion (v617)",
+    "title": "Native ad format rollout (v617)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.09,
@@ -14355,7 +14355,7 @@
   },
   {
     "case_id": "case_620",
-    "title": "Ad yield experiment (v620)",
+    "title": "Waterfall priority reorder (v620)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 37.22,
@@ -14378,7 +14378,7 @@
   },
   {
     "case_id": "case_621",
-    "title": "Cross-platform ad density test (v621)",
+    "title": "In-feed ad density rebalance (v621)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": -0.05,
@@ -14425,7 +14425,7 @@
   },
   {
     "case_id": "case_623",
-    "title": "Cross-platform ad density test (v623)",
+    "title": "In-feed ad density rebalance (v623)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.81,
@@ -14633,7 +14633,7 @@
   },
   {
     "case_id": "case_632",
-    "title": "Scroll-triggered fullscreen ads (v632)",
+    "title": "Ad slot refresh rate increase (v632)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.45,
@@ -14795,7 +14795,7 @@
   },
   {
     "case_id": "case_639",
-    "title": "Placement redesign test (v639)",
+    "title": "New banner placement test (v639)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.63,
@@ -14841,7 +14841,7 @@
   },
   {
     "case_id": "case_641",
-    "title": "Auto-play video ad insertion (v641)",
+    "title": "Native ad format rollout (v641)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.94,
@@ -14957,7 +14957,7 @@
   },
   {
     "case_id": "case_646",
-    "title": "Premium placement in mixed feeds (v646)",
+    "title": "Creative size mix expansion (v646)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.35,
@@ -14981,7 +14981,7 @@
   },
   {
     "case_id": "case_647",
-    "title": "Scroll-triggered fullscreen ads (v647)",
+    "title": "Ad slot refresh rate increase (v647)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.87,
@@ -15005,7 +15005,7 @@
   },
   {
     "case_id": "case_648",
-    "title": "High-frequency interstitial test (v648)",
+    "title": "Sticky footer unit rollout (v648)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 2.48,
@@ -15075,7 +15075,7 @@
   },
   {
     "case_id": "case_651",
-    "title": "Segment-specific pricing experiment (v651)",
+    "title": "Waterfall priority reorder (v651)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": -0.46,
@@ -15099,7 +15099,7 @@
   },
   {
     "case_id": "case_652",
-    "title": "Layout optimization test (v652)",
+    "title": "Creative size mix expansion (v652)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.55,
@@ -15122,7 +15122,7 @@
   },
   {
     "case_id": "case_653",
-    "title": "Fullscreen format cross-surface test (v653)",
+    "title": "New banner placement test (v653)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.36,
@@ -15239,7 +15239,7 @@
   },
   {
     "case_id": "case_658",
-    "title": "High-frequency interstitial test (v658)",
+    "title": "Sticky footer unit rollout (v658)",
     "type": "guardrail_breach",
     "metric": "revenue",
     "uplift_pct": 1.22,
@@ -15263,7 +15263,7 @@
   },
   {
     "case_id": "case_659",
-    "title": "Premium placement in mixed feeds (v659)",
+    "title": "Creative size mix expansion (v659)",
     "type": "segment_conflict",
     "metric": "revenue",
     "uplift_pct": 0.14,

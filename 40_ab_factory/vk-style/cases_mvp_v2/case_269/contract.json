@@ -1,6 +1,6 @@
 {
   "case_id": "case_269",
-  "title": "Lazy-load trigger offset tweak (v269)",
+  "title": "Lazy-load offset tuning (v269)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

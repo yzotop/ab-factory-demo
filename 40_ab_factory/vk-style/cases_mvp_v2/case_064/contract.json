@@ -1,6 +1,6 @@
 {
   "case_id": "case_064",
-  "title": "Staged placement rollout (v64)",
+  "title": "Bid floor optimization (v64)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

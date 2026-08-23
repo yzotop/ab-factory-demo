@@ -1,6 +1,6 @@
 {
   "case_id": "case_512",
-  "title": "CSS render path adjustment (v512)",
+  "title": "Prebid adapter consolidation (v512)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

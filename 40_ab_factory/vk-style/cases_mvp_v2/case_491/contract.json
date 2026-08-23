@@ -1,6 +1,6 @@
 {
   "case_id": "case_491",
-  "title": "Ad container padding change (v491)",
+  "title": "Ad load latency budget cut (v491)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

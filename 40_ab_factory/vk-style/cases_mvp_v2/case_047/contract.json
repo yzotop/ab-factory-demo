@@ -1,6 +1,6 @@
 {
   "case_id": "case_047",
-  "title": "Prefetch timing shift (v47)",
+  "title": "Viewability threshold tuning (v47)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

@@ -1,6 +1,6 @@
 {
   "case_id": "case_363",
-  "title": "Cross-platform ad density test (v363)",
+  "title": "In-feed ad density rebalance (v363)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
