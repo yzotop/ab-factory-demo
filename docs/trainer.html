@@ -93,6 +93,14 @@ tr:last-child td{border-bottom:0}
 .look{border-left:2px solid var(--accent);padding-left:14px}
 .note{background:var(--hover-bg);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--muted);line-height:1.6}
 .rule-said{font-size:13px;color:var(--muted);margin-top:14px}
+/* Блок появляется только на кейсах, где правило ошиблось. Их в сессии
+   один-три, и это единственное место, где про правило вообще говорится. */
+.rule-miss{margin-top:16px;padding:12px 14px;border-radius:8px;font-size:13px;line-height:1.6;
+  background:var(--hover-bg);color:var(--muted)}
+.rule-miss--won{background:color-mix(in srgb,var(--green) 12%,transparent);color:var(--fg)}
+.corpus-note{font-size:13px;color:var(--muted);line-height:1.6;margin-top:18px;
+  padding-top:16px;border-top:1px solid var(--border);text-align:left}
+.corpus-note a{color:var(--accent);text-decoration:none;font-weight:500;white-space:nowrap}
 .term{font-size:11px;color:var(--muted);margin-top:18px;opacity:.7}
 .next{display:block;margin:22px auto 0;padding:11px 28px;border:0;border-radius:20px;background:var(--accent);color:#fff;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit}
 .next:hover{background:var(--accent-hover)}
@@ -178,17 +186,18 @@ tr:last-child td{border-bottom:0}
     t_right:{ru:'Верно'}, t_wrong:{ru:'Не так'},
     t_expected:{ru:'здесь нужно было «{d}»'},
     h_why:{ru:'Что здесь произошло'}, h_look:{ru:'Куда стоило смотреть'},
-    t_rule:{ru:'Детерминированное правило на этом кейсе ответило: {d}. '},
-    t_rule_ok:{ru:'Тоже верно.'}, t_rule_bad:{ru:'Оно ошиблось.'},
     t_next:{ru:'Дальше'}, t_finish:{ru:'Итог'},
     t_term:{ru:'Как это называется: {t}'},
     s_title:{ru:'{n} из {m}'},
-    s_sub_hi:{ru:'Сильно. Вы читаете таблицу лучше, чем детерминированное правило.'},
+    s_sub_hi:{ru:'Сильно. Таблицу вы читаете уверенно.'},
     s_sub_mid:{ru:'Неплохо. Слабые места видно ниже — начните с них.'},
     s_sub_lo:{ru:'Есть куда расти. Ниже видно, какие ситуации проскакивают мимо.'},
     s_break:{ru:'По типам ситуаций'},
     s_again:{ru:'Ещё семь'},
-    s_rule:{ru:'Правило на тех же кейсах: {n} из {m}.'}
+    s_rule:{ru:'Правило ошиблось на {m} из {t} кейсов. Из них вы ответили верно на {n}.'},
+    s_rule_note:{ru:'Это ровно те ситуации, где человек видит то, чего не видит порог.'},
+    s_corpus:{ru:'Тренажёр собран из ситуаций, которые читаются по одной таблице, — а это как раз те, с которыми правило справляется. Всего в корпусе 33 механизма, и двадцать из них оно не ловит ни разу.'},
+    s_corpus_link:{ru:'Посмотреть корпус'}
   };
 
   var LANG = (new URLSearchParams(location.search).get('lang') === 'ru') ? 'ru' : 'en';
@@ -419,11 +428,12 @@ tr:last-child td{border-bottom:0}
     h+='<h4>'+label('h_look','Where to have looked')+'</h4><p class="look">'
       +fmt(pick(spec.look_at), c.vars)+'</p>';
     if(spec.note) h+='<div class="note" style="margin-top:16px">'+pick(spec.note)+'</div>';
-    if(c.rule_decision){
-      var ruleOk=c.rule_decision===c.expected;
-      h+='<p class="rule-said">'+fmt(label('t_rule','The deterministic rule answered {d}. '),
-            {d:decisionLabel(c.rule_decision)})
-        +(ruleOk?label('t_rule_ok','It was right too.'):label('t_rule_bad','It got this one wrong.'))+'</p>';
+    // Про правило — только там, где оно ошиблось. На пяти механизмах из семи
+    // оно право, и упоминание там читалось бы как хвастовство алгоритмом.
+    if(c.rule_decision && c.rule_decision!==c.expected && TEXTS.rule_missed){
+      var rm=ok?TEXTS.rule_missed.you_caught:TEXTS.rule_missed.both_missed;
+      h+='<div class="rule-miss'+(ok?' rule-miss--won':'')+'">'
+        +fmt(pick(rm),{rule:decisionLabel(c.rule_decision)})+'</div>';
     }
     h+='<p class="term">'+fmt(label('t_term','Name for this: {t}'),{t:pick(spec.term)})+'</p>';
     h+='<button class="next">'+(AT+1<SESSION_LEN?label('t_next','Next'):label('t_finish','Results'))+'</button>';
@@ -440,9 +450,13 @@ tr:last-child td{border-bottom:0}
 
   function renderScore(){
     var n=RESULTS.filter(function(r){return r.ok;}).length;
-    var ruleN=RESULTS.filter(function(r){return r.rule_ok;}).length;
+    // Считаем не общий счёт правила — он на этом пуле завышен, потому что
+    // пул собран из читаемых по таблице ситуаций, а это ровно те, с которыми
+    // правило справляется. Считаем только кейсы, где оно ошиблось.
+    var ruleWrong=RESULTS.filter(function(r){return !r.rule_ok;}).length;
+    var caught=RESULTS.filter(function(r){return !r.rule_ok && r.ok;}).length;
     var share=n/SESSION_LEN;
-    var sub = share>=0.8 ? label('s_sub_hi','Strong. You read the table better than the deterministic rule.')
+    var sub = share>=0.8 ? label('s_sub_hi','Strong. You read the table with confidence.')
             : share>=0.5 ? label('s_sub_mid','Decent. The weak spots are below — start there.')
             : label('s_sub_lo','Room to grow. Below is which situations slipped past.');
     var byMech={};
@@ -461,9 +475,19 @@ tr:last-child td{border-bottom:0}
       h+='<div class="bd-row"><span class="bd-name">'+esc(term)+'</span>'
         +'<span class="bd-score">'+v.ok+' / '+v.n+'</span></div>';
     });
-    h+='</div><p class="rule-said">'+fmt(label('s_rule','The rule on the same cases: {n} of {m}.'),
-          {n:ruleN,m:SESSION_LEN})+'</p>';
-    h+='<button class="next">'+label('s_again','Another seven')+'</button></div>';
+    h+='</div><p class="rule-said">'
+      +fmt(label('s_rule','The rule got {m} of the {t} wrong. Of those, you answered {n} correctly.'),
+           {m:ruleWrong, n:caught, t:SESSION_LEN})+'</p>';
+    // Вторая фраза — только если было что засчитать. При нуле она была бы
+    // похвалой ни за что.
+    if(caught>0) h+='<p class="rule-said">'
+      +label('s_rule_note','Those are exactly the situations where a person sees what a threshold cannot.')+'</p>';
+    h+='<button class="next">'+label('s_again','Another seven')+'</button>';
+    h+='<p class="corpus-note">'
+      +label('s_corpus','The trainer is built from situations you can read off a single table — which are the ones the rule does handle. The corpus has 33 mechanisms in all, and twenty of them the rule never catches once.')
+      +' <a href="corpus.html'+(LANG==='ru'?'?lang=ru':'')+'">'
+      +label('s_corpus_link','Open the corpus')+' &rarr;</a></p>';
+    h+='</div>';
     $app.innerHTML=h;
     $app.querySelector('.next').addEventListener('click',start);
   }

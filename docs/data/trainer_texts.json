@@ -183,5 +183,15 @@
         "facts": []
       }
     }
+  },
+  "rule_missed": {
+    "you_caught": {
+      "ru": "Правило здесь ошиблось, а вы нет. Оно ответило «{rule}»: эффект значим, порог пройден, guardrail целы — ни одна его проверка не срабатывает. Увидеть подвох можно только глазами, порога под это нет.",
+      "en": "The rule got this wrong and you did not. It answered \"{rule}\": the effect is significant, the threshold is cleared, the guardrails held — none of its checks trip. Catching this takes eyes; there is no threshold for it."
+    },
+    "both_missed": {
+      "ru": "Мимо прошли оба: правило тоже ответило «{rule}». Ни одна его проверка здесь не срабатывает, поэтому такие кейсы оно не ловит вообще.",
+      "en": "Both of you missed it: the rule also answered \"{rule}\". None of its checks trip here, so it never catches cases like this one."
+    }
   }
 }
