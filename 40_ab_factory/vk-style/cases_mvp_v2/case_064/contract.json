@@ -1,6 +1,6 @@
 {
   "case_id": "case_064",
-  "title": "Mix-shift pricing test (v64)",
+  "title": "Staged placement rollout (v64)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

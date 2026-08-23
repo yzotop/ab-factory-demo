@@ -1,6 +1,6 @@
 {
   "case_id": "case_048",
-  "title": "CTR-first layout optimization (v48)",
+  "title": "Layout optimization test (v48)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

@@ -128,12 +128,20 @@
   .case-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; }
   .case-id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--muted); }
   .case-title { font-size: 16px; font-weight: 600; }
-  .case-tbl { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 16px; }
+  /* Сегментные строки сделали таблицу шире экрана на узких устройствах.
+     Прокрутка внутри контейнера, а не всей страницы. */
+  .case-tbl-wrap { overflow-x: auto; margin-bottom: 16px; }
+  .case-tbl { width: 100%; border-collapse: collapse; font-size: 14px; }
+  @media (max-width: 600px) { .case-tbl { font-size: 12px; } .case-tbl th, .case-tbl td { padding: 5px 4px; } }
   .case-tbl th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 600; padding: 6px 8px; border-bottom: 1px solid var(--border); }
   .case-tbl td { padding: 7px 8px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
   .case-tbl tr:last-child td { border-bottom: 0; }
   .case-primary td { font-weight: 600; }
   .case-tbl .pos { color: var(--green); }
+  .case-tbl .neg { color: var(--red); }
+  .case-seg td:first-child { padding-left: 22px; }
+  .case-share { display: block; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .case-cta { display: inline-block; margin: 4px 16px 0 0; }
   .case-facts { list-style: none; padding: 0; margin: 0 0 20px; }
   .case-facts li { font-size: 13px; color: var(--muted); padding: 3px 0 3px 16px; position: relative; }
   .case-facts li::before { content: "·"; position: absolute; left: 4px; }
@@ -237,7 +245,7 @@
 
 <div class="top-bar">
   <a href="corpus.html" data-t="nav_corpus">Corpus</a>
-  <a href="policy.html" data-t="nav_engine">Model</a>
+  <a href="policy.html" data-t="nav_engine">Why this verdict</a>
   <a href="trainer.html" data-t="nav_trainer">Trainer</a>
   <a href="pipeline.html">Pipeline</a>
   <span class="spacer"></span>
@@ -261,54 +269,59 @@
   </p>
   <div class="buttons">
     <a href="corpus.html" class="btn btn-primary" data-t="btn_corpus">Corpus Explorer &rarr;</a>
-    <a href="policy.html" class="btn btn-primary" style="background:#ff9500" data-t="btn_engine">Decision Engine &rarr;</a>
+    <a href="policy.html" class="btn btn-primary" style="background:#ff9500" data-t="btn_engine">Why this verdict &rarr;</a>
     <a href="https://github.com/yzotop/ab-factory-demo" class="btn btn-secondary">GitHub</a>
   </div>
 </div>
 
 <div class="case-section" id="featured-case">
-  <h2 data-t="fc_title">One case, start to finish</h2>
-  <p class="case-sub" data-t="fc_sub">Real case from the corpus. Everything the rule saw is below.</p>
+  <h2 data-t="fc_title">Try one case yourself</h2>
+  <p class="case-sub" data-t="fc_sub">A real case from the corpus. Everything you need to decide is in the table below — no statistics required.</p>
 
   <div class="case-card">
     <div class="case-head">
-      <span class="case-id">case_026</span>
-      <span class="case-title" data-t="fc_name">New placement traffic audit</span>
+      <span class="case-id">case_184</span>
+      <span class="case-title" data-t="fc_name">Staged placement rollout</span>
     </div>
 
+    <div class="case-tbl-wrap">
     <table class="case-tbl">
       <thead><tr>
         <th data-t="fc_th_metric">Metric</th><th>Control</th><th>Test</th>
         <th data-t="fc_th_delta">Δ</th><th>p</th>
       </tr></thead>
       <tbody>
-        <tr><td data-t="fc_users">Users</td><td>429,642</td><td>430,215</td><td>—</td><td>—</td></tr>
-        <tr class="case-primary"><td data-t="fc_rev">Revenue per user</td><td>8.542</td><td>8.856</td><td class="pos">+3.81%</td><td>0.016</td></tr>
-        <tr><td>CTR</td><td>6.78%</td><td>6.91%</td><td class="pos">+1.85%</td><td>—</td></tr>
+        <tr><td data-t="fc_users">Users</td><td>233,875</td><td>234,398</td><td>—</td><td>—</td></tr>
+        <tr class="case-primary"><td data-t="fc_rev">Revenue per user</td><td>15.132</td><td>15.538</td><td class="pos">+2.68%</td><td>0.0295</td></tr>
+        <tr><td>CTR</td><td>5.19%</td><td>5.19%</td><td>+0.00%</td><td>0.649</td></tr>
+        <tr class="case-seg"><td>editorial<span class="case-share" data-t="fc_seg1">30.7% &rarr; 38.2% of users</span></td><td>24.706</td><td>23.614</td><td class="neg">&minus;4.42%</td><td>0.0277</td></tr>
+        <tr class="case-seg"><td>algorithmic<span class="case-share" data-t="fc_seg2">69.3% &rarr; 61.8% of users</span></td><td>10.889</td><td>10.551</td><td class="neg">&minus;3.10%</td><td>0.0067</td></tr>
       </tbody>
     </table>
+    </div>
 
     <ul class="case-facts">
-      <li data-t="fc_f1">21 days, 50/50 split by user</li>
+      <li data-t="fc_f1">14 days, split by user</li>
       <li data-t="fc_f2">Primary metric: revenue, α = 0.05</li>
-      <li data-t="fc_f3">Practical threshold: 0.5% — the effect clears it seven times over</li>
-      <li data-t="fc_f4">Guardrail: CTR must not drop more than 3%. It went up</li>
+      <li data-t="fc_f3">Practical threshold: 0.5%</li>
+      <li data-t="fc_f4">Guardrail: CTR must not drop more than 3%</li>
     </ul>
 
-    <p class="case-q" data-t="fc_q">Would you ship it?</p>
+    <p class="case-q" data-t="fc_q">What would you decide?</p>
 
     <details class="case-reveal">
       <summary data-t="fc_reveal">Show the answer</summary>
       <div class="case-answer">
         <div class="case-verdicts">
           <span class="cv"><span class="cv-l" data-t="fc_rule">The rule said</span><span class="badge badge-ship">ship</span></span>
-          <span class="cv"><span class="cv-l" data-t="fc_truth">Ground truth</span><span class="badge badge-investigate">investigate</span></span>
+          <span class="cv"><span class="cv-l" data-t="fc_truth">Ground truth</span><span class="badge badge-investigate">do not ship</span></span>
         </div>
-        <p data-t="fc_why1">Nothing in the table says no. Significant, far above the threshold, guardrail fine. The rule shipped it — and so would most checklists.</p>
-        <p data-t="fc_why2">What the table does not show: about <strong>14% of test-group sessions came from datacenter IPs with bot-like burst patterns</strong>, and there is nothing similar in control. The lift is measured on traffic that is partly not human.</p>
-        <p data-t="fc_why3">The feature is not judged here — the measurement is. The correct answer is not «do not ship» but «investigate»: filter the traffic and measure again.</p>
-        <p class="case-note" data-t="fc_note">This clue lives in the case description, not in the results table. The rule only reads the table — which is exactly why it misses 20 of the 33 mechanisms.</p>
-        <a class="case-link" href="corpus.html?case=case_026&amp;set=660" data-t="fc_open">Open this case in the corpus →</a>
+        <p data-t="fc_why1">Both segments got worse — editorial by 4.4%, algorithmic by 3.1%, and both significantly. The total still came out +2.7%.</p>
+        <p data-t="fc_why2">The answer is in the shares. In the test arm <strong>editorial holds 38.2% of users against 30.7% in control</strong>, and that segment earns 24.7 per user against 10.9 — more than twice as much. The lift came from the shift in mix, not from the feature.</p>
+        <p data-t="fc_why3">The rule answered ship: the effect is significant, the threshold is cleared, the guardrail held. None of its checks trip — there is no threshold for reweighting.</p>
+        <p class="case-note" data-t="fc_note">Everything you needed was in the table. That is what the trainer is built on: seven situations you can read off the numbers in front of you.</p>
+        <a class="btn btn-primary case-cta" href="trainer.html" data-t="fc_cta">Take six more &rarr;</a>
+        <a class="case-link" href="corpus.html?case=case_184&amp;set=660" data-t="fc_open">Open this case in the corpus &rarr;</a>
       </div>
     </details>
   </div>
@@ -398,28 +411,34 @@
 
 <div class="onboard-section">
   <h2 data-t="ob_title">Try it in 30 seconds</h2>
-  <p class="onboard-sub" data-t="ob_sub">See how agents turn raw A/B results into a verdict with evidence.</p>
+  <p class="onboard-sub" data-t="ob_sub">Start by deciding a few cases yourself, then see how the agents do it.</p>
   <div class="onboard-steps">
     <div class="step-card">
       <div class="step-num">1</div>
+      <h4 data-t="ob_s0_t">Decide seven cases yourself</h4>
+      <p data-t="ob_s0_d">Seven experiments, one table each, no statistics needed. After every answer you see what mattered and where to have looked.</p>
+      <a href="trainer.html" data-t="ob_s0_l">Open the trainer &rarr;</a>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
       <h4 data-t="ob_s1_t">Pick a case</h4>
       <p data-t="ob_s1_d">Filter by decision or confidence and open any row.</p>
       <a href="corpus.html" data-t="ob_s1_l">Open Corpus &rarr;</a>
     </div>
     <div class="step-card">
-      <div class="step-num">2</div>
+      <div class="step-num">3</div>
       <h4 data-t="ob_s2_t">Inspect the stop-rules</h4>
       <p data-t="ob_s2_d">See which rule stopped the rollout and why.</p>
       <a href="policy.html" data-t="ob_s2_l">Explain in Policy &rarr;</a>
     </div>
     <div class="step-card">
-      <div class="step-num">3</div>
+      <div class="step-num">4</div>
       <h4 data-t="ob_s3_t">Feed it your own numbers</h4>
       <p data-t="ob_s3_d">Type control and test results — users, revenue, CTR, CPM, fill rate — and watch the agents decide live. Five ready scenarios included.</p>
       <a href="pipeline.html" data-t="ob_s3_l">Open Pipeline &rarr;</a>
     </div>
     <div class="step-card">
-      <div class="step-num">4</div>
+      <div class="step-num">5</div>
       <h4 data-t="ob_s4_t">Change the policy, change the verdict</h4>
       <p data-t="ob_s4_d">Switch between Balanced, Conservative, Growth and Safety-first, or move the thresholds by hand. The same case flips verdict — the ground truth here is a policy, not a fact.</p>
       <a href="policy.html" data-t="ob_s4_l">Adjust thresholds &rarr;</a>
@@ -450,6 +469,29 @@ cd ../.. && python3 tools/build_corpus_index.py --corpus cases_mvp_v2</pre>
     subtitle:{ru:'<span class="sub-lead"><strong>\u0420\u0435\u0448\u0435\u043d\u0438\u044f \u043f\u043e A/B \u043a\u0430\u0436\u0443\u0442\u0441\u044f \u0440\u0435\u0448\u0451\u043d\u043d\u043e\u0439 \u0437\u0430\u0434\u0430\u0447\u0435\u0439 \u2014 \u043f\u043e\u043a\u0430 \u043d\u0435 \u043f\u0435\u0440\u0435\u0441\u0442\u0430\u044e\u0442.</strong></span>\u0414\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043f\u0440\u0430\u0432\u043e \u0432 <strong>100%</strong> \u0441\u043b\u0443\u0447\u0430\u0435\u0432 \u043d\u0430 100 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 \u043f\u044f\u0442\u044c\u044e \u0445\u0440\u0435\u0441\u0442\u043e\u043c\u0430\u0442\u0438\u0439\u043d\u044b\u043c\u0438 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430\u043c\u0438. \u041d\u0430 660 \u043a\u0435\u0439\u0441\u0430\u0445 \u0441 \u0442\u0440\u0438\u0434\u0446\u0430\u0442\u044c\u044e \u0442\u0440\u0435\u043c\u044f \u2014 \u0432 <strong>42.6%</strong>, \u0438 \u0434\u0432\u0430\u0434\u0446\u0430\u0442\u044c \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432 \u043e\u043d\u043e \u043d\u0435 \u043b\u043e\u0432\u0438\u0442 \u043d\u0438 \u0440\u0430\u0437\u0443.<span class="sub-close">\u041a\u043e\u0440\u043f\u0443\u0441, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u0435\u0433\u043e \u043b\u043e\u043c\u0430\u0435\u0442, \u0438 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b, \u0447\u0442\u043e\u0431\u044b \u0443\u0432\u0438\u0434\u0435\u0442\u044c, \u0433\u0434\u0435 \u0438\u043c\u0435\u043d\u043d\u043e.</span>'},
     mech_title:{ru:'\u0413\u0434\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043f\u0435\u0440\u0435\u0441\u0442\u0430\u0451\u0442 \u0440\u0430\u0431\u043e\u0442\u0430\u0442\u044c'},
     mech_sub:{ru:'33 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430 \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435. \u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u043b\u044e\u0431\u043e\u0439, \u0447\u0442\u043e\u0431\u044b \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0435\u0433\u043e \u043a\u0435\u0439\u0441\u044b.'},
+    fc_title:{ru:'\u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u043d\u0430 \u043e\u0434\u043d\u043e\u043c \u043a\u0435\u0439\u0441\u0435'},
+    fc_sub:{ru:'\u041d\u0430\u0441\u0442\u043e\u044f\u0449\u0438\u0439 \u043a\u0435\u0439\u0441 \u0438\u0437 \u043a\u043e\u0440\u043f\u0443\u0441\u0430. \u0412\u0441\u0451, \u0447\u0442\u043e \u043d\u0443\u0436\u043d\u043e \u0434\u043b\u044f \u0440\u0435\u0448\u0435\u043d\u0438\u044f, \u2014 \u0432 \u0442\u0430\u0431\u043b\u0438\u0446\u0435 \u043d\u0438\u0436\u0435, \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043a\u0430 \u043d\u0435 \u043d\u0443\u0436\u043d\u0430.'},
+    fc_name:{ru:'\u041f\u043e\u044d\u0442\u0430\u043f\u043d\u0430\u044f \u0432\u044b\u043a\u0430\u0442\u043a\u0430 \u043f\u043b\u0435\u0439\u0441\u043c\u0435\u043d\u0442\u0430'},
+    fc_th_metric:{ru:'\u041c\u0435\u0442\u0440\u0438\u043a\u0430'},
+    fc_th_delta:{ru:'\u0394'},
+    fc_users:{ru:'\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0438'},
+    fc_rev:{ru:'\u0412\u044b\u0440\u0443\u0447\u043a\u0430 \u043d\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f'},
+    fc_seg1:{ru:'30.7% \u2192 38.2% \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439'},
+    fc_seg2:{ru:'69.3% \u2192 61.8% \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439'},
+    fc_f1:{ru:'14 \u0434\u043d\u0435\u0439, \u0441\u043f\u043b\u0438\u0442 \u043f\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e'},
+    fc_f2:{ru:'\u041f\u0440\u0430\u0439\u043c\u0430\u0440\u0438-\u043c\u0435\u0442\u0440\u0438\u043a\u0430: revenue, \u03b1 = 0.05'},
+    fc_f3:{ru:'\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043f\u043e\u0440\u043e\u0433: 0.5%'},
+    fc_f4:{ru:'Guardrail: CTR \u043d\u0435 \u0434\u043e\u043b\u0436\u0435\u043d \u0443\u043f\u0430\u0441\u0442\u044c \u0433\u043b\u0443\u0431\u0436\u0435 3%'},
+    fc_q:{ru:'\u041a\u0430\u043a\u043e\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u0432\u044b \u043f\u0440\u0438\u043c\u0435\u0442\u0435?'},
+    fc_reveal:{ru:'\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043e\u0442\u0432\u0435\u0442'},
+    fc_rule:{ru:'\u041f\u0440\u0430\u0432\u0438\u043b\u043e \u0441\u043a\u0430\u0437\u0430\u043b\u043e'},
+    fc_truth:{ru:'\u042d\u0442\u0430\u043b\u043e\u043d'},
+    fc_why1:{ru:'\u041e\u0431\u0430 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u0430 \u0443\u043f\u0430\u043b\u0438 \u2014 editorial \u043d\u0430 4.4%, algorithmic \u043d\u0430 3.1%, \u0438 \u043e\u0431\u0430 \u0437\u043d\u0430\u0447\u0438\u043c\u043e. \u0410 \u0432 \u0441\u0443\u043c\u043c\u0435 \u043f\u043e\u043b\u0443\u0447\u0438\u043b\u0441\u044f \u0440\u043e\u0441\u0442 \u043d\u0430 2.7%.'},
+    fc_why2:{ru:'\u0420\u0430\u0437\u0433\u0430\u0434\u043a\u0430 \u0432 \u0434\u043e\u043b\u044f\u0445. \u0412 \u0442\u0435\u0441\u0442\u0435 \u0443 <strong>editorial 38.2% \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439 \u043f\u0440\u043e\u0442\u0438\u0432 30.7% \u0432 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u0435</strong>, \u0438 \u044d\u0442\u043e\u0442 \u0441\u0435\u0433\u043c\u0435\u043d\u0442 \u043f\u0440\u0438\u043d\u043e\u0441\u0438\u0442 24.7 \u043d\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043f\u0440\u043e\u0442\u0438\u0432 10.9 \u2014 \u0432\u0434\u0432\u043e\u0435 \u0441 \u043b\u0438\u0448\u043d\u0438\u043c \u0431\u043e\u043b\u044c\u0448\u0435. \u0420\u043e\u0441\u0442 \u0441\u043e\u0437\u0434\u0430\u043b \u0441\u0434\u0432\u0438\u0433 \u0441\u043e\u0441\u0442\u0430\u0432\u0430, \u0430 \u043d\u0435 \u0444\u0438\u0447\u0430.'},
+    fc_why3:{ru:'\u041f\u0440\u0430\u0432\u0438\u043b\u043e \u043e\u0442\u0432\u0435\u0442\u0438\u043b\u043e \u00ab\u043a\u0430\u0442\u0438\u0442\u044c\u00bb: \u044d\u0444\u0444\u0435\u043a\u0442 \u0437\u043d\u0430\u0447\u0438\u043c, \u043f\u043e\u0440\u043e\u0433 \u043f\u0440\u043e\u0439\u0434\u0435\u043d, guardrail \u0446\u0435\u043b. \u041d\u0438 \u043e\u0434\u043d\u0430 \u0435\u0433\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0430 \u043d\u0435 \u0441\u0440\u0430\u0431\u0430\u0442\u044b\u0432\u0430\u0435\u0442 \u2014 \u043f\u043e\u0440\u043e\u0433\u0430 \u043f\u043e\u0434 \u043f\u0435\u0440\u0435\u0432\u0437\u0432\u0435\u0448\u0438\u0432\u0430\u043d\u0438\u0435 \u043d\u0435 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442.'},
+    fc_note:{ru:'\u0412\u0441\u0451 \u043d\u0443\u0436\u043d\u043e\u0435 \u0431\u044b\u043b\u043e \u0432 \u0442\u0430\u0431\u043b\u0438\u0446\u0435. \u041d\u0430 \u044d\u0442\u043e\u043c \u0438 \u043f\u043e\u0441\u0442\u0440\u043e\u0435\u043d \u0442\u0440\u0435\u043d\u0430\u0436\u0451\u0440: \u0441\u0435\u043c\u044c \u0441\u0438\u0442\u0443\u0430\u0446\u0438\u0439, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u0447\u0438\u0442\u0430\u044e\u0442\u0441\u044f \u043f\u043e \u0447\u0438\u0441\u043b\u0430\u043c \u043f\u0435\u0440\u0435\u0434 \u0432\u0430\u043c\u0438.'},
+    fc_cta:{ru:'\u041f\u0440\u043e\u0439\u0442\u0438 \u0435\u0449\u0451 \u0448\u0435\u0441\u0442\u044c \u2192'},
+    fc_open:{ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043a\u0435\u0439\u0441 \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435 \u2192'},
     mech_never:{ru:'\u043d\u0435 \u043b\u043e\u0432\u0438\u0442 \u043d\u0438 \u0440\u0430\u0437\u0443 \u00b7 361 \u043a\u0435\u0439\u0441'},
     mech_partial:{ru:'\u043b\u043e\u0432\u0438\u0442 \u0447\u0430\u0441\u0442\u0438\u0447\u043d\u043e \u00b7 50 \u043a\u0435\u0439\u0441\u043e\u0432'},
     mech_always:{ru:'\u043b\u043e\u0432\u0438\u0442 \u0432\u0441\u0435\u0433\u0434\u0430 \u00b7 249 \u043a\u0435\u0439\u0441\u043e\u0432'},
@@ -460,29 +502,10 @@ cd ../.. && python3 tools/build_corpus_index.py --corpus cases_mvp_v2</pre>
     bar_660:{ru:'660 \u043a\u0435\u0439\u0441\u043e\u0432 \u00b7 33 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430'},
     bars_note:{ru:'\u041a\u0440\u0430\u0441\u043d\u043e\u0435 \u2014 \u0442\u0430\u043c, \u0433\u0434\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043e\u0448\u0438\u0431\u043b\u043e\u0441\u044c. \u041e\u0442\u043a\u0430\u0437\u044b\u0432\u0430\u044f, \u043e\u043d\u043e \u043f\u043e\u0447\u0442\u0438 \u0432\u0441\u0435\u0433\u0434\u0430 \u043f\u0440\u0430\u0432\u043e: 136 \u0438\u0437 138. \u041e\u0448\u0438\u0431\u043a\u0430 \u0441\u0438\u0434\u0438\u0442 \u0432 \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f\u0445.'},
     strawman:{ru:'<strong>\u042d\u0442\u043e \u043d\u0435 \u0441\u043e\u043b\u043e\u043c\u0435\u043d\u043d\u043e\u0435 \u0447\u0443\u0447\u0435\u043b\u043e.</strong> \u041f\u0440\u0430\u0432\u0438\u043b\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442 \u0440\u043e\u0432\u043d\u043e \u0442\u043e, \u0447\u0442\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u043a: \u0437\u043d\u0430\u0447\u0438\u043c \u043b\u0438 \u044d\u0444\u0444\u0435\u043a\u0442, \u043f\u0440\u0435\u0432\u044b\u0448\u0430\u0435\u0442 \u043b\u0438 \u043e\u043d \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043f\u043e\u0440\u043e\u0433, \u043d\u0435 \u043f\u0440\u043e\u0441\u0435\u043b\u0438 \u043b\u0438 guardrails, \u043d\u0435\u0442 \u043b\u0438 \u043a\u043e\u043d\u0444\u043b\u0438\u043a\u0442\u0430 \u0441\u0435\u0433\u043c\u0435\u043d\u0442\u043e\u0432. \u0412 \u0442\u0430\u043a\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0435. \u0418\u043c\u0435\u043d\u043d\u043e \u0442\u0430\u043a \u0443\u0441\u0442\u0440\u043e\u0435\u043d\u044b \u0447\u0435\u043a-\u043b\u0438\u0441\u0442\u044b \u043f\u0440\u0438\u043d\u044f\u0442\u0438\u044f \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2014 \u0438 \u0432 \u044d\u0442\u043e\u043c \u043d\u0435\u0442 \u043d\u0438\u0447\u0435\u0433\u043e \u043d\u0430\u0438\u0432\u043d\u043e\u0433\u043e.'},
-    fc_title:{ru:'\u041e\u0434\u0438\u043d \u043a\u0435\u0439\u0441 \u0446\u0435\u043b\u0438\u043a\u043e\u043c'},
-    fc_sub:{ru:'\u041d\u0430\u0441\u0442\u043e\u044f\u0449\u0438\u0439 \u043a\u0435\u0439\u0441 \u0438\u0437 \u043a\u043e\u0440\u043f\u0443\u0441\u0430. \u0412\u0441\u0451, \u0447\u0442\u043e \u0432\u0438\u0434\u0435\u043b\u043e \u043f\u0440\u0430\u0432\u0438\u043b\u043e, \u2014 \u043d\u0438\u0436\u0435.'},
-    fc_name:{ru:'\u0410\u0443\u0434\u0438\u0442 \u0442\u0440\u0430\u0444\u0438\u043a\u0430 \u043d\u043e\u0432\u043e\u0439 \u043f\u043b\u043e\u0449\u0430\u0434\u043a\u0438'},
-    fc_th_metric:{ru:'\u041c\u0435\u0442\u0440\u0438\u043a\u0430'},
-    fc_th_delta:{ru:'\u0394'},
-    fc_users:{ru:'\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439'},
-    fc_rev:{ru:'\u0412\u044b\u0440\u0443\u0447\u043a\u0430 \u043d\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f'},
-    fc_f1:{ru:'21 \u0434\u0435\u043d\u044c, \u0441\u043f\u043b\u0438\u0442 50/50 \u043f\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e'},
-    fc_f2:{ru:'\u041f\u0440\u0430\u0439\u043c\u0430\u0440\u0438-\u043c\u0435\u0442\u0440\u0438\u043a\u0430: \u0432\u044b\u0440\u0443\u0447\u043a\u0430, \u03b1 = 0.05'},
-    fc_f3:{ru:'\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043f\u043e\u0440\u043e\u0433: 0.5% \u2014 \u044d\u0444\u0444\u0435\u043a\u0442 \u043f\u0440\u0435\u0432\u044b\u0448\u0430\u0435\u0442 \u0435\u0433\u043e \u0432 \u0441\u0435\u043c\u044c \u0440\u0430\u0437'},
-    fc_f4:{ru:'Guardrail: CTR \u043d\u0435 \u0434\u043e\u043b\u0436\u0435\u043d \u043f\u0440\u043e\u0441\u0435\u0441\u0442\u044c \u0431\u043e\u043b\u044c\u0448\u0435 \u0447\u0435\u043c \u043d\u0430 3%. \u041e\u043d \u0432\u044b\u0440\u043e\u0441'},
-    fc_q:{ru:'\u0412\u044b\u043a\u0430\u0442\u0438\u043b\u0438 \u0431\u044b?'},
-    fc_reveal:{ru:'\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043e\u0442\u0432\u0435\u0442'},
-    fc_rule:{ru:'\u041f\u0440\u0430\u0432\u0438\u043b\u043e \u0441\u043a\u0430\u0437\u0430\u043b\u043e'},
-    fc_truth:{ru:'\u042d\u0442\u0430\u043b\u043e\u043d'},
-    fc_why1:{ru:'\u0412 \u0442\u0430\u0431\u043b\u0438\u0446\u0435 \u043d\u0438\u0447\u0442\u043e \u043d\u0435 \u0433\u043e\u0432\u043e\u0440\u0438\u0442 \u00ab\u043d\u0435\u0442\u00bb. \u0417\u043d\u0430\u0447\u0438\u043c\u043e, \u0441\u0438\u043b\u044c\u043d\u043e \u0432\u044b\u0448\u0435 \u043f\u043e\u0440\u043e\u0433\u0430, guardrail \u0432 \u043d\u043e\u0440\u043c\u0435. \u041f\u0440\u0430\u0432\u0438\u043b\u043e \u0432\u044b\u043a\u0430\u0442\u0438\u043b\u043e \u2014 \u0438 \u0431\u043e\u043b\u044c\u0448\u0438\u043d\u0441\u0442\u0432\u043e \u0447\u0435\u043a-\u043b\u0438\u0441\u0442\u043e\u0432 \u0432\u044b\u043a\u0430\u0442\u0438\u043b\u043e \u0431\u044b \u0442\u043e\u0436\u0435.'},
-    fc_why2:{ru:'\u0427\u0435\u0433\u043e \u0432 \u0442\u0430\u0431\u043b\u0438\u0446\u0435 \u043d\u0435\u0442: \u043e\u043a\u043e\u043b\u043e <strong>14% \u0441\u0435\u0441\u0441\u0438\u0439 \u0442\u0435\u0441\u0442\u043e\u0432\u043e\u0439 \u0433\u0440\u0443\u043f\u043f\u044b \u043f\u0440\u0438\u0448\u043b\u0438 \u0441 \u0434\u0430\u0442\u0430\u0446\u0435\u043d\u0442\u0440\u043e\u0432\u044b\u0445 IP \u0441 \u0431\u043e\u0442-\u043f\u043e\u0434\u043e\u0431\u043d\u044b\u043c\u0438 \u0432\u0441\u043f\u043b\u0435\u0441\u043a\u0430\u043c\u0438</strong>, \u0438 \u0432 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u0435 \u0442\u0430\u043a\u043e\u0433\u043e \u043d\u0435 \u043d\u0430\u0431\u043b\u044e\u0434\u0430\u0435\u0442\u0441\u044f. \u0420\u043e\u0441\u0442 \u0438\u0437\u043c\u0435\u0440\u0435\u043d \u043d\u0430 \u0442\u0440\u0430\u0444\u0438\u043a\u0435, \u043a\u043e\u0442\u043e\u0440\u044b\u0439 \u0447\u0430\u0441\u0442\u0438\u0447\u043d\u043e \u043d\u0435 \u0447\u0435\u043b\u043e\u0432\u0435\u0447\u0435\u0441\u043a\u0438\u0439.'},
-    fc_why3:{ru:'\u0417\u0434\u0435\u0441\u044c \u0441\u0443\u0434\u044f\u0442 \u043d\u0435 \u0444\u0438\u0447\u0443, \u0430 \u0438\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u0435. \u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u0439 \u043e\u0442\u0432\u0435\u0442 \u2014 \u043d\u0435 \u00ab\u043d\u0435 \u043a\u0430\u0442\u0438\u0442\u044c\u00bb, \u0430 \u00ab\u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c\u0441\u044f\u00bb: \u043e\u0442\u0444\u0438\u043b\u044c\u0442\u0440\u043e\u0432\u0430\u0442\u044c \u0442\u0440\u0430\u0444\u0438\u043a \u0438 \u043f\u0435\u0440\u0435\u043c\u0435\u0440\u0438\u0442\u044c.'},
-    fc_note:{ru:'\u042d\u0442\u0430 \u0443\u043b\u0438\u043a\u0430 \u0436\u0438\u0432\u0451\u0442 \u0432 \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0438 \u043a\u0435\u0439\u0441\u0430, \u0430 \u043d\u0435 \u0432 \u0442\u0430\u0431\u043b\u0438\u0446\u0435 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u043e\u0432. \u041f\u0440\u0430\u0432\u0438\u043b\u043e \u0447\u0438\u0442\u0430\u0435\u0442 \u0442\u043e\u043b\u044c\u043a\u043e \u0442\u0430\u0431\u043b\u0438\u0446\u0443 \u2014 \u0440\u043e\u0432\u043d\u043e \u043f\u043e\u044d\u0442\u043e\u043c\u0443 \u043e\u043d\u043e \u043f\u0440\u043e\u043f\u0443\u0441\u043a\u0430\u0435\u0442 20 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432 \u0438\u0437 33.'},
-    fc_open:{ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043a\u0435\u0439\u0441 \u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0435 \u2192'},
     btn_corpus:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441 \u043a\u0435\u0439\u0441\u043e\u0432 \u2192'},
     btn_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2192'},
-    nav_corpus:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441'},nav_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c'},
+    nav_trainer:{ru:'\u0422\u0440\u0435\u043d\u0430\u0436\u0451\u0440'},
+    nav_corpus:{ru:'\u041a\u043e\u0440\u043f\u0443\u0441'},nav_engine:{ru:'\u041f\u043e\u0447\u0435\u043c\u0443 \u0442\u0430\u043a\u043e\u0439 \u0432\u0435\u0440\u0434\u0438\u043a\u0442'},
     c_agents:{ru:'\u0410\u0433\u0435\u043d\u0442\u044b'},
     c_agents_d:{ru:'Reader, Stats, Decision, Viz \u2014 \u043a\u0430\u0436\u0434\u044b\u0439 \u043c\u043e\u0434\u0443\u043b\u044c\u043d\u044b\u0439 \u0438 \u0442\u0440\u0430\u0441\u0441\u0438\u0440\u0443\u0435\u043c\u044b\u0439.'},
     c_stoprule:{ru:'Stop-Rule \u043c\u043e\u0434\u0435\u043b\u044c'},
@@ -516,12 +539,15 @@ cd ../.. && python3 tools/build_corpus_index.py --corpus cases_mvp_v2</pre>
     dia_link_engine:{ru:'\u041c\u043e\u0434\u0435\u043b\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2192'},
     dia_caption:{ru:'\u041a\u0435\u0439\u0441 \u2192 \u043f\u0430\u0439\u043f\u043b\u0430\u0439\u043d \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2192 \u043e\u0431\u044a\u044f\u0441\u043d\u0438\u043c\u044b\u0435 \u0432\u0435\u0440\u0434\u0438\u043a\u0442\u044b (\u041f\u0440\u0438\u0447\u0438\u043d\u0430 \u2192 \u0414\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u043e).'},
     ob_title:{ru:'\u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439 \u0437\u0430 30 \u0441\u0435\u043a\u0443\u043d\u0434'},
-    ob_sub:{ru:'\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0438, \u043a\u0430\u043a \u0430\u0433\u0435\u043d\u0442\u044b \u043f\u0440\u0435\u0432\u0440\u0430\u0449\u0430\u044e\u0442 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b A/B \u0432 \u0432\u0435\u0440\u0434\u0438\u043a\u0442 \u0441 \u0434\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u0430\u043c\u0438.'},
-    ob_s1_t:{ru:'\u0412\u044b\u0431\u0435\u0440\u0438 \u043a\u0435\u0439\u0441'},
-    ob_s1_d:{ru:'\u041e\u0442\u0444\u0438\u043b\u044c\u0442\u0440\u0443\u0439 \u043f\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u044e/\u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0438 \u043e\u0442\u043a\u0440\u043e\u0439 \u0441\u0442\u0440\u043e\u043a\u0443.'},
+    ob_sub:{ru:'\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043f\u0440\u0438\u043c\u0438\u0442\u0435 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u0441\u0430\u043c\u0438, \u043f\u043e\u0442\u043e\u043c \u043f\u043e\u0441\u043c\u043e\u0442\u0440\u0438\u0442\u0435, \u043a\u0430\u043a \u044d\u0442\u043e \u0434\u0435\u043b\u0430\u044e\u0442 \u0430\u0433\u0435\u043d\u0442\u044b.'},
+    ob_s0_t:{ru:'\u0420\u0435\u0448\u0438\u0442\u0435 \u0441\u0435\u043c\u044c \u043a\u0435\u0439\u0441\u043e\u0432 \u0441\u0430\u043c\u0438'},
+    ob_s0_d:{ru:'\u0421\u0435\u043c\u044c \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u043e\u0432, \u043f\u043e \u043e\u0434\u043d\u043e\u0439 \u0442\u0430\u0431\u043b\u0438\u0446\u0435 \u043d\u0430 \u043a\u0430\u0436\u0434\u044b\u0439, \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043a\u0430 \u043d\u0435 \u043d\u0443\u0436\u043d\u0430. \u041f\u043e\u0441\u043b\u0435 \u043a\u0430\u0436\u0434\u043e\u0433\u043e \u043e\u0442\u0432\u0435\u0442\u0430 \u0432\u0438\u0434\u043d\u043e, \u0447\u0442\u043e \u0437\u0434\u0435\u0441\u044c \u0431\u044b\u043b\u043e \u0433\u043b\u0430\u0432\u043d\u044b\u043c \u0438 \u043a\u0443\u0434\u0430 \u0441\u0442\u043e\u0438\u043b\u043e \u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c.'},
+    ob_s0_l:{ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0442\u0440\u0435\u043d\u0430\u0436\u0451\u0440 \u2192'},
+    ob_s1_t:{ru:'\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0435\u0439\u0441'},
+    ob_s1_d:{ru:'\u041e\u0442\u0444\u0438\u043b\u044c\u0442\u0440\u0443\u0439\u0442\u0435 \u043f\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u044e \u0438\u043b\u0438 \u0443\u0432\u0435\u0440\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0438 \u043e\u0442\u043a\u0440\u043e\u0439\u0442\u0435 \u0441\u0442\u0440\u043e\u043a\u0443.'},
     ob_s1_l:{ru:'\u041e\u0442\u043a\u0440\u044b\u0442\u044c Corpus \u2192'},
-    ob_s2_t:{ru:'\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0438 \u0441\u0442\u043e\u043f-\u043f\u0440\u0430\u0432\u0438\u043b\u0430'},
-    ob_s2_d:{ru:'\u041f\u043e\u0439\u043c\u0438, \u043a\u0430\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u043b\u043e \u0432\u044b\u043a\u0430\u0442\u043a\u0443 \u0438 \u043f\u043e\u0447\u0435\u043c\u0443.'},
+    ob_s2_t:{ru:'\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0438\u0442\u0435 \u0441\u0442\u043e\u043f-\u043f\u0440\u0430\u0432\u0438\u043b\u0430'},
+    ob_s2_d:{ru:'\u0423\u0432\u0438\u0434\u0438\u0442\u0435, \u043a\u0430\u043a\u043e\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u043b\u043e \u0432\u044b\u043a\u0430\u0442\u043a\u0443 \u0438 \u043f\u043e\u0447\u0435\u043c\u0443.'},
     ob_s2_l:{ru:'\u041e\u0431\u044a\u044f\u0441\u043d\u0435\u043d\u0438\u0435 \u0432 Policy \u2192'},
     why_lead:{ru:'\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u043f\u0440\u043e\u0441\u0442\u043e\u0435, \u0438 \u0432 \u044d\u0442\u043e\u043c \u0434\u0435\u043b\u043e. \u041f\u0440\u0430\u0432\u0438\u043b\u043e \u0441\u0440\u0430\u0432\u043d\u0438\u0432\u0430\u0435\u0442 \u0447\u0438\u0441\u043b\u0430 \u0441 \u043f\u043e\u0440\u043e\u0433\u0430\u043c\u0438: \u0437\u043d\u0430\u0447\u0438\u043c\u043e\u0441\u0442\u044c \u0441 alpha, \u044d\u0444\u0444\u0435\u043a\u0442 \u0441 \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u043c \u043f\u043e\u0440\u043e\u0433\u043e\u043c, guardrail \u0441 \u0434\u043e\u043f\u0443\u0441\u0442\u0438\u043c\u044b\u043c \u043f\u0430\u0434\u0435\u043d\u0438\u0435\u043c. \u0422\u0430\u043a\u0430\u044f \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0430 \u043b\u043e\u0432\u0438\u0442 \u043b\u043e\u0432\u0443\u0448\u043a\u0443, \u0435\u0441\u043b\u0438 \u0442\u0430 \u0441\u0432\u043e\u0434\u0438\u0442\u0441\u044f \u043a \u00ab\u043e\u0434\u043d\u043e \u0447\u0438\u0441\u043b\u043e \u0432\u044b\u0448\u043b\u043e \u0437\u0430 \u0433\u0440\u0430\u043d\u0438\u0446\u0443\u00bb. \u041f\u043e\u043b\u043e\u0432\u0438\u043d\u0430 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u043e\u0432 \u043a\u043e\u0440\u043f\u0443\u0441\u0430 \u0442\u0430\u043a \u043d\u0435 \u0443\u0441\u0442\u0440\u043e\u0435\u043d\u0430: \u0447\u0442\u043e\u0431\u044b \u0443\u0432\u0438\u0434\u0435\u0442\u044c \u043f\u043e\u0434\u0433\u043b\u044f\u0434\u044b\u0432\u0430\u043d\u0438\u0435, \u043f\u0430\u0440\u0430\u0434\u043e\u043a\u0441 \u0421\u0438\u043c\u043f\u0441\u043e\u043d\u0430 \u0438\u043b\u0438 \u0431\u043e\u0442-\u0442\u0440\u0430\u0444\u0438\u043a, \u043d\u0443\u0436\u043d\u043e \u043f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c <strong>\u043d\u0430 \u043e\u0431\u0441\u0442\u043e\u044f\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u0430 \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u0430</strong>, \u0430 \u043d\u0435 \u043d\u0430 \u0438\u0442\u043e\u0433\u043e\u0432\u0443\u044e \u0442\u0430\u0431\u043b\u0438\u0446\u0443. \u041f\u043e\u0440\u043e\u0433\u043e\u0432 \u0434\u043b\u044f \u044d\u0442\u043e\u0433\u043e \u043d\u0435 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442.'},
     flow_title:{ru:'\u041f\u043e\u0447\u0435\u043c\u0443 \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u043f\u0440\u043e\u043c\u0430\u0445\u0438\u0432\u0430\u0435\u0442\u0441\u044f'},
@@ -555,7 +581,7 @@ cd ../.. && python3 tools/build_corpus_index.py --corpus cases_mvp_v2</pre>
       var k=el.getAttribute('data-t');
       if(T[k]&&T[k].ru) el.innerHTML=T[k].ru;
     });
-    document.querySelectorAll('.top-bar a[href]:not([href^="http"]), .buttons a[href]:not([href^="http"]), .dcard-links a[href], a.card-link, .stop-links a[href], .step-card a[href]').forEach(function(a){
+    document.querySelectorAll('.top-bar a[href]:not([href^="http"]), .buttons a[href]:not([href^="http"]), .dcard-links a[href], a.card-link, .stop-links a[href], .step-card a[href], .case-answer a[href]').forEach(function(a){
       if(a.href.indexOf('lang=')<0){
         var u=new URL(a.href,location.href);
         u.searchParams.set('lang','ru');

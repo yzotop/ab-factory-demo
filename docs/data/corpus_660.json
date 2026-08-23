@@ -325,7 +325,7 @@
   },
   {
     "case_id": "case_015",
-    "title": "CTR-maximizing placement test (v15)",
+    "title": "Feed interaction update (v15)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.63,
@@ -932,7 +932,7 @@
   },
   {
     "case_id": "case_041",
-    "title": "Aggregate floor adjustment (v41)",
+    "title": "New pricing tier test (v41)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.53,
@@ -1093,7 +1093,7 @@
   },
   {
     "case_id": "case_048",
-    "title": "CTR-first layout optimization (v48)",
+    "title": "Layout optimization test (v48)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.02,
@@ -1210,7 +1210,7 @@
   },
   {
     "case_id": "case_053",
-    "title": "Aggregate floor adjustment (v53)",
+    "title": "New pricing tier test (v53)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.93,
@@ -1465,7 +1465,7 @@
   },
   {
     "case_id": "case_064",
-    "title": "Mix-shift pricing test (v64)",
+    "title": "Staged placement rollout (v64)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.91,
@@ -1558,7 +1558,7 @@
   },
   {
     "case_id": "case_068",
-    "title": "Mix-shift pricing test (v68)",
+    "title": "Staged placement rollout (v68)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.57,
@@ -1699,7 +1699,7 @@
   },
   {
     "case_id": "case_074",
-    "title": "Step-change ad yield experiment (v74)",
+    "title": "Placement format test (v74)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 36.37,
@@ -1722,7 +1722,7 @@
   },
   {
     "case_id": "case_075",
-    "title": "Aggregate floor adjustment (v75)",
+    "title": "New pricing tier test (v75)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.63,
@@ -1745,7 +1745,7 @@
   },
   {
     "case_id": "case_076",
-    "title": "Blended inventory experiment (v76)",
+    "title": "Ad unit refresh (v76)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.91,
@@ -2046,7 +2046,7 @@
   },
   {
     "case_id": "case_089",
-    "title": "CTR-first layout optimization (v89)",
+    "title": "Layout optimization test (v89)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.49,
@@ -2441,7 +2441,7 @@
   },
   {
     "case_id": "case_106",
-    "title": "Record uplift placement test (v106)",
+    "title": "Yield optimization test (v106)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 36.06,
@@ -3252,7 +3252,7 @@
   },
   {
     "case_id": "case_141",
-    "title": "Record uplift placement test (v141)",
+    "title": "Yield optimization test (v141)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 37.33,
@@ -3275,7 +3275,7 @@
   },
   {
     "case_id": "case_142",
-    "title": "Mix-shift pricing test (v142)",
+    "title": "Staged placement rollout (v142)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.94,
@@ -3899,7 +3899,7 @@
   },
   {
     "case_id": "case_169",
-    "title": "Aggregate floor adjustment (v169)",
+    "title": "New pricing tier test (v169)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.3,
@@ -4247,7 +4247,7 @@
   },
   {
     "case_id": "case_184",
-    "title": "Mix-shift pricing test (v184)",
+    "title": "Staged placement rollout (v184)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.68,
@@ -4410,7 +4410,7 @@
   },
   {
     "case_id": "case_191",
-    "title": "Mix-shift pricing test (v191)",
+    "title": "Staged placement rollout (v191)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.47,
@@ -4595,7 +4595,7 @@
   },
   {
     "case_id": "case_199",
-    "title": "Click-surface expansion test (v199)",
+    "title": "Click surface expansion test (v199)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.44,
@@ -4804,7 +4804,7 @@
   },
   {
     "case_id": "case_208",
-    "title": "Step-change ad yield experiment (v208)",
+    "title": "Placement format test (v208)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 40.65,
@@ -4873,7 +4873,7 @@
   },
   {
     "case_id": "case_211",
-    "title": "Mix-shift pricing test (v211)",
+    "title": "Staged placement rollout (v211)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.93,
@@ -5080,7 +5080,7 @@
   },
   {
     "case_id": "case_220",
-    "title": "Mix-shift pricing test (v220)",
+    "title": "Staged placement rollout (v220)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.04,
@@ -5126,7 +5126,7 @@
   },
   {
     "case_id": "case_222",
-    "title": "Pooled segment rollout (v222)",
+    "title": "Placement redesign test (v222)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.62,
@@ -5266,7 +5266,7 @@
   },
   {
     "case_id": "case_228",
-    "title": "Mix-shift pricing test (v228)",
+    "title": "Staged placement rollout (v228)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.79,
@@ -5544,7 +5544,7 @@
   },
   {
     "case_id": "case_240",
-    "title": "Record uplift placement test (v240)",
+    "title": "Yield optimization test (v240)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 40.95,
@@ -5591,7 +5591,7 @@
   },
   {
     "case_id": "case_242",
-    "title": "Breakthrough monetization rollout (v242)",
+    "title": "Monetization format update (v242)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 39.88,
@@ -6309,7 +6309,7 @@
   },
   {
     "case_id": "case_273",
-    "title": "Revenue surge format test (v273)",
+    "title": "Ad yield experiment (v273)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 35.93,
@@ -6356,7 +6356,7 @@
   },
   {
     "case_id": "case_275",
-    "title": "CTR-first layout optimization (v275)",
+    "title": "Layout optimization test (v275)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.58,
@@ -7030,7 +7030,7 @@
   },
   {
     "case_id": "case_304",
-    "title": "Pooled segment rollout (v304)",
+    "title": "Placement redesign test (v304)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.69,
@@ -7448,7 +7448,7 @@
   },
   {
     "case_id": "case_322",
-    "title": "Engagement proxy format rollout (v322)",
+    "title": "Tap target redesign (v322)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.45,
@@ -7472,7 +7472,7 @@
   },
   {
     "case_id": "case_323",
-    "title": "Blended inventory experiment (v323)",
+    "title": "Ad unit refresh (v323)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.44,
@@ -7820,7 +7820,7 @@
   },
   {
     "case_id": "case_338",
-    "title": "Step-change ad yield experiment (v338)",
+    "title": "Placement format test (v338)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 35.28,
@@ -8145,7 +8145,7 @@
   },
   {
     "case_id": "case_352",
-    "title": "Click-surface expansion test (v352)",
+    "title": "Click surface expansion test (v352)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.81,
@@ -8261,7 +8261,7 @@
   },
   {
     "case_id": "case_357",
-    "title": "Step-change ad yield experiment (v357)",
+    "title": "Placement format test (v357)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 43.93,
@@ -8701,7 +8701,7 @@
   },
   {
     "case_id": "case_376",
-    "title": "Aggregate floor adjustment (v376)",
+    "title": "New pricing tier test (v376)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.71,
@@ -8748,7 +8748,7 @@
   },
   {
     "case_id": "case_378",
-    "title": "Blended inventory experiment (v378)",
+    "title": "Ad unit refresh (v378)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.02,
@@ -8817,7 +8817,7 @@
   },
   {
     "case_id": "case_381",
-    "title": "Mix-shift pricing test (v381)",
+    "title": "Staged placement rollout (v381)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.21,
@@ -9280,7 +9280,7 @@
   },
   {
     "case_id": "case_401",
-    "title": "CTR-first layout optimization (v401)",
+    "title": "Layout optimization test (v401)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.57,
@@ -9535,7 +9535,7 @@
   },
   {
     "case_id": "case_412",
-    "title": "Revenue surge format test (v412)",
+    "title": "Ad yield experiment (v412)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 39.26,
@@ -9558,7 +9558,7 @@
   },
   {
     "case_id": "case_413",
-    "title": "Blended inventory experiment (v413)",
+    "title": "Ad unit refresh (v413)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.95,
@@ -9766,7 +9766,7 @@
   },
   {
     "case_id": "case_422",
-    "title": "Blended inventory experiment (v422)",
+    "title": "Ad unit refresh (v422)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.54,
@@ -9904,7 +9904,7 @@
   },
   {
     "case_id": "case_428",
-    "title": "Engagement proxy format rollout (v428)",
+    "title": "Tap target redesign (v428)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.3,
@@ -9952,7 +9952,7 @@
   },
   {
     "case_id": "case_430",
-    "title": "Mix-shift pricing test (v430)",
+    "title": "Staged placement rollout (v430)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 1.87,
@@ -10138,7 +10138,7 @@
   },
   {
     "case_id": "case_438",
-    "title": "Click-surface expansion test (v438)",
+    "title": "Click surface expansion test (v438)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.88,
@@ -10278,7 +10278,7 @@
   },
   {
     "case_id": "case_444",
-    "title": "CTR-maximizing placement test (v444)",
+    "title": "Feed interaction update (v444)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 5.74,
@@ -10535,7 +10535,7 @@
   },
   {
     "case_id": "case_455",
-    "title": "Record uplift placement test (v455)",
+    "title": "Yield optimization test (v455)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 42.54,
@@ -10930,7 +10930,7 @@
   },
   {
     "case_id": "case_472",
-    "title": "Engagement proxy format rollout (v472)",
+    "title": "Tap target redesign (v472)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.87,
@@ -10954,7 +10954,7 @@
   },
   {
     "case_id": "case_473",
-    "title": "Aggregate floor adjustment (v473)",
+    "title": "New pricing tier test (v473)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.39,
@@ -11023,7 +11023,7 @@
   },
   {
     "case_id": "case_476",
-    "title": "Mix-shift pricing test (v476)",
+    "title": "Staged placement rollout (v476)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.73,
@@ -11069,7 +11069,7 @@
   },
   {
     "case_id": "case_478",
-    "title": "Record uplift placement test (v478)",
+    "title": "Yield optimization test (v478)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 36.66,
@@ -11693,7 +11693,7 @@
   },
   {
     "case_id": "case_505",
-    "title": "Revenue surge format test (v505)",
+    "title": "Ad yield experiment (v505)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 35.62,
@@ -11926,7 +11926,7 @@
   },
   {
     "case_id": "case_515",
-    "title": "Breakthrough monetization rollout (v515)",
+    "title": "Monetization format update (v515)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 40.04,
@@ -12296,7 +12296,7 @@
   },
   {
     "case_id": "case_531",
-    "title": "CTR-first layout optimization (v531)",
+    "title": "Layout optimization test (v531)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.77,
@@ -13016,7 +13016,7 @@
   },
   {
     "case_id": "case_562",
-    "title": "CTR-maximizing placement test (v562)",
+    "title": "Feed interaction update (v562)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.63,
@@ -13730,7 +13730,7 @@
   },
   {
     "case_id": "case_593",
-    "title": "Breakthrough monetization rollout (v593)",
+    "title": "Monetization format update (v593)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 35.77,
@@ -13799,7 +13799,7 @@
   },
   {
     "case_id": "case_596",
-    "title": "Record uplift placement test (v596)",
+    "title": "Yield optimization test (v596)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 38.32,
@@ -14054,7 +14054,7 @@
   },
   {
     "case_id": "case_607",
-    "title": "Blended inventory experiment (v607)",
+    "title": "Ad unit refresh (v607)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.99,
@@ -14100,7 +14100,7 @@
   },
   {
     "case_id": "case_609",
-    "title": "Step-change ad yield experiment (v609)",
+    "title": "Placement format test (v609)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 39.16,
@@ -14146,7 +14146,7 @@
   },
   {
     "case_id": "case_611",
-    "title": "CTR-first layout optimization (v611)",
+    "title": "Layout optimization test (v611)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.37,
@@ -14355,7 +14355,7 @@
   },
   {
     "case_id": "case_620",
-    "title": "Revenue surge format test (v620)",
+    "title": "Ad yield experiment (v620)",
     "type": "twyman",
     "metric": "revenue",
     "uplift_pct": 37.22,
@@ -14795,7 +14795,7 @@
   },
   {
     "case_id": "case_639",
-    "title": "Pooled segment rollout (v639)",
+    "title": "Placement redesign test (v639)",
     "type": "simpson_paradox",
     "metric": "revenue",
     "uplift_pct": 2.63,
@@ -15099,7 +15099,7 @@
   },
   {
     "case_id": "case_652",
-    "title": "CTR-first layout optimization (v652)",
+    "title": "Layout optimization test (v652)",
     "type": "bad_oec",
     "metric": "ctr",
     "uplift_pct": 4.55,

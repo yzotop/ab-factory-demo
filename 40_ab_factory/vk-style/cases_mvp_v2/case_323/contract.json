@@ -1,6 +1,6 @@
 {
   "case_id": "case_323",
-  "title": "Blended inventory experiment (v323)",
+  "title": "Ad unit refresh (v323)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [

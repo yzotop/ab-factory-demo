@@ -127,10 +127,10 @@ TITLES_NOVELTY = [
     "Novel placement debut",
 ]
 TITLES_SIMPSON = [
-    "Mix-shift pricing test",
-    "Aggregate floor adjustment",
-    "Blended inventory experiment",
-    "Pooled segment rollout",
+    "Staged placement rollout",
+    "New pricing tier test",
+    "Ad unit refresh",
+    "Placement redesign test",
 ]
 TITLES_MULTCOMP = [
     "Multi-metric dashboard test",
@@ -181,10 +181,10 @@ TITLES_POSTTREATMENT = [
     "Feature-adopter performance readout",
 ]
 TITLES_TWYMAN = [
-    "Revenue surge format test",
-    "Breakthrough monetization rollout",
-    "Step-change ad yield experiment",
-    "Record uplift placement test",
+    "Ad yield experiment",
+    "Monetization format update",
+    "Placement format test",
+    "Yield optimization test",
 ]
 TITLES_DILUTION = [
     "Checkout error recovery prompt",
@@ -251,10 +251,10 @@ TITLES_HEAVY_TAILS = [
     "Skewed revenue distribution test",
 ]
 TITLES_BAD_OEC = [
-    "CTR-first layout optimization",
-    "Click-surface expansion test",
-    "Engagement proxy format rollout",
-    "CTR-maximizing placement test",
+    "Layout optimization test",
+    "Click surface expansion test",
+    "Tap target redesign",
+    "Feed interaction update",
 ]
 TITLES_INCOMPLETE_CYCLES = [
     "Mid-week format pilot",

@@ -1,6 +1,6 @@
 {
   "case_id": "case_240",
-  "title": "Record uplift placement test (v240)",
+  "title": "Yield optimization test (v240)",
   "domain": "ads_monetization",
   "unit": "user",
   "variants": [
