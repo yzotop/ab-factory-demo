@@ -1871,6 +1871,134 @@ def gen_winners_curse(case_id: str, idx: int) -> tuple[dict, dict, str]:
     return contract, truth, data
 
 
+TITLES_VERDICT_COLLAPSE = [
+    "Multi-variant creative rollout",
+    "Three-layout placement test",
+    "Bidding strategy variants A/B/C",
+    "Feed card format tournament",
+]
+
+
+def _csv_rows_multi(case_id: str, control: dict, arms: list[tuple]) -> str:
+    """CSV на N вариантов: control + произвольное число тестовых арм.
+
+    arms — список (имя, метрики, rev_eff, rev_pval, ctr_eff, ctr_pval).
+    Отдельная функция, потому что _csv_rows жёстко пишет две строки:
+    control/test. Существующие кейсы её не касаются.
+    """
+    buf = io.StringIO()
+    w = csv.writer(buf, lineterminator="\n")
+    w.writerow([
+        "case_id", "segment", "variant", "n_users", "revenue", "cpm",
+        "fillrate", "ctr", "shows",
+        "revenue_effect_relative", "revenue_p_value",
+        "ctr_effect_relative", "ctr_p_value",
+    ])
+
+    def row(var, m, er=None, pr=None, ec=None, pc=None):
+        w.writerow([
+            case_id, "all", var, int(m["n_users"]), _round(m["revenue"]), m["cpm"],
+            m["fillrate"], m["ctr"], int(m["shows"]),
+            _round(er, 4) if er is not None else "",
+            _round(pr, 6) if pr is not None else "",
+            _round(ec, 4) if ec is not None else "",
+            _round(pc, 6) if pc is not None else "",
+        ])
+
+    row("control", control)
+    for name, m, er, pr, ec, pc in arms:
+        row(name, m, er, pr, ec, pc)
+    return buf.getvalue()
+
+
+def gen_verdict_collapse(case_id: str, idx: int) -> tuple[dict, dict, str]:
+    """Один вердикт натянут на все варианты.
+
+    Три тестовых варианта, и верное решение по каждому своё: один катить,
+    один не катить, один домерить. В отчёте — одно решение на весь тест.
+    Ловушка не в цифрах: каждая арма читается правильно по отдельности.
+    Промах в том, чтобы не заметить, что решений три.
+    """
+    title = random.choice(TITLES_VERDICT_COLLAPSE) + f" (v{idx})"
+    start = _rand_date()
+    horizon = random.choice([14, 21])
+    end = start + timedelta(days=horizon)
+    names = random.choice([
+        ["layout_a", "layout_b", "layout_c"],
+        ["variant_b", "variant_c", "variant_d"],
+        ["bid_low", "bid_mid", "bid_high"],
+    ])
+    base = _build_base_metrics()
+
+    # A — катить: значим, выше практического порога, guardrails целы.
+    a_rev = round(random.uniform(0.015, 0.028), 4)
+    a_pv = round(random.uniform(0.001, 0.012), 4)
+    a_ctr = round(random.uniform(0.002, 0.010), 4)
+    # B — не катить: выручка падает и пробит guardrail по ctr.
+    b_rev = round(random.uniform(-0.030, -0.015), 4)
+    b_pv = round(random.uniform(0.002, 0.020), 4)
+    b_ctr = round(random.uniform(-0.065, -0.035), 4)
+    # C — домерить: срок не добран, значимости нет, интервал шире порога.
+    c_rev = round(random.uniform(0.004, 0.012), 4)
+    c_pv = round(random.uniform(0.15, 0.45), 4)
+    c_ctr = round(random.uniform(-0.004, 0.006), 4)
+    days_done = random.randint(5, 8)
+
+    arms = [
+        (names[0], _apply_effect(base, a_rev, a_ctr), a_rev, a_pv, a_ctr,
+         round(random.uniform(0.06, 0.30), 4)),
+        (names[1], _apply_effect(base, b_rev, b_ctr), b_rev, b_pv, b_ctr,
+         round(random.uniform(0.001, 0.02), 4)),
+        (names[2], _apply_effect(base, c_rev, c_ctr), c_rev, c_pv, c_ctr,
+         round(random.uniform(0.20, 0.60), 4)),
+    ]
+
+    contract = {
+        "case_id": case_id, "title": title, "domain": "ads_monetization", "unit": "user",
+        "variants": ["control"] + names,
+        "time": {"start_date": str(start), "end_date": str(end), "horizon_days": horizon},
+        "primary_metric": {"name": "revenue", "direction": "up", "mde_relative": 0.01},
+        "guardrails": [{"name": "ctr", "direction": "up", "max_drop_relative": 0.03}],
+        "stats": {"method": "delta", "alpha": 0.05, "power_target": 0.8},
+        "decision_framework": {
+            "rule": "ship_if_primary_sig_and_guardrails_ok",
+            "practical_threshold_relative": 0.005,
+        },
+        "notes": (
+            f"Three test variants against one control in the same window. "
+            f"Variant {names[2]} entered the experiment late and has {days_done} of "
+            f"{horizon} planned days accumulated. The rollout ticket asks for one "
+            f"decision on the experiment."
+        ),
+    }
+
+    truth = {
+        "case_id": case_id,
+        "expected_decision": "ship",
+        "expected_decisions": {
+            names[0]: "ship",
+            names[1]: "do_not_ship",
+            names[2]: "continue_measuring",
+        },
+        "verdict_is_vector": True,
+        "primary_effect_relative": a_rev,
+        "is_stat_sig": True,
+        "guardrails_ok": False,
+        "key_reasons": ["verdict_collapse"],
+        "human_rationale": (
+            f"Three variants, three different decisions. {names[0]}: +{a_rev*100:.1f}% "
+            f"significant (p={a_pv:.3f}), guardrails intact — ship. {names[1]}: "
+            f"{b_rev*100:.1f}% with ctr {b_ctr*100:.1f}% past the -3% guardrail — "
+            f"do not ship. {names[2]}: +{c_rev*100:.1f}% not significant "
+            f"(p={c_pv:.2f}) with only {days_done} of {horizon} days accumulated — "
+            f"nothing is wrong with it, the term is short: continue measuring. "
+            f"A single verdict on the experiment is wrong whatever it says."
+        ),
+    }
+
+    return contract, truth, _csv_rows_multi(case_id, base, arms)
+
+
 def gen_cuped_missing(case_id: str, idx: int) -> tuple[dict, dict, str]:
     title = random.choice(TITLES_CUPED) + f" (v{idx})"
     start = _rand_date()
@@ -2360,6 +2488,13 @@ GENERATORS = [
     (0.022, "missing_data", gen_missing_data),
     (0.022, "event_duplication", gen_event_duplication),
     (0.022, "logging_bug", gen_logging_bug),
+]
+
+# Механизмы, заведённые после сборки корпуса. В MECHANISMS их нет
+# намеренно: доля в основном реестре меняет состав 660 кейсов,
+# а корпус не пересобирается. Генерировать отдельным прогоном.
+MECHANISMS_NEW = [
+    (0.0, "verdict_collapse", gen_verdict_collapse),
 ]
 
 

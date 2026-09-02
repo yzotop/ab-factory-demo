@@ -1,21 +1,64 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "AB Test Case Ground Truth v1",
+  "title": "AB Test Case Ground Truth v2",
   "type": "object",
   "required": [
-    "case_id", "expected_decision", "primary_effect_relative",
-    "is_stat_sig", "guardrails_ok", "key_reasons", "human_rationale"
+    "case_id",
+    "expected_decision",
+    "primary_effect_relative",
+    "is_stat_sig",
+    "guardrails_ok",
+    "key_reasons",
+    "human_rationale"
   ],
   "additionalProperties": false,
   "properties": {
-    "case_id": { "type": "string", "pattern": "^case_\\d{3}$" },
+    "case_id": {
+      "type": "string",
+      "pattern": "^case_\\d{3}$"
+    },
     "expected_decision": {
       "type": "string",
-      "enum": ["ship", "do_not_ship", "iterate", "investigate"]
+      "enum": [
+        "ship",
+        "do_not_ship",
+        "iterate",
+        "investigate",
+        "continue_measuring"
+      ],
+      "description": "Решение по кейсу. У кейса с вектором вердиктов дублирует решение по варианту сравнения по умолчанию и эталоном НЕ является — эталон в expected_decisions. Оставлено обязательным ради 660 кейсов корпуса."
     },
-    "primary_effect_relative": { "type": "number" },
-    "is_stat_sig": { "type": "boolean" },
-    "guardrails_ok": { "type": ["boolean", "null"] },
+    "expected_decisions": {
+      "type": "object",
+      "description": "Отображение «вариант -> решение» для кейса, где вариантов больше двух и решения по ним расходятся. Ключи — варианты из contract.variants БЕЗ контроля: у контроля решения нет. Если поле есть, эталон — оно, а не expected_decision.",
+      "minProperties": 2,
+      "additionalProperties": {
+        "type": "string",
+        "enum": [
+          "ship",
+          "do_not_ship",
+          "iterate",
+          "investigate",
+          "continue_measuring"
+        ]
+      }
+    },
+    "verdict_is_vector": {
+      "type": "boolean",
+      "description": "true у кейсов с вектором вердиктов. Нужен, чтобы разметчик, умеющий только скаляр, мог отличить кейс, который ему не по зубам, и не засчитать себе верный ответ по expected_decision."
+    },
+    "primary_effect_relative": {
+      "type": "number"
+    },
+    "is_stat_sig": {
+      "type": "boolean"
+    },
+    "guardrails_ok": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
     "key_reasons": {
       "type": "array",
       "items": {
@@ -55,10 +98,19 @@
           "narrow_generalization",
           "missing_data",
           "event_duplication",
-          "logging_bug"
+          "logging_bug",
+          "verdict_collapse"
         ]
       }
     },
-    "human_rationale": { "type": "string", "minLength": 10 }
+    "human_rationale": {
+      "type": "string",
+      "minLength": 10
+    }
+  },
+  "dependentRequired": {
+    "expected_decisions": [
+      "verdict_is_vector"
+    ]
   }
 }

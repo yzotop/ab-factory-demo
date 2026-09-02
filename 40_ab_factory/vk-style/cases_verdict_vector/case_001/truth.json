@@ -1,0 +1,17 @@
+{
+  "case_id": "case_001",
+  "expected_decision": "ship",
+  "expected_decisions": {
+    "layout_a": "ship",
+    "layout_b": "do_not_ship",
+    "layout_c": "continue_measuring"
+  },
+  "verdict_is_vector": true,
+  "primary_effect_relative": 0.024,
+  "is_stat_sig": true,
+  "guardrails_ok": false,
+  "key_reasons": [
+    "verdict_collapse"
+  ],
+  "human_rationale": "Three variants, three different decisions. layout_a: +2.4% significant (p=0.008), guardrails intact — ship. layout_b: -1.6% with ctr -5.6% past the -3% guardrail — do not ship. layout_c: +0.8% not significant (p=0.29) with only 6 of 21 days accumulated — nothing is wrong with it, the term is short: continue measuring. A single verdict on the experiment is wrong whatever it says."
+}
